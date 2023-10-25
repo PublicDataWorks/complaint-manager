@@ -61,7 +61,8 @@ const getData = asyncMiddleware(async (request, response, next) => {
     case QUERY_TYPES.COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE:
       data = await countMonthlyComplaintsByComplainantType.executeQuery(
         request.nickname,
-        dateRange
+        dateRange,
+        filterCaseByStatus
       );
       break;
     case QUERY_TYPES.COUNT_TOP_10_TAGS:

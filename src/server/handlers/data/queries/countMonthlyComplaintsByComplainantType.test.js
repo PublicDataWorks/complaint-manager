@@ -228,7 +228,10 @@ describe("executeQuery", () => {
       const minDate = moment(date).subtract(1, "years");
       const maxDate = moment(date).subtract(1, "months");
 
-      const complaints = await getAllComplaints({ minDate, maxDate }, "tuser");
+      const complaints = await getAllComplaints({ minDate, maxDate }, "tuser", [
+        CASE_STATUS.FORWARDED_TO_AGENCY,
+        CASE_STATUS.CLOSED
+      ]);
 
       expect(complaints.length).toEqual(1);
       expect(complaints[0].dataValues.id).toEqual(complainantCasePO.id);

@@ -26,7 +26,11 @@ export const getDateRange = dateRange => {
   return { counts, dateToIndex };
 };
 
-export const getAllComplaints = async (dateRange, nickname) => {
+export const getAllComplaints = async (
+  dateRange,
+  nickname,
+  filterCaseByStatus
+) => {
   const where = {
     deletedAt: null,
     firstContactDate: calculateFirstContactDateCriteria(
@@ -65,7 +69,7 @@ export const getAllComplaints = async (dateRange, nickname) => {
         model: models.caseStatus,
         as: "status",
         attributes: [],
-        where: { name: [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED] }
+        where: { name: filterCaseByStatus }
       },
       {
         model: models.personType,
@@ -82,7 +86,11 @@ export const getAllComplaints = async (dateRange, nickname) => {
   return complaints;
 };
 
-export const executeQuery = async (nickname, dateRange) => {
+export const executeQuery = async (
+  nickname,
+  dateRange,
+  filterCaseByStatus = [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
+) => {
   let modifiedMinDate = dateRange?.minDate
     ? moment(dateRange.minDate).date(1).format(ISO_DATE)
     : moment().subtract(12, "months").date(1).format(ISO_DATE);
@@ -108,7 +116,11 @@ export const executeQuery = async (nickname, dateRange) => {
     }
   );
 
-  const complaints = await getAllComplaints(modifiedDateRange, nickname);
+  const complaints = await getAllComplaints(
+    modifiedDateRange,
+    nickname,
+    filterCaseByStatus
+  );
 
   const numComplaints = complaints.length;
   for (let i = 0; i < numComplaints; i++) {

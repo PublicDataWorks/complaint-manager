@@ -183,9 +183,11 @@ describe("getData", () => {
 
     expect(
       countMonthlyComplaintsByComplainantType.executeQuery
-    ).toHaveBeenCalledWith("tuser", {
-      minDate: moment().subtract(12, "months").format(ISO_DATE)
-    });
+    ).toHaveBeenCalledWith(
+      "tuser",
+      { minDate: moment().subtract(12, "months").format(ISO_DATE) },
+      ["Forwarded to Agency", "Closed"]
+    );
     expect(response._getData()).toEqual(
       MOCK_COMPLAINANT_TYPE_PAST_12_MONTHS_VALUES
     );
