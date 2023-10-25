@@ -3,7 +3,11 @@ import sequelize from "sequelize";
 import { CASE_STATUS, DESCENDING } from "../../../../sharedUtilities/constants";
 import { calculateFirstContactDateCriteria } from "./queryHelperFunctions";
 
-export const executeQuery = async (nickname, dateRange) => {
+export const executeQuery = async (
+  nickname,
+  dateRange,
+  filterCaseByStatus = [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
+) => {
   const where = {
     deletedAt: null,
     firstContactDate: calculateFirstContactDateCriteria(dateRange)
@@ -30,7 +34,7 @@ export const executeQuery = async (nickname, dateRange) => {
             as: "status",
             attributes: [],
             where: {
-              name: [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
+              name: filterCaseByStatus
             }
           }
         ]

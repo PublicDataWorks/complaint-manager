@@ -12,7 +12,11 @@ const {
   DISTRICTS_GEOJSON
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants.js`);
 
-export const executeQuery = async (nickname, dateRange) => {
+export const executeQuery = async (
+  nickname,
+  dateRange,
+  filterCaseByStatus = [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
+) => {
   const geoPromise = getGeoData(dateRange);
   const districtIdWhere = {
     deletedAt: null,
@@ -32,7 +36,7 @@ export const executeQuery = async (nickname, dateRange) => {
         model: models.caseStatus,
         as: "status",
         attributes: [],
-        where: { name: [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED] }
+        where: { name: filterCaseByStatus }
       }
     ],
     raw: true,

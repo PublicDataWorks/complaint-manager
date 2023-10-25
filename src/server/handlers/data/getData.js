@@ -66,21 +66,30 @@ const getData = asyncMiddleware(async (request, response, next) => {
       );
       break;
     case QUERY_TYPES.COUNT_TOP_10_TAGS:
-      data = await countTop10Tags.executeQuery(request.nickname, dateRange);
+      data = await countTop10Tags.executeQuery(
+        request.nickname,
+        dateRange,
+        filterCaseByStatus
+      );
       break;
     case QUERY_TYPES.COUNT_TOP_10_ALLEGATIONS:
       data = await countTop10Allegations.executeQuery(
         request.nickname,
-        dateRange
+        dateRange,
+        filterCaseByStatus
       );
       break;
     case QUERY_TYPES.LOCATION_DATA:
-      data = await locationDataQuery.executeQuery(dateRange);
+      data = await locationDataQuery.executeQuery(
+        dateRange,
+        filterCaseByStatus
+      );
       break;
     case QUERY_TYPES.COUNT_COMPLAINTS_BY_DISTRICT:
       data = await countComplaintsByDistrict.executeQuery(
         request.nickname,
-        dateRange
+        dateRange,
+        filterCaseByStatus
       );
       break;
     default:

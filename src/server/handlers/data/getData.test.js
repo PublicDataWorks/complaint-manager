@@ -205,9 +205,13 @@ describe("getData", () => {
 
     await getData(request, response, next);
 
-    expect(countTop10Tags.executeQuery).toHaveBeenCalledWith("tuser", {
-      minDate: moment().subtract(12, "months").format(ISO_DATE)
-    });
+    expect(countTop10Tags.executeQuery).toHaveBeenCalledWith(
+      "tuser",
+      {
+        minDate: moment().subtract(12, "months").format(ISO_DATE)
+      },
+      [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
+    );
     expect(response._getData()).toEqual(MOCK_TOP_TAGS_VALUES);
   });
 
@@ -223,9 +227,13 @@ describe("getData", () => {
 
     await getData(request, response, next);
 
-    expect(countTop10Allegations.executeQuery).toHaveBeenCalledWith("tuser", {
-      minDate: moment().subtract(12, "months").format(ISO_DATE)
-    });
+    expect(countTop10Allegations.executeQuery).toHaveBeenCalledWith(
+      "tuser",
+      {
+        minDate: moment().subtract(12, "months").format(ISO_DATE)
+      },
+      [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
+    );
     expect(response._getData()).toEqual(MOCK_TOP_ALLEGATIONS_VALUES);
   });
 
@@ -241,9 +249,12 @@ describe("getData", () => {
 
     await getData(request, response, next);
 
-    expect(locationData.executeQuery).toHaveBeenCalledWith({
-      minDate: moment().subtract(12, "months").format(ISO_DATE)
-    });
+    expect(locationData.executeQuery).toHaveBeenCalledWith(
+      {
+        minDate: moment().subtract(12, "months").format(ISO_DATE)
+      },
+      [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
+    );
     expect(response._getData()).toEqual(MOCK_LOCATION_DATA);
   });
 
@@ -263,7 +274,8 @@ describe("getData", () => {
       "tuser",
       {
         minDate: moment().subtract(12, "months").format(ISO_DATE)
-      }
+      },
+      [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
     );
     expect(response._getData()).toEqual(MOCK_DISTRICT_DATA);
   });

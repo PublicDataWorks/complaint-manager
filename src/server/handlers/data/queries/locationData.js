@@ -2,8 +2,12 @@ import models from "../../../policeDataManager/models";
 import sequelize from "sequelize";
 import { calculateFirstContactDateCriteria } from "./queryHelperFunctions";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
+import { filter } from "lodash";
 
-export const executeQuery = async dateRange => {
+export const executeQuery = async (
+  dateRange,
+  filterCaseByStatus = [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
+) => {
   const where = {
     deletedAt: null,
     firstContactDate: calculateFirstContactDateCriteria(dateRange)
@@ -26,7 +30,7 @@ export const executeQuery = async dateRange => {
         model: models.caseStatus,
         as: "status",
         attributes: [],
-        where: { name: [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED] }
+        where: { name: filterCaseByStatus }
       }
     ]
   };
