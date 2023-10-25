@@ -45,7 +45,11 @@ const getData = asyncMiddleware(async (request, response, next) => {
       );
       break;
     case QUERY_TYPES.COUNT_COMPLAINT_TOTALS:
-      data = await countComplaintTotals.executeQuery(request.nickname);
+      data = await countComplaintTotals.executeQuery(
+        request.nickname,
+        "",
+        filterCaseByStatus
+      );
       break;
     case QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE:
       data = await countComplaintsByComplainantType.executeQuery(
