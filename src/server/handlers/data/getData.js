@@ -54,7 +54,8 @@ const getData = asyncMiddleware(async (request, response, next) => {
     case QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE:
       data = await countComplaintsByComplainantType.executeQuery(
         request.nickname,
-        dateRange
+        dateRange,
+        filterCaseByStatus
       );
       break;
     case QUERY_TYPES.COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE:

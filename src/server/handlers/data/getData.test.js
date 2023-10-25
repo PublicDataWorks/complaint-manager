@@ -163,7 +163,8 @@ describe("getData", () => {
 
     expect(countComplaintsByComplainantType.executeQuery).toHaveBeenCalledWith(
       "tuser",
-      { minDate: `${moment().format("YYYY")}-01-01` }
+      { minDate: `${moment().format("YYYY")}-01-01` },
+      [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
     );
     expect(response._getData()).toEqual(MOCK_COMPLAINANT_TYPE_DATA_VALUES);
   });
