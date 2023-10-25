@@ -10,9 +10,22 @@ import * as countTop10Tags from "./queries/countTop10Tags";
 import * as countTop10Allegations from "./queries/countTop10Allegations";
 import * as locationDataQuery from "./queries/locationData";
 import * as countComplaintsByDistrict from "./queries/countComplaintsByDistrict";
+import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
 
-const filterCaseByStatus =
-  process.env.ORG == "HAWAII"
+const getData = asyncMiddleware(async (request, response, next) => {
+  let data;
+  const queryType = request.query.queryType;
+  const dateRange = {
+    minDate: request.query.minDate,
+    maxDate: request.query.maxDate
+  };
+
+  const displayAllStatusInDashboard = checkFeatureToggleEnabled(
+    request,
+    "displayAllStatusInDashboard"
+  );
+
+  const filterCaseByStatus = displayAllStatusInDashboard
     ? [
         CASE_STATUS.FORWARDED_TO_AGENCY,
         CASE_STATUS.CLOSED,
@@ -22,14 +35,6 @@ const filterCaseByStatus =
         CASE_STATUS.READY_FOR_REVIEW
       ]
     : [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED];
-
-const getData = asyncMiddleware(async (request, response, next) => {
-  let data;
-  const queryType = request.query.queryType;
-  const dateRange = {
-    minDate: request.query.minDate,
-    maxDate: request.query.maxDate
-  };
 
   switch (queryType) {
     case QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE:

@@ -16,6 +16,7 @@ import {
   ISO_DATE,
   QUERY_TYPES
 } from "../../../sharedUtilities/constants";
+import mockFflipObject from "../../testHelpers/mockFflipObject";
 
 const MOCK_INTAKE_SOURCE_DATA_VALUES = [
   { cases: "2", name: "Email" },
@@ -112,7 +113,9 @@ describe("getData", () => {
         queryType: "countComplaintsByIntakeSource",
         minDate: `${moment().format("YYYY")}-01-01`
       },
-      nickname: "tuser"
+      nickname: "tuser",
+
+      fflip: mockFflipObject({ displayAllStatusInDashboard: true })
     });
 
     await getData(request, response, next);
