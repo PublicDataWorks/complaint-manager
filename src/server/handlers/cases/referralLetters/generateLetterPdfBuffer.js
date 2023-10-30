@@ -6,6 +6,7 @@ import getQueryAuditAccessDetails, {
 } from "../../audits/getQueryAuditAccessDetails";
 import { retrieveLetterImage } from "./retrieveLetterImage";
 import { ASCENDING } from "../../../../sharedUtilities/constants";
+import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 require("../../../handlebarHelpers");
 
 const generateLetterPdfBuffer = async (
@@ -110,8 +111,13 @@ export const generateLetterPdfHtml = async (
     : "<p><br></p>";
 
   let imageTypes = {};
-
-  if (process.env.ORG === "HAWAII") {
+  const queryOptions = {
+    attributes: ["name", "description", "enabled"],
+    where: { name: "hawaiiHeaderImage" }
+  };
+  let feature = await models.feature_toggles.findOne(queryOptions);
+  console.log(feature);
+  if (feature.enabled) {
     if (letterType?.letterTypeLetterImage.length === 0) {
       imageTypes["header"] = await retrieveLetterImage(
         "hawaii_header_text.png",
