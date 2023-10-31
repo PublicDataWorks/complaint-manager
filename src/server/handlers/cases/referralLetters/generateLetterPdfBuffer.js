@@ -111,20 +111,19 @@ export const generateLetterPdfHtml = async (
     : "<p><br></p>";
 
   let imageTypes = {};
-  const queryOptions = {
-    attributes: ["name", "description", "enabled"],
-    where: { name: "hawaiiHeaderImage" }
-  };
-  let feature = await models.feature_toggles.findOne(queryOptions);
-  console.log(feature);
-  if (feature.enabled) {
-    if (letterType?.letterTypeLetterImage.length === 0) {
-      imageTypes["header"] = await retrieveLetterImage(
-        "hawaii_header_text.png",
-        `max-width: 550px`
-      );
-    }
-  }
+  // const queryOptions = {
+  //   attributes: ["name", "description", "enabled"],
+  //   where: { name: "hawaiiHeaderImage" }
+  // };
+  // let feature = await models.feature_toggles.findOne(queryOptions);
+  // if (feature.enabled) {
+  //   if (letterType?.letterTypeLetterImage.length === 0) {
+  //     imageTypes["header"] = await retrieveLetterImage(
+  //       "hawaii_header_text.png",
+  //       `max-width: 550px`
+  //     );
+  //   }
+  // }
   const letterPromises = letterType?.letterTypeLetterImage.map(
     async imageType => {
       let letterImage = await models.letterImage.findAll({
