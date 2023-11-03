@@ -4,7 +4,10 @@ import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import createConfiguredStore from "../createConfiguredStore";
 import { Provider } from "react-redux";
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 
+configure({ adapter: new Adapter() });
 describe("Dashboard Glossary page", () => {
   test("should render the Glossary page for the public data dashboard with correct styling", () => {
     const store = createConfiguredStore();

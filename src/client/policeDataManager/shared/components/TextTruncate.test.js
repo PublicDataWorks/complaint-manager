@@ -1,9 +1,12 @@
 import React from "react";
 import { mount } from "enzyme/build/index";
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 import TextTruncate from "./TextTruncate";
 import ActivityDisplay from "../../cases/CaseDetails/CaseNotes/ActivityDisplay";
 import DashboardDataSection from "../../../publicDataDashboard/DashboardDataSection";
 
+configure({ adapter: new Adapter() });
 jest.mock("../../cases/CaseDetails/CaseNotes/ActivityDisplay", () => ({
   getActivityNotes: jest.fn()
 }));
