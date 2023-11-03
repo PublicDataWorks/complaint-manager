@@ -16,7 +16,7 @@ import { graphInfo, categories } from "./dataVisData";
 import DataVisContainer from "./DataVisContainer";
 
 const DataVisSection = ({ classes, screenSize }) => {
-  const [category, setCategory] = useState("Demographics");
+  const [category, setCategory] = useState("Facility Overcrowding Rates");
   const { menuOpen, anchorEl, handleMenuOpen, handleMenuClose } =
     useMenuControl();
 
