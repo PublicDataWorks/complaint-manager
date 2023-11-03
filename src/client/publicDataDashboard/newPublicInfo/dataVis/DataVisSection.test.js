@@ -39,9 +39,9 @@ describe("Data Vis Section", () => {
       render(<DataVisSection classes={{}} screenSize={size} />);
 
       userEvent.click(screen.getByTestId("category-dropdown-button"));
-      expect(
-        screen.getByText("Facility Overcrowding Rates")
-      ).toBeInTheDocument();
+      expect(screen.getAllByText("Facility Overcrowding Rates").length).toBe(
+        2
+      );
     });
   });
 
