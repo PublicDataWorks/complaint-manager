@@ -45,29 +45,30 @@ describe("Data Vis Section", () => {
     });
   });
 
-  [(SCREEN_SIZES.TABLET, SCREEN_SIZES.MOBILE)].forEach(size => {
-    test(`should show state population percentages on page when user clicks "Demographics" for ${size} view`, () => {
-      render(<DataVisSection classes={{}} screenSize={size} />);
-      userEvent.click(screen.getByTestId("category-dropdown-button"));
-      userEvent.click(screen.getByTestId("Demographics-selection"));
+  // TODO: Commenting to hide the demographics chart temporarily; remove soon
+  // [(SCREEN_SIZES.TABLET, SCREEN_SIZES.MOBILE)].forEach(size => {
+  //   test(`should show state population percentages on page when user clicks "Demographics" for ${size} view`, () => {
+  //     render(<DataVisSection classes={{}} screenSize={size} />);
+  //     userEvent.click(screen.getByTestId("category-dropdown-button"));
+  //     userEvent.click(screen.getByTestId("Demographics-selection"));
 
-      expect(screen.getByText("Demographic Breakdown")).toBeInTheDocument();
-      expect(screen.getByText("White")).toBeInTheDocument();
-      expect(screen.getByText("25%")).toBeInTheDocument();
-      expect(screen.getByText("22%")).toBeInTheDocument();
-    });
-  });
+  //     expect(screen.getByText("Demographic Breakdown")).toBeInTheDocument();
+  //     expect(screen.getByText("White")).toBeInTheDocument();
+  //     expect(screen.getByText("25%")).toBeInTheDocument();
+  //     expect(screen.getByText("22%")).toBeInTheDocument();
+  //   });
+  // });
 
-  test(`should show state population percentages on page when user clicks "Demographics" for desktop view`, () => {
-    render(<DataVisSection classes={{}} screenSize={SCREEN_SIZES.DESKTOP} />);
+  // test(`should show state population percentages on page when user clicks "Demographics" for desktop view`, () => {
+  //   render(<DataVisSection classes={{}} screenSize={SCREEN_SIZES.DESKTOP} />);
 
-    userEvent.click(screen.getByTestId("Demographics-selection"));
+  //   userEvent.click(screen.getByTestId("Demographics-selection"));
 
-    expect(screen.getByText("Demographic Breakdown")).toBeInTheDocument();
-    expect(screen.getByText("Black")).toBeInTheDocument();
-    expect(screen.getAllByText("2%")[0]).toBeInTheDocument();
-    expect(screen.getByText("5%")).toBeInTheDocument();
-  });
+  //   expect(screen.getByText("Demographic Breakdown")).toBeInTheDocument();
+  //   expect(screen.getByText("Black")).toBeInTheDocument();
+  //   expect(screen.getAllByText("2%")[0]).toBeInTheDocument();
+  //   expect(screen.getByText("5%")).toBeInTheDocument();
+  // });
 
   describe("Facility Overcrowding Rates", () => {
     test(`should show facility overcrowding rates bar graph on page when user clicks "Facility Overcrowding Rates" for desktop view`, () => {
