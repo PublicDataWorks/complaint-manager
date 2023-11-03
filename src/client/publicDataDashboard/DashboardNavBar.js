@@ -1,4 +1,6 @@
-import { Container, Grid, Typography } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import Container from "@material-ui/core/Container";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import styles from "./dashboardStyling/styles";
 import React from "react";
@@ -43,7 +45,7 @@ const DashboardNavBar = () => {
               About
             </Link>
           </Typography>
-          <Typography style={styles.navBarLink} style={{ paddingLeft: "32px" }}>
+          <Typography style={{ ...styles.navBarLink, paddingLeft: "32px" }}>
             <Link
               to="/data/glossary"
               underline="none"

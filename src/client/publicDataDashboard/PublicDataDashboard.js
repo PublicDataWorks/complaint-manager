@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {
-  Typography,
-  Grid,
-  Button,
-  Icon,
-  Container,
-  Link
-} from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import Icon from "@material-ui/core/Icon";
+import Container from "@material-ui/core/Container";
+import Link from "@material-ui/core/Link";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import dashboardStyling from "./dashboardStyling/dashboardStyling";
 import dashboardStylingMobile from "./dashboardStyling/dashboardStylingMobile";

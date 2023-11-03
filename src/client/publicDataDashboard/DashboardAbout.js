@@ -1,5 +1,8 @@
 import React from "react";
-import { Grid, Icon, Link as MUILink, Typography } from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
+import Icon from "@material-ui/core/Icon";
+import MUILink from "@material-ui/core/Link";
+import Typography from "@material-ui/core/Typography";
 import styles from "./dashboardStyling/styles";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import dashboardStyling from "./dashboardStyling/dashboardStyling";
