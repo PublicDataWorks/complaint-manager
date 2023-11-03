@@ -6,7 +6,7 @@ const config =
   ];
 
 export const categories = [
-  "Demographics",
+  // "Demographics",
   "Facility Overcrowding Rates",
   "Incarceration Status - Overall",
   "Incarceration Status - Jails",
