@@ -66,9 +66,9 @@ const DataVisContainer = ({ classes, screenSize, graphInfo, category }) => {
           {graphInfo.description}
         </Typography>
         <Box>
-          {category === "Demographics" && (
+          {/* {category === "Demographics" && (
             <DemographicGraph classes={classes} screenSize={screenSize} />
-          )}
+          )} */}
           {category === "Facility Overcrowding Rates" && (
             <FacilityCapacityGraph classes={classes} screenSize={screenSize} />
           )}
