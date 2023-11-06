@@ -2,7 +2,6 @@ import { Box, Typography, withStyles } from "@material-ui/core";
 import React from "react";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 import dataVisStyles from "./dataVisStyles";
-import DemographicGraph from "./demographicSection/DemographicGraph";
 import FacilityCapacityGraph from "./facilityCapacitySection/FacilityCapacityGraph";
 
 const DataVisContainer = ({ classes, screenSize, graphInfo, category }) => {

@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import dataVisStyles from "./dataVisStyles";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Menu,
-  MenuItem,
-  Typography,
-  withStyles
-} from "@material-ui/core";
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import Typography from "@material-ui/core/Typography";
+import withStyles from "@material-ui/core/styles/withStyles";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 import useMenuControl from "../../../common/hooks/useMenuControl";

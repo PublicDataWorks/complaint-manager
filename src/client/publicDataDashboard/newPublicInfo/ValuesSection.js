@@ -1,7 +1,7 @@
 import React from "react";
 import { withStyles } from "@material-ui/styles";
 import publicInfoStyles from "./publicInfoStyles";
-import { Typography } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 const config =
   require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`)[
     process.env.REACT_APP_ENV
