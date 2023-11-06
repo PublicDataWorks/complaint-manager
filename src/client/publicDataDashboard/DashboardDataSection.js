@@ -1,5 +1,7 @@
 import React, { lazy, Suspense } from "react";
-import { Grid, Link as MUILink, Typography } from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
+import MUILink from "@material-ui/core/Link";
+import Typography from "@material-ui/core/Typography";
 const Visualization = lazy(() =>
   import("../common/components/Visualization/Visualization")
 );

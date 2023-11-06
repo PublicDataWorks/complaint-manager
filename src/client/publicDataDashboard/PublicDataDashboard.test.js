@@ -4,10 +4,6 @@ import PublicDataDashboard from "./PublicDataDashboard";
 import { BrowserRouter as Router } from "react-router-dom";
 import createConfiguredStore from "../createConfiguredStore";
 import { Provider } from "react-redux";
-import {
-  CONFIGS,
-  GET_CONFIGS_SUCCEEDED
-} from "../../sharedUtilities/constants";
 import nock from "nock";
 import "@testing-library/jest-dom";
 
