@@ -1,7 +1,7 @@
 import React from "react";
 import { withStyles } from "@material-ui/styles";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
-import { Typography } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 import staffingShortageStyles from "./staffingShortageStyles";
 import { colors } from "../publicInfoStyles";
 import HawaiiJailsPrisonMap4 from "../../../../assets/Hawaii-Jails-Prison-map4.png";

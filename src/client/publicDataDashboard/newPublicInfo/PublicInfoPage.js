@@ -1,6 +1,6 @@
 import React from "react";
 import PublicInfoHeader from "./header/PublicInfoHeader";
-import { useMediaQuery } from "@material-ui/core";
+import useMediaQuery  from "@material-ui/core/useMediaQuery";
 import { SCREEN_SIZES } from "../../../sharedUtilities/constants";
 import PublicInfoMenu from "./menu/PublicInfoMenu";
 import PublicInfoBanner from "./PublicInfoBanner";

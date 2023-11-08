@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { IconButton, Typography } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
 import { Menu } from "@material-ui/icons";
 import { withStyles } from "@material-ui/styles";
 import publicInfoStyles from "../publicInfoStyles";

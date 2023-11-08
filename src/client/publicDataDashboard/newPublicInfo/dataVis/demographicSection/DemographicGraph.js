@@ -1,5 +1,5 @@
 import React from "react";
-import { withStyles } from "@material-ui/core";
+import withStyles from "@material-ui/core/styles/withStyles";
 import dataVisStyles from "../dataVisStyles";
 import RadialChart from "./RadialChart";
 import { demographicData } from "../dataVisData";

@@ -1,5 +1,7 @@
 import React from "react";
-import { Box, Typography, withStyles } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
+import withStyles from "@material-ui/core/styles/withStyles";
 import publicInfoFooterStyles from "./publicInfoFooterStyles";
 import TWLogoSM from "./TW_Logo_SM.svg";
 import TWLogoMDLG from "./TW_Logo_MDLG.svg";

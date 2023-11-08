@@ -1,7 +1,7 @@
 import React from "react";
 import { withStyles } from "@material-ui/styles";
 import publicInfoStyles from "./publicInfoStyles";
-import { Typography } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 
 export const SUBTEXT =
   "The Commission’s Annual Report finds overcrowded prisons, inhumane facility conditions, and low staffing is unprecedented. Learn how these issues are addressed to the community, legislators, and the Department of Public Safety to ensure safer conditions.";
