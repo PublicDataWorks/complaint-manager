@@ -17,6 +17,17 @@ import { connect } from "react-redux";
 import CreatableDropdown from "../../common/components/CreatableDropdown";
 
 const AllegationDetailsForm = props => {
+  const sortChapters = mappedArray => {
+    return mappedArray.sort((a, b) => {
+      if (a.label === "N/A") {
+        return 1;
+      }
+      if (b.label === "N/A") {
+        return -1;
+      }
+      return a.label.localeCompare(b.label);
+    });
+  };
   const marginBottomOffset = props.marginBottomOffset || 16;
   return (
     <form style={{ justifyContent: "center" }}>
@@ -32,10 +43,12 @@ const AllegationDetailsForm = props => {
           inputProps={{ "data-testid": "rule-chapter-input" }}
           label="To Wit Chapter"
         >
-          {props.ruleChapters.map(chapter => ({
-            label: chapter.name,
-            value: chapter.id
-          }))}
+          {sortChapters(
+            props.ruleChapters.map(chapter => ({
+              label: chapter.name,
+              value: chapter.id
+            }))
+          )}
         </Field>
       </div>
       <div>
