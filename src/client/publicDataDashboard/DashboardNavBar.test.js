@@ -1,9 +1,9 @@
-import { mount } from "enzyme";
-import DashboardNavBar from "./DashboardNavBar";
-import React from "react";
 import { MuiThemeProvider } from "@material-ui/core/styles";
-import dashboardStylingDesktop from "./dashboardStyling/dashboardStylingDesktop";
+import { mount } from "enzyme";
+import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
+import DashboardNavBar from "./DashboardNavBar";
+import dashboardStylingDesktop from "./dashboardStyling/dashboardStylingDesktop";
 
 describe("Dashboard NavBar", () => {
   let wrapper;
