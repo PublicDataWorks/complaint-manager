@@ -47,3 +47,5 @@ node-yarnaudit-request-*
 node-yarnaudit-fast-xml-parser-1092278
 node-yarnaudit-get-func-name-*
 node-yarnaudit-@babel/traverse-*
+node-yarnaudit-chromedriver-*
+node-yarnaudit-axios-*
