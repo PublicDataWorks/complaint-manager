@@ -44,9 +44,22 @@ class CreateCaseDialog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      //intakeSource: "", // create a state variable to hold the selected value
       complaintTypes: []
     };
   }
+
+  // handleIntakeSourceChange = event => {
+  //   this.setState({ intakeSource: event.target.value }); // update the state variable when the user selects a new value
+  //   console.log(
+  //     "selected intake source (event.target.value): ",
+  //     event.target.value
+  //   );
+  //   console.log(
+  //     "selected intake source (this.state.intakeSource): ",
+  //     this.state.intakeSource
+  //   );
+  // };
 
   componentDidMount() {
     this.props.dispatch(getIntakeSourceDropdownValues());
@@ -121,6 +134,41 @@ class CreateCaseDialog extends React.Component {
             <Timeline organization={organization} />
             <IntakeSource intakeSources={this.props.intakeSources} />
             <br />
+
+            <div>
+              <Field
+                component={Dropdown}
+                label="Priority Level"
+                placeholder="Select a Priority Level"
+                name="priorityLevel"
+                style={{ width: "90%", marginBottom: "15px" }}
+                inputProps={{
+                  "data-testid": "priorityLevelDropdown",
+                  "aria-label": "Priority Level Dropdown"
+                }}
+              >
+                {generateMenuOptions(
+                  this.state.complaintTypes.map(type => type.name).sort()
+                )}
+              </Field>
+              <br />
+              <Field
+                component={Dropdown}
+                label="Priority Reason"
+                placeholder="Select a Priority Reason"
+                name="priorityReason"
+                style={{ width: "90%", marginBottom: "15px" }}
+                inputProps={{
+                  "data-testid": "priorityReasonDropdown",
+                  "aria-label": "Priority Reason Dropdown"
+                }}
+              >
+                {generateMenuOptions(
+                  this.state.complaintTypes.map(type => type.name).sort()
+                )}
+              </Field>
+              <br />
+            </div>
             {this.props.chooseComplaintTypeFeatureFlag ? (
               <>
                 <Field
@@ -218,6 +266,7 @@ const IntakeSource = props => {
         "aria-label": "Intake Source Field"
       }}
       validate={[intakeSourceIsRequired]}
+      //onChange={handleIntakeSourceChange} // use the onChange event to update the state variable
     >
       {generateMenuOptions(props.intakeSources)}
     </Field>
@@ -226,6 +275,7 @@ const IntakeSource = props => {
 
 const mapStateToProps = state => {
   const selector = formValueSelector(CREATE_CASE_FORM_NAME);
+  console.log("intake source from formValue: ", intakeSourceId);
   const addressValues = selector(
     state,
     "address.streetAddress",
