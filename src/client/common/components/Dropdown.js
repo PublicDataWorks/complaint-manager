@@ -12,7 +12,7 @@ export const getSelectedOption = (inputValue, options) => {
   let indexOfSelectedValue = -1;
   if (options && Array.isArray(options)) {
     indexOfSelectedValue = options
-      .map(option => {
+      .map(option => {  
         return option.value;
       })
       .indexOf(inputValue);
@@ -25,8 +25,14 @@ export const getSelectedOption = (inputValue, options) => {
 };
 
 class Dropdown extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
   handleChange = (event, value) => {
     this.props.input.onChange(event && value.value);
+    this.props.handleDropdownChange(value.label);
   };
 
   render() {
@@ -48,7 +54,7 @@ class Dropdown extends React.Component {
               ? `${this.props.inputProps["data-testid"]}-autocomplete`
               : ""
           }
-          onChange={this.handleChange.bind(this)}
+          onChange={this.handleChange}
           value={selectedOption}
           options={children && Array.isArray(children) ? children : []}
           getOptionLabel={option => {
