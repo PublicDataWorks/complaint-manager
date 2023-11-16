@@ -53,13 +53,10 @@ class CreateCaseDialog extends React.Component {
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
   }
 
- 
   handleDropdownChange(newValue) {
     this.setState({ dropdownValue: newValue });
-    // console.log("The new value is: ", typeof(newValue))
-    // console.log("The state is: ", this.state.dropdownValue)
-  };
-  
+  }
+
   componentDidMount() {
     this.props.dispatch(getIntakeSourceDropdownValues());
   }
@@ -131,45 +128,49 @@ class CreateCaseDialog extends React.Component {
           </DialogContentText>
           <form data-testid="createCaseForm">
             <Timeline organization={organization} />
-            <IntakeSource handleDropdownChange={this.handleDropdownChange} intakeSources={this.props.intakeSources} />
+            <IntakeSource
+              handleDropdownChange={this.handleDropdownChange}
+              intakeSources={this.props.intakeSources}
+            />
             <br />
-            {/* <div>
-              // this is dropdown for priority level and reason
-              // we need conditionally render this dropdown
-              // Value of the conditional rendering is in the state called this.state.dropdownValue
-              <Field
-                component={Dropdown}
-                label="Priority Level"
-                placeholder="Select a Priority Level"
-                name="priorityLevel"
-                style={{ width: "90%", marginBottom: "15px" }}
-                inputProps={{
-                  "data-testid": "priorityLevelDropdown",
-                  "aria-label": "Priority Level Dropdown"
-                }}
-              >
-                {generateMenuOptions(
-                  this.state.complaintTypes.map(type => type.name).sort()
-                )}
-              </Field>
-              <br />
-              <Field
-                component={Dropdown}
-                label="Priority Reason"
-                placeholder="Select a Priority Reason"
-                name="priorityReason"
-                style={{ width: "90%", marginBottom: "15px" }}
-                inputProps={{
-                  "data-testid": "priorityReasonDropdown",
-                  "aria-label": "Priority Reason Dropdown"
-                }}
-              >
-                {generateMenuOptions(
-                  this.state.complaintTypes.map(type => type.name).sort()
-                )}
-              </Field>
-              <br />
-            </div> */}
+
+            {this.state.dropdownValue === "Priority Incident" && (
+              <div>
+                <Field
+                  component={Dropdown}
+                  label="Priority Level"
+                  placeholder="Select a Priority Level"
+                  name="priorityLevel"
+                  style={{ width: "90%", marginBottom: "15px" }}
+                  inputProps={{
+                    "data-testid": "priorityLevelDropdown",
+                    "aria-label": "Priority Level Dropdown"
+                  }}
+                >
+                  {generateMenuOptions(
+                    this.state.complaintTypes.map(type => type.name).sort()
+                  )}
+                </Field>
+                <br />
+                <Field
+                  component={Dropdown}
+                  label="Priority Reason"
+                  placeholder="Select a Priority Reason"
+                  name="priorityReason"
+                  style={{ width: "90%", marginBottom: "15px" }}
+                  inputProps={{
+                    "data-testid": "priorityReasonDropdown",
+                    "aria-label": "Priority Reason Dropdown"
+                  }}
+                >
+                  {generateMenuOptions(
+                    this.state.complaintTypes.map(type => type.name).sort()
+                  )}
+                </Field>
+                <br />
+              </div>
+            )}
+
             {this.props.chooseComplaintTypeFeatureFlag ? (
               <>
                 <Field
@@ -267,7 +268,7 @@ const IntakeSource = props => {
         "aria-label": "Intake Source Field"
       }}
       validate={[intakeSourceIsRequired]}
-      handleDropdownChange = {props.handleDropdownChange}
+      handleDropdownChange={props.handleDropdownChange}
     >
       {generateMenuOptions(props.intakeSources)}
     </Field>

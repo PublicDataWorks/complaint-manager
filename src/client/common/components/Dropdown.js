@@ -12,7 +12,7 @@ export const getSelectedOption = (inputValue, options) => {
   let indexOfSelectedValue = -1;
   if (options && Array.isArray(options)) {
     indexOfSelectedValue = options
-      .map(option => {  
+      .map(option => {
         return option.value;
       })
       .indexOf(inputValue);
@@ -32,7 +32,8 @@ class Dropdown extends React.Component {
 
   handleChange = (event, value) => {
     this.props.input.onChange(event && value.value);
-    this.props.handleDropdownChange(value.label);
+    this.props.handleDropdownChange &&
+      this.props.handleDropdownChange(value.label);
   };
 
   render() {
