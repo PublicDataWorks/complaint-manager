@@ -100,6 +100,7 @@ import retrievePersonTypes from "./handlers/personTypes/retrievePersonTypes";
 import updateSearchIndex from "./handlers/cases/casesSearch/updateSearchIndex";
 import getRuleChapters from "./handlers/ruleChapters/getRuleChapters";
 import getDirectives from "./handlers/directives/getDirectives";
+import getPriorityLevels from "./handlers/priority_levels/getPriorityLevels";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -802,6 +803,12 @@ export const API_ROUTES = {
     get: {
       handler: getDirectives,
       errorMessage: "Something went wrong while getting directives"
+    }
+  },
+  "/priority-levels": {
+    get: {
+      handler: getPriorityLevels,
+      errorMessage: "Something went wrong while getting priority levels"
     }
   }
 };
