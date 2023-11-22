@@ -101,6 +101,7 @@ import updateSearchIndex from "./handlers/cases/casesSearch/updateSearchIndex";
 import getRuleChapters from "./handlers/ruleChapters/getRuleChapters";
 import getDirectives from "./handlers/directives/getDirectives";
 import getPriorityLevels from "./handlers/priority_levels/getPriorityLevels";
+import getPriorityReasons from "./handlers/priority_reasons/getPriorityReasons";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -809,6 +810,12 @@ export const API_ROUTES = {
     get: {
       handler: getPriorityLevels,
       errorMessage: "Something went wrong while getting priority levels"
+    }
+  },
+  "/priority-reasons": {
+    get: {
+      handler: getPriorityReasons,
+      errorMessage: "Something went wrong while getting priority reasons"
     }
   }
 };

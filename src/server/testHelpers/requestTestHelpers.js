@@ -137,7 +137,8 @@ export const cleanupDatabase = async () => {
     "TRUNCATE person_types CASCADE;" +
     "TRUNCATE rule_chapters CASCADE;" +
     "TRUNCATE directives CASCADE;" +
-    "TRUNCATE priority_levels CASCADE;";
+    "TRUNCATE priority_levels CASCADE;" +
+    "TRUNCATE priority_reasons CASCADE;";
 
   await models.sequelize.query(truncationQuery, {
     type: models.sequelize.QueryTypes.RAW
