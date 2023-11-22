@@ -65,7 +65,6 @@ class CreateCaseDialog extends React.Component {
     axios
       .get("/api/priority-levels")
       .then(response => {
-        console.log("LEVEL DATA ===>", response.data);
         this.setState({
           priorityLevels:
             !response.data || response.data.length === 0
@@ -84,7 +83,6 @@ class CreateCaseDialog extends React.Component {
     axios
       .get("/api/priority-reasons")
       .then(response => {
-        console.log("reasons DATA ===>", response.data);
         this.setState({
           priorityReasons:
             !response.data || response.data.length === 0
