@@ -46,6 +46,7 @@ class CreateCaseDialog extends React.Component {
     this.state = {
       complaintTypes: [],
       priorityLevels: [],
+      priorityReasons: [],
       dropdownValue: {
         label: "",
         value: null
@@ -53,6 +54,7 @@ class CreateCaseDialog extends React.Component {
     };
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
     this.retrievePriorityLevels = this.retrievePriorityLevels.bind(this);
+    this.retrievePriorityReasons = this.retrievePriorityReasons.bind(this);
   }
 
   handleDropdownChange(newValue) {
@@ -63,11 +65,36 @@ class CreateCaseDialog extends React.Component {
     axios
       .get("/api/priority-levels")
       .then(response => {
-        this.setState({ priorityLevels: response.data ? response.data : [] });
+        console.log("LEVEL DATA ===>", response.data);
+        this.setState({
+          priorityLevels:
+            !response.data || response.data.length === 0
+              ? [{ name: "N/A", id: -1 }]
+              : response.data
+        });
       })
       .catch(error =>
         this.props.dispatch(
           snackbarError("There was a problem retrieving priority levels")
+        )
+      );
+  }
+
+  retrievePriorityReasons() {
+    axios
+      .get("/api/priority-reasons")
+      .then(response => {
+        console.log("reasons DATA ===>", response.data);
+        this.setState({
+          priorityReasons:
+            !response.data || response.data.length === 0
+              ? [{ name: "N/A", id: -1 }]
+              : response.data
+        });
+      })
+      .catch(error =>
+        this.props.dispatch(
+          snackbarError("There was a problem retrieving priority reasons")
         )
       );
   }
@@ -93,6 +120,10 @@ class CreateCaseDialog extends React.Component {
 
     if (this.state.priorityLevels.length === 0) {
       this.retrievePriorityLevels();
+    }
+
+    if (this.state.priorityReasons.length === 0) {
+      this.retrievePriorityReasons();
     }
 
     if (!this.props.selectedPersonType && this.props.defaultPersonType) {
@@ -167,7 +198,7 @@ class CreateCaseDialog extends React.Component {
                   }}
                 >
                   {generateMenuOptions(
-                    this.state.priorityLevels.map(type => type.name)
+                    this.state.priorityLevels.map(level => level.name)
                   )}
                 </Field>
                 <br />
@@ -183,7 +214,7 @@ class CreateCaseDialog extends React.Component {
                   }}
                 >
                   {generateMenuOptions(
-                    this.state.complaintTypes.map(type => type.name).sort()
+                    this.state.priorityReasons.map(reason => reason.name)
                   )}
                 </Field>
                 <br />
