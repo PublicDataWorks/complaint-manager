@@ -75,6 +75,38 @@ pactWith(
         });
 
         await provider.addInteraction({
+          state: "priority levels exist",
+          uponReceiving: "get priority levels",
+          withRequest: {
+            method: "GET",
+            path: "/api/priority-levels"
+          },
+          willRespondWith: {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            body: eachLike({ name: "priority-level-test" })
+          }
+        });
+
+        await provider.addInteraction({
+          state: "priority reasons exist",
+          uponReceiving: "get priority reasons",
+          withRequest: {
+            method: "GET",
+            path: "/api/priority-reasons"
+          },
+          willRespondWith: {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            body: eachLike({ name: "priority-reason-test" })
+          }
+        });
+
+        await provider.addInteraction({
           state: "Case exists: with civilian complainant",
           uponReceiving: "get cases page 1",
           withRequest: {
