@@ -43,10 +43,10 @@ describe("Given the priority_levels table has values When a request is made to /
         name: "Priority Level Test 3"
       })
     ]).then(priorityLevels =>
-      priorityLevels.map(priorityLevel => [
-        priorityLevel.name,
-        priorityLevel.id
-      ])
+      priorityLevels.map(priorityLevel => ({
+        name: priorityLevel.name,
+        id: priorityLevel.id
+      }))
     );
 
     const responsePromise = request(app)
