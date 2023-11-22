@@ -29,7 +29,7 @@ describe("Given the priority_levels table has values When a request is made to /
     await models.sequelize.close();
   });
 
-  test("then it should return a list of priority levels sorted in alphabetical order", async () => {
+  test("then it should return a list with all the priority levels", async () => {
     const token = buildTokenWithPermissions("", "tuser");
 
     const expected = await Promise.all([
