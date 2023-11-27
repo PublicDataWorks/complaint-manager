@@ -312,6 +312,38 @@ const setupInmates = async facility => {
   }
 };
 
+const setupPriorityLevels = async () => {
+  try {
+    return await Promise.all([
+      models.priority_levels.create(
+        {
+          id: 1,
+          name: "priority-level-test"
+        },
+        { auditUser: "user" }
+      )
+    ]);
+  } catch (err) {
+    console.error("priority levels setup error", err);
+  }
+};
+
+const setupPriorityReasons = async () => {
+  try {
+    return await Promise.all([
+      models.priority_reasons.create(
+        {
+          id: 1,
+          name: "priority-reason-test"
+        },
+        { auditUser: "user" }
+      )
+    ]);
+  } catch (err) {
+    console.error("priority reasons setup error", err);
+  }
+};
+
 describe("Pact Verification", () => {
   let server, statuses;
   beforeAll(() => {
@@ -451,6 +483,9 @@ describe("Pact Verification", () => {
           await models.sequelize.query(
             "ALTER SEQUENCE IF EXISTS letter_types_id_seq START 2 RESTART 2 MINVALUE 2"
           );
+
+          setupPriorityLevels();
+          setupPriorityReasons();
         } catch (error) {
           console.error(error);
           throw error;
