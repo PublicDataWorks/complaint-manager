@@ -8,9 +8,9 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    // await queryInterface.sequelize.query(
-    //   "UPDATE cases SET priority_reason_id = NULL WHERE priority_reason_id IS NOT NULL"
-    // );
+    await queryInterface.sequelize.query(
+      "UPDATE cases SET priority_reason_id = NULL WHERE priority_reason_id IS NOT NULL"
+    );
     await queryInterface.bulkDelete("priority_reasons");
   }
 };
