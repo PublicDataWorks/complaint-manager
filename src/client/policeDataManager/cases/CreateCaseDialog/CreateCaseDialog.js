@@ -275,7 +275,6 @@ const IntakeSource = props => {
 
 const mapStateToProps = state => {
   const selector = formValueSelector(CREATE_CASE_FORM_NAME);
-  console.log("intake source from formValue: ", intakeSourceId);
   const addressValues = selector(
     state,
     "address.streetAddress",
