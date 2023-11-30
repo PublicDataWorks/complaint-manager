@@ -53,7 +53,7 @@ const InmatesSearch = props => {
         </div>
         <InmateSearchForm />
         <InmateSearchResults roleOnCase={props.match.params.roleOnCase} />
-        {props.manuallyAddInmateFeature ? (
+        {props.manuallyAddInmateFeature && (
           <SecondaryButton
             style={{ marginRight: 20 }}
             data-testid="manually-add-person-in-custody"
@@ -62,8 +62,6 @@ const InmatesSearch = props => {
           >
             Manually Add Person in Custody
           </SecondaryButton>
-        ) : (
-          ""
         )}
       </section>
     </section>

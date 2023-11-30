@@ -88,7 +88,7 @@ const ManageOfficerMenu = props => {
           {`Remove ${caseEmployeeTitle}`}
         </MenuItem>
       </Menu>
-      {deleteDialogOpen ? (
+      {deleteDialogOpen && (
         <ConfirmationDialog
           confirmText="Remove"
           onConfirm={() => {
@@ -117,8 +117,6 @@ const ManageOfficerMenu = props => {
           all information associated to this person from the case. Are you sure
           you want to continue?
         </ConfirmationDialog>
-      ) : (
-        ""
       )}
     </div>
   );

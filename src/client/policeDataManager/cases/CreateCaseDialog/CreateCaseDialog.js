@@ -186,7 +186,7 @@ class CreateCaseDialog extends React.Component {
               </div>
             )}
 
-            {this.props.chooseComplaintTypeFeatureFlag ? (
+            {this.props.chooseComplaintTypeFeatureFlag && (
               <>
                 <Field
                   component={Dropdown}
@@ -204,8 +204,6 @@ class CreateCaseDialog extends React.Component {
                 </Field>
                 <br />
               </>
-            ) : (
-              ""
             )}
             <PersonTypeSelection
               personTypes={this.props.personTypes}
@@ -217,9 +215,7 @@ class CreateCaseDialog extends React.Component {
             {this.props.selectedPersonType?.dialogAction === SHOW_FORM && (
               <>
                 <AnonymousFields />
-                {isUnknown ? (
-                  ""
-                ) : (
+                {!isUnknown && (
                   <CivilianComplainantFields
                     formattedAddress={this.props.formattedAddress}
                     formName={CREATE_CASE_FORM_NAME}

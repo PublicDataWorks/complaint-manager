@@ -20,7 +20,7 @@ const PersonTypeSelection = props => {
             : ComplainantTypeRadioGroup
         }
       />
-      {props.selectedType?.subTypes ? (
+      {props.selectedType?.subTypes && (
         <>
           <br />
           <Field
@@ -34,8 +34,6 @@ const PersonTypeSelection = props => {
             {generateMenuOptions(props.selectedType.subTypes)}
           </Field>
         </>
-      ) : (
-        ""
       )}
       <br />
     </>

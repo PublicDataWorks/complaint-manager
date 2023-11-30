@@ -21,14 +21,12 @@ class DataDashboard extends Component {
       <div>
         <NavBar menuType={policeDataManagerMenuOptions}>Data Dashboard</NavBar>
         <main role="main" style={{ overflow: "scroll" }}>
-          {this.props.mapVisualizationFeature ? (
+          {this.props.mapVisualizationFeature && (
             <section style={{ margin: "5px" }}>
               <h2>Map of Complaints</h2>
               <MapVisualization isPublic={false} />
             </section>
-          ) : (
-            ""
-          )}
+            )}
           <div
             style={{
               display: "flex",
@@ -92,7 +90,7 @@ class DataDashboard extends Component {
                 hasDropdown={true}
               />
             </div>
-            {this.props.countByDistrictVisualizationFeature ? (
+            {this.props.countByDistrictVisualizationFeature && (
               <div style={{ minWidth: "800px", marginLeft: "5px" }}>
                 <Visualization
                   data-testid={"countByDistrictGraph"}
@@ -103,12 +101,10 @@ class DataDashboard extends Component {
                   hasDropdown={true}
                 />
               </div>
-            ) : (
-              ""
             )}
           </div>
           <div>
-            {this.props.topAllegationsVisualizationFeature ? (
+            {this.props.topAllegationsVisualizationFeature && (
               <div style={{ width: "800px", marginLeft: "5px"}}>
               <Visualization
                 queryModel={new CountTop10Allegations()}
@@ -116,8 +112,6 @@ class DataDashboard extends Component {
                 hasDropdown={true}
               />
             </div>
-            ) : (
-              ""
             )}
           </div>
           <br/>

@@ -9,15 +9,13 @@ const ComplainantTypeDropdown = props => {
   let officerAdded = false;
   return (
     <FormControl style={{ width: "90%", marginBottom: "15px" }}>
-      {props.showLabels ? (
+      {props.showLabels && (
         <>
           <Typography variant="subtitle2" style={{ marginBottom: "8px" }}>
             Complainant Information
           </Typography>
           <FormLabel>The complainant is a...</FormLabel>
         </>
-      ) : (
-        ""
       )}
       <Dropdown
         required

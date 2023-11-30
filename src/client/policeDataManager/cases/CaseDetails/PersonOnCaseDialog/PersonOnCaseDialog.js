@@ -152,33 +152,24 @@ class PersonOnCaseDialog extends Component {
                 control={<Radio color="primary" />}
                 label={WITNESS}
               />
-              {this.props.allowAllTypesToBeAccused ? (
+              {this.props.allowAllTypesToBeAccused && (
                 <FormControlLabel
                   style={{ marginRight: "48px" }}
                   value={ACCUSED}
                   control={<Radio color="primary" />}
                   label={ACCUSED}
                 />
-              ) : (
-                ""
               )}
             </Field>
-            {this.props.choosePersonTypeInAddDialog ? (
+            {this.props.choosePersonTypeInAddDialog && (
               <PersonTypeSelection
                 personTypes={this.props.personTypes}
                 selectedType={this.props.personType}
                 subtypeFieldName="personSubType"
                 typeFieldName="personType"
               />
-            ) : (
-              ""
             )}
-            {!this.props.personType ||
-            this.props.personType?.dialogAction === SHOW_FORM ? (
-              <CivilianFormFields />
-            ) : (
-              ""
-            )}
+            {(!this.props.personType || this.props.personType?.dialogAction === SHOW_FORM) && <CivilianFormFields />}
           </form>
         </DialogContent>
         <DialogActions

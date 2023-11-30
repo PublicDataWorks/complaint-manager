@@ -84,7 +84,7 @@ class SearchCasesForm extends Component {
               )
             }}
           />
-          {this.state.tooltipVisible ? (
+          {this.state.tooltipVisible && (
             <SearchTooltip
               top={this.calculateTooltipTop()}
               left={this.calculateTooltipLeft()}
@@ -94,8 +94,6 @@ class SearchCasesForm extends Component {
               }
               arrowWidth={this.tooltipButtonRef.current.clientWidth}
             />
-          ) : (
-            ""
           )}
         </form>
       </ClickAwayListener>

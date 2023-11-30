@@ -61,9 +61,7 @@ const CivilianFormFields = props => {
           }
         }}
       />
-      {props.isUnknown ? (
-        ""
-      ) : (
+      {!props.isUnknown && (
         <>
           <Typography
             variant="subtitle2"
@@ -169,7 +167,7 @@ const CivilianFormFields = props => {
             }}
           >
             <PhoneNumberField name="phoneNumber" />
-            {props.requireContactInfoForCiviliansFlag ? (
+            {props.requireContactInfoForCiviliansFlag && (
               <Typography
                 variant="button"
                 style={{
@@ -180,12 +178,10 @@ const CivilianFormFields = props => {
               >
                 OR
               </Typography>
-            ) : (
-              ""
             )}
             <EmailField name="email" autoComplete="disabled" />
 
-            {props.requireContactInfoForCiviliansFlag ? (
+            {props.requireContactInfoForCiviliansFlag && (
               <Typography
                 variant="button"
                 style={{
@@ -196,8 +192,6 @@ const CivilianFormFields = props => {
               >
                 OR
               </Typography>
-            ) : (
-              ""
             )}
           </div>
           <div style={{ display: "flex" }}>

@@ -59,7 +59,7 @@ const OfficerActions = ({ caseOfficer, dispatch }) => {
       >
         Remove
       </LinkButton>
-      {deleteDialogOpen ? (
+      {deleteDialogOpen && (
         <ConfirmationDialog
           confirmText="Remove"
           onConfirm={() => {
@@ -86,8 +86,6 @@ const OfficerActions = ({ caseOfficer, dispatch }) => {
           all information associated to this person from the case. Are you sure
           you want to continue?
         </ConfirmationDialog>
-      ) : (
-        ""
       )}
     </div>
   );

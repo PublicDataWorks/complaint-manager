@@ -44,9 +44,7 @@ const SelectedInmateForm = props => {
           <Typography style={styles.section}>
             {props.roleOnCase} Information
           </Typography>
-          {props.roleOnCase === ACCUSED ? (
-            ""
-          ) : (
+          {!props.roleOnCase === ACCUSED && (
             <FormControlLabel
               data-testid="isInmateAnonymous"
               key="isAnonymous"
