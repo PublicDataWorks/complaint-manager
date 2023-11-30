@@ -14,6 +14,7 @@ const GeneralLetterPreview = props => {
       .get(`${letterBaseApiRoute}/preview`)
       .then(response => {
         if (
+          response.data.addresses &&
           response.data.addresses.sender.substring(
             response.data.addresses.sender.length - 4,
             response.data.addresses.sender.length
