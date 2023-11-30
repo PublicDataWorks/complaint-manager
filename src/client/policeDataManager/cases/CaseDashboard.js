@@ -29,11 +29,7 @@ class CaseDashboard extends Component {
           View All Cases
         </NavBar>
         <ComplaintTotals />
-        {this.props?.permissions?.includes(USER_PERMISSIONS.CREATE_CASE) ? (
-          <CreateCaseButton />
-        ) : (
-          ""
-        )}
+        {this.props?.permissions?.includes(USER_PERMISSIONS.CREATE_CASE) && <CreateCaseButton />}
         <CasesTable
           currentPage={this.props.currentPage}
           caseType={CASE_TYPE.WORKING}

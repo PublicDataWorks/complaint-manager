@@ -293,10 +293,8 @@ const LetterTypePage = props => {
                   <small>Deselect All</small>
                 </LinkButton>
               </div>
-              {props.complaintTypesError ? (
+              {props.complaintTypesError && (
                 <p style={{ color: "#d32f2f" }}>{props.complaintTypesError}</p>
-              ) : (
-                ""
               )}
               <FormGroup>
                 <div>
@@ -410,7 +408,7 @@ const LetterTypePage = props => {
                 }}
               />
             </section>
-            {props.editable ? (
+            {props.editable && (
               <section
                 style={{
                   padding: "10px 0px"
@@ -431,8 +429,6 @@ const LetterTypePage = props => {
                   }}
                 />
               </section>
-            ) : (
-              ""
             )}
             <TemplatePreview
               template={props.reassembledTemplate}

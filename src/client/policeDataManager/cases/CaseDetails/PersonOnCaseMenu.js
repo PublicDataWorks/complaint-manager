@@ -39,7 +39,7 @@ const PersonOnCaseMenu = props => {
 
   return (
     <div>
-      {props.permissions?.includes(USER_PERMISSIONS.EDIT_CASE) ? (
+      {props.permissions?.includes(USER_PERMISSIONS.EDIT_CASE) && (
         <LinkButton
           style={{
             marginLeft: "8px",
@@ -53,8 +53,6 @@ const PersonOnCaseMenu = props => {
         >
           + Add {props.civilianType}
         </LinkButton>
-      ) : (
-        ""
       )}
       <Menu
         open={menuOpen}

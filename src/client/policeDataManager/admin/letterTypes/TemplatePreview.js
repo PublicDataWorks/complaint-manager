@@ -27,18 +27,12 @@ const TemplatePreview = ({ template, bodyTemplate, type }) => {
       >
         Preview
       </Button>
-      {preview ? (
+      {preview && (
         <section data-testid="template-preview" style={{ padding: "10px" }}>
           <PDFDocument pdfFile={preview} />
         </section>
-      ) : (
-        ""
       )}
-      {preview === false ? (
-        <CircularProgress size={25} data-testid="spinner" />
-      ) : (
-        ""
-      )}
+      {preview === false  && <CircularProgress size={25} data-testid="spinner" />}
     </section>
   );
 };

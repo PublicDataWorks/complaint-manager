@@ -110,7 +110,7 @@ const AllegationDetailsForm = props => {
           marginBottom: `${marginBottomOffset}px`
         }}
       >
-        {props.onCancel ? (
+        {props.onCancel && (
           <SecondaryButton
             data-testid="allegation-cancel-btn"
             onClick={props.onCancel}
@@ -118,8 +118,6 @@ const AllegationDetailsForm = props => {
           >
             Cancel
           </SecondaryButton>
-        ) : (
-          ""
         )}
         <PrimaryButton
           disabled={props.invalid || props.pristine}

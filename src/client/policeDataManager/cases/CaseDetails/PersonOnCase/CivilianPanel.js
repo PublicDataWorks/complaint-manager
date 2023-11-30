@@ -143,7 +143,7 @@ const CivilianPanel = ({
                 testLabel="complainantAdditionalInfo"
               />
             </StyledInfoDisplay>
-            {civilian.personSubType ? (
+            {civilian.personSubType && (
               <StyledInfoDisplay>
                 <CivilianInfoDisplay
                   displayLabel="Role"
@@ -151,8 +151,6 @@ const CivilianPanel = ({
                   testLabel="complainantRole"
                 />
               </StyledInfoDisplay>
-            ) : (
-              ""
             )}
           </StyledExpansionPanelDetails>
         </Accordion>

@@ -53,7 +53,7 @@ class CaseNotes extends Component {
             </Typography>
             {this.props.permissions?.includes(
               USER_PERMISSIONS.VIEW_CASE_HISTORY
-            ) ? (
+            ) && (
               <LinkButton
                 className="view-case-history-button"
                 component={Link}
@@ -62,8 +62,6 @@ class CaseNotes extends Component {
               >
                 View Case History
               </LinkButton>
-            ) : (
-              ""
             )}
           </div>
           <div
@@ -97,7 +95,7 @@ class CaseNotes extends Component {
           />
           <RemoveCaseNoteDialog />
         </div>
-        {this.props.permissions?.includes(USER_PERMISSIONS.CREATE_CASE_NOTE) ? (
+        {this.props.permissions?.includes(USER_PERMISSIONS.CREATE_CASE_NOTE) && (
           <LinkButton
             onClick={() => {
               this.props.dispatch(
@@ -114,8 +112,6 @@ class CaseNotes extends Component {
           >
             + Add Case Note
           </LinkButton>
-        ) : (
-          ""
         )}
       </div>
     );

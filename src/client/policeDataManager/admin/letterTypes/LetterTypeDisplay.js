@@ -123,7 +123,7 @@ const LetterTypeDisplay = props => {
                 />
               </StyledInfoDisplay>
               <br />
-              {props.letterType.hasEditPage ? (
+              {props.letterType.hasEditPage && (
                 <StyledInfoDisplay>
                   <Typography
                     variant="caption"
@@ -138,8 +138,6 @@ const LetterTypeDisplay = props => {
                     }}
                   />
                 </StyledInfoDisplay>
-              ) : (
-                ""
               )}
             </div>
           </StyledExpansionPanelDetails>

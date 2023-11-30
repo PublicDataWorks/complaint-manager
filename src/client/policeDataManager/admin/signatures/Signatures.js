@@ -97,7 +97,7 @@ const Signatures = props => {
                       message={signer.phone}
                     />
                     <DetailsCardDisplay caption="Signature">
-                      {signatures[signer.id] ? (
+                      {signatures[signer.id] && (
                         <img
                           alt={`The signature of ${signer.name}`}
                           src={`data:${signatures[signer.id].type};base64,${
@@ -105,8 +105,6 @@ const Signatures = props => {
                           }`}
                           style={{ maxHeight: "4.5em", maxWidth: "150px" }}
                         />
-                      ) : (
-                        ""
                       )}
                     </DetailsCardDisplay>
                   </section>

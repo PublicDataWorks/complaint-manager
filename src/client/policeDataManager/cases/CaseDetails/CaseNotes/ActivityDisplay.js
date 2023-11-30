@@ -127,14 +127,12 @@ const ActivityDisplay = ({
                 marginTop: "16px"
               }}
             >
-              {activity.notes ? (
+              {activity.notes && (
                 <TextTruncate
                   testLabel="notesText"
                   message={activity.notes ? activity.notes : "N/A"}
                   getActivityNotes={getActivityNotes}
                 />
-              ) : (
-                ""
               )}
             </div>
           </div>

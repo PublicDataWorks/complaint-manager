@@ -116,7 +116,7 @@ const CaseDrawer = ({
                 <Typography data-testid="assigned-to" variant="body2">
                   {nameOfUser}
                 </Typography>
-                {permissions?.includes(USER_PERMISSIONS.EDIT_CASE) ? (
+                {permissions?.includes(USER_PERMISSIONS.EDIT_CASE) && (
                   <IconButton
                     data-testid={"assignedToButton"}
                     style={{ marginTop: "-14px" }}
@@ -124,8 +124,6 @@ const CaseDrawer = ({
                   >
                     <SettingsIcon />
                   </IconButton>
-                ) : (
-                  ""
                 )}
               </span>
               <ReassignCaseDialog
