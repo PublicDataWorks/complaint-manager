@@ -35,6 +35,7 @@ import editReferralLetterReducer from "./policeDataManager/reducers/ui/editRefer
 import letterDownloadReducer from "./policeDataManager/reducers/ui/letterDownloadReducer";
 import loadPdfPreviewReducer from "./policeDataManager/reducers/ui/loadPdfPreviewReducer";
 import intakeSourceReducer from "./policeDataManager/reducers/ui/intakeSourceReducer";
+import priorityLevelReducer from "./policeDataManager/reducers/ui/priorityLevelReducer";
 import raceEthnicityReducer from "./policeDataManager/reducers/ui/raceEthnicityReducer";
 import editIncidentDetailsDialogReducer from "./policeDataManager/reducers/ui/editIncidentDetailsDialogReducer";
 import restoreArchivedCaseDialogReducer from "./policeDataManager/reducers/ui/restoreArchivedCaseDialogReducer";
@@ -132,6 +133,7 @@ const rootReducer = combineReducers({
     incompleteOfficerHistoryDialog: incompleteOfficerHistoryDialogReducer,
     inmateDetails: inmateDetailsReducer,
     intakeSources: intakeSourceReducer,
+    priorityLevels: priorityLevelReducer,
     letterDownload: letterDownloadReducer,
     officerHistoryOptions: officerHistoryOptionsReducer,
     openIncompleteClassificationsDialog: incompleteClassificationsDialogReducer,

@@ -7,7 +7,7 @@ const getPriorityLevels = asyncMiddleware(async (request, response, next) => {
     raw: true
   });
   const priorityLevelValues = priorityLevels.map(priorityLevel => {
-    return { name: priorityLevel.name, id: priorityLevel.id };
+    return [priorityLevel.name, priorityLevel.id];
   });
   response.status(200).send(priorityLevelValues);
 });
