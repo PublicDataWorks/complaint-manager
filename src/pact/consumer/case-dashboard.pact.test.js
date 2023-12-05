@@ -85,7 +85,7 @@ pactWith(
               headers: {
                 "Content-Type": "application/json; charset=utf-8"
               },
-              body: eachLike({ name: "priority-level-test", id: 1 })
+              body: eachLike(["priority-level-test", 1])
             }
           }),
           provider.addInteraction({

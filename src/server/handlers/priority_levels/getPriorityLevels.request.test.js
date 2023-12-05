@@ -29,31 +29,30 @@ describe("Given the priority_levels table has values When a request is made to /
     await models.sequelize.close();
   });
 
-  test("then it should return a list with all the priority levels", async () => {
+  test("returns list of priority levels to populate dropdown", async () => {
     const token = buildTokenWithPermissions("", "tuser");
 
-    const expected = await Promise.all([
-      models.priority_levels.create({
-        name: "Priority Level Test 1"
-      }),
-      models.priority_levels.create({
-        name: "Priority Level Test 2"
-      }),
-      models.priority_levels.create({
-        name: "Priority Level Test 3"
-      })
-    ]).then(priorityLevels =>
-      priorityLevels.map(priorityLevel => ({
-        name: priorityLevel.name,
-        id: priorityLevel.id
-      }))
-    );
+    const priorityLevelOne = await models.priority_levels.create({
+      name: "Priority Level One"
+    });
+    const priorityLevelTwo = await models.priority_levels.create({
+      name: "Priority Level Two"
+    });
+    const priorityLevelThree = await models.priority_levels.create({
+      name: "Priority Level Three"
+    });
+
+    const expectedPriorityLevelValues = [
+      [priorityLevelOne.name, priorityLevelOne.id],
+      [priorityLevelTwo.name, priorityLevelTwo.id],
+      [priorityLevelThree.name, priorityLevelThree.id]
+    ];
 
     const responsePromise = request(app)
       .get("/api/priority-levels")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`);
 
-    await expectResponse(responsePromise, 200, expected);
+    await expectResponse(responsePromise, 200, expectedPriorityLevelValues);
   });
 });
