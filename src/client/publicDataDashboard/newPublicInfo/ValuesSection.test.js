@@ -1,7 +1,8 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { SCREEN_SIZES } from "../../../sharedUtilities/constants";
-import ValuesSection, { TEXT, VALUES } from "./ValuesSection";
+import { TEXT, VALUES } from "./ValuesSectionData";
+import ValuesSection from  "./ValuesSection";
 import "@testing-library/jest-dom";
 
 describe("ValuesSection", () => {
