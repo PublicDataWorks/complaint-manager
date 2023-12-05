@@ -26,9 +26,7 @@ const PublicInfoHeader = props => {
       }`}
     >
       <div style={{ display: "flex", alignItems: "center", height: "100%" }}>
-        {props.screenSize === SCREEN_SIZES.DESKTOP ? (
-          ""
-        ) : (
+        {props.screenSize !== SCREEN_SIZES.DESKTOP &&  (
           <IconButton
             aria-label="Menu"
             color="inherit"

@@ -95,7 +95,7 @@ const MapVisualization = props => {
               margin: { r: 0, t: 0, b: 0, l: 0 }
             }}
           />{" "}
-          {MAP_CONFIG.FEATURES.length ? (
+          {MAP_CONFIG.FEATURES.length && (
             <section>
               <h3>Map Layers</h3>
               <section style={{ display: "flex", flexDirection: "column" }}>
@@ -119,8 +119,6 @@ const MapVisualization = props => {
                 ))}
               </section>
             </section>
-          ) : (
-            ""
           )}
         </section>
       </>

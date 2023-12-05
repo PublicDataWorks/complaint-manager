@@ -35,7 +35,7 @@ const OfficerAllegationSummary = props => {
           </Typography>
         </div>
       </div>
-      {props.canEdit ? (
+      {props.canEdit && (
         <div style={{ minWidth: "189px", paddingRight: "0px" }}>
           {props.editMode ? null : (
             <div>
@@ -56,8 +56,6 @@ const OfficerAllegationSummary = props => {
             </div>
           )}
         </div>
-      ) : (
-        ""
       )}
     </AccordionSummary>
   );

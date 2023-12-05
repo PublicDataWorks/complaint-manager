@@ -81,14 +81,12 @@ const Visualization = ({ queryModel, isPublic, hasDropdown }) => {
   return (
     <section>
       <section style={{ minHeight: "40px" }}>
-        {hasDropdown ? (
+        {hasDropdown && (
           <VisualizationDateRangeSelect
             dateRange={dateRange}
             setDateRange={setDateRange}
             queryType={queryModel.queryType}
           />
-        ) : (
-          ""
         )}
       </section>
       <PlotlyWrapper

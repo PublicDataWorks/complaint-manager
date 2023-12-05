@@ -96,9 +96,7 @@ const renderNoOfficers = props => {
   return (
     <Fragment>
       <CardContent>
-        {props.allowAccusedOfficersToBeBlankFeature ? (
-          ""
-        ) : (
+        {!props.allowAccusedOfficersToBeBlankFeature &&  (
           <WarningMessage>
             <Typography data-testid="noAccusedOfficersMessage" variant="body2">
               {noAccusedEmployeesMessage}
