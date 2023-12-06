@@ -38,7 +38,10 @@ const publicInfoStyles = theme => ({
   header: {
     width: "100vw",
     backgroundColor: colors.primaryBrand,
-    color: colors.light
+    color: colors.light,
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center"
   },
   [`header-${SCREEN_SIZES.MOBILE}`]: {
     height: "4em"
@@ -48,6 +51,18 @@ const publicInfoStyles = theme => ({
   },
   [`header-${SCREEN_SIZES.DESKTOP}`]: {
     height: "6em"
+  },
+  headerLinks: {
+    display: "flex",
+    alignItems: "center",
+    height: "100%",
+    color: "inherit",
+    textDecoration: "none"
+  },
+  headerContent: {
+    display: "flex",
+    alignItems: "center",
+    height: "100%"
   },
   [`headerLogo-${SCREEN_SIZES.MOBILE}`]: {
     width: "35px"

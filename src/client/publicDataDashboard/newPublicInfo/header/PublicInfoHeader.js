@@ -16,17 +16,14 @@ const PublicInfoHeader = props => {
 
   return (
     <header
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center"
-      }}
       className={`${props.classes.header} ${
         props.classes[`header-${props.screenSize}`]
       }`}
     >
-      <div style={{ display: "flex", alignItems: "center", height: "100%" }}>
-        {props.screenSize !== SCREEN_SIZES.DESKTOP &&  (
+      <div className={props.classes.headerContent}>
+        {props.screenSize === SCREEN_SIZES.DESKTOP ? (
+          ""
+        ) : (
           <IconButton
             aria-label="Menu"
             color="inherit"
@@ -40,13 +37,7 @@ const PublicInfoHeader = props => {
         <a
           href="https://portal.ehawaii.gov/"
           target="_blank"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            height: "100%",
-            color: "inherit",
-            textDecoration: "none"
-          }}
+          className={props.classes.headerLinks}
         >
           <img
             src={`${config.frontendUrl}/images/Pono.svg`}
