@@ -100,11 +100,11 @@ const DataVisSection = ({ classes, screenSize }) => {
         Hawaii Prison Profile Dashboard
       </Typography>
       <hr
-        style={{
-          margin:
-            screenSize === SCREEN_SIZES.MOBILE ? "18px 0 18px -24px" : "18px 0",
-          width: screenSize === SCREEN_SIZES.MOBILE ? "100vw" : "100%"
-        }}
+        className={`${
+          screenSize === SCREEN_SIZES.MOBILE
+            ? classes.mobileHorizontalLine
+            : classes.desktopHorizontalLine
+        }`}
       />
       <Typography variant="h3" className={classes.dataSectionSubtitle}>
         Without knowing where we are, we cannot focus on what needs to be

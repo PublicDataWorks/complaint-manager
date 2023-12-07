@@ -59,6 +59,12 @@ const staffingShortageStyles = theme => ({
     height: "100%",
     objectFit: "contain"
   },
+  hawaiiMapImgContainer: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: "#c8ddde",
+    gridArea: "1 / 2 / 3 / 4"
+  },
   [`hawaiiMapImg-${SCREEN_SIZES.TABLET}`]: {
     gridArea: "1 / 2 / 3 / 4"
   },

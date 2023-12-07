@@ -209,7 +209,12 @@ const publicInfoStyles = theme => ({
     margin: "0",
     padding: "2em 0 5em"
   },
-
+  valuesFigure: { margin: "15px 10px", minWidth: "120px" },
+  valuesFigureCaption: {
+    display: "flex",
+    flexDirection: "column",
+    rowGap: "0.5em"
+  },
   valuesSection: {
     alignItems: "center",
     textAlign: "center",

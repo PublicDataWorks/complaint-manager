@@ -24,7 +24,14 @@ const dataVisStyles = theme => ({
     fontWeight: "100",
     paddingBottom: "16px"
   },
-  /* CATEGORY DROPDOWN & LIST */
+  mobileHorizontalLine: {
+    margin: "18px 0 18px -24px",
+    width: "100vw"
+  },
+  desktopHorizontalLine: {
+    margin: "18px 0",
+    width: "100%"
+  },
   categoryWrapper: {
     height: "100%",
     width: "100%",

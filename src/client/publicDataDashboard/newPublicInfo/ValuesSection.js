@@ -5,9 +5,6 @@ import Typography from "@material-ui/core/Typography";
 import { TEXT, VALUES } from "./ValuesSectionData.js";
 
 const ValuesSection = props => {
-
-console.log('Value ->>>>>>>>', VALUES);
-
   return (
     <section
       id="values"
@@ -17,22 +14,12 @@ console.log('Value ->>>>>>>>', VALUES);
     >
       <Typography className={props.classes.body}>{TEXT}</Typography>
       <section className={props.classes.valueIconsSection}>
-        
         {VALUES.map(value => (
-          <figure
-            key={value.name}
-            style={{ margin: "15px 10px", minWidth: "120px" }}
-          >
+          <figure key={value.name} className={props.classes.valuesFigure}>
             <div className={props.classes.valueIcon}>
               <img alt={value.altText} src={value.icon} />
             </div>
-            <figcaption
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                rowGap: "0.5em"
-              }}
-            >
+            <figcaption className={props.classes.valueFigureCaption}>
               <span>{value.name}</span>
               <span>{value.subtext}</span>
             </figcaption>

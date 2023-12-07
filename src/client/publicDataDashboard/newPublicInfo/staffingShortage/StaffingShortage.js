@@ -43,14 +43,7 @@ const StaffingShortage = ({ screenSize, classes }) => {
           Nearly 65% of people in custody are in secure cell settings.
         </Typography>
         {screenSize === SCREEN_SIZES.DESKTOP ? (
-          <div
-            style={{
-              width: "100%",
-              height: "100%",
-              backgroundColor: "#c8ddde",
-              gridArea: "1 / 2 / 3 / 4"
-            }}
-          >
+          <div className={classes.hawaiiMapImgContainer}>
             <img
               className={`${classes[`hawaiiMapImg-${screenSize}`]} ${
                 classes[`image-${screenSize}`]
