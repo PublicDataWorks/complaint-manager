@@ -38,11 +38,7 @@ const PublicInfoFooter = ({ classes, screenSize }) => {
         <a
           href="https://www.thoughtworks.com/about-us/social-change"
           target="_blank"
-          style={{
-            textDecoration: "none",
-            color: "black",
-            textAlign: "center"
-          }}
+          className={classes.footerLogoLink}
         >
           <Typography
             variant="h2"
@@ -122,7 +118,7 @@ const PublicInfoFooter = ({ classes, screenSize }) => {
             <img
               src={TWLogoLight}
               alt="Thoughtworks logo in white"
-              style={{ paddingLeft: "5px", marginBottom: "-3px" }}
+              className={classes.partnershipLogoImage}
             />
           </a>
         </div>

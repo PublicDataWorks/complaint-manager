@@ -46,8 +46,7 @@ const MythsAndFacts = ({ screenSize, classes }) => {
                 id={`${group.category.replace(" ", "-")}-header`}
               >
                 <Typography
-                  sx={{ width: "33%", flexShrink: 0 }}
-                  className={classes.statementHeader}
+                  className={classes.mythsStatementHeader}
                   data-testid={group.category}
                 >
                   {group.category}
@@ -56,47 +55,16 @@ const MythsAndFacts = ({ screenSize, classes }) => {
               <AccordionDetails style={{ flexDirection: "column" }}>
                 {group.statements.map(statement => (
                   <div key={statement.id} style={{ padding: ".5em 0" }}>
-                    <div
-                      style={{
-                        display: "flex",
-                        width: "100%",
-                        padding: "10px",
-                        fontSize: "1em"
-                      }}
-                    >
-                      <Typography
-                        style={{
-                          fontFamily: "inherit",
-                          paddingRight: "5px",
-                          color: colors.secondaryBrand,
-                          fontWeight: "550",
-                          minWidth: "70px"
-                        }}
-                      >
+                    <div className={classes.mythsContentContainer}>
+                      <Typography className={classes.mythsHeader}>
                         {statement.id}. Myth:
                       </Typography>
-                      <Typography
-                        style={{
-                          fontFamily: "inherit"
-                        }}
-                      >
+                      <Typography style={{ fontFamily: "inherit" }}>
                         {statement.myth}
                       </Typography>
                     </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        backgroundColor: `${colors.accent}`,
-                        padding: "10px"
-                      }}
-                    >
-                      <Typography
-                        style={{
-                          fontFamily: "inherit",
-                          fontSize: ".75em",
-                          paddingRight: "9px"
-                        }}
-                      >
+                    <div className={classes.factsContentContainer}>
+                      <Typography className={classes.factsHeader}>
                         <strong>Fact: </strong>
                       </Typography>
                       <Typography className={classes.statementFont}>

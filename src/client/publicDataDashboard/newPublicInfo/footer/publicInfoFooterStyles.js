@@ -88,6 +88,11 @@ const publicInfoFooterStyles = theme => ({
     width: "fit-content",
     margin: "0"
   },
+  footerLogoLink: {
+    textDecoration: "none",
+    color: "black",
+    textAlign: "center"
+  },
   link: {
     padding: "0 8px",
     color: "#FFF",
@@ -117,6 +122,10 @@ const publicInfoFooterStyles = theme => ({
     fontFamily: "inherit",
     lineHeight: "30px",
     textAlign: "center"
+  },
+  partnershipLogoImage: {
+    paddingLeft: "5px",
+    marginBottom: "-3px"
   },
   [`policyLink-${SCREEN_SIZES.TABLET}`]: {
     paddingRight: "12px",

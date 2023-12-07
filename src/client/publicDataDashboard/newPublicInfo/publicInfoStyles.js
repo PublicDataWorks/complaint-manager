@@ -256,6 +256,43 @@ const publicInfoStyles = theme => ({
   [`mythsAndFactsContainer-${SCREEN_SIZES.DESKTOP}`]: {
     margin: "4.5em 7em"
   },
+  mythsContentContainer: {
+    display: "flex",
+    width: "100%",
+    padding: "10px",
+    fontSize: "1em",
+    fontFamily: "inherit"
+  },
+  mythsHeader: {
+    fontFamily: "inherit",
+    paddingRight: "5px",
+    color: colors.secondaryBrand,
+    fontWeight: "550",
+    minWidth: "70px"
+  },
+  mythsStatementHeader: {
+    fontFamily: "inherit",
+    fontWeight: "500",
+    fontSize: "1.2em",
+    letterSpacing: ".15px",
+    color: colors.secondaryBrand,
+    width: "33%",
+    flexShrink: 0
+  },
+  factsContentContainer: {
+    display: "flex",
+    backgroundColor: `${colors.accent}`,
+    padding: "10px"
+  },
+  factsHeader: {
+    fontFamily: "inherit",
+    fontSize: ".75em",
+    paddingRight: "9px"
+  },
+  factsStatementFont: {
+    fontFamily: "inherit",
+    fontSize: "0.9em"
+  },
   sectionHeader: {
     fontFamily: "inherit",
     fontSize: "1.5em",
@@ -273,17 +310,6 @@ const publicInfoStyles = theme => ({
   [`sectionHeader-${SCREEN_SIZES.DESKTOP}`]: {
     padding: "1.5em 0.65em",
     textAlign: "left"
-  },
-  statementHeader: {
-    fontFamily: "inherit",
-    fontWeight: "500",
-    fontSize: "1.2em",
-    letterSpacing: ".15px",
-    color: colors.secondaryBrand
-  },
-  statementFont: {
-    fontFamily: "inherit",
-    fontSize: "0.9em"
   }
 });
 
