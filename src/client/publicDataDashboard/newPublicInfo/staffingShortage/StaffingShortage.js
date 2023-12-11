@@ -10,6 +10,12 @@ const config =
   require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`)[
     process.env.REACT_APP_ENV
   ];
+const baseUrl = `${config.frontendUrl}/images`;
+const imageName = 'MenPrison_StockImg';
+const extensions = ['small.jpeg', 'medium.jpeg', 'large.jpeg'];
+const widths = ['500w', '1000w', '2000w'];
+
+const srcSet = extensions.map((ext, i) => `${baseUrl}/${imageName}_${ext} ${widths[i]}`).join(', ');
 
 const StaffingShortage = ({ screenSize, classes }) => {
   return (
@@ -90,6 +96,11 @@ const StaffingShortage = ({ screenSize, classes }) => {
             classes[`image-${screenSize}`]
           }`}
           src={`${config.frontendUrl}/images/MenPrison_StockImg.jpeg`}
+          srcSet={srcSet}
+          sizes="(max-width: 500px) 500px,
+          (max-width: 1000px) 1000px,
+          2000px"
+          loading="lazy"
           alt="Two men in orange jumpsuits and white sneakers sitting on a bench behind bars facing each other"
         />
       </div>
