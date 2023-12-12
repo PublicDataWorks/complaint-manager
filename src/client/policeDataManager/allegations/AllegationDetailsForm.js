@@ -59,6 +59,22 @@ const AllegationDetailsForm = props => {
           }}
           component={CreatableDropdown}
           name="directive"
+          data-testid="directive-field-updated"
+          inputProps={{ "data-testid": "directive-input" }}
+          label="Directive Updated"
+        >
+          {props.directives.map(directive => ({
+            label: directive.name,
+            value: directive.id
+          }))}
+        </Field>
+        <Field
+          style={{
+            width: "60%",
+            marginBottom: `${marginBottomOffset}px`
+          }}
+          component={CreatableDropdown}
+          name="directive"
           data-testid="directive-field"
           inputProps={{ "data-testid": "directive-input" }}
           label="Directive"

@@ -18,7 +18,8 @@ const createOfficerAllegation = asyncMiddleware(async (request, response) => {
         allegationId: request.body.allegationId,
         details: request.body.details,
         severity: request.body.severity,
-        directiveId: await getDirectiveId(request)
+        directiveId: await getDirectiveId(request) // this is where directiveId is prepped to be added to database
+        directiveName: await getDirectiveName(request) // note from meeting with shak: add directive name here
       };
 
       const caseOfficer = await models.case_officer.findByPk(
@@ -27,7 +28,7 @@ const createOfficerAllegation = asyncMiddleware(async (request, response) => {
       );
 
       await caseOfficer.createAllegation(
-        allegationAttributes,
+        allegationAttributes, // directive name will be added to allegation attributes here
         {
           auditUser: request.nickname
         },

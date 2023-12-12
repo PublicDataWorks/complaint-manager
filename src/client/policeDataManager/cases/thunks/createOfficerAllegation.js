@@ -26,6 +26,7 @@ const createOfficerAllegation =
     }
 
     if (_.isString(directive)) {
+      // if directive is a string, it's a custom directive
       requestBody.directiveName = directive;
     } else {
       requestBody.directiveId = directive;

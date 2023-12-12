@@ -33,6 +33,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ENUM(ALLEGATION_SEVERITY.ALL),
         allowNull: false
       },
+      customDirective: {
+        type: DataTypes.TEXT,
+        field: "custom_directives",
+        allowNull: true
+      },
       createdAt: {
         type: DataTypes.DATE,
         field: "created_at"
@@ -82,7 +87,7 @@ module.exports = (sequelize, DataTypes) => {
     const fullName = caseOfficer.fullName;
     const rule = allegation.rule;
     const paragraph = allegation.paragraph;
-    const directive = allegation.directive;
+    const directive = allegation.directive; // this is the directiveId
 
     return [
       {
@@ -116,7 +121,8 @@ module.exports = (sequelize, DataTypes) => {
     OfficerAllegation.belongsTo(models.directive, {
       foreignKey: {
         name: "directiveId",
-        field: "directive"
+        field: "directive",
+        allowNull: true
       }
     });
   };
