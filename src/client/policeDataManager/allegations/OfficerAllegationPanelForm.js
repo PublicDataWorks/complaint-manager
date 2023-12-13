@@ -59,7 +59,8 @@ class OfficerAllegationPanelForm extends React.Component {
         details,
         severity,
         ruleChapter,
-        directive
+        directive,
+        customDirective
       },
       editAllegationFormState,
       index,
@@ -135,6 +136,7 @@ class OfficerAllegationPanelForm extends React.Component {
             severity={severity}
             ruleChapter={ruleChapter}
             directive={directive}
+            customDirective={customDirective}
           />
         )}
         <div style={{ flex: "1" }} />
