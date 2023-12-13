@@ -19,14 +19,14 @@ export const getRuleChapterId = async request => {
 };
 
 export const getDirectiveId = async request => {
-  // if directive does not have and id yet, it gets one here
-  let directive;
   if (!request.body.directiveId) {
-    directive = await models.directive.findByPk(request.body.directiveId);
-    if (!directive) {
-      throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_DIRECTIVE);
-    }
+    return null;
+  }
+  const directive = await models.directive.findByPk(request.body.directiveId);
+
+  if (!directive) {
+    throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_DIRECTIVE);
   }
 
-  return directive?.id;
+  return directive.id;
 };

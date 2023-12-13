@@ -18,8 +18,8 @@ const createOfficerAllegation = asyncMiddleware(async (request, response) => {
         allegationId: request.body.allegationId,
         details: request.body.details,
         severity: request.body.severity,
-        directiveId: await getDirectiveId(request) // this is where directiveId is prepped to be added to database
-        directiveName: await getDirectiveName(request) // note from meeting with shak: add directive name here
+        directiveId: await getDirectiveId(request), // this is where directiveId is prepped to be added to database
+        customDirective: request.body.directiveName
       };
 
       const caseOfficer = await models.case_officer.findByPk(
