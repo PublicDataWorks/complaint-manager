@@ -112,6 +112,11 @@ class OfficerAllegationPanelForm extends React.Component {
                         label: directive.name,
                         value: directive.id
                       }
+                    : customDirective
+                    ? {
+                        label: customDirective,
+                        value: customDirective
+                      }
                     : undefined
                 }}
                 marginBottomOffset={32}
