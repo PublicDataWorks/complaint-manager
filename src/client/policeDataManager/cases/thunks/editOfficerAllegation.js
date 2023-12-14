@@ -27,6 +27,7 @@ const editOfficerAllegation = (allegation, caseId) => async dispatch => {
     requestBody.directiveName = directive;
   } else {
     requestBody.directiveId = directive;
+    requestBody.directiveName = null;
   }
 
   const updatedFormValues = {
