@@ -87,7 +87,7 @@ module.exports = (sequelize, DataTypes) => {
     const fullName = caseOfficer.fullName;
     const rule = allegation.rule;
     const paragraph = allegation.paragraph;
-    const directive = allegation.directive; // this is the directiveId
+    const directive = allegation.directive;
 
     return [
       {
