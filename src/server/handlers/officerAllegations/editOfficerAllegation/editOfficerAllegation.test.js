@@ -132,11 +132,10 @@ describe("editOfficerAllegation", () => {
     );
   });
 
-  test("should create new rule chapter and directive if name is passed", async () => {
+  test("should create new rule chapter if name is passed", async () => {
     const data = {
       details: "new details",
       ruleChapterName: "New Chapter",
-      directiveName: "New Directive",
       severity: ALLEGATION_SEVERITY.HIGH
     };
 
@@ -157,12 +156,11 @@ describe("editOfficerAllegation", () => {
 
     const updatedOfficerAllegation = await models.officer_allegation.findByPk(
       officerAllegationToUpdate.id,
-      { include: ["ruleChapter", "directive"] }
+      { include: ["ruleChapter"] }
     );
 
     expect(updatedOfficerAllegation.details).toEqual("new details");
     expect(updatedOfficerAllegation.ruleChapter.name).toEqual("New Chapter");
-    expect(updatedOfficerAllegation.directive.name).toEqual("New Directive");
     expect(updatedOfficerAllegation.severity).toEqual(ALLEGATION_SEVERITY.HIGH);
   });
 
