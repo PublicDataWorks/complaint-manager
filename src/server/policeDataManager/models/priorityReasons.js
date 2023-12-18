@@ -29,5 +29,5 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  return PriorityLevels;
-};
+  return PriorityLevels; 
+}; // i sthis a naming typo ?

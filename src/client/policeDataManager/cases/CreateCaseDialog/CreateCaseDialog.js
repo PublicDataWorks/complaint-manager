@@ -24,6 +24,7 @@ import { intakeSourceIsRequired } from "../../../formFieldLevelValidations";
 import CreateCaseActions from "./CreateCaseActions";
 import getIntakeSourceDropdownValues from "../../intakeSources/thunks/getIntakeSourceDropdownValues";
 import getPriorityLevelDropdownValues from "../../intakeSources/thunks/priorityLevelsThunks/getPriorityLevelDropdownValues";
+import getPriorityReasonsDropdownValues from "../../intakeSources/thunks/priorityReasonsThunks/getPriorityReasonsDropdownValues";
 import { formatAddressAsString } from "../../utilities/formatAddress";
 import { scrollToFirstErrorWithValue } from "../../../common/helpers/scrollToFirstError";
 import AnonymousFields from "./AnonymousFields";
@@ -81,6 +82,7 @@ class CreateCaseDialog extends React.Component {
   componentDidMount() {
     this.props.dispatch(getIntakeSourceDropdownValues());
     this.props.dispatch(getPriorityLevelDropdownValues());
+    this.props.dispatch(getPriorityReasonsDropdownValues());
   }
 
   componentDidUpdate() {
@@ -179,7 +181,7 @@ class CreateCaseDialog extends React.Component {
                   }}
                 >
                   {generateMenuOptions(
-                    this.state.priorityReasons.map(reason => reason.name)
+                    this.props.priorityReasons.map(reason => reason.name).sort()
                   )}
                 </Field>
                 <br />
@@ -305,6 +307,24 @@ const PriorityLevel = props => {
   );
 };
 
+const PriorityReasons = props => {
+  return (
+    <Field
+      component={Dropdown}
+      label="Priority Reason"
+      placeholder="Select a Priority Reason"
+      name="priorityReason"
+      tyle={{ width: "90%", marginBottom: "15px" }}
+      inputProps={{
+        "data-testid": "priorityReasonDropdown",
+          "aria-label": "Priority Reason Dropdown"
+          }}
+          >
+          {generateMenuOptions(props.priorityReasons)}
+      </Field>
+  );
+};
+
 const mapStateToProps = state => {
   const selector = formValueSelector(CREATE_CASE_FORM_NAME);
   const addressValues = selector(
@@ -332,6 +352,7 @@ const mapStateToProps = state => {
     formattedAddress: formatAddressAsString(addressValues.address),
     intakeSources: state.ui.intakeSources,
     priorityLevels: state.ui.priorityLevels,
+    priorityReasons: state.ui.priorityReasons,
     isUnknown,
     open: state.ui.createDialog.case.open,
     organization: state.configs[CONFIGS.ORGANIZATION],
