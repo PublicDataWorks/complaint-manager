@@ -18,7 +18,7 @@ const createOfficerAllegation = asyncMiddleware(async (request, response) => {
         allegationId: request.body.allegationId,
         details: request.body.details,
         severity: request.body.severity,
-        directiveId: await getDirectiveId(request), // this is where directiveId is prepped to be added to database
+        directiveId: await getDirectiveId(request),
         customDirective: request.body.directiveName
       };
 
@@ -28,7 +28,7 @@ const createOfficerAllegation = asyncMiddleware(async (request, response) => {
       );
 
       await caseOfficer.createAllegation(
-        allegationAttributes, // directive name will be added to allegation attributes here
+        allegationAttributes,
         {
           auditUser: request.nickname
         },
