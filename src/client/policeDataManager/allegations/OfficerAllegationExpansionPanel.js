@@ -6,8 +6,10 @@ const OfficerAllegationExpansionPanel = ({
   details,
   severity,
   ruleChapter,
-  directive
+  directive,
+  customDirective
 }) => {
+  console.log("Directive: ", directive);
   return (
     <div>
       <AccordionDetails>
@@ -25,7 +27,7 @@ const OfficerAllegationExpansionPanel = ({
         <OfficerInfoDisplay
           shouldTruncate={false}
           displayLabel="Directive"
-          value={directive?.name}
+          value={directive?.name ? directive.name : customDirective}
           style={{
             marginRight: "32px",
             marginLeft: "64px"

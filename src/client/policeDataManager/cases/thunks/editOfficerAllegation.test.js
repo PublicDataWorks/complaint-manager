@@ -10,11 +10,14 @@ jest.mock("../../../common/auth/getAccessToken", () =>
 
 describe("editOfficerAllegation thunk", () => {
   test("should dispatch success when officer allegation edit is successful", async () => {
-    const allegationChanges = { id: 1, details: "new details" };
+    const allegationChanges = {
+      id: 1,
+      details: "new details"
+    };
     const mockDispatch = jest.fn();
     configureInterceptors({ dispatch: mockDispatch });
 
-    const updatedCase = { id: 1, details: "new details" };
+    const updatedCase = { id: 1, details: "new details", directiveName: null };
 
     const caseId = 23;
     nock("http://localhost", {
