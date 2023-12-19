@@ -281,9 +281,8 @@ pactWith(
                     id: 1,
                     name: "Ch. 1.2 Disclosure Obligations"
                   },
-                  directive: {
-                    name: "New Directive"
-                  }
+                  directive: null,
+                  customDirective: "New Directive"
                 })
               })
             })

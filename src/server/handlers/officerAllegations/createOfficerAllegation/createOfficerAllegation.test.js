@@ -187,7 +187,7 @@ describe("createOfficerAllegation", () => {
 
     const officerAllegation = await models.officer_allegation.findOne({
       where: { caseOfficerId: caseOfficer.id, allegationId: allegation.id },
-      include: ["ruleChapter", "directive"]
+      include: ["ruleChapter"]
     });
 
     expect(officerAllegation).toEqual(
@@ -195,7 +195,7 @@ describe("createOfficerAllegation", () => {
         details: allegationDetails,
         severity: ALLEGATION_SEVERITY.LOW,
         ruleChapter: expect.objectContaining({ name: "illegal things" }),
-        directive: expect.objectContaining({ name: "NEW DIRECTIVE" })
+        customDirective: "NEW DIRECTIVE"
       })
     );
   });
