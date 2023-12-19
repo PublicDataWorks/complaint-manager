@@ -48,3 +48,4 @@ node-yarnaudit-fast-xml-parser-1092278
 node-yarnaudit-@babel/traverse-*
 node-yarnaudit-chromedriver-*
 node-yarnaudit-axios-*
+node-yarnaudit-octokit-1095252
