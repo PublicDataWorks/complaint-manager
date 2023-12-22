@@ -114,7 +114,9 @@ export const getAllegationData = officer => {
     const paragraph = allegation.allegation
       ? allegation.allegation.paragraph
       : null;
-    const directive = allegation.directive?.name;
+    const directive = allegation.directive
+      ? allegation.directive.name
+      : allegation.customDirective;
     const chapter = allegation.ruleChapter?.name;
 
     return {

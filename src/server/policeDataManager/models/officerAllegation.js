@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       customDirective: {
         type: DataTypes.TEXT,
-        field: "custom_directives",
+        field: "custom_directive",
         allowNull: true
       },
       createdAt: {

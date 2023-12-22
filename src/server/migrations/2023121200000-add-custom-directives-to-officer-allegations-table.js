@@ -1,16 +1,16 @@
 "use strict";
 
-const ADD_CUSTOM_DIRECTIVES_COLUMN = `ALTER TABLE officers_allegations
-  ADD COLUMN custom_directives TEXT`;
+const ADD_CUSTOM_DIRECTIVE_COLUMN = `ALTER TABLE officers_allegations
+  ADD COLUMN custom_directive TEXT`;
 
-const DROP_CUSTOM_DIRECTIVES_COLUMN = `ALTER TABLE officers_allegations
+const DROP_CUSTOM_DIRECTIVE_COLUMN = `ALTER TABLE officers_allegations
 DROP COLUMN custom_directive`;
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     try {
       await queryInterface.sequelize.transaction(async transaction => {
-        await queryInterface.sequelize.query(ADD_CUSTOM_DIRECTIVES_COLUMN, {
+        await queryInterface.sequelize.query(ADD_CUSTOM_DIRECTIVE_COLUMN, {
           transaction
         });
       });
@@ -24,7 +24,7 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     try {
       await queryInterface.sequelize.transaction(async transaction => {
-        await queryInterface.sequelize.query(DROP_CUSTOM_DIRECTIVES_COLUMN, {
+        await queryInterface.sequelize.query(DROP_CUSTOM_DIRECTIVE_COLUMN, {
           transaction
         });
       });
