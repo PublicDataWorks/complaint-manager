@@ -137,7 +137,6 @@ export const generateLetterPdfHtml = async (
   let feature = await models.feature_toggles.findOne(queryOptions);
 
   if (feature?.dataValues.enabled) {
-    console.log("feature enabled");
     if (letterType?.letterTypeLetterImage.length === 0) {
       imageTypes["header"] = await retrieveLetterImage(
         "hawaii_header_text.png",
