@@ -164,26 +164,9 @@ class CreateCaseDialog extends React.Component {
 
             {this.state.dropdownValue === "Priority Incident" && (
               <div>
-                <PriorityLevel
-                  handleDropdownChange={this.handleDropdownChange}
-                  priorityLevels={this.props.priorityLevels}
-                />
+                <PriorityLevel priorityLevels={this.props.priorityLevels} />
                 <br />
-                <Field
-                  component={Dropdown}
-                  label="Priority Reason"
-                  placeholder="Select a Priority Reason"
-                  name="priorityReason"
-                  style={{ width: "90%", marginBottom: "15px" }}
-                  inputProps={{
-                    "data-testid": "priorityReasonDropdown",
-                    "aria-label": "Priority Reason Dropdown"
-                  }}
-                >
-                  {generateMenuOptions(
-                    this.props.priorityReasons.map(reason => reason.name).sort()
-                  )}
-                </Field>
+                <PriorityReason priorityReasons={this.props.priorityReasons} />
                 <br />
               </div>
             )}
@@ -295,7 +278,7 @@ const PriorityLevel = props => {
       label="Priority Level"
       data-testid="priorityLevelDropdown"
       placeholder="Select a Priority Level"
-      name="priorityLevel"
+      name="case.priorityLevels"
       style={{ width: "90%", marginBottom: "15px" }}
       inputProps={{
         "data-testid": "priorityLevelInput",
@@ -307,21 +290,21 @@ const PriorityLevel = props => {
   );
 };
 
-const PriorityReasons = props => {
+const PriorityReason = props => {
   return (
     <Field
       component={Dropdown}
       label="Priority Reason"
       placeholder="Select a Priority Reason"
-      name="priorityReason"
-      tyle={{ width: "90%", marginBottom: "15px" }}
+      name="case.priorityReasons"
+      style={{ width: "90%", marginBottom: "15px" }}
       inputProps={{
         "data-testid": "priorityReasonDropdown",
-          "aria-label": "Priority Reason Dropdown"
-          }}
-          >
-          {generateMenuOptions(props.priorityReasons)}
-      </Field>
+        "aria-label": "Priority Reason Dropdown"
+      }}
+    >
+      {generateMenuOptions(props.priorityReasons)}
+    </Field>
   );
 };
 
