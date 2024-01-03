@@ -36,7 +36,9 @@ class IncidentDetails extends React.Component {
       districtId: this.props.districtId,
       intakeSourceId: this.props.intakeSourceId,
       howDidYouHearAboutUsSourceId: this.props.howDidYouHearAboutUsSourceId,
-      pibCaseNumber: this.props.pibCaseNumber
+      pibCaseNumber: this.props.pibCaseNumber,
+      priorityReason: this.props.priorityReason,
+      priorityLevel: this.props.priorityLevel
     };
 
     this.props.dispatch(initialize("IncidentDetails", formValues));
@@ -61,6 +63,8 @@ class IncidentDetails extends React.Component {
       howDidYouHearAboutUsSource,
       classes,
       pibCaseNumber,
+      priorityReason,
+      priorityLevel,
       configs
     } = this.props;
     const intakeSourceName = intakeSource ? intakeSource.name : "";
@@ -141,9 +145,9 @@ class IncidentDetails extends React.Component {
                 </StyledInfoDisplay>
                 <StyledInfoDisplay>
                   <CivilianInfoDisplay
-                    displayLabel="Intake Source"
-                    value={intakeSourceName}
-                    testLabel="intakeSource"
+                    displayLabel="Priority Reason"
+                    value={priorityReason}
+                    testLabel="incidentPriorityReason"
                   />
                 </StyledInfoDisplay>
               </div>
@@ -160,6 +164,25 @@ class IncidentDetails extends React.Component {
                     displayLabel={pbCaseNumberText}
                     value={pibCaseNumber}
                     testLabel="pibCaseNumber"
+                  />
+                </StyledInfoDisplay>
+                <div
+                  style={{ flex: 1, textAlign: "left", marginRight: "10px" }}
+                />
+              </div>
+              <div className={classes.detailsRow}>
+                <StyledInfoDisplay>
+                  <CivilianInfoDisplay
+                    displayLabel="Intake Source"
+                    value={intakeSourceName}
+                    testLabel="intakeSource"
+                  />
+                </StyledInfoDisplay>
+                <StyledInfoDisplay>
+                  <CivilianInfoDisplay
+                    displayLabel="Priority Level"
+                    value={priorityLevel}
+                    testLabel="incidentPriorityLevel"
                   />
                 </StyledInfoDisplay>
                 <div
@@ -211,7 +234,9 @@ const mapStateToProps = state => ({
   isArchived: state.currentCase.details.isArchived,
   open: state.ui.editIncidentDetailsDialog.open,
   permissions: state?.users?.current?.userInfo?.permissions,
-  pibCaseNumber: state.currentCase.details.pibCaseNumber
+  pibCaseNumber: state.currentCase.details.pibCaseNumber,
+  priorityReason: state.currentCase.details.priorityReason,
+  priorityLevel: state.currentCase.details.priorityLevel
 });
 
 export default connect(mapStateToProps)(IncidentDetails);
