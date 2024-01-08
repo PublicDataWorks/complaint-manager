@@ -228,6 +228,7 @@ const getCaseDetailsAndAuditDetails = async (
   try {
     caseDetails = await models.cases.findByPk(caseId, queryOptions);
   } catch (e) {
+    console.error(`Error getting case details for case ${caseId}: ${e}`);
     throw e;
   }
 
