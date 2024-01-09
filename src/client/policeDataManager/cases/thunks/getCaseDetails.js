@@ -6,7 +6,9 @@ const getCaseDetails = caseId => async dispatch => {
     const caseDetailsResponse = await axios.get(`api/cases/${caseId}`);
     return dispatch(getCaseDetailsSuccess(caseDetailsResponse.data));
   } catch (error) {
-    console.error(` There was an error retrieving caseid: ${caseId}. Error from server: ${error});
+    console.error(
+      ` There was an error retrieving caseid: ${caseId}. Error from server: ${error}`
+    );
   }
 };
 
