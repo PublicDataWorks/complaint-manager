@@ -33,8 +33,15 @@ class OfficerAllegationDisplay extends Component {
   }
 
   render() {
-    const { rule, paragraph, details, severity, directive, ruleChapter } =
-      this.props;
+    const {
+      rule,
+      paragraph,
+      details,
+      severity,
+      directive,
+      customDirective,
+      ruleChapter
+    } = this.props;
 
     return (
       <CardContent
@@ -63,6 +70,7 @@ class OfficerAllegationDisplay extends Component {
             severity={severity}
             ruleChapter={ruleChapter}
             directive={directive}
+            customDirective={customDirective}
           />
         </Accordion>
       </CardContent>

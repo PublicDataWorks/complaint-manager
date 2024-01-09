@@ -10,6 +10,7 @@ const OfficerAllegationsDisplay = props => {
       rule: officerAllegation.allegation.rule || "N/A",
       paragraph: officerAllegation.allegation.paragraph || "N/A",
       directive: officerAllegation.directive,
+      customDirective: officerAllegation.customDirective,
       details: officerAllegation.details,
       severity: officerAllegation.severity,
       ruleChapter: officerAllegation.ruleChapter
