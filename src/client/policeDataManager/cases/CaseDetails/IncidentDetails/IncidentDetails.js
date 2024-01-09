@@ -37,7 +37,7 @@ class IncidentDetails extends React.Component {
       intakeSourceId: this.props.intakeSourceId,
       howDidYouHearAboutUsSourceId: this.props.howDidYouHearAboutUsSourceId,
       pibCaseNumber: this.props.pibCaseNumber,
-      priorityReason: this.props.priorityReason,
+      priorityReasons: this.props.priorityReasons,
       priorityLevel: this.props.priorityLevel
     };
 
@@ -63,7 +63,7 @@ class IncidentDetails extends React.Component {
       howDidYouHearAboutUsSource,
       classes,
       pibCaseNumber,
-      priorityReason,
+      priorityReasons,
       priorityLevel,
       configs
     } = this.props;
@@ -146,8 +146,8 @@ class IncidentDetails extends React.Component {
                 <StyledInfoDisplay>
                   <CivilianInfoDisplay
                     displayLabel="Priority Reason"
-                    value={priorityReason}
-                    testLabel="incidentPriorityReason"
+                    value={priorityReasons.name}
+                    testLabel="incidentPriorityReasons"
                   />
                 </StyledInfoDisplay>
               </div>
@@ -235,7 +235,7 @@ const mapStateToProps = state => ({
   open: state.ui.editIncidentDetailsDialog.open,
   permissions: state?.users?.current?.userInfo?.permissions,
   pibCaseNumber: state.currentCase.details.pibCaseNumber,
-  priorityReason: state.currentCase.details.priorityReason,
+  priorityReasons: state.currentCase.details.priorityReasons,
   priorityLevel: state.currentCase.details.priorityLevel
 });
 

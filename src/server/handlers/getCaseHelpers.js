@@ -62,6 +62,10 @@ const getCaseDetailsAndAuditDetails = async (
         as: "intakeSource"
       },
       {
+        model: models.priority_reasons,
+        as: "priorityReasons"
+      },
+      {
         model: models.how_did_you_hear_about_us_source,
         as: "howDidYouHearAboutUsSource"
       },
