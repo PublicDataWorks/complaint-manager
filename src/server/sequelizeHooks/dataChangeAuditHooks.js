@@ -22,6 +22,18 @@ const MODEL_ASSOCIATIONS_TO_LOOKUP = [
     as: "intakeSource"
   },
   {
+    foreignKey: "priorityLevels",
+    modelName: "priority_levels",
+    identifyingAttribute: "name",
+    as: "priorityLevel"
+  },
+  {
+    foreignKey: "priorityReasons",
+    modelName: "priority_reasons",
+    identifyingAttribute: "name",
+    as: "priorityReason"
+  },
+  {
     foreignKey: "raceEthnicityId",
     modelName: "race_ethnicity",
     identifyingAttribute: "name",

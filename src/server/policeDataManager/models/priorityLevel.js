@@ -1,7 +1,7 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-  const PriorityLevels = sequelize.define(
-    "priority_reasons",
+  const PriorityLevel = sequelize.define(
+    "priority_levels",
     {
       id: {
         allowNull: false,
@@ -25,9 +25,9 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     {
-      tableName: "priority_reasons"
+      tableName: "priority_levels"
     }
   );
 
-  return PriorityLevels;
+  return PriorityLevel;
 };

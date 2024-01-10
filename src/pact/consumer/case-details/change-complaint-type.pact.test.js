@@ -42,11 +42,25 @@ pactWith(
               year: 2022,
               caseNumber: 1,
               firstContactDate: "2022-08-22",
+              priorityReason: 3,
+              priorityLevel: 2,
               intakeSourceId: 3,
               createdBy: "noipm.infrastructure@gmail.com",
               assignedTo: "noipm.infrastructure@gmail.com",
               createdAt: "2022-08-22T15:55:45.879Z",
               updatedAt: "2022-08-22T15:56:27.641Z",
+              priorityReasons: {
+                id: 3,
+                name: "Saving Elmo",
+                createdAt: "2022-08-19T16:45:01.760Z",
+                updatedAt: "2022-08-19T16:45:01.760Z"
+              },
+              priorityLevels: {
+                id: 2,
+                name: "Level 2",
+                createdAt: "2022-08-19T16:45:01.760Z",
+                updatedAt: "2022-08-19T16:45:01.760Z"
+              },
               intakeSource: {
                 id: 3,
                 name: "In Person",

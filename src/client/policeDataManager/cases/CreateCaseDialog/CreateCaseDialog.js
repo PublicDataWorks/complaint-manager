@@ -24,6 +24,7 @@ import { intakeSourceIsRequired } from "../../../formFieldLevelValidations";
 import CreateCaseActions from "./CreateCaseActions";
 import getIntakeSourceDropdownValues from "../../intakeSources/thunks/getIntakeSourceDropdownValues";
 import getPriorityLevelDropdownValues from "../../intakeSources/thunks/priorityLevelsThunks/getPriorityLevelDropdownValues";
+import getPriorityReasonsDropdownValues from "../../intakeSources/thunks/priorityReasonsThunks/getPriorityReasonsDropdownValues";
 import { formatAddressAsString } from "../../utilities/formatAddress";
 import { scrollToFirstErrorWithValue } from "../../../common/helpers/scrollToFirstError";
 import AnonymousFields from "./AnonymousFields";
@@ -81,6 +82,7 @@ class CreateCaseDialog extends React.Component {
   componentDidMount() {
     this.props.dispatch(getIntakeSourceDropdownValues());
     this.props.dispatch(getPriorityLevelDropdownValues());
+    this.props.dispatch(getPriorityReasonsDropdownValues());
   }
 
   componentDidUpdate() {
@@ -162,26 +164,9 @@ class CreateCaseDialog extends React.Component {
 
             {this.state.dropdownValue === "Priority Incident" && (
               <div>
-                <PriorityLevel
-                  handleDropdownChange={this.handleDropdownChange}
-                  priorityLevels={this.props.priorityLevels}
-                />
+                <PriorityLevel priorityLevels={this.props.priorityLevels} />
                 <br />
-                <Field
-                  component={Dropdown}
-                  label="Priority Reason"
-                  placeholder="Select a Priority Reason"
-                  name="priorityReason"
-                  style={{ width: "90%", marginBottom: "15px" }}
-                  inputProps={{
-                    "data-testid": "priorityReasonDropdown",
-                    "aria-label": "Priority Reason Dropdown"
-                  }}
-                >
-                  {generateMenuOptions(
-                    this.state.priorityReasons.map(reason => reason.name)
-                  )}
-                </Field>
+                <PriorityReason priorityReasons={this.props.priorityReasons} />
                 <br />
               </div>
             )}
@@ -293,7 +278,7 @@ const PriorityLevel = props => {
       label="Priority Level"
       data-testid="priorityLevelDropdown"
       placeholder="Select a Priority Level"
-      name="priorityLevel"
+      name="case.priorityLevels"
       style={{ width: "90%", marginBottom: "15px" }}
       inputProps={{
         "data-testid": "priorityLevelInput",
@@ -301,6 +286,24 @@ const PriorityLevel = props => {
       }}
     >
       {generateMenuOptions(props.priorityLevels)}
+    </Field>
+  );
+};
+
+const PriorityReason = props => {
+  return (
+    <Field
+      component={Dropdown}
+      label="Priority Reason"
+      placeholder="Select a Priority Reason"
+      name="case.priorityReasons"
+      style={{ width: "90%", marginBottom: "15px" }}
+      inputProps={{
+        "data-testid": "priorityReasonDropdown",
+        "aria-label": "Priority Reason Dropdown"
+      }}
+    >
+      {generateMenuOptions(props.priorityReasons)}
     </Field>
   );
 };
@@ -332,6 +335,7 @@ const mapStateToProps = state => {
     formattedAddress: formatAddressAsString(addressValues.address),
     intakeSources: state.ui.intakeSources,
     priorityLevels: state.ui.priorityLevels,
+    priorityReasons: state.ui.priorityReasons,
     isUnknown,
     open: state.ui.createDialog.case.open,
     organization: state.configs[CONFIGS.ORGANIZATION],

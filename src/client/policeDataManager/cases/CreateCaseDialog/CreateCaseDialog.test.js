@@ -19,7 +19,6 @@ import {
   GET_CONFIGS_SUCCEEDED,
   GET_PERSON_TYPES,
   ISO_DATE,
-  NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN,
   RANK_INITIATED,
   SHOW_FORM,
   SORT_CASES_BY
@@ -103,7 +102,8 @@ describe("CreateCaseDialog component", () => {
     store.dispatch(
       getIntakeSourcesSuccess([
         ["NOIPM Website", 1],
-        ["Email", 2]
+        ["Email", 2],
+        ["Priority Incident", 3]
       ])
     );
   });
@@ -417,6 +417,34 @@ describe("CreateCaseDialog component", () => {
                   .last()
                   .text()
               ).toContain("Please enter Intake Source");
+            });
+          });
+          describe("priority incident", () => {
+            test("should display priority dropdowns when Priority Incident is the selected Intake Source", () => {
+              selectDropdownOption(
+                dialog,
+                '[data-testid="intakeSourceDropdown"]',
+                "Priority Incident"
+              );
+              expect(
+                dialog.find('[data-testid="priorityReasonDropdown"]').exists()
+              ).toBeTruthy();
+              expect(
+                dialog.find('[data-testid="priorityLevelInput"]').exists()
+              ).toBeTruthy();
+            });
+            test("should not display priority dropdowns when Priority Incident is not the selected Intake Source", () => {
+              selectDropdownOption(
+                dialog,
+                '[data-testid="intakeSourceDropdown"]',
+                "Email"
+              );
+              expect(
+                dialog.find('[data-testid="priorityReasonDropdown"]').exists()
+              ).toBeFalsy();
+              expect(
+                dialog.find('[data-testid="priorityLevelInput"]').exists()
+              ).toBeFalsy();
             });
           });
 

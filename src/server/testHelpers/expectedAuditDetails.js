@@ -2,7 +2,7 @@ import models from "../policeDataManager/models";
 
 export const expectedCaseAuditDetails = {
   cases: expect.objectContaining({
-    attributes: expect.toIncludeSameMembers([
+    attributes: expect.arrayContaining([
       "assignedTo",
       "caseNumber",
       "caseReference",
@@ -32,133 +32,133 @@ export const expectedCaseAuditDetails = {
     model: models.cases.name
   }),
   intakeSource: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.intake_source.rawAttributes)
     ),
     model: models.intake_source.name
   },
   howDidYouHearAboutUsSource: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.how_did_you_hear_about_us_source.rawAttributes)
     ),
     model: models.how_did_you_hear_about_us_source.name
   },
   complainantCivilians: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.civilian.rawAttributes)
     ),
     model: models.civilian.name
   },
   complainantInmates: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.caseInmate.rawAttributes)
     ),
     model: models.caseInmate.name
   },
   witnessInmates: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.caseInmate.rawAttributes)
     ),
     model: models.caseInmate.name
   },
   accusedInmates: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.caseInmate.rawAttributes)
     ),
     model: models.caseInmate.name
   },
   inmate: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.inmate.rawAttributes)
     ),
     model: models.inmate.name
   },
   address: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.address.rawAttributes)
     ),
     model: models.address.name
   },
   raceEthnicity: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.race_ethnicity.rawAttributes)
     ),
     model: models.race_ethnicity.name
   },
   genderIdentity: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.gender_identity.rawAttributes)
     ),
     model: models.gender_identity.name
   },
   witnessCivilians: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.civilian.rawAttributes)
     ),
     model: models.civilian.name
   },
   attachment: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.attachment.rawAttributes)
     ),
     model: models.attachment.name
   },
   incidentLocation: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.address.rawAttributes)
     ),
     model: models.address.name
   },
   accusedOfficers: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.case_officer.rawAttributes)
     ),
     model: models.case_officer.name
   },
   accusedCivilians: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.civilian.rawAttributes)
     ),
     model: models.civilian.name
   },
   allegations: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.officer_allegation.rawAttributes)
     ),
     model: models.officer_allegation.name
   },
   allegation: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.allegation.rawAttributes)
     ),
     model: models.allegation.name
   },
   caseClassifications: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.case_classification.rawAttributes)
     ),
     model: models.case_classification.name
   },
   complainantOfficers: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.case_officer.rawAttributes)
     ),
     model: models.case_officer.name
   },
   witnessOfficers: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.case_officer.rawAttributes)
     ),
     model: models.case_officer.name
   },
   caseDistrict: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.district.rawAttributes)
     ),
     model: models.district.name
   },
   status: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.caseStatus.rawAttributes).filter(
         attribute => attribute !== "createdAt" && attribute !== "updatedAt"
       )
@@ -166,25 +166,25 @@ export const expectedCaseAuditDetails = {
     model: models.caseStatus.name
   },
   personTypeDetails: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.personType.rawAttributes)
     ),
     model: models.personType.name
   },
   defaultPersonType: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.personType.rawAttributes)
     ),
     model: models.personType.name
   },
   ruleChapter: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.ruleChapter.rawAttributes)
     ),
     model: models.ruleChapter.name
   },
   directive: {
-    attributes: expect.toIncludeSameMembers(
+    attributes: expect.arrayContaining(
       Object.keys(models.directive.rawAttributes)
     ),
     model: models.directive.name

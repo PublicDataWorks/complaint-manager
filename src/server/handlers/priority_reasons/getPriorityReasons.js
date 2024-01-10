@@ -9,7 +9,7 @@ const getPriorityReasons = asyncMiddleware(async (request, response, next) => {
     raw: true
   });
   const priorityReasonValues = priorityReasons.map(priorityReason => {
-    return { name: priorityReason.name, id: priorityReason.id };
+    return [priorityReason.name, priorityReason.id];
   });
   response.status(200).send(priorityReasonValues);
 });

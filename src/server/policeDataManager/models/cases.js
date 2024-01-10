@@ -38,6 +38,8 @@ module.exports = (sequelize, DataTypes) => {
    * @property caseReferencePrefix {string} - VIRTUAL the alphabetical prefix to a case reference number, determined by the type of the primary complainant
    * @property caseReference {string} - VIRTUAL the case identifier used for display purposes, constructed from the prefix ^^, the year, and the case number padded to 4 digits
    * @property firstContactDate {Date} - the date that the first complainant first contacted oversight about the case
+   * @property priorityLevels {number} - a foreign key to the priority_levels table, indicating the priority level of the case
+   * @property priorityReasons {number} - a foreign key to the priority_reasons table, indicating the reason for the priority level of the case
    * @property intakeSourceId {number} - a foreign key to the intake_sources table, indicating the source through which the complaint came in
    * @property incidentDate {Date} - The date at which the incident took place
    * @property districtId {number} - a foreign key to the districts table, indicating the district in which the case took place
@@ -65,6 +67,8 @@ module.exports = (sequelize, DataTypes) => {
    * @property accusedInmates (Many to Many) - The people in custody who have the role of Accused on the case (connected through cases_inmates table)
    * @property caseClassifications (Many to Many) - classifications added to the case (connected by case_classifications)
    * @property howDidYouHearAboutUsSource (Many to One) - the place where the complainant heard about the oversight org
+   * @property priorityLevel (Many to One) - the priority level of the case
+   * @property priorityReason (Many to One) - the reason for the priority level of the case
    * @property intakeSource (Many to One) - the manner in which the complaint was intaken
    * @property caseDistrict (Many to One) - The district in which the incident occurred
    * @property dataChangeAudits (One to Many) - Records of changes to the case data
@@ -155,6 +159,22 @@ module.exports = (sequelize, DataTypes) => {
       incidentDate: {
         field: "incident_date",
         type: DataTypes.DATEONLY
+      },
+      priorityLevels: {
+        type: DataTypes.INTEGER,
+        field: "priority_level_id",
+        references: {
+          model: models.priority_levels,
+          key: "id"
+        }
+      },
+      priorityReasons: {
+        type: DataTypes.INTEGER,
+        field: "priority_reason_id",
+        references: {
+          model: models.priority_reasons,
+          key: "id"
+        }
       },
       intakeSourceId: {
         type: DataTypes.INTEGER,
@@ -406,6 +426,22 @@ module.exports = (sequelize, DataTypes) => {
       name: "howDidYouHearAboutUsSourceId",
       foreignKey: {
         field: "how_did_you_hear_about_us_source_id",
+        allowNull: true
+      }
+    });
+    Case.belongsTo(models.priority_levels, {
+      as: "priorityLevel",
+      foreignKey: {
+        name: "priorityLevels",
+        field: "priority_level_id",
+        allowNull: true
+      }
+    });
+    Case.belongsTo(models.priority_reasons, {
+      as: "priorityReason",
+      foreignKey: {
+        name: "priorityReasons",
+        field: "priority_reason_id",
         allowNull: true
       }
     });
