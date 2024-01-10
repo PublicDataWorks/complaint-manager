@@ -73,6 +73,7 @@ class IncidentDetails extends React.Component {
       : "";
     const districtName = district ? district.name : "";
     const pbCaseNumberText = `${configs[CONFIGS.BUREAU_ACRONYM]} Case Number`;
+    const priorityReason = priorityReasons ? priorityReasons.name : "";
 
     return (
       <DetailsCard title="Incident Details" maxWidth="850px">
@@ -146,7 +147,7 @@ class IncidentDetails extends React.Component {
                 <StyledInfoDisplay>
                   <CivilianInfoDisplay
                     displayLabel="Priority Reason"
-                    value={priorityReasons.name}
+                    value={priorityReason}
                     testLabel="incidentPriorityReasons"
                   />
                 </StyledInfoDisplay>
