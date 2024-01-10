@@ -63,7 +63,7 @@ const getCaseDetailsAndAuditDetails = async (
       },
       {
         model: models.priority_reasons,
-        as: "priorityReasons"
+        as: "priorityReason"
       },
       {
         model: models.how_did_you_hear_about_us_source,

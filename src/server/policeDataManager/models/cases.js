@@ -50,7 +50,6 @@ module.exports = (sequelize, DataTypes) => {
    * @property pibCaseNumber {string} - The external case number related to the case
    * @property createdBy {string} - The username of the user who created the case
    * @property assignedTo {string} - The username of the user to whom the case is assigned
-   * @property priorityReasonsId {number} - a foreign key to the priority_reasons table, indicating the reason for the case's priority
    *
    * Associations:
    * @property audit (One to Many) - changes/data accesses on the case
@@ -77,7 +76,6 @@ module.exports = (sequelize, DataTypes) => {
    * @property caseTags (Many to Many) - The tags applied to the case (associated through case_tags table)
    * @property status (Many to One) - The status of the case (statuses have their own table so that different orgs can have different statuses)
    * @property complaintType (Many to One) - The type of complaint
-   * @property priorityReasons (One to One) - The reason for the case's priority
    */
   const Case = sequelize.define(
     "cases",
@@ -181,14 +179,6 @@ module.exports = (sequelize, DataTypes) => {
         field: "intake_source_id",
         references: {
           model: models.intake_source,
-          key: "id"
-        }
-      },
-      priorityReasonsId: {
-        type: DataTypes.INTEGER,
-        field: "priority_reason_id",
-        references: {
-          model: models.priority_reasons,
           key: "id"
         }
       },
@@ -432,7 +422,7 @@ module.exports = (sequelize, DataTypes) => {
     Case.belongsTo(models.priority_levels, {
       as: "priorityLevel",
       foreignKey: {
-        name: "priorityLevels",
+        name: "priorityLevelId",
         field: "priority_level_id",
         allowNull: true
       }
@@ -440,7 +430,7 @@ module.exports = (sequelize, DataTypes) => {
     Case.belongsTo(models.priority_reasons, {
       as: "priorityReason",
       foreignKey: {
-        name: "priorityReasons",
+        name: "priorityReasonId",
         field: "priority_reason_id",
         allowNull: true
       }
@@ -450,14 +440,6 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: {
         name: "intakeSourceId",
         field: "intake_source_id",
-        allowNull: true
-      }
-    });
-    Case.belongsTo(models.priority_reasons, {
-      as: "priorityReasons",
-      foreignKey: {
-        name: "priorityReasonId",
-        field: "priority_reason_id",
         allowNull: true
       }
     });

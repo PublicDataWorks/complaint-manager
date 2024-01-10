@@ -45,7 +45,6 @@ class Case {
     this.witnessInmates = build.witnessInmates;
     this.caseReference = build.caseReference;
     this.intakeSourceId = build.intakeSourceId;
-    this.priorityReasonsId = build.priorityReasonsId;
     this.deletedAt = build.deletedAt;
     this.primaryComplainant = build.primaryComplainant;
     this.isCase = build.isCase;
@@ -202,11 +201,6 @@ class Case {
 
       withIntakeSourceId(intakeSourceId) {
         this.intakeSourceId = intakeSourceId;
-        return this;
-      }
-
-      withPriorityReasonsId(priorityReasonsId) {
-        this.priorityReasonsId = priorityReasonsId;
         return this;
       }
 

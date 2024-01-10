@@ -37,7 +37,7 @@ class IncidentDetails extends React.Component {
       intakeSourceId: this.props.intakeSourceId,
       howDidYouHearAboutUsSourceId: this.props.howDidYouHearAboutUsSourceId,
       pibCaseNumber: this.props.pibCaseNumber,
-      priorityReasons: this.props.priorityReasons,
+      priorityReason: this.props.priorityReason,
       priorityLevel: this.props.priorityLevel
     };
 
@@ -63,7 +63,7 @@ class IncidentDetails extends React.Component {
       howDidYouHearAboutUsSource,
       classes,
       pibCaseNumber,
-      priorityReasons,
+      priorityReason,
       priorityLevel,
       configs
     } = this.props;
@@ -73,7 +73,7 @@ class IncidentDetails extends React.Component {
       : "";
     const districtName = district ? district.name : "";
     const pbCaseNumberText = `${configs[CONFIGS.BUREAU_ACRONYM]} Case Number`;
-    const priorityReason = priorityReasons ? priorityReasons.name : "";
+    const priorityReasonName = priorityReason ? priorityReason.name : "";
 
     return (
       <DetailsCard title="Incident Details" maxWidth="850px">
@@ -147,7 +147,7 @@ class IncidentDetails extends React.Component {
                 <StyledInfoDisplay>
                   <CivilianInfoDisplay
                     displayLabel="Priority Reason"
-                    value={priorityReason}
+                    value={priorityReasonName}
                     testLabel="incidentPriorityReasons"
                   />
                 </StyledInfoDisplay>
@@ -236,7 +236,7 @@ const mapStateToProps = state => ({
   open: state.ui.editIncidentDetailsDialog.open,
   permissions: state?.users?.current?.userInfo?.permissions,
   pibCaseNumber: state.currentCase.details.pibCaseNumber,
-  priorityReasons: state.currentCase.details.priorityReasons,
+  priorityReason: state.currentCase.details.priorityReason,
   priorityLevel: state.currentCase.details.priorityLevel
 });
 
