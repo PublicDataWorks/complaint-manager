@@ -67,7 +67,6 @@ export class CreateCaseActions extends React.Component {
   };
 
   prepareCase = theCase => {
-    console.log(theCase);
     let complaintType = theCase.complaintType;
     if (!complaintType) {
       if (
