@@ -137,6 +137,20 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
         assignedTo: "noipm.infrastructure@gmail.com",
         createdAt: "2022-08-22T15:55:45.879Z",
         updatedAt: "2022-08-22T15:56:27.641Z",
+        priorityReason: 1,
+        priorityLevel: 1,
+        priorityReasons: {
+          id: 1,
+          name: "priority-reason-test",
+          createdAt: "2022-08-19T16:45:01.760Z",
+          updatedAt: "2022-08-19T16:45:01.760Z"
+        },
+        priorityLevels: {
+          id: 1,
+          name: "priority-level-test",
+          createdAt: "2022-08-19T16:45:01.760Z",
+          updatedAt: "2022-08-19T16:45:01.760Z"
+        },
         intakeSource: {
           id: 3,
           name: "In Person",
@@ -603,6 +617,38 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
         "Content-Type": "application/json; charset=utf-8"
       },
       body: eachLike(["Email", 1])
+    }
+  });
+
+  await provider.addInteraction({
+    state: "priority reasons exist",
+    uponReceiving: "get priority reasons",
+    withRequest: {
+      method: "GET",
+      path: "/api/priority-reasons"
+    },
+    willRespondWith: {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      body: eachLike(["Disaster", 1])
+    }
+  });
+
+  await provider.addInteraction({
+    state: "priority levels exist",
+    uponReceiving: "get priority levels",
+    withRequest: {
+      method: "GET",
+      path: "/api/priority-levels"
+    },
+    willRespondWith: {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      body: eachLike(["One", 1])
     }
   });
 

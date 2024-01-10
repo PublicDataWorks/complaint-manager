@@ -695,6 +695,8 @@ describe("Pact Verification", () => {
           }
         },
         "intake sources exist": setupIntakeSources,
+        "priority reasons exsist": setupPriorityLevels,
+        "priority levels exsist": setupPriorityReasons,
         "how did you hear about us sources exist":
           setupHowDidYouHearAboutUsSources,
         "case note actions exist": setupCaseNoteActions,

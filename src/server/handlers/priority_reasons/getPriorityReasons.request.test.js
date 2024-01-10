@@ -43,10 +43,10 @@ describe("Given the priority_reasons table has values When a request is made to 
         name: "Reason Test 3"
       })
     ]).then(priorityReasons =>
-      priorityReasons.map(priorityReason => ({
-        name: priorityReason.name,
-        id: priorityReason.id
-      }))
+      priorityReasons.map(priorityReason => [
+        priorityReason.name,
+        priorityReason.id
+      ])
     );
 
     const responsePromise = request(app)

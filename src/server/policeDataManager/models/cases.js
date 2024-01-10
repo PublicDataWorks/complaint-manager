@@ -422,7 +422,7 @@ module.exports = (sequelize, DataTypes) => {
     Case.belongsTo(models.priority_levels, {
       as: "priorityLevel",
       foreignKey: {
-        name: "priorityLevelId",
+        name: "priorityLevels",
         field: "priority_level_id",
         allowNull: true
       }
@@ -430,7 +430,7 @@ module.exports = (sequelize, DataTypes) => {
     Case.belongsTo(models.priority_reasons, {
       as: "priorityReason",
       foreignKey: {
-        name: "priorityReasonId",
+        name: "priorityReasons",
         field: "priority_reason_id",
         allowNull: true
       }

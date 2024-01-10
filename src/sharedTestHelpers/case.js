@@ -32,6 +32,8 @@ class Case {
     this.incidentTime = build.incidentTime;
     this.incidentTimezone = build.incidentTimezone;
     this.incidentLocation = build.incidentLocation;
+    this.priorityReasons = build.priorityReasons;
+    this.priorityLevels = build.priorityLevels;
     this.district = build.district;
     this.districtId = build.districtId;
     this.caseDistrict = build.caseDistrict;
@@ -142,6 +144,8 @@ class Case {
         this.incidentLocation = incidentLocation;
         this.district = null;
         this.districtId = null;
+        this.priorityLevels = null;
+        this.priorityReasons = null;
         this.caseDistrict = null;
         this.createdBy = "tuser";
         this.assignedTo = "tuser";
@@ -227,6 +231,16 @@ class Case {
 
       withIncidentTime(incidentTime) {
         this.incidentTime = incidentTime;
+        return this;
+      }
+
+      withPriorityLevels(priorityLevels) {
+        this.priorityLevels = priorityLevels;
+        return this;
+      }
+
+      withPriorityReasons(priorityReasons) {
+        this.priorityReasons = priorityReasons;
         return this;
       }
 

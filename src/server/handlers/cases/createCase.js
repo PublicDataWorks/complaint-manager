@@ -26,14 +26,14 @@ const createCase = asyncMiddleware(async (request, response, next) => {
     where: { orderKey: 0 },
     attributes: ["id"]
   });
-  console.log(request.body);
+  //console.log(request.body);
   if (request.body.civilian) {
     validateCivilianName(request.body.civilian);
     newCase = await createCaseWithCivilian(request, status.id);
   } else {
     newCase = await createCaseWithoutCivilian(request, status.id);
   }
-  console.log(newCase);
+  //console.log(newCase);
   response.status(201).send(await new Case(newCase).toJSON());
 });
 

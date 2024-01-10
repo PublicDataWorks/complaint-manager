@@ -14,4 +14,4 @@ const getPriorityReasons = asyncMiddleware(async (request, response, next) => {
   response.status(200).send(priorityReasonValues);
 });
 
-export default getPriorityReasons; // this is little different
+export default getPriorityReasons;
