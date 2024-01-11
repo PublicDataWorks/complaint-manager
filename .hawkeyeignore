@@ -48,4 +48,7 @@ node-yarnaudit-fast-xml-parser-1092278
 node-yarnaudit-@babel/traverse-*
 node-yarnaudit-chromedriver-*
 node-yarnaudit-axios-*
+node-yarnaudit-react-scripts-*
+node-yarnaudit-follow-redirects-*
+node-yarnaudit-msgpackr-1095388
 node-yarnaudit-octokit-1095252
