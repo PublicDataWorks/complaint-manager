@@ -27,6 +27,8 @@ import { addressMustBeValid } from "../../../../formValidations";
 import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
 import AddressSecondLine from "../../sharedFormComponents/AddressSecondLine";
 import getIntakeSourceDropdownValues from "../../../intakeSources/thunks/getIntakeSourceDropdownValues";
+import getPriorityLevelDropdownValues from "../../../intakeSources/thunks/priorityLevelsThunks/getPriorityLevelDropdownValues";
+import getPriorityReasonsDropdownValues from "../../../intakeSources/thunks/priorityReasonsThunks/getPriorityReasonsDropdownValues";
 import AdditionalLocationInfo from "../../sharedFormComponents/AdditionalLocationInfo";
 import normalizeAddress from "../../../utilities/normalizeAddress";
 import { intakeSourceIsRequired } from "../../../../formFieldLevelValidations";
@@ -55,6 +57,8 @@ const submitIncidentDetails = (values, dispatch, props) => {
     incidentTime: nullifyFieldUnlessValid(values.incidentTime),
     incidentTimezone: nullifyFieldUnlessValid(values.incidentTimezone),
     intakeSourceId: nullifyFieldUnlessValid(values.intakeSourceId),
+    priorityReasons: nullifyFieldUnlessValid(values.priorityReason.id),
+    priorityLevels: nullifyFieldUnlessValid(values.priorityLevel.id),
     howDidYouHearAboutUsSourceId: nullifyFieldUnlessValid(
       values.howDidYouHearAboutUsSourceId
     ),
@@ -104,10 +108,27 @@ const timezones = [
 ];
 
 class IncidentDetailsDialog extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dropdownValue: {
+        label: "",
+        value: null
+      }
+    };
+    this.handleDropdownChange = this.handleDropdownChange.bind(this);
+  }
+
+  handleDropdownChange(newValue) {
+    this.setState({ dropdownValue: newValue });
+  }
+
   componentDidMount() {
     this.props.getIntakeSourceDropdownValues();
     this.props.getHowDidYouHearAboutUsSourceDropdownValues();
     this.props.getDistrictDropdownValues();
+    this.props.dispatch(getPriorityLevelDropdownValues());
+    this.props.dispatch(getPriorityReasonsDropdownValues());
   }
 
   render() {
@@ -268,6 +289,39 @@ class IncidentDetailsDialog extends Component {
                 {generateMenuOptions(props.intakeSources)}
               </Field>
             </div>
+
+            <div>
+              <Field
+                component={Dropdown}
+                label="Priority Level"
+                data-testid="priorityLevelDropdown"
+                placeholder="Select a Priority Level"
+                name="priorityLevel.id"
+                style={{ width: "90%", marginBottom: "15px" }}
+                inputProps={{
+                  "data-testid": "priorityLevelInput",
+                  "aria-label": "Priority Level Input"
+                }}
+              >
+                {generateMenuOptions(props.priorityLevels)}
+              </Field>
+              <br />
+              <Field
+                component={Dropdown}
+                label="Priority Reason"
+                placeholder="Select a Priority Reason"
+                name="priorityReason.id"
+                style={{ width: "90%", marginBottom: "15px" }}
+                inputProps={{
+                  "data-testid": "priorityReasonDropdown",
+                  "aria-label": "Priority Reason Dropdown"
+                }}
+              >
+                {generateMenuOptions(props.priorityReasons)}
+              </Field>
+              <br />
+            </div>
+
             <div style={{ marginTop: "16px" }}>
               <Field
                 name="howDidYouHearAboutUsSourceId"
@@ -354,14 +408,18 @@ const mapStateToProps = state => {
     districts: state.ui.districts,
     formattedAddress: formatAddressAsString(values.incidentLocation),
     howDidYouHearAboutUsSources: state.ui.howDidYouHearAboutUsSources,
-    intakeSources: state.ui.intakeSources
+    intakeSources: state.ui.intakeSources,
+    priorityLevels: state.ui.priorityLevels,
+    priorityReasons: state.ui.priorityReasons
   };
 };
 
 const mapDispatchToProps = {
   getIntakeSourceDropdownValues,
   getHowDidYouHearAboutUsSourceDropdownValues,
-  getDistrictDropdownValues
+  getDistrictDropdownValues,
+  getPriorityLevelDropdownValues,
+  getPriorityReasonsDropdownValues
 };
 
 export default withStyles(styles)(

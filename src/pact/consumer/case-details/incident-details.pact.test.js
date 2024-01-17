@@ -41,6 +41,8 @@ pactWith(
               firstContactDate: "2022-09-06",
               howDidYouHearAboutUsSourceId: 1,
               intakeSourceId: 1,
+              priorityReason: 1,
+              priorityLevel: 1,
               pibCaseNumber: "76960"
             })
           },
@@ -60,6 +62,8 @@ pactWith(
               caseNumber: 1,
               firstContactDate: "2022-08-22",
               intakeSourceId: 3,
+              priorityReason: 1,
+              priorityLevel: 1,
               createdBy: "noipm.infrastructure@gmail.com",
               assignedTo: "noipm.infrastructure@gmail.com",
               createdAt: "2022-08-22T15:55:45.879Z",
@@ -67,6 +71,18 @@ pactWith(
               intakeSource: {
                 id: 3,
                 name: "In Person",
+                createdAt: "2022-08-19T16:45:01.760Z",
+                updatedAt: "2022-08-19T16:45:01.760Z"
+              },
+              priorityReasons: {
+                id: 1,
+                name: "priority-reason-test",
+                createdAt: "2022-08-19T16:45:01.760Z",
+                updatedAt: "2022-08-19T16:45:01.760Z"
+              },
+              priorityLevels: {
+                id: 1,
+                name: "priority-level-test",
                 createdAt: "2022-08-19T16:45:01.760Z",
                 updatedAt: "2022-08-19T16:45:01.760Z"
               },

@@ -65,6 +65,7 @@ const getCaseDetailsAndAuditDetails = async (
         model: models.priority_reasons,
         as: "priorityReason"
       },
+      { model: models.priority_levels, as: "priorityLevel" },
       {
         model: models.how_did_you_hear_about_us_source,
         as: "howDidYouHearAboutUsSource"
