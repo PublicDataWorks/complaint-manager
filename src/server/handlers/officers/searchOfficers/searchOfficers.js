@@ -25,13 +25,17 @@ const searchOfficers = asyncMiddleware(async (request, response, next) => {
   if (request.query.districtId) {
     whereClause.district_id = { [Op.eq]: `${request.query.districtId}` };
   }
-  console.log(`OFFICER ROASTER DATE ===>  ${process.env.OFFICER_ROASTER_LATEST_DATE}`)
-  // if (process.env.OFFICER_ROASTER_LATEST_DATE) {
-  whereClause.created_at = { [Op.gte]: `to_timestamp('1705602989')` };
-  // }
-  
-  console.log("WHERE CLAUSE ==> ", whereClause);
-  
+
+  if (process.env.OFFICER_ROSTER_LATEST_DATE) {
+    const date = getYearMonthDayFromEpoch(
+      process.env.OFFICER_ROSTER_LATEST_DATE
+    );
+
+    whereClause.created_at = {
+      [Op.gte]: date
+    };
+  }
+
   const offset = request.query.page
     ? (request.query.page - 1) * DEFAULT_PAGINATION_LIMIT
     : null;
@@ -77,3 +81,9 @@ const searchOfficers = asyncMiddleware(async (request, response, next) => {
 });
 
 module.exports = searchOfficers;
+
+const getYearMonthDayFromEpoch = epoch => {
+  const date = new Date(0);
+  date.setUTCSeconds(epoch);
+  return date.toISOString().substring(0, 10);
+};

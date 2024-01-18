@@ -24,7 +24,7 @@ describe("searchOfficers", function () {
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }
     );
-    
+
     const caseToCreate = new Case.Builder()
       .defaultCase()
       .withId(undefined)
@@ -45,7 +45,7 @@ describe("searchOfficers", function () {
       query: {
         firstName: "Sal",
         caseId: existingCase.id,
-        page: 2,
+        page: 2
       },
       nickname: "nickname"
     });
@@ -61,7 +61,6 @@ describe("searchOfficers", function () {
 
   describe("auditing", () => {
     test("should audit when retrieving a case", async () => {
-      process.env.OFFICER_ROSTER_LATEST_DATE = "1704568927";
       await searchOfficers(request, response, next);
 
       expect(auditDataAccess).toHaveBeenCalledWith(
