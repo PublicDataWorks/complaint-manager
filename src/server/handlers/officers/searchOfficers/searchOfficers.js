@@ -25,7 +25,13 @@ const searchOfficers = asyncMiddleware(async (request, response, next) => {
   if (request.query.districtId) {
     whereClause.district_id = { [Op.eq]: `${request.query.districtId}` };
   }
-
+  console.log(`OFFICER ROASTER DATE ===>  ${process.env.OFFICER_ROASTER_LATEST_DATE}`)
+  // if (process.env.OFFICER_ROASTER_LATEST_DATE) {
+  whereClause.created_at = { [Op.gte]: `to_timestamp('1705602989')` };
+  // }
+  
+  console.log("WHERE CLAUSE ==> ", whereClause);
+  
   const offset = request.query.page
     ? (request.query.page - 1) * DEFAULT_PAGINATION_LIMIT
     : null;
