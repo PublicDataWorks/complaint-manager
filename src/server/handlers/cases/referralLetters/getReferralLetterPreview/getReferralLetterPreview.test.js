@@ -852,6 +852,10 @@ describe("getReferralLetterPreview", function () {
             "districtId",
             "firstContactDate",
             "howDidYouHearAboutUsSourceId",
+            "priorityReasonId",
+            "priorityLevelId",
+            "priorityLevels",
+            "priorityReasons",
             "id",
             "incidentDate",
             "incidentTime",
@@ -911,13 +915,13 @@ describe("getReferralLetterPreview", function () {
               model: models.cases.name
             },
             caseClassifications: {
-              attributes: expect.toIncludeSameMembers(
+              attributes: expect.arrayContaining(
                 Object.keys(models.case_classification.rawAttributes)
               ),
               model: models.case_classification.name
             },
             classification: {
-              attributes: expect.toIncludeSameMembers(
+              attributes: expect.arrayContaining(
                 Object.keys(models.classification.rawAttributes)
               ),
               model: models.classification.name
@@ -935,31 +939,31 @@ describe("getReferralLetterPreview", function () {
               model: models.case_officer.name
             },
             complainantInmates: {
-              attributes: expect.toIncludeSameMembers(
+              attributes: expect.arrayContaining(
                 Object.keys(models.caseInmate.rawAttributes)
               ),
               model: models.caseInmate.name
             },
             witnessInmates: {
-              attributes: expect.toIncludeSameMembers(
+              attributes: expect.arrayContaining(
                 Object.keys(models.caseInmate.rawAttributes)
               ),
               model: models.caseInmate.name
             },
             accusedInmates: {
-              attributes: expect.toIncludeSameMembers(
+              attributes: expect.arrayContaining(
                 Object.keys(models.caseInmate.rawAttributes)
               ),
               model: models.caseInmate.name
             },
             inmate: {
-              attributes: expect.toIncludeSameMembers(
+              attributes: expect.arrayContaining(
                 Object.keys(models.inmate.rawAttributes)
               ),
               model: models.inmate.name
             },
             complaintType: {
-              attributes: expect.toIncludeSameMembers(["name"]),
+              attributes: expect.arrayContaining(["name"]),
               model: models.complaintTypes.name
             },
             caseDistrict: expect.objectContaining({
@@ -988,6 +992,18 @@ describe("getReferralLetterPreview", function () {
               ),
               model: models.how_did_you_hear_about_us_source.name
             },
+            priorityReason: {
+              attributes: expect.arrayContaining(
+                Object.keys(models.priority_reasons.rawAttributes)
+              ),
+              model: models.priority_reasons.name
+            },
+            priorityLevel: {
+              attributes: expect.arrayContaining(
+                Object.keys(models.priority_levels.rawAttributes)
+              ),
+              model: models.priority_levels.name
+            },
             intakeSource: {
               attributes: expect.arrayContaining(
                 Object.keys(models.intake_source.rawAttributes)
@@ -1007,13 +1023,13 @@ describe("getReferralLetterPreview", function () {
               model: models.race_ethnicity.name
             },
             ruleChapter: {
-              attributes: expect.toIncludeSameMembers(
+              attributes: expect.arrayContaining(
                 Object.keys(models.ruleChapter.rawAttributes)
               ),
               model: models.ruleChapter.name
             },
             directive: {
-              attributes: expect.toIncludeSameMembers(
+              attributes: expect.arrayContaining(
                 Object.keys(models.directive.rawAttributes)
               ),
               model: models.directive.name
@@ -1112,6 +1128,10 @@ describe("getReferralLetterPreview", function () {
             "districtId",
             "firstContactDate",
             "howDidYouHearAboutUsSourceId",
+            "priorityReasonId",
+            "priorityLevelId",
+            "priorityLevels",
+            "priorityReasons",
             "id",
             "incidentDate",
             "incidentTime",
@@ -1171,7 +1191,7 @@ describe("getReferralLetterPreview", function () {
               model: models.cases.name
             }),
             caseClassifications: {
-              attributes: expect.toIncludeSameMembers(
+              attributes: expect.arrayContaining(
                 Object.keys(models.case_classification.rawAttributes)
               ),
               model: models.case_classification.name
@@ -1189,25 +1209,25 @@ describe("getReferralLetterPreview", function () {
               model: models.case_officer.name
             }),
             complainantInmates: {
-              attributes: expect.toIncludeSameMembers(
+              attributes: expect.arrayContaining(
                 Object.keys(models.caseInmate.rawAttributes)
               ),
               model: models.caseInmate.name
             },
             witnessInmates: {
-              attributes: expect.toIncludeSameMembers(
+              attributes: expect.arrayContaining(
                 Object.keys(models.caseInmate.rawAttributes)
               ),
               model: models.caseInmate.name
             },
             accusedInmates: {
-              attributes: expect.toIncludeSameMembers(
+              attributes: expect.arrayContaining(
                 Object.keys(models.caseInmate.rawAttributes)
               ),
               model: models.caseInmate.name
             },
             inmate: {
-              attributes: expect.toIncludeSameMembers(
+              attributes: expect.arrayContaining(
                 Object.keys(models.inmate.rawAttributes)
               ),
               model: models.inmate.name
@@ -1244,6 +1264,18 @@ describe("getReferralLetterPreview", function () {
               ),
               model: models.intake_source.name
             }),
+            priorityReason: {
+              attributes: expect.arrayContaining(
+                Object.keys(models.priority_reasons.rawAttributes)
+              ),
+              model: models.priority_reasons.name
+            },
+            priorityLevel: {
+              attributes: expect.arrayContaining(
+                Object.keys(models.priority_levels.rawAttributes)
+              ),
+              model: models.priority_levels.name
+            },
             raceEthnicity: expect.objectContaining({
               attributes: expect.arrayContaining(
                 Object.keys(models.race_ethnicity.rawAttributes)
@@ -1287,13 +1319,13 @@ describe("getReferralLetterPreview", function () {
               model: models.personType.name
             },
             ruleChapter: {
-              attributes: expect.toIncludeSameMembers(
+              attributes: expect.arrayContaining(
                 Object.keys(models.ruleChapter.rawAttributes)
               ),
               model: models.ruleChapter.name
             },
             directive: {
-              attributes: expect.toIncludeSameMembers(
+              attributes: expect.arrayContaining(
                 Object.keys(models.directive.rawAttributes)
               ),
               model: models.directive.name

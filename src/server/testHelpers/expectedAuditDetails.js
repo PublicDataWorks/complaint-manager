@@ -13,6 +13,10 @@ export const expectedCaseAuditDetails = {
       "districtId",
       "firstContactDate",
       "howDidYouHearAboutUsSourceId",
+      "priorityReasonId",
+      "priorityLevelId",
+      "priorityLevels",
+      "priorityReasons",
       "id",
       "incidentDate",
       "incidentTime",
@@ -36,6 +40,18 @@ export const expectedCaseAuditDetails = {
       Object.keys(models.intake_source.rawAttributes)
     ),
     model: models.intake_source.name
+  },
+  priorityReason: {
+    attributes: expect.arrayContaining(
+      Object.keys(models.priority_reasons.rawAttributes)
+    ),
+    model: models.priority_reasons.name
+  },
+  priorityLevel: {
+    attributes: expect.arrayContaining(
+      Object.keys(models.priority_levels.rawAttributes)
+    ),
+    model: models.priority_levels.name
   },
   howDidYouHearAboutUsSource: {
     attributes: expect.arrayContaining(

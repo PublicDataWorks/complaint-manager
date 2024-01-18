@@ -59,20 +59,10 @@ pactWith(
               assignedTo: "anna.banana@gmail.com",
               createdAt: "2022-08-22T15:55:45.879Z",
               updatedAt: "2022-08-22T15:56:27.641Z",
-              priorityReason: 3,
-              priorityLevel: 2,
-              priorityReasons: {
-                id: 3,
-                name: "Saving Elmo",
-                createdAt: "2022-08-19T16:45:01.760Z",
-                updatedAt: "2022-08-19T16:45:01.760Z"
-              },
-              priorityLevels: {
-                id: 2,
-                name: "Level 2",
-                createdAt: "2022-08-19T16:45:01.760Z",
-                updatedAt: "2022-08-19T16:45:01.760Z"
-              },
+              priorityReason: null,
+              priorityLevel: null,
+              priorityReasons: null,
+              priorityLevels: null,
               intakeSource: {
                 id: 3,
                 name: "In Person",

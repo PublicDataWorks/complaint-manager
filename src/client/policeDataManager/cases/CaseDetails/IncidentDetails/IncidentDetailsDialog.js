@@ -57,8 +57,8 @@ const submitIncidentDetails = (values, dispatch, props) => {
     incidentTime: nullifyFieldUnlessValid(values.incidentTime),
     incidentTimezone: nullifyFieldUnlessValid(values.incidentTimezone),
     intakeSourceId: nullifyFieldUnlessValid(values.intakeSourceId),
-    priorityReasons: nullifyFieldUnlessValid(values.priorityReason.id),
-    priorityLevels: nullifyFieldUnlessValid(values.priorityLevel.id),
+    priorityReasons: nullifyFieldUnlessValid(values.priorityReason?.id),
+    priorityLevels: nullifyFieldUnlessValid(values.priorityLevel?.id),
     howDidYouHearAboutUsSourceId: nullifyFieldUnlessValid(
       values.howDidYouHearAboutUsSourceId
     ),
