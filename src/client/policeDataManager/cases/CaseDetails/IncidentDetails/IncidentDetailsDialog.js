@@ -297,14 +297,15 @@ class IncidentDetailsDialog extends Component {
                 </Field>
                 <br />
                 <Field
+                  data-testid="priorityReasonDropdown"
                   component={Dropdown}
                   label="Priority Reason"
                   placeholder="Select a Priority Reason"
                   name="priorityReason.id"
                   style={{ width: "90%", marginBottom: "15px" }}
                   inputProps={{
-                    "data-testid": "priorityReasonDropdown",
-                    "aria-label": "Priority Reason Dropdown"
+                    "data-testid": "priorityReasonInput",
+                    "aria-label": "Priority Reason Input"
                   }}
                 >
                   {generateMenuOptions(props.priorityReasons)}

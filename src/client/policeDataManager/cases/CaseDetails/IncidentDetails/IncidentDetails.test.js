@@ -117,6 +117,7 @@ describe("incident details", () => {
       incidentTime = "14:00:00";
       incidentTimezone = "CDT";
       formattedIncidentTime = "02:00 PM CDT";
+      intakeSourceId = 2;
 
       currentCase = new Case.Builder()
         .defaultCase()
@@ -236,8 +237,6 @@ describe("incident details", () => {
         .find("[data-testid='editIntakeSourceDropdown']")
         .find("ForwardRef(Autocomplete)");
 
-      console.log(editIntakeSourceDropdown.prop("value"));
-
       expect(editIntakeSourceDropdown.prop("value").value).toEqual(
         intakeSourceId
       );
@@ -245,6 +244,41 @@ describe("incident details", () => {
       expect(editIncidentDateInput.prop("value")).toEqual(incidentDate);
       expect(editIncidentTimeInput.prop("value")).toEqual(incidentTime);
       expect(editDistrict.prop("value").value).toEqual(2);
+    });
+
+    test("should render priority level and priority reason only when intake source is Priority Incident", () => {
+      const editButton = wrapper.find(
+        'button[data-testid="editIncidentDetailsButton"]'
+      );
+      editButton.simulate("click");
+
+      const priorityReasonDropdown = wrapper.find(
+        "[data-testid='priorityReasonDropdown']"
+      );
+      const priorityLevelDropdown = wrapper.find(
+        "[data-testid='priorityLevelDropdown']"
+      );
+
+      expect(priorityReasonDropdown.exists()).toBe(false);
+      expect(priorityLevelDropdown.exists()).toBe(false);
+
+      selectDropdownOption(
+        wrapper,
+        '[data-testid="editIntakeSourceDropdown"]',
+        "Priority Incident"
+      );
+
+      wrapper.update();
+
+      const priorityReasonDropdownUpdate = wrapper.find(
+        "[data-testid='priorityReasonDropdown']"
+      );
+      const priorityLevelDropdownUpdate = wrapper.find(
+        "[data-testid='priorityLevelDropdown']"
+      );
+
+      expect(priorityReasonDropdownUpdate.exists()).toBe(true);
+      expect(priorityLevelDropdownUpdate.exists()).toBe(true);
     });
 
     test("should submit form when Save is clicked", () => {
