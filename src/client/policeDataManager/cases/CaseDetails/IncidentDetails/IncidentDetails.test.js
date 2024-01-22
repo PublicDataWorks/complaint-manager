@@ -18,6 +18,7 @@ import getHowDidYouHearAboutUsSourceDropdownValues from "../../../howDidYouHearA
 import { getDistrictsSuccess } from "../../../actionCreators/districtsActionCreators";
 import getDistrictDropdownValues from "../../../districts/thunks/getDistrictDropdownValues";
 import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
+import { getIntakeSourcesSuccess } from "../../../actionCreators/intakeSourceActionCreators";
 
 jest.mock("../../thunks/editIncidentDetails", () =>
   jest.fn(values => ({
@@ -57,6 +58,7 @@ describe("incident details", () => {
     incidentTimezone,
     wrapper,
     dispatchSpy,
+    intakeSourceId,
     formattedIncidentTime;
 
   describe("without permissions", () => {
@@ -68,6 +70,7 @@ describe("incident details", () => {
       incidentTime = "14:00:00";
       incidentTimezone = "CDT";
       formattedIncidentTime = "02:00 PM CDT";
+      intakeSourceId = 2;
 
       currentCase = new Case.Builder()
         .defaultCase()
@@ -132,6 +135,12 @@ describe("incident details", () => {
         getDistrictsSuccess([
           ["1st District", 1],
           ["2nd District", 2]
+        ])
+      );
+      store.dispatch(
+        getIntakeSourcesSuccess([
+          ["Priority Incident", 1],
+          ["Phone", 2]
         ])
       );
       store.dispatch({
@@ -223,6 +232,15 @@ describe("incident details", () => {
         .find("[data-testid='districtDropdown']")
         .find("ForwardRef(Autocomplete)");
 
+      const editIntakeSourceDropdown = wrapper
+        .find("[data-testid='editIntakeSourceDropdown']")
+        .find("ForwardRef(Autocomplete)");
+
+      console.log(editIntakeSourceDropdown.prop("value"));
+
+      expect(editIntakeSourceDropdown.prop("value").value).toEqual(
+        intakeSourceId
+      );
       expect(editFirstContactDateInput.prop("value")).toEqual(firstContactDate);
       expect(editIncidentDateInput.prop("value")).toEqual(incidentDate);
       expect(editIncidentTimeInput.prop("value")).toEqual(incidentTime);

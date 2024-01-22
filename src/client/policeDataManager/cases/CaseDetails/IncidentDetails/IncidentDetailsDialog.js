@@ -381,9 +381,10 @@ const IntakeSource = props => {
       component={Dropdown}
       label="Intake Source"
       hinttext="Intake Source"
-      data-testid="intakeSourceDropdown"
+      data-testid="editIntakeSourceDropdown"
       inputProps={{
-        "data-testid": "intakeSourceInput"
+        "data-testid": "editIntakeSourceInput",
+        autoComplete: "off"
       }}
       style={{ width: "60%" }}
       validate={[intakeSourceIsRequired]}
