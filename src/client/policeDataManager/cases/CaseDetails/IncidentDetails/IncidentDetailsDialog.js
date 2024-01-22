@@ -124,6 +124,7 @@ class IncidentDetailsDialog extends Component {
   }
 
   componentDidMount() {
+    this.setState({ dropdownValue: this.props.intakeSourceName });
     this.props.getIntakeSourceDropdownValues();
     this.props.getHowDidYouHearAboutUsSourceDropdownValues();
     this.props.getDistrictDropdownValues();
@@ -273,54 +274,44 @@ class IncidentDetailsDialog extends Component {
               <div style={{ flex: 1 }} />
             </div>
             <div style={{ marginTop: "16px" }}>
-              <Field
-                required
-                name="intakeSourceId"
-                component={Dropdown}
-                label="Intake Source"
-                hinttext="Intake Source"
-                data-testid="intakeSourceDropdown"
-                inputProps={{
-                  "data-testid": "intakeSourceInput"
-                }}
-                style={{ width: "60%" }}
-                validate={[intakeSourceIsRequired]}
-              >
-                {generateMenuOptions(props.intakeSources)}
-              </Field>
+              <IntakeSource
+                handleDropdownChange={this.handleDropdownChange}
+                intakeSources={props.intakeSources}
+              />
             </div>
-
-            <div>
-              <Field
-                component={Dropdown}
-                label="Priority Level"
-                data-testid="priorityLevelDropdown"
-                placeholder="Select a Priority Level"
-                name="priorityLevel.id"
-                style={{ width: "90%", marginBottom: "15px" }}
-                inputProps={{
-                  "data-testid": "priorityLevelInput",
-                  "aria-label": "Priority Level Input"
-                }}
-              >
-                {generateMenuOptions(props.priorityLevels)}
-              </Field>
-              <br />
-              <Field
-                component={Dropdown}
-                label="Priority Reason"
-                placeholder="Select a Priority Reason"
-                name="priorityReason.id"
-                style={{ width: "90%", marginBottom: "15px" }}
-                inputProps={{
-                  "data-testid": "priorityReasonDropdown",
-                  "aria-label": "Priority Reason Dropdown"
-                }}
-              >
-                {generateMenuOptions(props.priorityReasons)}
-              </Field>
-              <br />
-            </div>
+            {this.state.dropdownValue === "Priority Incident" && (
+              <div>
+                <Field
+                  component={Dropdown}
+                  label="Priority Level"
+                  data-testid="priorityLevelDropdown"
+                  placeholder="Select a Priority Level"
+                  name="priorityLevel.id"
+                  style={{ width: "90%", marginBottom: "15px" }}
+                  inputProps={{
+                    "data-testid": "priorityLevelInput",
+                    "aria-label": "Priority Level Input"
+                  }}
+                >
+                  {generateMenuOptions(props.priorityLevels)}
+                </Field>
+                <br />
+                <Field
+                  component={Dropdown}
+                  label="Priority Reason"
+                  placeholder="Select a Priority Reason"
+                  name="priorityReason.id"
+                  style={{ width: "90%", marginBottom: "15px" }}
+                  inputProps={{
+                    "data-testid": "priorityReasonDropdown",
+                    "aria-label": "Priority Reason Dropdown"
+                  }}
+                >
+                  {generateMenuOptions(props.priorityReasons)}
+                </Field>
+                <br />
+              </div>
+            )}
 
             <div style={{ marginTop: "16px" }}>
               <Field
@@ -381,6 +372,27 @@ class IncidentDetailsDialog extends Component {
     );
   }
 }
+
+const IntakeSource = props => {
+  return (
+    <Field
+      required
+      name="intakeSourceId"
+      component={Dropdown}
+      label="Intake Source"
+      hinttext="Intake Source"
+      data-testid="intakeSourceDropdown"
+      inputProps={{
+        "data-testid": "intakeSourceInput"
+      }}
+      style={{ width: "60%" }}
+      validate={[intakeSourceIsRequired]}
+      handleDropdownChange={props.handleDropdownChange}
+    >
+      {generateMenuOptions(props.intakeSources)}
+    </Field>
+  );
+};
 
 const connectedForm = reduxForm({
   form: INCIDENT_DETAILS_FORM_NAME,

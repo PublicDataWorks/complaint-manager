@@ -208,6 +208,7 @@ class IncidentDetails extends React.Component {
           </div>
         </CardContent>
         <IncidentDetailsDialog
+          intakeSourceName={intakeSourceName}
           dialogOpen={this.props.open}
           handleDialogClose={this.handleDialogClose}
           caseId={caseId}
