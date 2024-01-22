@@ -92,7 +92,6 @@ describe("searchOfficers", function () {
           .withOfficerNumber(x)
           .withFirstName("Sal")
           .withLastName("Foo")
-          .withCreatedAt("2024-01-09 13:17:07.293 -0800")
           .build()
       );
     }
