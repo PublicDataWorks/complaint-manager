@@ -17,7 +17,6 @@ class Officer {
     this.officerDistrict = build.officerDistrict;
     this.districtId = build.districtId;
     this.workStatus = build.workStatus;
-    this.createdAt = build.createdAt;
     this.supervisorOfficerNumber = build.supervisorOfficerNumber;
     this.hireDate = build.hireDate;
     this.endDate = build.endDate;
@@ -43,7 +42,6 @@ class Officer {
         this.officerDistrict = null;
         this.districtId = null;
         this.workStatus = CASE_STATUS.ACTIVE;
-        this.createdAt = "2024-01-09 13:17:07.293 -0800";
         this.supervisorOfficerNumber = null;
         this.hireDate = "2008-04-30";
         this.endDate = "2009-04-30";
@@ -104,11 +102,6 @@ class Officer {
 
       withWorkStatus(status) {
         this.workStatus = status;
-        return this;
-      }
-
-      withCreatedAt(createdAt) {
-        this.createdAt = createdAt;
         return this;
       }
 
