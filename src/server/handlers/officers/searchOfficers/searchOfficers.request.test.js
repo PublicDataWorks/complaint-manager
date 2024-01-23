@@ -237,11 +237,11 @@ describe("GET /officers/search", () => {
   });
 
   describe("officers with different created_at dates exist", () => {
-    let henryOfficerCreatedJan, henryOfficerCreatedDec
-    process.env.OFFICER_ROSTER_LATEST_DATE=1704568927
+    let henryOfficerCreatedJan, henryOfficerCreatedDec;
+    process.env.OFFICER_ROSTER_LATEST_DATE = 1704568927;
 
     beforeEach(async () => {
-      jest.useFakeTimers('modern');
+      jest.useFakeTimers("modern");
       jest.setSystemTime(new Date(2024, 1, 10));
 
       henryOfficerCreatedJan = new Officer.Builder()
@@ -262,10 +262,18 @@ describe("GET /officers/search", () => {
         .withDistrict("1st District")
         .withDistrictId(1)
         .build();
-  
+
       await models.officer.bulkCreate(
-        [{...henryOfficerCreatedJan, createdAt: "2024-01-10 00:00:00.000 -0800"},
-        {...henryOfficerCreatedDec, createdAt: "2023-12-30 00:00:00.000 -0800"}],
+        [
+          {
+            ...henryOfficerCreatedJan,
+            createdAt: "2024-01-10 00:00:00.000 -0800"
+          },
+          {
+            ...henryOfficerCreatedDec,
+            createdAt: "2023-12-30 00:00:00.000 -0800"
+          }
+        ],
         {
           returning: true
         }
@@ -275,27 +283,37 @@ describe("GET /officers/search", () => {
     afterEach(() => {
       jest.useRealTimers();
     });
-  
+
     test("matches only officer created after OFFICER_ROSTER_LATEST_DATE", async () => {
       const responsePromise = request(app)
         .get("/api/officers/search")
         .set("Authorization", `Bearer ${token}`)
         .query({ firstName: "h" });
 
-        const response = await responsePromise;
-  
-        await expectResponse(
-          responsePromise,
-          200,
-          expect.objectContaining({
-            rows: expect.arrayContaining([
-              expect.objectContaining({
-                createdAt: "2024-01-10T08:00:00.000Z"
-              })
-            ])
-          })
-        );
-        expect(response.body.rows).toHaveLength(1);
+      const response = await responsePromise;
+
+      await expectResponse(
+        responsePromise,
+        200,
+        expect.objectContaining({
+          rows: expect.arrayContaining([
+            expect.objectContaining({
+              createdAt: "2024-01-10T08:00:00.000Z"
+            })
+          ])
+        })
+      );
+      expect(response.body.rows).toHaveLength(1);
+    });
+
+    test("should return an error when OFFICER_ROSTER_LATEST_DATE is not valid", async () => {
+      process.env.OFFICER_ROSTER_LATEST_DATE = "not-valid-format";
+      const response = await request(app)
+        .get("/api/officers/search")
+        .set("Authorization", `Bearer ${token}`)
+        .query({ firstName: "h" });
+
+      expect(response.statusCode).toEqual(500);
     });
   });
 });

@@ -30,9 +30,13 @@ const searchOfficers = asyncMiddleware(async (request, response, next) => {
       process.env.OFFICER_ROSTER_LATEST_DATE
     );
 
-    whereClause.created_at = {
-      [Op.gte]: date
-    };
+    if (date instanceof Error) {
+      throw error;
+    } else {
+      whereClause.created_at = {
+        [Op.gte]: date
+      };
+    }
   }
 
   const offset = request.query.page
@@ -82,7 +86,12 @@ const searchOfficers = asyncMiddleware(async (request, response, next) => {
 module.exports = searchOfficers;
 
 const getYearMonthDayFromEpoch = epoch => {
-  const date = new Date(0);
-  date.setUTCSeconds(epoch);
-  return date.toISOString().substring(0, 10);
+  try {
+    const date = new Date(0);
+    date.setUTCSeconds(epoch);
+    return date.toISOString().substring(0, 10);
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
 };
