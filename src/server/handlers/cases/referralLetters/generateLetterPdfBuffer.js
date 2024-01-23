@@ -120,7 +120,6 @@ export const generateLetterPdfHtml = async (
       await Promise.all(
         letterImage.map(async image => {
           if (!imageTypes[imageType.name]) {
-            console.log(image);
             imageTypes[imageType.name] = await retrieveLetterImage(
               image.image,
               `max-width: ${imageType.maxWidth}`
