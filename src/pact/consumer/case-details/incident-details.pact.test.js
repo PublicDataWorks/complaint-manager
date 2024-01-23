@@ -99,7 +99,7 @@ pactWith(
         userEvent.click(await screen.findByTestId("districtInput"));
         userEvent.click(await screen.findByText("1st District"));
 
-        userEvent.click(await screen.findByTestId("intakeSourceInput"));
+        userEvent.click(await screen.findByTestId("editIntakeSourceInput"));
         userEvent.click(await screen.findByText("Email"));
 
         userEvent.click(
