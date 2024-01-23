@@ -25,7 +25,6 @@ const searchOfficers = asyncMiddleware(async (request, response, next) => {
   if (request.query.districtId) {
     whereClause.district_id = { [Op.eq]: `${request.query.districtId}` };
   }
-
   if (process.env.OFFICER_ROSTER_LATEST_DATE) {
     const date = getYearMonthDayFromEpoch(
       process.env.OFFICER_ROSTER_LATEST_DATE
