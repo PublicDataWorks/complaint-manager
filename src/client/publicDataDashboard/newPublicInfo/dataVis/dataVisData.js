@@ -30,7 +30,7 @@ const probationNote =
   "Probation: A large majority of people in this designation are incarcerated on probation violations.";
 const ethnicityNote = "Demographics are self-reported by people in custody.";
 const rosterSource =
-  "Hawaii Department of Public Safety, Roster, Sept. 11, 2023";
+  "Hawaii Department of Corrections and Rehabilitation, Roster, Sept. 11, 2023";
 const bureauSource =
   "Bureau of Justice Statistics, Federal Justice Statistics Program, 2021 (preliminary); US Census, 2022; and National Prisoner Statistics, 2021";
 const formattedDemographicsBreakdownDescription = (
@@ -52,9 +52,9 @@ const formattedOvercrowdingDescription = (
       Hawaii prisons do not have sufficient capacity for the current
       incarcerated population
     </strong>
-    . Around 900 people in Hawaii Department of Public Safety custody are
-    serving their sentences at Saguaro, a private prison run by CoreCivic in
-    Eloy, Arizona -{" "}
+    . Around 900 people in Hawaii Department of Corrections and Rehabilitation
+    custody are serving their sentences at Saguaro, a private prison run by
+    CoreCivic in Eloy, Arizona -{" "}
     <strong>
       over 3,000 miles away from their friends, family, and community
     </strong>
