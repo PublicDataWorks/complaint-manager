@@ -20,7 +20,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import { generateMenuOptions } from "../../utilities/generateMenuOptions";
 import Dropdown from "../../../common/components/Dropdown";
-import { intakeSourceIsRequired } from "../../../formFieldLevelValidations";
+import { intakeSourceIsRequired, complaintTypeIsRequired } from "../../../formFieldLevelValidations";
 import CreateCaseActions from "./CreateCaseActions";
 import getIntakeSourceDropdownValues from "../../intakeSources/thunks/getIntakeSourceDropdownValues";
 import getPriorityLevelDropdownValues from "../../intakeSources/thunks/priorityLevelsThunks/getPriorityLevelDropdownValues";
@@ -174,14 +174,16 @@ class CreateCaseDialog extends React.Component {
             {this.props.chooseComplaintTypeFeatureFlag && (
               <>
                 <Field
+                  required
                   component={Dropdown}
-                  placeholder="Select a Complaint Type"
+                  placeholder="Select a Complaint Type*"
                   name="case.complaintType"
                   style={{ width: "90%", marginBottom: "15px" }}
                   inputProps={{
                     "data-testid": "complaintTypeDropdown",
                     "aria-label": "Complaint Type Dropdown"
                   }}
+                  validate={[complaintTypeIsRequired]}
                 >
                   {generateMenuOptions(
                     this.state.complaintTypes.map(type => type.name).sort()
@@ -293,16 +295,17 @@ const PriorityLevel = props => {
 const PriorityReason = props => {
   return (
     <Field
+      name="case.priorityReasons"
       component={Dropdown}
       label="Priority Reason"
       placeholder="Select a Priority Reason"
-      name="case.priorityReasons"
       style={{ width: "90%", marginBottom: "15px" }}
       inputProps={{
         "data-testid": "priorityReasonDropdown",
         "aria-label": "Priority Reason Dropdown"
       }}
     >
+  
       {generateMenuOptions(props.priorityReasons)}
     </Field>
   );
