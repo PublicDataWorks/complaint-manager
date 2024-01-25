@@ -52,3 +52,5 @@ node-yarnaudit-react-scripts-*
 node-yarnaudit-follow-redirects-*
 node-yarnaudit-msgpackr-1095388
 node-yarnaudit-octokit-1095252
+node-yarnaudit-lodash.set-1096291
+node-yarnaudit-lodash.pick-1096292
