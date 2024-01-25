@@ -31,7 +31,7 @@ const searchOfficers = asyncMiddleware(async (request, response, next) => {
     );
 
     if (date instanceof Error) {
-      throw error;
+      throw date;
     } else {
       whereClause.created_at = {
         [Op.gte]: date
