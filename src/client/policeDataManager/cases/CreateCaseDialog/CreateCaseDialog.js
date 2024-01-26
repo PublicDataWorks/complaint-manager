@@ -20,7 +20,10 @@ import {
 } from "../../../../sharedUtilities/constants";
 import { generateMenuOptions } from "../../utilities/generateMenuOptions";
 import Dropdown from "../../../common/components/Dropdown";
-import { intakeSourceIsRequired, complaintTypeIsRequired } from "../../../formFieldLevelValidations";
+import { intakeSourceIsRequired,
+  complaintTypeIsRequired,
+  priorityLevelIsRequired,
+  priorityReasonIsRequired  } from "../../../formFieldLevelValidations";
 import CreateCaseActions from "./CreateCaseActions";
 import getIntakeSourceDropdownValues from "../../intakeSources/thunks/getIntakeSourceDropdownValues";
 import getPriorityLevelDropdownValues from "../../intakeSources/thunks/priorityLevelsThunks/getPriorityLevelDropdownValues";
@@ -115,6 +118,17 @@ class CreateCaseDialog extends React.Component {
       );
     }
   }
+
+  resetForm = () => {
+    this.setState({
+      complaintTypes: [],
+      priorityReasons: [],
+      dropdownValue: {
+        label: "",
+        value: null
+      }
+    });
+  };
 
   render() {
     const {
@@ -217,6 +231,7 @@ class CreateCaseDialog extends React.Component {
           handleSubmit={handleSubmit}
           disabled={submitting}
           change={this.props.change}
+          resetForm={this.resetForm}
         />
       </Dialog>
     );
@@ -276,6 +291,7 @@ const IntakeSource = props => {
 const PriorityLevel = props => {
   return (
     <Field
+    required
       component={Dropdown}
       label="Priority Level"
       data-testid="priorityLevelDropdown"
@@ -286,6 +302,7 @@ const PriorityLevel = props => {
         "data-testid": "priorityLevelInput",
         "aria-label": "Priority Level Input"
       }}
+      validate={[priorityLevelIsRequired]}
     >
       {generateMenuOptions(props.priorityLevels)}
     </Field>
@@ -295,6 +312,7 @@ const PriorityLevel = props => {
 const PriorityReason = props => {
   return (
     <Field
+      required
       name="case.priorityReasons"
       component={Dropdown}
       label="Priority Reason"
@@ -304,6 +322,7 @@ const PriorityReason = props => {
         "data-testid": "priorityReasonDropdown",
         "aria-label": "Priority Reason Dropdown"
       }}
+      validate={[priorityReasonIsRequired]}
     >
   
       {generateMenuOptions(props.priorityReasons)}

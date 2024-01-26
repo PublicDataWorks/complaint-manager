@@ -32,6 +32,7 @@ const {
 
 export class CreateCaseActions extends React.Component {
   closeDialog = () => {
+    this.props.resetForm()
     this.props.closeCreateCaseDialog(DialogTypes.CASE);
     this.props.reset(CREATE_CASE_FORM_NAME);
   };
