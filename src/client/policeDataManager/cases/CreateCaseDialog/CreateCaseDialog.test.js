@@ -405,7 +405,7 @@ describe("CreateCaseDialog component", () => {
             });
           });
 
-          describe("intake source", () => {
+          describe.only("intake source", () => {
             test("should display error when not set on save", () => {
               const submitButton = dialog.find(
                 'LinkButton[data-testid="createCaseOnly"]'
@@ -446,6 +446,63 @@ describe("CreateCaseDialog component", () => {
                 dialog.find('[data-testid="priorityLevelInput"]').exists()
               ).toBeFalsy();
             });
+
+            test("should display error when priority level and priority reason is not set on save", () => {
+              selectDropdownOption(
+                dialog,
+                '[data-testid="intakeSourceDropdown"]',
+                "Priority Incident",
+              );
+              const submitButton = dialog.find(
+                'LinkButton[data-testid="createCaseOnly"]'
+              );
+              submitButton.simulate("click");
+              expect(
+                dialog
+                  .find('[data-testid="priorityLevelInput"]')
+                  .last()
+                  .text()
+              ).toContain("Please enter Priority Level");
+              expect(
+                dialog
+                  .find('[data-testid="priorityReasonDropdown"]')
+                  .last()
+                  .text()
+              ).toContain("Please enter Priority Reason");
+            });
+
+            test("should cancel dialog when priority level and priority reason is set on save. Open dialog not see priority level dropdown", () => {
+              selectDropdownOption(
+                dialog,
+                '[data-testid="intakeSourceDropdown"]',
+                "Priority Incident",
+              );
+              selectDropdownOption(
+                dialog,
+                '[data-testid="priorityLevelInput"]',
+                "High"
+              );
+              selectDropdownOption(
+                dialog,
+                '[data-testid="priorityReasonDropdown"]',
+                "High"
+              );
+
+              const cancelButton = dialog.find('button[data-testid="cancelButton"]');
+              cancelButton.simulate("click");
+              
+              expect(dialog.prop('open')).toBeFalsy();
+              const createCaseButton = dialog.find(
+              'button[data-testid="createCaseButton"]'
+              );
+              createCaseButton.simulate("click");
+              expect(
+              dialog.find('[data-testid="intakeSourceDropdown"]').exists()
+              ).toBeTruthy();
+            expect(
+              dialog.find('[data-testid="priorityLevelInput"]').exists()
+            ).toBeFalsy();
+          });
           });
 
           describe("contact information validation", () => {
