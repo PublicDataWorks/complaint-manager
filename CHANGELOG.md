@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.63.4](https://github.com/PublicDataWorks/complaint-manager/compare/v3.63.3...v3.63.4) (2024-01-29)
+
+
+### Bug Fixes
+
+* Mariah/Fara/Helio [[#328](https://github.com/PublicDataWorks/complaint-manager/issues/328)] Convert date in searchOfficers ([8d60947](https://github.com/PublicDataWorks/complaint-manager/commit/8d60947d955a39f90441725bc7dc6acef036741b))
+
 ### [3.63.3](https://github.com/PublicDataWorks/complaint-manager/compare/v3.63.2...v3.63.3) (2023-11-03)
 
 ### [3.63.2](https://github.com/PublicDataWorks/complaint-manager/compare/v3.63.1...v3.63.2) (2023-11-01)
