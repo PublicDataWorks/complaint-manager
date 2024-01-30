@@ -10,9 +10,8 @@ If you are looking to contribute to this repo, take a look at [our contributor g
 
 ## PLEASE NOTE
 
-> **Warning**
-
-This is a public repository, so please do not include personally identifiable information for real people in commits to the repository.
+> [!CAUTION]
+> This is a public repository, so please do not include personally identifiable information for real people in commits to the repository.
 
 ## Local Development Setup
 
@@ -31,7 +30,7 @@ If you plan to manually (or by local script) perform administrative tasks on Her
 
 ### Set docker hosts for Postgres db and Redis
 
-> **Note**
+> [!NOTE]
 > You only need this if you are trying to run tests outside of the containers OR if you want to run DB migrations
 
 - We depend on access to the local db container for running `server` tests in our IDE and also for running up/down migrations locally
