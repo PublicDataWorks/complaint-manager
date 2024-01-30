@@ -89,7 +89,13 @@ app.use(
       connectSrc: config.contentSecurityPolicy.connectSrc,
       fontSrc: ["https://fonts.googleapis.com", "https://fonts.gstatic.com"],
       objectSrc: ["'none'"],
-      imgSrc: ["'self'", "data:", "blob:", "https://www.google-analytics.com"],
+      imgSrc: [
+        "'self'",
+        "data:",
+        "blob:",
+        "https://www.google-analytics.com",
+        "https://maps.googleapis.com"
+      ],
       scriptSrc: [
         "'self'",
         "https://maps.googleapis.com",
