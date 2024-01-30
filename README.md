@@ -10,7 +10,9 @@ If you are looking to contribute to this repo, take a look at [our contributor g
 
 ## PLEASE NOTE
 
-This is a public repository, so please do not include personally identifiable information for real people in commits to the repository
+> **Warning**
+
+This is a public repository, so please do not include personally identifiable information for real people in commits to the repository.
 
 ## Local Development Setup
 
@@ -29,7 +31,8 @@ If you plan to manually (or by local script) perform administrative tasks on Her
 
 ### Set docker hosts for Postgres db and Redis
 
-**Note:** You only need this if you are trying to run tests outside of the containers OR if you want to run DB migrations
+> **Note**
+> You only need this if you are trying to run tests outside of the containers OR if you want to run DB migrations
 
 - We depend on access to the local db container for running `server` tests in our IDE and also for running up/down migrations locally
 - We depend on access to the local redis instance for debugging purposes and for running `worker` tests
@@ -51,9 +54,9 @@ If you plan to manually (or by local script) perform administrative tasks on Her
 
 ### Set up Git Hooks
 
-    ```bash
-    ./scripts/setup-git-hooks.sh
-    ```
+```bash
+./scripts/setup-git-hooks.sh
+```
 
 - The pre-push hook will execute when you run `git push`. It will pull any remote changes, rebuild the app,
   run all tests, and run the security checks before pushing.
@@ -64,7 +67,7 @@ We use a tool called `mkcert` to manage self-signed certificates for the local e
 
 Run these commands to install a signing certificate authority and certificates on your local machine:
 
-```
+```bash
 brew install mkcert
 
 # installs the local CA
@@ -133,40 +136,42 @@ sudo chown <username> /Users/<username>/Library/Application\ Support/mkcert/root
 
 - Log into Docker using credentials provided by Core Team
 
-`docker login`
+```bash
+docker login
+```
 
 ### Build the app:
 
-    ```bash
-    ./scripts/docker-compose-build.sh
-    ```
+```bash
+./scripts/docker-compose-build.sh
+```
 
 - You should not need to rebuild very often
   - Whenever a new package is added, rebuild
 
 ### Run the app locally in watch mode:
 
-    ```bash
-    docker compose up app
-    ```
+```bash
+docker compose up app
+```
 
 - Wait for the backend and frontend to initialize
   - Healthy console outputs for backend
-  ```
+  ```bash
   Application is listening on port 1234
   Please visit http://localhost:1234
   ```
   - Healthy console outputs for frontend
-  ```
+  ```bash
   Compiled with warnings.
   ```
 - Navigate to `https://localhost`.
 
 ### Stop and remove all running containers:
 
-    ```bash
-    docker compose down
-    ```
+```bash
+docker compose down
+```
 
 ### But what actually happens when you're running locally?
 
@@ -190,7 +195,7 @@ By default, local builds will pull publicdataworks/instance-files-noipm:latest.
 
 To create a new versioned instance-files-noipm image (i.e. publicdataworks/instance-files-noipm:1.0.0), execute the following commands from your private instance files repository (i.e. instance_files_noipm):
 
-```
+```bash
 docker login $DOCKER_USERNAME $DOCKER_PASSWORD
 docker build -t publicdataworks/instance-files-noipm:your-tag .
 docker push publicdataworks/instance-files-noipm:your-tag
@@ -200,9 +205,9 @@ docker push publicdataworks/instance-files-noipm:your-tag
 
 ### Run security checks
 
-    ```
-    docker compose run --rm security-checks
-    ```
+```bash
+docker compose run --rm security-checks
+```
 
 ### Running tests
 
@@ -265,7 +270,9 @@ docker push publicdataworks/instance-files-noipm:your-tag
   Hopefully this will be fixed in a future release of pdfjs.
   More info here: https://github.com/wojtekmaj/react-pdf/wiki/Known-issues
 
-      ```Critical dependency: require function is used in a way in which dependencies cannot be statically extracted```
+  ```
+  Critical dependency: require function is used in a way in which dependencies cannot be statically extracted
+  ```
 
 - There is a warning about duplicate props on the PhoneNumberField. These are actually two different props that have
   the same name, but different capitalization. inputProps and InputProps. They are needed.
@@ -287,6 +294,6 @@ docker push publicdataworks/instance-files-noipm:your-tag
 
 - You may ignore this warning; the tests will still pass.
 
-### Setup Prettier
+### Set Up Prettier
 
-This project has a prettierrc.js file that dictates formatting. To set this up to work automatically in VSCode first add the prettier extension, then go to Code > Preferences > Settings and turn on the setting "Format on Save" (you can do Format on Paste too if you want) and set the "Default Formatter" to prettier.
+This project has a `prettierrc.js` file that dictates formatting. To set this up to work automatically in VSCode first add the prettier extension, then go to Code > Preferences > Settings and turn on the setting "Format on Save" (you can do Format on Paste too if you want) and set the "Default Formatter" to prettier.
