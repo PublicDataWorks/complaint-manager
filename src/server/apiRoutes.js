@@ -563,12 +563,12 @@ export const API_ROUTES = {
         "Something went wrong and the case note action values were not found. Please try again."
     }
   },
-  "/case-note-actions": {
-    post: {
-      handler: createCaseNoteActions,
-      errorMessage: "Something went wrong adding a new case note action."
-    }
-  },
+  // "/case-note-actions": {
+  //   post: {
+  //     handler: createCaseNoteActions,
+  //     errorMessage: "Something went wrong adding a new case note action."
+  //   }
+  // },
   "/classifications": {
     get: {
       handler: getClassifications,
