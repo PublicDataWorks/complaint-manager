@@ -83,7 +83,8 @@ app.use(
   helmet.contentSecurityPolicy({
     directives: {
       formAction: ["'none'"],
-      defaultSrc: ["'none'"],
+      defaultSrc: ["'self'"],
+      manifestSrc: ["https://noipm-ci.herokuapp.com"],
       baseUri: ["'none'"],
       connectSrc: config.contentSecurityPolicy.connectSrc,
       fontSrc: ["https://fonts.googleapis.com", "https://fonts.gstatic.com"],
