@@ -56,6 +56,7 @@ import getOfficerHistoryOptions from "./handlers/cases/referralLetters/getOffice
 import getHowDidYouHearAboutUsSources from "./handlers/howDidYouHearAboutUsSources/getHowDidYouHearAboutUsSources";
 import getGenderIdentities from "./handlers/genderIdentities/getGenderIdentities";
 import retrieveCaseNoteActions from "./handlers/caseNoteActions/retrieveCaseNoteActions";
+import createCaseNoteActions from "./handlers/caseNoteActions/createCaseNoteActions";
 import createCaseTag from "./handlers/cases/caseTags/createCaseTag";
 import retrieveCaseTags from "./handlers/cases/caseTags/retrieveCaseTags";
 import getTags from "./handlers/tags/getTags";
@@ -560,6 +561,12 @@ export const API_ROUTES = {
       handler: retrieveCaseNoteActions,
       errorMessage:
         "Something went wrong and the case note action values were not found. Please try again."
+    }
+  },
+  "/case-note-actions": {
+    post: {
+      handler: createCaseNoteActions,
+      errorMessage: "Something went wrong adding a new case note action."
     }
   },
   "/classifications": {
