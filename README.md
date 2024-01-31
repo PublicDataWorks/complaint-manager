@@ -105,16 +105,16 @@ sudo chown <username> /Users/<username>/Library/Application\ Support/mkcert/root
 
 - Log into Google with the noipm infrastructure Google account from 1Password.
 - Look up the Core Team API key for test environment at https://console.cloud.google.com/apis/credentials
-- Set a local environment variable called REACT_APP_GOOGLE_API_KEY with this test key in either your ~/.profile or ~/.zshrc file depending on which one you use.
+- Set a local environment variable called `REACT_APP_GOOGLE_API_KEY` with this test key in either your `~/.profile` or `~/.zshrc` file depending on which one you use.
 
 #### Contributor:
 
 - You will receive a Contributor Test Key for Google Maps API from a Core Team member
-- Set a local environment variable called REACT_APP_GOOGLE_API_KEY with this test key in either your ~/.profile or ~/.zshrc file.
+- Set a local environment variable called `REACT_APP_GOOGLE_API_KEY` with this test key in either your `~/.profile` or `~/.zshrc` file.
 
 ### Set up Test Environment Variables
 
-- Using your credentials for Auth0 ci, set local test environment variables called TEST_USER and TEST_PASS in either your ~/.profile or ~/.zshrc file.
+- Using your credentials for Auth0 ci, set local test environment variables called `TEST_USER` and `TEST_PASS` in either your `~/.profile` or `~/.zshrc` file.
   - Make sure your credentials were given DPM access.
   - Contributors should receive these from a Core Team member.
 
@@ -178,21 +178,21 @@ It's all well and good to run these commands and watch Docker spin up with a lot
 
 #### ./scripts/docker-compose-build.sh
 
-docker-compose-build.sh builds the docker containers worker, app-e2e, and app so that they can then be spun up to run locally. The diagram below will show you the steps and indicate where those steps are configured
+`docker-compose-build.sh` builds the docker containers worker, app-e2e, and app so that they can then be spun up to run locally. The diagram below will show you the steps and indicate where those steps are configured
 
 ![docker-compose-build diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/PublicDataWorks/complaint-manager/master/docs/technical-content/plantuml/docker-compose-build.puml)
 
 #### docker-compose up app
 
-docker-compose up app runs the app container (which includes the client and server and pulls in the database, worker, and elasticsearch) so that you can use it locally. The diagram below will show you the steps it takes and indicate where those steps are configured
+`docker-compose up app` runs the app container (which includes the client and server and pulls in the database, worker, and elasticsearch) so that you can use it locally. The diagram below will show you the steps it takes and indicate where those steps are configured
 
 ![docker-compose up app diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/PublicDataWorks/complaint-manager/master/docs/technical-content/plantuml/docker-compose-up.puml)
 
 ### Instance Files
 
-By default, local builds will pull publicdataworks/instance-files-noipm:latest.
+By default, local builds will pull p`ublicdataworks/instance-files-noipm:latest`.
 
-To create a new versioned instance-files-noipm image (i.e. publicdataworks/instance-files-noipm:1.0.0), execute the following commands from your private instance files repository (i.e. instance_files_noipm):
+To create a new versioned `instance-files-noipm` image (e.g. `publicdataworks/instance-files-noipm:1.0.0`), execute the following commands from your private instance files repository (`instance_files_noipm`):
 
 ```bash
 docker login $DOCKER_USERNAME $DOCKER_PASSWORD
@@ -218,7 +218,7 @@ docker compose run --rm security-checks
   yarn test:client
   ```
 
-  (client tests can be run in docker like the others, but since it doesn't require the test database it can be run outside of docker which is faster)
+  (Client tests can be run in Docker like the others, but since it doesn't require the test database it can be run outside of Docker which is faster)
 
 #### Running server side tests in watch mode:
 
@@ -240,8 +240,8 @@ docker compose run --rm security-checks
 
 - For when you want to run a specific test suite in the terminal for either client, server, or worker tests
   - Run the command for either client, worker, or server tests depending on the type of test you are working on
-  - Once the database is prepared and the tests begin to run, press the "Enter" key and then the "p" key
-  - Then start typing the filename where the desired test suite lives and once selected, press "Enter"
+  - Once the database is prepared and the tests begin to run, press the `Enter` key and then the `P` key
+  - Then start typing the filename where the desired test suite lives and once selected, press `Enter`
   - The test suite will rerun every time you make a change to the test file and any corresponding files
 
 ### Running pact tests locally:
