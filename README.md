@@ -190,7 +190,7 @@ It's all well and good to run these commands and watch Docker spin up with a lot
 
 ### Instance Files
 
-By default, local builds will pull p`ublicdataworks/instance-files-noipm:latest`.
+By default, local builds will pull `publicdataworks/instance-files-noipm:latest`.
 
 To create a new versioned `instance-files-noipm` image (e.g. `publicdataworks/instance-files-noipm:1.0.0`), execute the following commands from your private instance files repository (`instance_files_noipm`):
 
