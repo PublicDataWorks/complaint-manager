@@ -3,13 +3,14 @@ import models from "../../policeDataManager/models";
 
 const createCaseNoteActions = asyncMiddleWare(
   async (request, response, next) => {
-    const caseNoteAction = await models.sequelize.transaction(
-      async transaction =>
-        (actionTaken = await models.case_note_action.create({
-          name: request.body.name
-        }))
-    );
-    response.send(200);
+    try {
+      const caseNoteAction = await models.case_note_action.create({
+        name: request.body.name
+      });
+      response.status(201).send(caseNoteAction);
+    } catch (error) {
+      response.status(500).send(error);
+    }
   }
 );
 

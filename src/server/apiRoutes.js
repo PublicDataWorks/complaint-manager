@@ -561,14 +561,13 @@ export const API_ROUTES = {
       handler: retrieveCaseNoteActions,
       errorMessage:
         "Something went wrong and the case note action values were not found. Please try again."
+    },
+    post: {
+      handler: createCaseNoteActions,
+      requiredPermission: USER_PERMISSIONS.ADMIN_ACCESS,
+      errorMessage: "Something went wrong adding a new case note action."
     }
   },
-  // "/case-note-actions": {
-  //   post: {
-  //     handler: createCaseNoteActions,
-  //     errorMessage: "Something went wrong adding a new case note action."
-  //   }
-  // },
   "/classifications": {
     get: {
       handler: getClassifications,
