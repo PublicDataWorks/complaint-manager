@@ -13,7 +13,7 @@ import {
 } from "../../../shared/components/StyledButtons";
 import { Field, reduxForm, reset } from "redux-form";
 import DateField from "../../sharedFormComponents/DateField";
-import Dropdown from "../../../../common/components/Dropdown";
+import CreatableDropdown from "../../../../common/components/CreatableDropdown";
 import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
 import addCaseNote from "../../thunks/addCaseNote";
 import { actionIsRequired } from "../../../../formFieldLevelValidations";
@@ -143,16 +143,16 @@ class CaseNoteDialog extends Component {
             />
             <br />
             <Field
-              required
-              name="caseNoteActionId"
-              component={Dropdown}
-              label={"Action Taken"}
+              inputProps={{ "data-testid": "actionTakenInput" }}
               data-testid="actionsDropdown"
+              component={CreatableDropdown}
+              name="caseNoteActionId"
+              required
               style={{
                 width: "75%",
                 marginBottom: "16px"
               }}
-              inputProps={{ "data-testid": "actionTakenInput" }}
+              label="Action Taken"
               validate={[actionIsRequired]}
             >
               {generateMenuOptions(this.props.caseNoteActions)}

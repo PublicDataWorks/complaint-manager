@@ -21,12 +21,24 @@ const createCaseNote = asyncMiddleware(async (request, response, next) => {
     const author = request.nickname;
     let caseNoteId = null;
 
+    const { caseNoteActionId } = requestBody;
+    let caseNoteActionIdValue;
+    if (typeof caseNoteActionId.value === "string") {
+      const caseNoteAction = await models.case_note_action.create({
+        name: caseNoteActionId.value
+      });
+      caseNoteActionIdValue = caseNoteAction.id;
+    } else {
+      caseNoteActionIdValue = caseNoteActionId.value;
+    }
+
     await models.case_note
       .create(
         {
           ...requestBody,
           user: author,
-          caseId: request.params.caseId
+          caseId: request.params.caseId,
+          caseNoteActionId: caseNoteActionIdValue
         },
         {
           transaction,
