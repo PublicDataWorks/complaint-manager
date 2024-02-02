@@ -86,7 +86,7 @@ class CaseNoteDialog extends Component {
       default:
         break;
     }
-
+    this.props.reset(CASE_NOTE_FORM_NAME);
     closeDialog();
   };
 
