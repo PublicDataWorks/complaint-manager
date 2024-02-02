@@ -65,12 +65,21 @@ describe("createCaseNote", function () {
       auditUser: "someone"
     });
 
+    const caseActionTaken = await models.case_note_action.create({
+      name: "test action"
+    });
+
     request = httpMocks.createRequest({
       method: "POST",
       headers: {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
-      body: { actionTakenAt: actionTaken, notes: "wow", mentionedUsers: [] },
+      body: {
+        actionTakenAt: actionTaken,
+        notes: "wow",
+        mentionedUsers: [],
+        caseNoteActionId: { value: caseActionTaken.dataValues.id }
+      },
       params: {
         caseId: createdCase.id
       },
