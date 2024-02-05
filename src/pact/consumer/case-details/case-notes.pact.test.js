@@ -32,7 +32,7 @@ pactWith(
             },
             body: like({
               caseId: 1,
-              caseNoteActionId: 1,
+              caseNoteActionId: { value: 1, label: "Case briefing from NOPD" },
               notes: "i wrote notes",
               mentionedUsers: [],
               actionTakenAt: "2022-08-24T11:29:00-06:00"
@@ -52,7 +52,7 @@ pactWith(
                 caseNoteActionId: 1,
                 caseNoteAction: {
                   id: 1,
-                  name: "Memo to file",
+                  name: "Case briefing from NOPD",
                   createdAt: "2022-08-19T16:45:03.710Z",
                   updatedAt: "2022-08-19T16:45:03.710Z"
                 },
