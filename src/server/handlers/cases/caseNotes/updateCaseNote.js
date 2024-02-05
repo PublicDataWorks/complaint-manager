@@ -18,7 +18,29 @@ const updateCaseNote = asyncMiddleware(async (request, response, next) => {
   const mentionedUsers = request.body.mentionedUsers;
   const caseId = request.params.caseId;
   const caseNoteId = request.params.caseNoteId;
-  const valuesToUpdate = _.pick(request.body, [
+
+  const { caseNoteActionId } = request.body;
+  let caseNoteActionIdValue;
+  if (typeof caseNoteActionId.value === "string") {
+    try {
+      const caseNoteAction = await models.case_note_action.create({
+        name: caseNoteActionId.value
+      });
+      caseNoteActionIdValue = caseNoteAction.id;
+    } catch (error) {
+      console.error(
+        "Error while creating a new case note action. Error: ",
+        error
+      );
+      throw error;
+    }
+  } else {
+    caseNoteActionIdValue = caseNoteActionId.value;
+  }
+
+  const values = { ...request.body, caseNoteActionId: caseNoteActionIdValue };
+
+  const valuesToUpdate = _.pick(values, [
     "caseNoteActionId",
     "actionTakenAt",
     "notes"

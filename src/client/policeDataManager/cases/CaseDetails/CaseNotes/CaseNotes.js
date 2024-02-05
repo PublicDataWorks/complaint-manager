@@ -78,7 +78,13 @@ class CaseNotes extends Component {
                 return (
                   <ActivityDisplay
                     key={activity.id}
-                    activity={activity}
+                    activity={{
+                      ...activity,
+                      caseNoteActionId: {
+                        value: activity.caseNoteActionId,
+                        label: activity.caseNoteAction.name
+                      }
+                    }}
                     caseId={caseId}
                     highlightedCaseNote={this.props.highlightedCaseNote}
                     allUsers={generateMenuOptions(mappedUsers)}
@@ -95,7 +101,9 @@ class CaseNotes extends Component {
           />
           <RemoveCaseNoteDialog />
         </div>
-        {this.props.permissions?.includes(USER_PERMISSIONS.CREATE_CASE_NOTE) && (
+        {this.props.permissions?.includes(
+          USER_PERMISSIONS.CREATE_CASE_NOTE
+        ) && (
           <LinkButton
             onClick={() => {
               this.props.dispatch(
