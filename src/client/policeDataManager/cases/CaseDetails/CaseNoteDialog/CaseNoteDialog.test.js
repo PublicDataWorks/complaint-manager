@@ -100,7 +100,7 @@ describe("CaseNoteDialog", () => {
     const submittedValues = {
       caseId: caseId,
       actionTakenAt: moment.tz(dateWithOutTimeZone, moment.tz.guess()).format(),
-      caseNoteActionId: caseNoteActions.memoToFile[1],
+      caseNoteActionId: { value: 1, label: "Memo to file" },
       mentionedUsers: []
     };
 
@@ -164,7 +164,7 @@ describe("CaseNoteDialog", () => {
     const submittedValues = {
       caseId: caseId,
       actionTakenAt: moment.tz(dateWithOutTimeZone, moment.tz.guess()).format(),
-      caseNoteActionId: caseNoteActions.memoToFile[1],
+      caseNoteActionId: { value: 1, label: "Memo to file" },
 
       notes: "these are notes @Test",
       mentionedUsers: mentionedUsers
@@ -217,7 +217,7 @@ describe("CaseNoteDialog", () => {
     const actionTakenAt = new Date();
     const initialValues = {
       actionTakenAt: moment(actionTakenAt).format("YYYY-MM-DDTHH:mm:ss"),
-      caseNoteActionId: caseNoteActions.memoToFile[1]
+      caseNoteActionId: { value: 1, label: "Memo to file" }
     };
 
     store.dispatch(initialize("CaseNotes", initialValues));
@@ -238,7 +238,7 @@ describe("CaseNoteDialog", () => {
     const valuesToSubmit = {
       caseId: caseId,
       notes: caseNotes,
-      caseNoteActionId: caseNoteActions.memoToFile[1],
+      caseNoteActionId: { value: 1, label: "Memo to file" },
       mentionedUsers: []
     };
 
@@ -249,7 +249,7 @@ describe("CaseNoteDialog", () => {
     const actionTakenAt = new Date();
     const initialValues = {
       actionTakenAt: moment(actionTakenAt).format("YYYY-MM-DDTHH:mm:ss"),
-      caseNoteActionId: caseNoteActions.memoToFile[1]
+      caseNoteActionId: { value: 1, label: "Memo to file" }
     };
     store.dispatch(initialize("CaseNotes", initialValues));
     const wrapper = mountDialog("Edit", initialValues);
