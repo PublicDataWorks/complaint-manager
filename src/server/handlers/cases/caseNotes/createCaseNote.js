@@ -24,10 +24,18 @@ const createCaseNote = asyncMiddleware(async (request, response, next) => {
     const { caseNoteActionId } = requestBody;
     let caseNoteActionIdValue;
     if (typeof caseNoteActionId.value === "string") {
-      const caseNoteAction = await models.case_note_action.create({
-        name: caseNoteActionId.value
-      });
-      caseNoteActionIdValue = caseNoteAction.id;
+      try {
+        const caseNoteAction = await models.case_note_action.create({
+          name: caseNoteActionId.value
+        });
+        caseNoteActionIdValue = caseNoteAction.id;
+      } catch (error) {
+        console.error(
+          "Error while creating a new case note action. Error: ",
+          error
+        );
+        throw error;
+      }
     } else {
       caseNoteActionIdValue = caseNoteActionId.value;
     }
