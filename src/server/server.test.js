@@ -705,10 +705,9 @@ describe("server", () => {
 
       const caseNote = {
         caseId: createdCase.dataValues.id,
-        caseNoteActionId: caseNoteAction.id,
-        caseNoteAction: {
-          id: caseNoteAction.id,
-          name: caseNoteAction.name
+        caseNoteActionId: {
+          value: caseNoteAction.id,
+          label: caseNoteAction.name
         },
         notes: "some interesting notes....",
         actionTakenAt: new Date().toISOString(),
