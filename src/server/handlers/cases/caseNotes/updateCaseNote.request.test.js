@@ -82,7 +82,10 @@ describe("updateCaseNote request", function () {
     });
 
     const updatedCaseNote = {
-      caseNoteActionId: newCaseNoteAction.id,
+      caseNoteActionId: {
+        value: newCaseNoteAction.id,
+        label: newCaseNoteAction.name
+      },
       notes: "updated notes"
     };
 
@@ -101,6 +104,13 @@ describe("updateCaseNote request", function () {
       expect.arrayContaining([
         expect.objectContaining({
           ...updatedCaseNote,
+          caseNoteActionId: newCaseNoteAction.id,
+          caseNoteAction: {
+            id: newCaseNoteAction.id,
+            name: newCaseNoteAction.name,
+            createdAt: expect.anything(),
+            updatedAt: expect.anything()
+          },
           id: createdCaseNote.id,
           author: expect.objectContaining({ email: NICKNAME })
         })
