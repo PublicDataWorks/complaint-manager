@@ -84,7 +84,7 @@ mkcert -cert-file .cert/client.crt -key-file .cert/client.key localhost
 mkcert -cert-file data/server.test.pem.crt -key-file data/server.test.pem.key host.docker.internal
 
   - Navigate into the data folder and create a file named server.test.pem and add (or replace if it already exists) the contents in the server.test.pem file with the contents of the newly generated .key and .crt files. The .key should be at the top and the .crt on the bottom
-  - If Docker is already setup docker-compose down then a docker-compose up app for changes to take effect (if this is your first time, you can't docker compose up yet)
+  - If Docker is already set up, docker-compose down then a docker-compose up app for changes to take effect (if this is your first time, you can't docker compose up yet)
 
 # set CERT_DIR env variable
 in .zshrc set the CERT_DIR environment variable to the directory in which the root cert lives (You can find this directory by running `mkcert -CAROOT`. Will look something like `/Users/<username>/Library/Application\ Support/mkcert`)
@@ -114,7 +114,7 @@ sudo chown <username> /Users/<username>/Library/Application\ Support/mkcert/root
 
 ### Set up Test Environment Variables
 
-- Using your credentials for Auth0 ci, set local test environment variables called `TEST_USER` and `TEST_PASS` in either your `~/.profile` or `~/.zshrc` file.
+- Using your credentials for Auth0 CI, set local test environment variables called `TEST_USER` and `TEST_PASS` in either your `~/.profile` or `~/.zshrc` file.
   - Make sure your credentials were given DPM access.
   - Contributors should receive these from a Core Team member.
 
@@ -127,7 +127,7 @@ sudo chown <username> /Users/<username>/Library/Application\ Support/mkcert/root
 
 ### Install Local Dependencies
 
-- Run `yarn install` to install dependencies on your machine (as opposed to in the docker container; you will need these for running unit tests outside the container e.g. your IDE, also Security Checks will run against your locally installed dependencies)
+- Run `yarn install` to install dependencies on your machine (as opposed to in the Docker container; you will need these for running unit tests outside the container e.g. your IDE, also Security Checks will run against your locally installed dependencies)
 
 ## Local Development Tasks
 
@@ -178,7 +178,7 @@ It's all well and good to run these commands and watch Docker spin up with a lot
 
 #### ./scripts/docker-compose-build.sh
 
-`docker-compose-build.sh` builds the docker containers worker, app-e2e, and app so that they can then be spun up to run locally. The diagram below will show you the steps and indicate where those steps are configured
+`docker-compose-build.sh` builds the Docker containers `worker`, `app-e2e`, and `app` so that they can then be spun up to run locally. The diagram below will show you the steps and indicate where those steps are configured
 
 ![docker-compose-build diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/PublicDataWorks/complaint-manager/master/docs/technical-content/plantuml/docker-compose-build.puml)
 
@@ -296,3 +296,6 @@ docker compose run --rm security-checks
 ### Set Up Prettier
 
 This project has a `prettierrc.js` file that dictates formatting. To set this up to work automatically in VSCode first add the prettier extension, then go to Code > Preferences > Settings and turn on the setting "Format on Save" (you can do Format on Paste too if you want) and set the "Default Formatter" to prettier.
+
+ <!-- TODO: Add section on exactly how to switch between NOIPM & Hawaii -->
+ 
