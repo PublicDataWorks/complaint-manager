@@ -331,7 +331,7 @@ describe("Case dashboard", () => {
                 headers: {
                   "Content-Type": "application/json; charset=utf-8"
                 },
-                body: eachLike({ name: "priority-reason-test", id: 1 })
+                body: eachLike(["priority-reason-test", 1])
               }
             }),
             provider.addInteraction({
