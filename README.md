@@ -136,8 +136,8 @@ We use a tool called `mkcert` to manage self-signed certificates for the local e
 
 - In `.zshrc` set the `CERT_DIR` environment variable to the directory in which the root cert lives. You can find this directory by running `mkcert -CAROOT`.
 
-  > [!TIP]
-  > The directory path will look something like `/Users/<username>/Library/Application\ Support/mkcert`
+> [!TIP]
+> The directory path will look something like `/Users/<username>/Library/Application\ Support/mkcert`
 
 - If you want to run using certs on Firefox also run `brew install nss`.
 
