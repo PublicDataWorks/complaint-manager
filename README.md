@@ -153,8 +153,6 @@ We use a tool called `mkcert` to manage self-signed certificates for the local e
 
 - If you want to run using certs on Firefox also run `brew install nss`.
 
----
-
 ##### Troubleshooting
 
 If you run into issues like
