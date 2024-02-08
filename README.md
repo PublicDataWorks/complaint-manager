@@ -11,6 +11,8 @@ If you are looking to contribute to this repo, take a look at [our contributor g
 > [!CAUTION]
 > This is a public repository, so please do not include PII (personally identifiable information) for real people in commits to the repository.
 
+---
+
 ## Table of Contents
 
 - [Local Development](#local-development)
@@ -50,6 +52,8 @@ If you are looking to contribute to this repo, take a look at [our contributor g
 - [Miscellaneous](#miscellaneous)
   - [Set Up Prettier](#set-up-prettier)
 
+---
+
 ## Local Development
 
 ### Local Development - Setup
@@ -59,9 +63,13 @@ If you are looking to contribute to this repo, take a look at [our contributor g
 > [!NOTE]
 > The default developer platform for our team is MacOS. On other platforms (Linux, Windows) the code should compile and run, but this isn't something that's been tested.
 
+---
+
 #### Install Heroku CLI (optional)
 
 If you plan to perform administrative tasks on Heroku deployments, manually or by local script, you will need to install [the Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli).
+
+---
 
 #### Docker
 
@@ -91,6 +99,8 @@ For Mac, you can [download Docker here](https://www.docker.com/products/docker).
   - Memory: 6.0 GB
   - Swap: 1.0 GB
 
+---
+
 #### Set up Git hooks
 
 To set up Git hooks, run the following command:
@@ -100,6 +110,8 @@ To set up Git hooks, run the following command:
 ```
 
 The pre-push hook will execute when you run `git push`. It will pull any remote changes, rebuild the app, run all tests, and run the security checks before pushing.
+
+---
 
 #### Install local certificates
 
@@ -141,6 +153,8 @@ We use a tool called `mkcert` to manage self-signed certificates for the local e
 
 - If you want to run using certs on Firefox also run `brew install nss`.
 
+---
+
 ##### Troubleshooting
 
 If you run into issues like
@@ -155,6 +169,8 @@ You can solve this using:
 sudo chown <username> /Users/<username>/Library/Application\ Support/mkcert/rootCA-key.pem
 ```
 
+---
+
 #### Set up Google Maps API key
 
 ##### Core team
@@ -168,6 +184,8 @@ sudo chown <username> /Users/<username>/Library/Application\ Support/mkcert/root
 - You will receive a Contributor Test Key for Google Maps API from a Core Team member.
 - Set a local environment variable called `REACT_APP_GOOGLE_API_KEY` with this test key in your `~/.profile` or `~/.zshrc` file.
 
+---
+
 #### Set up test environment variables
 
 - Using your credentials for Auth0 CI, set local test environment variables called `TEST_USER` and `TEST_PASS` in either your `~/.profile` or `~/.zshrc` file.
@@ -178,12 +196,16 @@ sudo chown <username> /Users/<username>/Library/Application\ Support/mkcert/root
 > [!TIP]
 > Contributors should receive these credentials from a Core Team member.
 
+---
+
 #### Set up local environment to point to AWS cloud
 
 You only need this if you want to bypass LocalStack and test things using real AWS services like S3 and SecretsManager.
 
 - You must change `USE_CLOUD_SERVICES` and `REACT_APP_USE_CLOUD_SERVICES` from `false` to `true` in `docker-compose.yml`.
 - You will need to set up `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` in your environment variables so PDM can connect to AWS.
+
+---
 
 #### Install local dependencies
 
@@ -196,9 +218,13 @@ yarn install
 - You will need these for running unit tests outside the of a container.
 - Also, security checks will run against your locally installed dependencies.
 
+---
+
 ### Local Development - Tasks
 
 [Go to top](#complaint-manager) • [Setup](#local-development---setup) • [Testing](#local-development---testing) • [Troubleshooting](#local-development---troubleshooting)
+
+---
 
 #### Log in to Docker
 
@@ -207,6 +233,8 @@ Log in to Docker using credentials provided by the Core Team with the following 
 ```bash
 docker login
 ```
+
+---
 
 #### Building the app
 
@@ -217,6 +245,8 @@ Run the following command:
 ```
 
 - You should not need to rebuild very often. When a new package is added, you will need to rebuild.
+
+---
 
 #### Running the app locally in watch mode
 
@@ -243,6 +273,8 @@ Compiled with warnings.
   
 Navigate to `https://localhost` to view the app.
 
+---
+
 #### Stop and remove all running containers
 
 Run the following command:
@@ -250,6 +282,8 @@ Run the following command:
 ```bash
 docker compose down
 ```
+
+---
 
 #### What actually happens when you're running locally?
 
@@ -271,6 +305,8 @@ It's all well and good to run these commands and watch Docker spin up with a lot
 
 [PlantUML link](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/PublicDataWorks/complaint-manager/master/docs/technical-content/plantuml/docker-compose-up.puml)
 
+---
+
 #### Instance files
 
 By default, local builds will pull `publicdataworks/instance-files-noipm:latest`.
@@ -283,6 +319,8 @@ docker build -t publicdataworks/instance-files-noipm:your-tag .
 docker push publicdataworks/instance-files-noipm:your-tag
 ```
 
+---
+
 #### Switching between organizations
 
 In `./~zshrc`:
@@ -293,12 +331,16 @@ In `docker-compose.yml`:
 
 Change the line beginning with `ORG=` to the organization you want to point to (_e.g._ `HAWAII` or `NOIPM`).
 
+---
+
 ### Local Development - Testing
 
 [Go to top](#complaint-manager) • [Setup](#local-development---setup) • [Tasks](#local-development---tasks) • [Troubleshooting](#local-development---troubleshooting)
 
 > [!IMPORTANT]
 > The following must be performed before pushing any code.
+
+---
 
 #### Running security checks
 
@@ -307,6 +349,8 @@ Run the following command:
 ```bash
 docker compose run --rm security-checks
 ```
+
+---
 
 #### Running tests
 
@@ -321,6 +365,8 @@ yarn test:client
 > [!NOTE]
 > Like other tests, client tests can be run in Docker. However, since they don't require the test database, they can be run outside of Docker, which is faster.
 
+---
+
 ##### Running server side tests in watch mode
 
 Set up a test database and run all tests in `src/server` sequentially with the following command:
@@ -328,6 +374,8 @@ Set up a test database and run all tests in `src/server` sequentially with the f
 ```bash
 docker-compose run --rm app yarn test:server
 ```
+
+---
 
 ##### Running worker tests in watch mode
 
@@ -337,6 +385,8 @@ Set up a test DB and run all tests in `src/worker` sequentially with the followi
 docker-compose run --rm app yarn test:worker
 ```
 
+---
+
 ##### Hints for unit tests
 
 Tips for when you want to run a specific test suite in the terminal for either client, server, or worker tests:
@@ -345,6 +395,8 @@ Tips for when you want to run a specific test suite in the terminal for either c
 - Once the database is prepared and the tests begin to run, press the `Enter` key and then the `P` key
 - Then start typing the file name where the desired test suite lives and once selected, press `Enter`
 - The test suite will rerun every time you make a change to the test file and any corresponding files
+
+---
 
 #### Running Pact tests locally
 
@@ -366,9 +418,13 @@ docker compose run --rm app yarn test:pact:server
 > [!TIP]
 > For more information on Pact, visit http://pact.io.
 
+---
+
 ### Local Development - Troubleshooting
 
 [Go to top](#complaint-manager) • [Setup](#local-development---setup) • [Tasks](#local-development---tasks) • [Testing](#local-development---testing)
+
+---
 
 #### Known warnings in the app
 
@@ -383,6 +439,8 @@ docker compose run --rm app yarn test:pact:server
   - More info here: https://github.com/wojtekmaj/react-pdf/wiki/Known-issues
 
 - There is a warning about duplicate props on the `PhoneNumberField`. These are actually two different props that have the same name, but different capitalization: `inputProps` and `InputProps`. They are needed.
+
+---
 
 #### Known warnings in tests
 
@@ -400,6 +458,8 @@ docker compose run --rm app yarn test:pact:server
   ```
 
 - You can safely ignore this warning. The tests will still pass.
+
+---
 
 ## Miscellaneous
 
