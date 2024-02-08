@@ -285,7 +285,13 @@ docker push publicdataworks/instance-files-noipm:your-tag
 
 #### Switching between organizations
 
-<!-- TODO: Add this section -->
+In `./~zshrc`:
+
+Change the line beginning with `export REACT_APP_INSTANCE_FILES_DIR=` to point to the instance files directory of the organization you want to point to.
+
+In `docker-compose.yml`:
+
+Change the line beginning with `ORG=` to the organization you want to point to (_e.g._ `HAWAII` or `NOIPM`).
 
 ### Local Development - Testing
 
