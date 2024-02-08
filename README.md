@@ -128,15 +128,16 @@ We use a tool called `mkcert` to manage self-signed certificates for the local e
 - Navigate into the data folder and create a file named `server.test.pem`
 - Add (or replace if it already exists) the contents in the `server.test.pem` file with the contents of the newly generated `.key` and `.crt` files.
 
-  > [!IMPORTANT]
-  > The `.key` should be at the top and the `.crt` on the bottom.
+> [!IMPORTANT]
+> The `.key` should be at the top and the `.crt` on the bottom.
 
 - If Docker is already set up, run `docker compose down` then `docker compose up app` for changes to take effect.
   - If this is your first time, you can't `docker compose up` yet.
 
 - In `.zshrc` set the `CERT_DIR` environment variable to the directory in which the root cert lives. You can find this directory by running `mkcert -CAROOT`.
-    > [!TIP]
-    > The directory path will look something like `/Users/<username>/Library/Application\ Support/mkcert`
+
+  > [!TIP]
+  > The directory path will look something like `/Users/<username>/Library/Application\ Support/mkcert`
 
 - If you want to run using certs on Firefox also run `brew install nss`.
 
@@ -331,8 +332,6 @@ docker-compose run --rm app yarn test:worker
 ```
 
 ##### Hints for unit tests
-
-> [!TIP]
 
 Tips for when you want to run a specific test suite in the terminal for either client, server, or worker tests:
 
