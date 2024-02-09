@@ -17,6 +17,7 @@ import { isCaseNoteAuthor } from "../helpers/isCaseNoteAuthor";
 import { addAuthorDetailsToCaseNote } from "../helpers/addAuthorDetailsToCaseNote";
 import { sendNotification } from "../getMessageStream";
 import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
+import { number } from "prop-types";
 
 jest.mock("../../audits/auditDataAccess");
 jest.mock("../helpers/isCaseNoteAuthor");
@@ -84,7 +85,10 @@ describe("updateCaseNote", function () {
     });
 
     updatedCaseNote = {
-      caseNoteActionId: newCaseNoteAction.id,
+      caseNoteActionId: {
+        value: newCaseNoteAction.id,
+        label: newCaseNoteAction.name
+      },
       notes: "updated notes",
       mentionedUsers: []
     };
@@ -129,6 +133,10 @@ describe("updateCaseNote", function () {
     });
   });
 
+  // const arr = {"actionId": 368, "actionTakenAt": 2024-02-09T17:02:14.252Z, "caseId": 594, "caseNoteAction": {"createdAt": 2024-02-09T17:02:14.224Z, "id": 368, "name": "updated action", "updatedAt": 2024-02-09T17:02:14.224Z}, "caseNoteActionId": 368, "createdAt": 2024-02-09T17:02:14.252Z, "deletedAt": null, "id": 243, "notes": "updated notes", "updatedAt": 2024-02-09T17:02:14.266Z, "user": "tuser"}
+
+  // {"caseId": 594, "caseNoteAction": ObjectContaining {"createdAt": Anything, "id": 368, "name": "updated action", "updatedAt": Anything}, "caseNoteActionId": {"label": "updated action", "value": 368}, "id": 243, "notes": "updated notes"}
+
   describe("editing case note with no mentions yet", () => {
     test("should update case status and case notes in the db after case note edited", async () => {
       await updateCaseNote(request, response, next);
@@ -156,10 +164,12 @@ describe("updateCaseNote", function () {
             id: createdCaseNote.id,
             caseId: createdCaseNote.caseId,
             notes: updatedCaseNote.notes,
-            caseNoteActionId: updatedCaseNote.caseNoteActionId,
+            caseNoteActionId: updatedCaseNote.caseNoteActionId.value,
             caseNoteAction: expect.objectContaining({
               id: newCaseNoteAction.id,
-              name: newCaseNoteAction.name
+              name: newCaseNoteAction.name,
+              createdAt: expect.anything(),
+              updatedAt: expect.anything()
             })
           })
         ])
@@ -198,7 +208,7 @@ describe("updateCaseNote", function () {
             id: createdCaseNote.id,
             caseId: createdCaseNote.caseId,
             notes: updatedCaseNote.notes,
-            caseNoteActionId: updatedCaseNote.caseNoteActionId,
+            caseNoteActionId: updatedCaseNote.caseNoteActionId.value,
             caseNoteAction: expect.objectContaining({
               id: newCaseNoteAction.id,
               name: newCaseNoteAction.name
@@ -257,7 +267,10 @@ describe("updateCaseNote", function () {
       );
 
       updatedCaseNote = {
-        caseNoteActionId: newCaseNoteAction.id,
+        caseNoteActionId: {
+          value: newCaseNoteAction.id,
+          label: newCaseNoteAction.name
+        },
         notes: "new notes @Test",
         mentionedUsers: [{ label: "Test", value: "test@test.com" }]
       };
