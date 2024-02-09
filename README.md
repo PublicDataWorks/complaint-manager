@@ -278,7 +278,7 @@ It's all well and good to run these commands and watch Docker spin up with a lot
 
 `docker-compose-build.sh` builds the Docker containers `worker`, `app-e2e`, and `app` so that they can then be spun up to run locally. The diagram below shows the steps and indicates where those steps are configured:
 
-![docker-compose-build diagram](./images/docker_compose_build_diagram.png)
+![docker-compose-build diagram](./resources/diagrams/docker_compose_build_diagram.png)
 
 [PlantUML link](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/PublicDataWorks/complaint-manager/master/docs/technical-content/plantuml/docker-compose-build.puml)
 
@@ -286,7 +286,7 @@ It's all well and good to run these commands and watch Docker spin up with a lot
 
 `docker-compose up app` runs the app container (which includes the client and server and pulls in the database, worker, and elasticsearch) so that you can use it locally. The diagram below shows the steps it takes and indicates where those steps are configured:
 
-![docker-compose up app diagram](./images/docker_compose_up_diagram.png)
+![docker-compose up app diagram](./resources/diagrams/docker_compose_up_diagram.png)
 
 [PlantUML link](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/PublicDataWorks/complaint-manager/master/docs/technical-content/plantuml/docker-compose-up.puml)
 
