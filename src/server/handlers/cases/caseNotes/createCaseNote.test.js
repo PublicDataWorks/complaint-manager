@@ -151,6 +151,47 @@ describe("createCaseNote", function () {
 
       expect(addAuthorDetailsToCaseNote).toHaveBeenCalled();
     });
+
+    test("should create case notes and a new case note action", async () => {
+      const localRequest = httpMocks.createRequest({
+        method: "POST",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        params: {
+          caseId: createdCase.id
+        },
+        body: {
+          ...request.body,
+          caseNoteActionId: {
+            value: "action-taken-test",
+            label: "action-taken-test"
+          }
+        },
+        nickname: "TEST_USER_NICKNAME",
+        permissions: USER_PERMISSIONS.VIEW_ANONYMOUS_DATA
+      });
+
+      await createCaseNote(localRequest, response, next);
+
+      const caseNotes = await models.case_note.findAll({
+        where: { caseId: createdCase.id },
+        include: [{ model: models.case_note_action, as: "caseNoteAction" }]
+      });
+
+      const caseNoteActionObj = caseNotes
+        .map(note => note.caseNoteAction)
+        .find(action => action.name === "action-taken-test");
+
+      expect(caseNoteActionObj).toEqual(
+        expect.objectContaining({
+          name: "action-taken-test",
+          id: expect.anything(),
+          createdAt: expect.anything(),
+          updatedAt: expect.anything()
+        })
+      );
+    });
   });
 
   describe("auditing", () => {
