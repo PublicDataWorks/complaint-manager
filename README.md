@@ -22,7 +22,6 @@ If you are looking to contribute to this repo, take a look at [our contributor g
       - [Docker installation](#docker-installation)
       - [Set Docker hosts for Postgres and Redis](#set-docker-hosts-for-postgres-and-redis)
       - [Docker preferences](#docker-preferences)
-    - [Set up Git hooks](#set-up-git-hooks)
     - [Install local certificates](#install-local-certificates)
     - [Set up Google Maps API key](#set-up-google-maps-api-key)
       - [Core team](#core-team)
@@ -30,25 +29,25 @@ If you are looking to contribute to this repo, take a look at [our contributor g
     - [Set up test environment variables](#set-up-test-environment-variables)
     - [Set up local environment to point to AWS cloud](#set-up-local-environment-to-point-to-aws-cloud)
     - [Install local dependencies](#install-local-dependencies)
-- [Tasks](#local-development---tasks)
-  - [Log in to Docker](#log-in-to-docker)
-  - [Building the app](#building-the-app)
-  - [Running the app locally in watch mode](#running-the-app-locally-in-watch-mode)
-  - [Stop and remove all running containers](#stop-and-remove-all-running-containers)
-  - [What actually happens when you're running locally?](#what-actually-happens-when-youre-running-locally)
-  - [Instance files](#instance-files)
-  - [Switching between organizations](#switching-between-organizations)
-- [Testing](#local-development---testing)
-  - [Running security checks](#running-security-checks)
-  - [Running tests](#running-tests)
-    - [Running client side tests in watch mode](#running-client-side-tests-in-watch-mode)
-    - [Running server side tests in watch mode](#running-server-side-tests-in-watch-mode)
-    - [Running worker tests in watch mode](#running-worker-tests-in-watch-mode)
-    - [Hints for unit tests](#hints-for-unit-tests)
-  - [Running Pact tests locally](#running-pact-tests-locally)
-- [Troubleshooting](#local-development---troubleshooting)
-  - [Known warnings in the app](#known-warnings-in-the-app)
-  - [Known warnings in tests](#known-warnings-in-tests)
+  - [Tasks](#local-development---tasks)
+    - [Log in to Docker](#log-in-to-docker)
+    - [Building the app](#building-the-app)
+    - [Running the app locally in watch mode](#running-the-app-locally-in-watch-mode)
+    - [Stop and remove all running containers](#stop-and-remove-all-running-containers)
+    - [What actually happens when you're running locally?](#what-actually-happens-when-youre-running-locally)
+    - [Instance files](#instance-files)
+    - [Switching between organizations](#switching-between-organizations)
+  - [Testing](#local-development---testing)
+    - [Running security checks](#running-security-checks)
+    - [Running tests](#running-tests)
+      - [Running client side tests in watch mode](#running-client-side-tests-in-watch-mode)
+      - [Running server side tests in watch mode](#running-server-side-tests-in-watch-mode)
+      - [Running worker tests in watch mode](#running-worker-tests-in-watch-mode)
+      - [Hints for unit tests](#hints-for-unit-tests)
+    - [Running Pact tests locally](#running-pact-tests-locally)
+  - [Troubleshooting](#local-development---troubleshooting)
+    - [Known warnings in the app](#known-warnings-in-the-app)
+    - [Known warnings in tests](#known-warnings-in-tests)
 - [Miscellaneous](#miscellaneous)
   - [Set Up Prettier](#set-up-prettier)
 
@@ -98,18 +97,6 @@ For Mac, you can [download Docker here](https://www.docker.com/products/docker).
   - CPUs: 4
   - Memory: 6.0 GB
   - Swap: 1.0 GB
-
----
-
-#### Set up Git hooks
-
-To set up Git hooks, run the following command:
-
-```bash
-./scripts/setup-git-hooks.sh
-```
-
-The pre-push hook will execute when you run `git push`. It will pull any remote changes, rebuild the app, run all tests, and run the security checks before pushing.
 
 ---
 
@@ -174,7 +161,7 @@ sudo chown <username> /Users/<username>/Library/Application\ Support/mkcert/root
 ##### Core team
 
 - Log in to Google with the NOIPM infrastructure Google account from 1Password.
-- Look up the Core Team API key for test environment at https://console.cloud.google.com/apis/credentials.
+- Look up the Core Team API key for test environment [here](https://console.cloud.google.com/apis/credentials).
 - Set a local environment variable called `REACT_APP_GOOGLE_API_KEY` with this test key in your `~/.profile` or `~/.zshrc` file.
 
 ##### Contributors
@@ -321,7 +308,7 @@ docker push publicdataworks/instance-files-noipm:your-tag
 
 #### Switching between organizations
 
-In `./~zshrc`:
+In `~/.zshrc`:
 
 Change the line beginning with `export REACT_APP_INSTANCE_FILES_DIR=` to point to the instance files directory of the organization you want to point to.
 
@@ -354,7 +341,7 @@ docker compose run --rm security-checks
 
 ##### Running client side tests in watch mode
 
-To run all tests in `src/client` in parallel, run the following command: 
+To run all tests in `src/client` in parallel, run the following command:
 
 ```bash
 yarn test:client
@@ -407,14 +394,14 @@ Run client Pact tests with the following command:
 yarn test:pact:client
 ```
 
-Run server Pact tests with the following command: 
+Run server Pact tests with the following command:
 
 ```bash
 docker compose run --rm app yarn test:pact:server
 ```
 
 > [!TIP]
-> For more information on Pact, visit http://pact.io.
+> See more information on Pact [here](http://pact.io).
 
 ---
 
@@ -434,7 +421,7 @@ docker compose run --rm app yarn test:pact:server
 
   - We use a workaround that copies the `pdf.worker.js` file to our build directory in a postbuild script.
   - Hopefully this will be fixed in a future release of `pdfjs`.
-  - More info here: https://github.com/wojtekmaj/react-pdf/wiki/Known-issues
+  - More info [here](https://github.com/wojtekmaj/react-pdf/wiki/Known-issues).
 
 - There is a warning about duplicate props on the `PhoneNumberField`. These are actually two different props that have the same name, but different capitalization: `inputProps` and `InputProps`. They are needed.
 
