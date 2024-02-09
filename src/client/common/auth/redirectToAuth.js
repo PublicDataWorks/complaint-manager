@@ -7,10 +7,6 @@ const redirectToAuth = dispatch => {
   ) {
     localStorage.setItem("redirectUri", window.location.pathname);
   }
-  
-  window.onpopstate = () => {
-    dispatch(push(localStorage.getItem("redirectUri") || "/login"));
-  };
 
   dispatch(push("/login"));
 };
