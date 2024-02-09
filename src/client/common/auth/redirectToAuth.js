@@ -10,7 +10,7 @@ const redirectToAuth = dispatch => {
 
   // Listen for the popstate event, which is fired when the user clicks the back button
   window.onpopstate = () => {
-    dispatch(push(localStorage.getItem("redirectUri") || "/login"));
+    dispatch(push("/login"));
   };
 
   dispatch(push("/login"));
