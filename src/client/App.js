@@ -27,6 +27,7 @@ const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig
 
 const App = props => {
   let [eventSource, setEventSource] = useState(undefined);
+  const [authInProgress, setAuthInProgress] = useState(false);
 
   useEffect(() => {
     props.getFeatureToggles();
@@ -40,11 +41,16 @@ const App = props => {
     } else if (accessToken) {
       auth.setUserInfoInStore(accessToken, props.userAuthSuccess);
     } else if (
+
       !window.location.pathname.includes("/data") &&
       !window.location.pathname.includes("/public") &&
-      window.location.pathname !== "/callback"
+      window.location.pathname !== "/callback" &&
+      !authInProgress
+      
     ) {
-      console.log(window.location.pathname);
+      console.log("it is hitting this else if condition")
+      console.log("this is windowPath",window.location.pathname);
+      setAuthInProgress(true);
       redirectToAuth(props.dispatch);
     }
   }, []);
