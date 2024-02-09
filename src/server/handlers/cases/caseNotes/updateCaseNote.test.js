@@ -133,10 +133,6 @@ describe("updateCaseNote", function () {
     });
   });
 
-  // const arr = {"actionId": 368, "actionTakenAt": 2024-02-09T17:02:14.252Z, "caseId": 594, "caseNoteAction": {"createdAt": 2024-02-09T17:02:14.224Z, "id": 368, "name": "updated action", "updatedAt": 2024-02-09T17:02:14.224Z}, "caseNoteActionId": 368, "createdAt": 2024-02-09T17:02:14.252Z, "deletedAt": null, "id": 243, "notes": "updated notes", "updatedAt": 2024-02-09T17:02:14.266Z, "user": "tuser"}
-
-  // {"caseId": 594, "caseNoteAction": ObjectContaining {"createdAt": Anything, "id": 368, "name": "updated action", "updatedAt": Anything}, "caseNoteActionId": {"label": "updated action", "value": 368}, "id": 243, "notes": "updated notes"}
-
   describe("editing case note with no mentions yet", () => {
     test("should update case status and case notes in the db after case note edited", async () => {
       await updateCaseNote(request, response, next);
@@ -242,6 +238,53 @@ describe("updateCaseNote", function () {
       await updateCaseNote(request, response, next);
 
       expect(addAuthorDetailsToCaseNote).toHaveBeenCalled();
+    });
+
+    test("should update case notes when a new case action note is created", async () => {
+      const caseNote = new CaseNote.Builder()
+        .defaultCaseNote()
+        .withCaseId(createdCase.id)
+        .withNotes("default notes - test")
+        .withCaseNoteActionId(caseNoteAction.id)
+        .build();
+
+      const note = await models.case_note.create(caseNote, {
+        auditUser: "someone"
+      });
+      const localRequest = httpMocks.createRequest({
+        method: "PUT",
+        headers: {
+          authorization: "Bearer SOME_MOCK_TOKEN"
+        },
+        params: {
+          caseId: createdCase.id,
+          caseNoteId: note.id
+        },
+        body: {
+          ...updatedCaseNote,
+          caseNoteActionId: { value: "action-taken", label: "action-taken" }
+        },
+        nickname: "TEST_USER_NICKNAME"
+      });
+
+      await updateCaseNote(localRequest, response, next);
+
+      const updatedCaseNotes = await models.case_note.findAll({
+        where: { caseId: createdCase.id },
+        include: [{ model: models.case_note_action, as: "caseNoteAction" }]
+      });
+      const caseNoteActionObj = updatedCaseNotes
+        .map(note => note.caseNoteAction)
+        .find(action => action.name === "action-taken");
+
+      expect(caseNoteActionObj).toEqual(
+        expect.objectContaining({
+          name: "action-taken",
+          id: expect.anything(),
+          createdAt: expect.anything(),
+          updatedAt: expect.anything()
+        })
+      );
     });
   });
 
