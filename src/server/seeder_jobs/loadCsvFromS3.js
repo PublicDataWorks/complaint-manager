@@ -63,6 +63,7 @@ const loadCsvFromS3 = async (fileName, model) => {
         newItems = checkForOldItems(oldItems, entries);
       } catch (error) {
         winston.error(`There was an error retrieving data. Error: ${error}`);
+        throw error;
       }
       const insertedEntries = await model.bulkCreate(newItems);
       winston.info(
@@ -78,6 +79,7 @@ const loadCsvFromS3 = async (fileName, model) => {
     winston.error(
       `There was an error importing some of the data. Error: ${error}`
     );
+    throw error;
   }
 };
 
