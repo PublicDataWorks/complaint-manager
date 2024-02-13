@@ -25,7 +25,7 @@ const checkForOldItems = (oldItems, newItems) => {
 const loadCsvFromS3 = async (fileName, model) => {
   try {
     const s3 = createConfiguredS3Instance();
-    const Bucket = process.env.SEED_DATA_BUCKET_NAME || "noipm-seed-files";
+    const Bucket = process.env.SEED_DATA_BUCKET_NAME;
     const Key = fileName;
     winston.info("Processing CSVs in S3...");
 
