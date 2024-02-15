@@ -43,6 +43,10 @@ class CaseNoteDialog extends Component {
     this.props.getUsers();
   }
 
+  componentDidUpdate() {
+    this.props.getCaseNoteActionDropdownValues();
+  }
+
   handleMentionedUsers = mentionedUsers => {
     this.setState({
       mentionedUsers

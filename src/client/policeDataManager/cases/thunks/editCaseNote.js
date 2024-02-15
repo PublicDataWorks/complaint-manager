@@ -11,9 +11,10 @@ const editCaseNote = values => async dispatch => {
       `api/cases/${values.caseId}/case-notes/${values.id}`,
       JSON.stringify(values)
     );
+
     dispatch(editCaseNoteSuccess(response.data));
-    dispatch(stopSubmit(CASE_NOTE_FORM_NAME));
-    return dispatch(snackbarSuccess("Case note was successfully updated"));
+    dispatch(snackbarSuccess("Case note was successfully updated"));
+    return dispatch(stopSubmit(CASE_NOTE_FORM_NAME));
   } catch (error) {
     dispatch(stopSubmit(CASE_NOTE_FORM_NAME));
   }
