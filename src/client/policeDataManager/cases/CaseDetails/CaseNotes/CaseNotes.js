@@ -82,7 +82,7 @@ class CaseNotes extends Component {
                       ...activity,
                       caseNoteActionId: {
                         value: activity.caseNoteActionId,
-                        label: activity.caseNoteAction.name
+                        label: activity.caseNoteAction?.name
                       }
                     }}
                     caseId={caseId}
