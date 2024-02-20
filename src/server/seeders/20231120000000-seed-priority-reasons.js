@@ -4,7 +4,9 @@ const models = require("../policeDataManager/models/index");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await loadCsvFromS3("priorityReasons.csv", models.priority_reasons);
+    if (process.env.ORG === "HAWAII") {
+      await loadCsvFromS3("priorityReasons.csv", models.priority_reasons);
+    }
   },
 
   down: async (queryInterface, Sequelize) => {
