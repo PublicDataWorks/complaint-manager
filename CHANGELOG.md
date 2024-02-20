@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.63.10](https://github.com/PublicDataWorks/complaint-manager/compare/v3.63.9...v3.63.10) (2024-02-20)
+
+
+### Bug Fixes
+
+* Shak/Fara/Helio [[#000](https://github.com/PublicDataWorks/complaint-manager/issues/000)] Remove space in config.yaml ([b1831ff](https://github.com/PublicDataWorks/complaint-manager/commit/b1831ffa8326d243bcfc9b0b02b89b010cb03396))
+
 ### [3.63.9](https://github.com/PublicDataWorks/complaint-manager/compare/v3.63.8...v3.63.9) (2024-02-19)
 
 ### [3.63.8](https://github.com/PublicDataWorks/complaint-manager/compare/v3.63.7...v3.63.8) (2024-02-16)
