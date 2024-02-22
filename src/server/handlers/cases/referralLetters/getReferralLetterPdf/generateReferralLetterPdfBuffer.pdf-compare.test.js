@@ -40,7 +40,7 @@ describe("Compare Generated Referral Letter to Baseline", () => {
       { auditUser: "user" }
     );
 
-    global.Date.now = jest.fn(() => 1530118207007);
+    global.Date.now = jest.fn(() => 1708369556089);
 
     const signerAttr = new Signer.Builder()
       .defaultSigner()
@@ -127,7 +127,7 @@ describe("Compare Generated Referral Letter to Baseline", () => {
     );
   });
 
-  test("src/testPDFs/referralLetter.pdf should match baseline (instance-files/tests/basePDFs/referralLetter.pdf); pngs saved in src/testPDFs", async () => {
+  test("src/testPDFs/referralLetter2024.pdf should match baseline (instance-files/tests/basePDFs/referralLetter2024.pdf); pngs saved in src/testPDFs", async () => {
     const letterCase = await models.cases.create(
       new Case.Builder().defaultCase().withId(1234).withCaseNumber("0001"),
       { auditUser: "user" }
@@ -167,9 +167,12 @@ describe("Compare Generated Referral Letter to Baseline", () => {
       new ReferralLetter.Builder()
         .defaultReferralLetter()
         .withCaseId(letterCase.id)
-        .withSender("Nina Ambroise")
-        .withRecipient("Barry Zuckercorn")
-        .withRecipientAddress("123 Main St."),
+        .withSender("Stella Cziment")
+        .withRecipient("Deputy Superintendent Keith Sanchez")
+        .withRecipientAddress(`Public Integrity Bureau
+        New Orleans Police Department
+        1340 Poydras St Suite 1900
+        New Orleans, LA 70112`),
       { auditUser: "user" }
     );
 
@@ -182,10 +185,10 @@ describe("Compare Generated Referral Letter to Baseline", () => {
           type: "REFERRAL"
         })
     );
-    let file = process.cwd() + "/src/testPDFs/referralLetter.pdf";
+    let file = process.cwd() + "/src/testPDFs/referralLetter2024.pdf";
     fs.writeFileSync(file, pdfBuffer);
 
-    const result = await compareLetter("referralLetter.pdf");
+    const result = await compareLetter("referralLetter2024.pdf");
     expect(result.status).toEqual("passed");
   });
 
