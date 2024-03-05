@@ -55,6 +55,21 @@ class AppRouter extends Component {
 
   createRoute = (path, component, title) => {
     let RouteComponent = component;
+    const routeComponentBuilder = props => {
+      if (path === "/callback") {
+        return (
+          <RouteComponent
+            {...props}
+            errorComponent={() => {
+              globalThis.location = "/login";
+              return null;
+            }}
+          />
+        );
+      } else {
+        return <RouteComponent {...props} />;
+      }
+    };
 
     return (
       <Route
@@ -63,11 +78,7 @@ class AppRouter extends Component {
         path={path}
         render={props => {
           this.setPageTitle(title);
-          return (
-            <div>
-              <RouteComponent {...props} />
-            </div>
-          );
+          return <div>{routeComponentBuilder(props)}</div>;
         }}
       />
     );
