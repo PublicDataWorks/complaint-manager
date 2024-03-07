@@ -1,0 +1,92 @@
+---
+layout: default
+title: Wiki Migration Checklist
+parent: Wiki Migration
+has_children: false
+---
+
+### Pages to Review from Wiki
+
+- [ ] Project Overview
+  - [ ] Project Infrastructure
+  - [ ] Team Practices
+- [x] ADRs
+- [ ] Scaling Plans
+  - [ ] Customize Workflow
+    - [ ] NOIPM Functionality that Makes Generalization Harder
+  - [ ] Org Configuration
+  - [ ] New Client Deploy
+- [ ] Onboarding Outline
+- [ ] Contributor Guidelines
+- [ ] Team Blogs
+  - [ ] Maria's Blog
+    - [ ] errrr
+  - [ ] Syamala's Coding Conundrums
+  - [ ] Slack Integration with Google Sheet
+- [ ] Analysis Resources
+  - [ ] Design and UX
+- [ ] Development Resources
+  - [ ] How To Guides
+    - [ ] Creating a New Environment
+    - [ ] Provisioning Higher Enviroments
+    - [ ] Provisioning a Playground Env
+    - [ ] Feature Toggles
+    - [ ] Auth0 Configuration
+    - [ ] Auth0 Add User Roles and Permissions
+    - [ ] Recreating Sortable Cases
+    - [ ] Monitoring of Worker Jobs
+    - [ ] Updating Docker Images
+    - [ ] Updating Letter Templates
+    - [ ] Setup a Custom Domain
+    - [ ] How to Set Up a Stress Test
+    - [ ] How to Setup Your Local Database
+    - [ ] Creating a Release
+    - [ ] Debugging a Particular Release
+    - [ ] How to Deal with Security Checks Failing
+    - [ ] Possible TDD Process for Using Pact
+    - [ ] How to Create a Public Service Handler
+    - [ ] How to Debug Database Problems
+    - [ ] How to Switch Between Instances
+    - [ ] How to Setup a New Okta Instance for CM
+    - [ ] Prod Checklist
+    - [ ] How to Update the PDF Snapshot
+  - [ ] New Relic
+  - [ ] Docker Commands
+  - [ ] Create New City Instance
+  - [ ] Commit Format
+- [ ] Pieces of the App
+  - [ ] Client
+    - [ ] Component/Container
+    - [ ] Action Creator/Thunk
+    - [ ] Reducer
+    - [ ] Selector
+  - [ ] Server
+    - [ ] Handler
+    - [ ] Model
+    - [ ] Migration/Seeder
+    - [ ] Payload Objects
+  - [ ] Worker
+  - [ ] Instance Files
+  - [ ] Tests
+    - [ ] Pact Tests
+  - [ ] Environment Variables
+  - [ ] Flakey Test Record
+  - [ ] Naming Convention
+  - [ ] Content Security Policy
+  - [ ] Prod Pushes
+  - [ ] Story Flow
+- [ ] API Documentation
+- [ ] Data Resources
+  - [ ] NOLA Data Portal (Misconduct Complaints)
+  - [ ] IA Pro Officer & Allegation Data
+  - [ ] Auditing
+  - [ ] Officer Seed Data
+  - [ ] VPN access to NOIPM office database server
+- [ ] Pivotal Tracker Guidelines
+  - [ ] Anatomy of a Card
+  - [ ] Lifecycle of a Card
+  - [ ] Epics
+- [ ] Concerns and Considerations
+- [ ] Glossary
+- [ ] FAQ
+- [ ] Updating Tags
