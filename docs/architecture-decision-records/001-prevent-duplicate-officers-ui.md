@@ -2,7 +2,7 @@
 layout: default
 title: ADR 001 - Preventing duplicate officers from being displayed when searching within a case in NOIPM
 parent: Architecture Decision Records
-permalink: /adr-001/
+permalink: /adrs/adr-001
 ---
 
 # 001 - Prevent duplicate officers from being displayed when searching within a case in NOIPM
