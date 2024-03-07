@@ -2,6 +2,7 @@
 layout: default
 title: ADR 003 - Choose SASS or Tailwind CSS for custom styling in Complaint Manager 2.0 component library
 parent: Architecture Decision Records
+permalink: adrs/adr-003
 ---
  
 # 003 - Choose SASS or Tailwind CSS for custom styling in Complaint Manager 2.0 component library

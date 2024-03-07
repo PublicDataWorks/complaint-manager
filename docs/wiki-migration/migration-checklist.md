@@ -10,7 +10,7 @@ has_children: false
 - [ ] Project Overview
   - [ ] Project Infrastructure
   - [ ] Team Practices
-- [ ] ADRs
+- [x] ADRs
 - [ ] Scaling Plans
   - [ ] Customize Workflow
     - [ ] NOIPM Functionality that Makes Generalization Harder

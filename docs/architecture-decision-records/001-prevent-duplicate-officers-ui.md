@@ -2,11 +2,12 @@
 layout: default
 title: ADR 001 - Preventing duplicate officers from being displayed when searching within a case in NOIPM
 parent: Architecture Decision Records
+permalink: /adr-001/
 ---
 
 # 001 - Prevent duplicate officers from being displayed when searching within a case in NOIPM
 
-## Date
+### Date
 
 01/25/2024
 
@@ -15,7 +16,7 @@ parent: Architecture Decision Records
 Proposed
 {: .label .label-yellow }
 
-#### Context
+### Context
 
 [Issue #328](https://github.com/PublicDataWorks/complaint-manager/issues/328) – Do not display duplicated officers in the UI
 
@@ -23,7 +24,7 @@ Proposed
 - When someone is creating or editing a case and searching for an officer, we don't want duplicates to be shown.
 - We don't want to remove the duplicated data from the `officers` table because previous cases might be assigned to some of those officers, and we still want those to be searchable from the search bar on the main page.
 
-#### Decision
+### Decision
 
 - An environment variable, `OFFICER_ROSTER_LATEST_DATE`,  was added to NOIPM production in Heroku.
   - When we receive a new list of officers from NOIPM, we will update the value of this variable in Heroku.
@@ -32,7 +33,7 @@ Proposed
 - Logic was added so that when searching for officers within a case, only officers with a `created_at` date equal to or after `OFFICER_ROSTER_LATEST_DATE` will be displayed.
 - [Pull request](https://github.com/PublicDataWorks/complaint-manager/pull/453)
 
-#### Consequences
+### Consequences
 
 - The environment variable was created only in the production environment for NOIPM. Therefore, testing it locally or in CI or Staging environments will require a code change.
 - To modify the environment variable on Heroku, NOIPM prod permissions are required.
