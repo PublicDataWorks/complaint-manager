@@ -11,18 +11,19 @@ const models = require("../../../policeDataManager/models/index");
 
 /**
  * @swagger
- * /cases/:caseId/case-notes:
+ * /cases/{caseId}/case-notes:
  *   get:
  *     tags:
  *      - case notes
  *     summary: Retrieve a list of notes from a case
  *     description: Returns a list of notes associated with the case.
  *     parameters:
- *      - name: caseId
- *        in: path
+ *      - in: path
+ *        name: caseId
  *        description: Id of the case
  *        required: true
- *        type: integer
+ *        schema:
+ *          type: integer
  *        example: 1
  *     responses:
  *       200:
@@ -62,15 +63,15 @@ const models = require("../../../policeDataManager/models/index");
  *                         description: creation date
  *                         example: null
  *                       actionId:
- *                         type: int
+ *                         type: integer
  *                         description: creation date
  *                         example: 2
  *                       caseId:
- *                         type: int
+ *                         type: integer
  *                         description: creation date
  *                         example: 1
  *                       caseNoteActionId:
- *                         type: int
+ *                         type: integer
  *                         description: creation date
  *                         example: 1
  *                       caseNoteAction:
