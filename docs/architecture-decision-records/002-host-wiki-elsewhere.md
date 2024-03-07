@@ -2,7 +2,7 @@
 layout: default
 title: ADR 002 - Host our wiki somewhere other than Google Sites
 parent: Architecture Decision Records
-permalink: adr-002
+permalink: /adrs/adr-002
 ---
 
 # 002 - Host our wiki somewhere other than Google Sites
