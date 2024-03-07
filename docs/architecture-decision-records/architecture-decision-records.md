@@ -1,5 +1,5 @@
 ---
 layout: default
-title: Architectural Decision Records
+title: Architecture Decision Records
 has_children: true
 ---
