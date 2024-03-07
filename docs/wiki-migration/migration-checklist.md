@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Wiki Migration Checklist
+parent: Wiki Migration
 has_children: false
 ---
 
@@ -9,7 +10,7 @@ has_children: false
 - [ ] Project Overview
   - [ ] Project Infrastructure
   - [ ] Team Practices
-- [x] ADRs – [Migrated](https://github.com/PublicDataWorks/complaint-manager/wiki/ADRs)
+- [ ] ADRs
 - [ ] Scaling Plans
   - [ ] Customize Workflow
     - [ ] NOIPM Functionality that Makes Generalization Harder
