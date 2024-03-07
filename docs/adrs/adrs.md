@@ -1,7 +1,7 @@
 ---
 layout: default
 title: ADRs
-parent: ADRs
+has_children: true
 ---
 
 # Test
