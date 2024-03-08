@@ -48,31 +48,24 @@ const models = require("../../../policeDataManager/models/index");
  *                         example: notes taken in the case
  *                       actionTakenAt:
  *                         type: string
- *                         description: ???
  *                         example: 2024-02-23T19:33:00.000Z
  *                       createdAt:
  *                         type: string
- *                         description: creation date
  *                         example: 2024-02-23T19:33:30.546Z
  *                       updatedAt:
  *                         type: string
- *                         description: creation date
  *                         example: 2024-02-23T19:33:30.546Z
  *                       deletedAt:
  *                         type: string
- *                         description: creation date
  *                         example: null
  *                       actionId:
  *                         type: integer
- *                         description: creation date
  *                         example: 2
  *                       caseId:
  *                         type: integer
- *                         description: creation date
  *                         example: 1
  *                       caseNoteActionId:
  *                         type: integer
- *                         description: creation date
  *                         example: 1
  *                       caseNoteAction:
  *                         type: object
