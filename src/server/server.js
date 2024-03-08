@@ -49,6 +49,21 @@ winston.configure({
 
 const app = express();
 
+try {
+  const swaggerUI = require("swagger-ui-express");
+  const spec = require("./swagger");
+  app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(spec));
+
+  app.get("/api-docs.json", function (req, res) {
+    res.setHeader("Content-Type", "application/json");
+    res.send(spec);
+  });
+} catch (error) {
+  console.error(
+    `There was an error setting up the endpoint /api-docs. Error: ${error}`
+  );
+}
+
 if (!isLowerEnv) {
   app.use(enforce.HTTPS({ trustProtoHeader: true }));
 }
