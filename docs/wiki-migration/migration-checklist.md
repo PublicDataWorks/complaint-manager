@@ -87,6 +87,13 @@ permalink: wiki-migration
   - [ ] Lifecycle of a Card
   - [ ] Epics
 - [ ] Concerns and Considerations
+- [ ] Complaint Manager v2
+  - [ ] Overview
+  - [ ] Architecture Proposals
+    - [ ] Proposal #1
+  - [ ] Research
+  - [ ] Content Management Systems
+    - [ ] Drupal
 - [ ] Glossary
 - [ ] FAQ
 - [ ] Updating Tags
