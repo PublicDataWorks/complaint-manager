@@ -1,7 +1,6 @@
 ---
 layout: default
 title: Wiki Migration Checklist
-parent: Wiki Migration
 has_children: false
 ---
 
