@@ -1,6 +1,6 @@
 import React from "react";
 import { Field } from "redux-form";
-import { isPhoneNumber } from "../../../formFieldLevelValidations";
+import { phoneRequired } from "../../../formFieldLevelValidations";
 import MaskedInput from "react-text-mask";
 import { renderTextField } from "./renderFunctions";
 
@@ -50,7 +50,7 @@ const PhoneNumberField = props => {
         "aria-label": "Phone Number Field"
       }}
       data-testid="phoneNumberField"
-      validate={[isPhoneNumber]}
+      validate={[phoneRequired]}
       normalize={strip_nondigits}
       style={{ width: "35%", marginRight: "0%", marginBottom: "3%" }}
       InputLabelProps={{
