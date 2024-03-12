@@ -47,8 +47,8 @@ We propose using SASS for the following reasons:
 ##### Tailwind CSS
 
 - While Tailwind offers a rapid development approach, its utility-first nature might:
-  -Limit customization, potentially hindering fine-tuning component styles beyond Tailwind's pre-built classes.
-  -Introduce naming conflicts if Tailwind classes clash with MUI component class names.
+  - Limit customization, potentially hindering fine-tuning component styles beyond Tailwind's pre-built classes.
+  - Introduce naming conflicts if Tailwind classes clash with MUI component class names.
 - Additionally, adopting Tailwind might require additional learning and setup time for the development team.
 
 #### Mitigation Strategies
