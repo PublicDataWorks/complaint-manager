@@ -41,5 +41,3 @@ Proposed
 - We only expect to receive a new list of officers every ~6 months, so this operation will not have to be done often.
 - Parts of the system in NOIPM that use the API endpoint /officers/search will be affected by this change.
 - The Hawaii pipeline is not affected by this decision.
-
----

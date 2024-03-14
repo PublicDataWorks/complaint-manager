@@ -1,16 +1,16 @@
 ---
 layout: default
 title: Wiki Migration Checklist
-has_children: false
-permalink: wiki-migration
+parent: Wiki Information
+permalink: wiki-info/wiki-migration
 ---
 
-### Pages to Review from Wiki
+# Pages to Review from Wiki
 
 - [ ] Project Overview
   - [ ] Project Infrastructure
   - [ ] Team Practices
-- [x] ADRs - [migrated](./adrs)
+- [x] ADRs - [migrated](../adrs)
 - [ ] Scaling Plans
   - [ ] Customize Workflow
     - [ ] NOIPM Functionality that Makes Generalization Harder
