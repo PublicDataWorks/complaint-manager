@@ -3,10 +3,7 @@ layout: default
 title: ADR 001 - Preventing duplicate officers from being displayed when searching within a case in NOIPM
 parent: Architecture Decision Records
 permalink: /adrs/adr-001
-last_modified_date: {{ page.last_modified_at }}
 ---
-
-Last modified at: {{ page.last_modified_at }} {% last_modified_at %}
 
 # 001 - Prevent duplicate officers from being displayed when searching within a case in NOIPM
 

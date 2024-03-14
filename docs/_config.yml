@@ -1,14 +1,3 @@
 title: "PDM Docs"
 remote_theme: pmarsceill/just-the-docs
 search_enabled: true
-
-# markup / liquid-based content.
-footer_content: "Footer test"
-last_edit_timestamp: true
-last_edit_time_format: "%b %e %Y"
-
-plugins:
-  - jekyll-last-modified-at
-
-last-modified-at:
-    date-format: '%d-%b-%y'
