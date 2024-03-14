@@ -8,6 +8,7 @@ import EmailField from "../sharedFormComponents/EmailField";
 import { Typography } from "@material-ui/core";
 import AddressInput from "../CaseDetails/PersonOnCaseDialog/AddressInput";
 import AddressSecondLine from "../sharedFormComponents/AddressSecondLine";
+import { OneFormOfContactRequired} from "../../../formFieldLevelValidations";
 
 const CivilianComplainantFields = ({ formattedAddress, formName }) => {
   return (
@@ -29,7 +30,7 @@ const CivilianComplainantFields = ({ formattedAddress, formName }) => {
       />
       <br />
       <div style={{ display: "flex" }}>
-        <PhoneNumberField name={"civilian.phoneNumber"} />
+        <PhoneNumberField name={"civilian.phoneNumber"} OneFormOfContactRequired={OneFormOfContactRequired}/>
         <Typography
           variant="button"
           style={{
