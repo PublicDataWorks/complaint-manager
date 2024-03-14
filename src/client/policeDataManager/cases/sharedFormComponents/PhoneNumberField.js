@@ -1,8 +1,9 @@
 import React from "react";
 import { Field } from "redux-form";
-import { isPhoneNumber} from "../../../formFieldLevelValidations";
+import { OneFormOfContactRequired, isPhoneNumber} from "../../../formFieldLevelValidations";
 import MaskedInput from "react-text-mask";
 import { renderTextField } from "./renderFunctions";
+import { connect } from "react-redux";
 
 function strip_nondigits(value) {
   return value.replace(/[^\d]/g, "");
@@ -38,6 +39,7 @@ const TextMaskCustom = props => {
 };
 
 const PhoneNumberField = props => {
+  const contactValidation = props.contactRequired ? [OneFormOfContactRequired, isPhoneNumber] : [isPhoneNumber];
   return (
     <Field
       name={props.name}
@@ -50,7 +52,7 @@ const PhoneNumberField = props => {
         "aria-label": "Phone Number Field"
       }}
       data-testid="phoneNumberField"
-      validate={[props.OneFormOfContactRequired, isPhoneNumber]}
+      validate={contactValidation}
       normalize={strip_nondigits}
       style={{ width: "35%", marginRight: "0%", marginBottom: "3%" }}
       InputLabelProps={{
@@ -61,4 +63,10 @@ const PhoneNumberField = props => {
   );
 };
 
-export default PhoneNumberField;
+const mapStateToProps = state => {
+  return {
+    contactRequired: state.featureToggles.requireContactInfoForCivilians
+  };
+};
+
+export default connect(mapStateToProps)(PhoneNumberField);
