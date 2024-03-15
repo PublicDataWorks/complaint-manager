@@ -1,12 +1,13 @@
 import React from "react";
 import ReactQuill from "react-quill";
 import { connect } from "react-redux";
+import removeEmptyParagraphs from "../../../utilities/removeEmptyParagraphs";
 
 class RichTextEditor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: props.initialValue
+      text: removeEmptyParagraphs(props.initialValue)
     };
     this.handleChange = this.handleChange.bind(this);
   }
