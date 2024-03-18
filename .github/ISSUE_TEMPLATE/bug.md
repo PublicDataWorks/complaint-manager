@@ -1,3 +1,12 @@
+---
+name: Bug
+about: Submit a new bug
+title: ''
+labels: ''
+assignees: ''
+
+---
+
 ### Describe the bug
 Describe the bug and add screenshots (if relevant)
 
@@ -12,3 +21,6 @@ Describe the expected behavior
 
 ### Checklist
 - [ ] Indicate bug severity on the right
+
+**Additional context**
+Add any other context or screenshots about the feature request here.
