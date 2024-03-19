@@ -201,6 +201,18 @@ describe("incident details", () => {
       ).toEqual("N/A");
     });
 
+    test("should not display priority reasons and priority level when intake source is Priority Incident", () => {
+      expect(
+        wrapper.find('[data-testid="incidentPriorityLevel"]').exists()
+      ).toBe(false);
+      expect(
+        wrapper.find('[data-testid="incidentPriorityReason"]').exists()
+      ).toBe(false);
+      expect(
+        wrapper.find('[data-testid="incidentPriorityLevel"]').exists()
+      ).toBe(false);
+    });
+
     test("should fetch intake sources on mount", () => {
       expect(getIntakeSourceDropdownValues).toHaveBeenCalled();
     });
