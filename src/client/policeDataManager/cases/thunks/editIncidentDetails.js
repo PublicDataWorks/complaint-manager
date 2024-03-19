@@ -14,7 +14,9 @@ const editIncidentDetails =
       dispatch(updateIncidentDetailsSuccess(response.data));
       dispatch(snackbarSuccess("Incident details were successfully updated"));
       return await dispatch(getCaseNotes(response.data.id));
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+    }
   };
 
 export default editIncidentDetails;

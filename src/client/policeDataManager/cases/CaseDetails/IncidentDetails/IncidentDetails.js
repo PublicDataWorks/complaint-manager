@@ -145,13 +145,15 @@ class IncidentDetails extends React.Component {
                     testLabel="incidentDistrict"
                   />
                 </StyledInfoDisplay>
-                <StyledInfoDisplay>
-                  <CivilianInfoDisplay
-                    displayLabel="Priority Reason"
-                    value={priorityReasonName}
-                    testLabel="incidentPriorityReasons"
-                  />
-                </StyledInfoDisplay>
+                {intakeSourceName === "Priority Incident" && (
+                  <StyledInfoDisplay>
+                    <CivilianInfoDisplay
+                      displayLabel="Priority Reason"
+                      value={priorityReasonName}
+                      testLabel="incidentPriorityReasons"
+                    />
+                  </StyledInfoDisplay>
+                )}
               </div>
               <div className={classes.detailsRow}>
                 <StyledInfoDisplay>
@@ -180,13 +182,15 @@ class IncidentDetails extends React.Component {
                     testLabel="intakeSource"
                   />
                 </StyledInfoDisplay>
-                <StyledInfoDisplay>
-                  <CivilianInfoDisplay
-                    displayLabel="Priority Level"
-                    value={priorityLevelName}
-                    testLabel="incidentPriorityLevel"
-                  />
-                </StyledInfoDisplay>
+                {intakeSourceName === "Priority Incident" && (
+                  <StyledInfoDisplay>
+                    <CivilianInfoDisplay
+                      displayLabel="Priority Level"
+                      value={priorityLevelName}
+                      testLabel="incidentPriorityLevel"
+                    />
+                  </StyledInfoDisplay>
+                )}
                 <div
                   style={{ flex: 1, textAlign: "left", marginRight: "10px" }}
                 />

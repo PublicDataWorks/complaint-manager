@@ -10,7 +10,9 @@ const getCaseNotes = caseId => async dispatch => {
     const response = await axios.get(`api/cases/${caseId}/case-notes`);
     dispatch(getCaseNotesSuccess(response.data));
     return dispatch(fetchingCaseNotes(false));
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export default getCaseNotes;
