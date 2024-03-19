@@ -12,7 +12,8 @@ import {
   Field,
   formValueSelector,
   reduxForm,
-  SubmissionError
+  SubmissionError,
+  change
 } from "redux-form";
 import {
   PrimaryButton,
@@ -117,10 +118,21 @@ class IncidentDetailsDialog extends Component {
       }
     };
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
+    this.setValuesPriorityLevelsAndReasonsToNull =
+      this.setValuesPriorityLevelsAndReasonsToNull.bind(this);
   }
 
   handleDropdownChange(newValue) {
     this.setState({ dropdownValue: newValue });
+  }
+
+  setValuesPriorityLevelsAndReasonsToNull() {
+    this.props.dispatch(
+      change(INCIDENT_DETAILS_FORM_NAME, "priorityLevel.id", null)
+    );
+    this.props.dispatch(
+      change(INCIDENT_DETAILS_FORM_NAME, "priorityReason.id", null)
+    );
   }
 
   componentDidMount() {
@@ -279,7 +291,7 @@ class IncidentDetailsDialog extends Component {
                 intakeSources={props.intakeSources}
               />
             </div>
-            {this.state.dropdownValue === "Priority Incident" && (
+            {this.state.dropdownValue === "Priority Incident" ? (
               <div>
                 <Field
                   component={Dropdown}
@@ -312,6 +324,8 @@ class IncidentDetailsDialog extends Component {
                 </Field>
                 <br />
               </div>
+            ) : (
+              this.setValuesPriorityLevelsAndReasonsToNull()
             )}
 
             <div style={{ marginTop: "16px" }}>
