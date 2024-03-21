@@ -41,8 +41,10 @@ pactWith(
               firstContactDate: "2022-09-06",
               howDidYouHearAboutUsSourceId: 1,
               intakeSourceId: 1,
-              priorityReason: null,
-              priorityLevel: null,
+              priorityReason: { id: null },
+              priorityLevel: { id: null },
+              priorityReasons: null,
+              priorityLevels: null,
               pibCaseNumber: "76960"
             })
           },
@@ -62,8 +64,8 @@ pactWith(
               caseNumber: 1,
               firstContactDate: "2022-08-22",
               intakeSourceId: 3,
-              priorityReason: null,
-              priorityLevel: null,
+              priorityReason: {},
+              priorityLevel: {},
               createdBy: "noipm.infrastructure@gmail.com",
               assignedTo: "noipm.infrastructure@gmail.com",
               createdAt: "2022-08-22T15:55:45.879Z",
