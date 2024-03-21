@@ -113,7 +113,6 @@ export class CreateCaseActions extends React.Component {
       return true;
     } else {
       const errors = {};
-      console.log("howdy");
       addressMustBeValid(this.props.addressValid, errors);
       if (!isEmpty(errors)) throw new SubmissionError({ civilian: errors });
       return true;
