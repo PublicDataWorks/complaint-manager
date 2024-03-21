@@ -32,7 +32,7 @@ const {
 
 export class CreateCaseActions extends React.Component {
   closeDialog = () => {
-    this.props.resetForm()
+    this.props.resetForm();
     this.props.closeCreateCaseDialog(DialogTypes.CASE);
     this.props.reset(CREATE_CASE_FORM_NAME);
   };
@@ -112,7 +112,8 @@ export class CreateCaseActions extends React.Component {
     if (civilian.isUnknown) {
       return true;
     } else {
-      const errors = validate(civilian);
+      const errors = {};
+      console.log("howdy");
       addressMustBeValid(this.props.addressValid, errors);
       if (!isEmpty(errors)) throw new SubmissionError({ civilian: errors });
       return true;
@@ -146,12 +147,6 @@ export class CreateCaseActions extends React.Component {
     );
   }
 }
-
-const validate = civilian => {
-  const errorMessage = "Please enter one form of contact";
-  const fieldsToValidate = ["phoneNumber", "email", "address"];
-  return atLeastOneRequired(civilian, errorMessage, fieldsToValidate);
-};
 
 const CivilianComplainantButtons = ({
   createCaseOnly,
