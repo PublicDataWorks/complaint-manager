@@ -1,7 +1,7 @@
 import React from "react";
 import { Field } from "redux-form";
 import {
-  OneFormOfContactRequired,
+  oneFormOfContactRequired,
   isPhoneNumber
 } from "../../../formFieldLevelValidations";
 import MaskedInput from "react-text-mask";
@@ -43,7 +43,7 @@ const TextMaskCustom = props => {
 
 const PhoneNumberField = props => {
   const contactValidation = props.contactRequired
-    ? [OneFormOfContactRequired, isPhoneNumber]
+    ? [oneFormOfContactRequired, isPhoneNumber]
     : [isPhoneNumber];
   return (
     <Field
