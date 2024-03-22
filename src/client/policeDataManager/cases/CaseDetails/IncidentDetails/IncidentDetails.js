@@ -129,8 +129,11 @@ class IncidentDetails extends React.Component {
                   </StyledInfoDisplay>
                 )}
               </div>
-              <div className={classes.detailsRow}>
-                <StyledInfoDisplay>
+              <div
+                className={classes.detailsRow}
+                style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}
+              >
+                <StyledInfoDisplay gridColumn={1}>
                   <AddressInfoDisplay
                     testLabel="incidentLocation"
                     displayLabel="Incident Location"
@@ -138,7 +141,7 @@ class IncidentDetails extends React.Component {
                     useLineBreaks={true}
                   />
                 </StyledInfoDisplay>
-                <StyledInfoDisplay>
+                <StyledInfoDisplay gridColumn={2}>
                   <CivilianInfoDisplay
                     displayLabel="District"
                     value={districtName}
@@ -146,7 +149,7 @@ class IncidentDetails extends React.Component {
                   />
                 </StyledInfoDisplay>
                 {intakeSourceName === "Priority Incident" && (
-                  <StyledInfoDisplay>
+                  <StyledInfoDisplay gridColumn={3}>
                     <CivilianInfoDisplay
                       displayLabel="Priority Reason"
                       value={priorityReasonName}
