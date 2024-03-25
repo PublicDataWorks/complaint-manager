@@ -54,7 +54,7 @@ Kickoff
 - [ ] We have estimated the story
 
 Deskcheck
-- [ ] This work has been demoed in staging (or higher) and led by the dev pair who worked on this card
+- [ ] This work has been demoed in CI (or higher) and led by the dev pair who worked on this card
 - [ ] We have run through and passed all the ACs
 - [ ] Our documentation has been updated
 - [ ] Our onboarding checklist has been updated
