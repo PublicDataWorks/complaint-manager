@@ -149,9 +149,6 @@ class CreateCaseDialog extends React.Component {
         }}
         open={open}
         fullWidth
-        PaperProps={{
-          title: "createCaseDialogTitle"
-        }}
         style={{ position: "absolute", top: "70px" }}
       >
         <DialogTitle
