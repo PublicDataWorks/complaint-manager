@@ -112,7 +112,7 @@ export class CreateCaseActions extends React.Component {
     if (civilian.isUnknown) {
       return true;
     } else {
-      const errors = {};
+      const errors = this.props.contactRequired ? validate(civilian) : {};
       addressMustBeValid(this.props.addressValid, errors);
       if (!isEmpty(errors)) throw new SubmissionError({ civilian: errors });
       return true;
@@ -146,6 +146,12 @@ export class CreateCaseActions extends React.Component {
     );
   }
 }
+
+const validate = civilian => {
+  const errorMessage = "Please enter one form of contact";
+  const fieldsToValidate = ["phoneNumber", "email", "address"];
+  return atLeastOneRequired(civilian, errorMessage, fieldsToValidate);
+};
 
 const CivilianComplainantButtons = ({
   createCaseOnly,
@@ -187,7 +193,8 @@ const mapStateToProps = (state, props) => ({
   currentPage: state.cases.working.currentPage,
   selectedPersonType: getSelectedPersonType(state, props.complainantType),
   sortBy: state.ui.casesTable.sortBy,
-  sortDirection: state.ui.casesTable.sortDirection
+  sortDirection: state.ui.casesTable.sortDirection,
+  contactRequired: state.featureToggles.requireContactInfoForCivilians
 });
 
 const mapDispatchToProps = {
