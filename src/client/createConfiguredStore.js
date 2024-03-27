@@ -1,5 +1,9 @@
-import { applyMiddleware, combineReducers, createStore } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
+import { combineReducers } from "redux";
+import {
+  createSlice,
+  configureStore,
+  getDefaultMiddleware
+} from "@reduxjs/toolkit";
 import { reducer as formReducer } from "redux-form";
 import thunk from "redux-thunk";
 import history from "./history";
@@ -161,10 +165,9 @@ const rootReducer = combineReducers({
 
 const routingMiddleware = routerMiddleware(history);
 
-const createConfiguredStore = () =>
-  createStore(
-    rootReducer,
-    composeWithDevTools(applyMiddleware(thunk, routingMiddleware))
-  );
-
-export default createConfiguredStore;
+export const store = configureStore({
+  reducer: rootReducer,
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware().concat(routerMiddleware(history)),
+  devTools: process.env.NODE_ENV !== "production"
+});
