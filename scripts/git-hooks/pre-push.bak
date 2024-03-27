@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -o nounset -o errexit
+exec < /dev/tty
+
+if [ "$(git rev-parse --abbrev-ref HEAD)" = 'release' ];
+then
+    read -p 'You are committing changes to the release branch. Is this correct? Enter Y to continue or any other character to quit: ' ANSWER
+
+    if [ "$ANSWER" != 'Y' ]
+    then
+        echo "Aborting push"
+        exit 1
+    fi
+fi
+
+docker-compose run security-checks
+git pull --rebase
+
+docker-compose build
+
+# Run Unit
+docker-compose run app yarn test:once
+
+## Run E2E tests
+#docker-compose up app &
+yarn e2e
