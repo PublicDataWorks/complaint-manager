@@ -166,7 +166,7 @@ describe("POST /cases/:caseId/cases_officers", () => {
             supervisorLastName: seededSupervisor.lastName,
             supervisorFullName: "Garret Bobby Ferguson",
             supervisorWindowsUsername: seededSupervisor.windowsUsername,
-            supervisorOfficerNumber: seededSupervisor.officerNumber
+            supervisorOfficerNumber: seededSupervisor.windowsUsername
           })
         ])
       })
