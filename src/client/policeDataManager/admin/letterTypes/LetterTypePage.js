@@ -31,18 +31,17 @@ import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import axios from "axios";
 import { CLEAR_LETTER_TYPE_TO_EDIT } from "../../../../sharedUtilities/constants";
 import { withRouter } from "react-router";
-import {
-  getFirstPageHeader,
-  getFooterImage,
-  getFooterText,
-  getLetterContents,
-  getSubsequentPageHeader,
-  getTemplateHead,
-  reassembleTemplate
-} from "./letter-types-selectors";
+import { getTemplateHead } from "./letter-types-selectors";
 import Collapser from "./Collapser";
 import TemplatePreview from "./TemplatePreview";
 import DefaultRecipient from "./DefaultRecipient";
+import {
+  getInitialValuesForNew,
+  getCommonProps,
+  getInitialValuesForEdit,
+  computeComplaintTypeValues,
+  computeDefaultRecipient
+} from "./letterTypePageHelpers";
 
 const ADD = "add";
 const EDIT = "edit";
@@ -73,12 +72,14 @@ const styles = {
 };
 
 const LetterTypePage = props => {
+  console.log("props", props);
   useEffect(
     () => () => props.dispatch({ type: CLEAR_LETTER_TYPE_TO_EDIT }),
     []
   );
 
   const submit = (operation, values) => {
+    console.log("values", values);
     let complaintTypes = props.complaintTypes
       .filter(complaintType => values[complaintType.name])
       .map(complaintType => complaintType.name);
@@ -433,7 +434,7 @@ const LetterTypePage = props => {
             <TemplatePreview
               template={props.reassembledTemplate}
               bodyTemplate={props.bodyTemplate}
-              type={props.initialValues.letterTypeInput}
+              type={props.letterTypeInput}
             />
             <section
               style={{
@@ -453,189 +454,25 @@ const LetterTypePage = props => {
   );
 };
 
-export default connect(
-  state => {
-    const commonProps = {
-      bodyTemplate: state.form.letterTypeForm?.values?.editableTemplate,
-      editable: state.form.letterTypeForm?.values?.hasEditPage,
-      reassembledTemplate: reassembleTemplate(state),
-      signers: state.signers,
-      statuses: state.ui.caseStatuses,
-      complaintTypes: state.ui.complaintTypes,
-      complaintTypesError: state.form.letterTypeForm?.submitErrors
-        ? state.form.letterTypeForm?.submitErrors[
-            state.ui.complaintTypes[0].name
-          ]
-        : undefined,
-      chooseDefaultRecipientFeature:
-        state.featureToggles.chooseDefaultRecipientFeature
-    };
+const mapStateToProps = state => {
+  const commonProps = getCommonProps(state);
+  const complaintTypeValues = computeComplaintTypeValues(
+    state,
+    commonProps.complaintTypes
+  );
+  const initialValues = state.ui.editLetterType.id
+    ? getInitialValuesForEdit(state, complaintTypeValues)
+    : getInitialValuesForNew();
 
-    const complaintTypeValues = commonProps.complaintTypes.reduce(
-      (acc, complaintType) => {
-        acc[complaintType.name] =
-          !state.ui.editLetterType.id ||
-          !state.ui.editLetterType.complaintTypes?.length ||
-          state.ui.editLetterType.complaintTypes?.includes(complaintType.name);
-        return acc;
-      },
-      {}
-    );
+  return {
+    ...commonProps,
+    initialValues,
+    letterTypeId: state.ui.editLetterType.id,
+    templateHead: getTemplateHead(state)
+  };
+};
 
-    if (state.ui.editLetterType.id) {
-      return {
-        ...commonProps,
-        initialValues: {
-          ...complaintTypeValues,
-          defaultSender: state.ui.editLetterType.defaultSender?.nickname,
-          defaultRecipient:
-            state.ui.editLetterType.defaultRecipient !==
-              "{primaryComplainant}" &&
-            state.ui.editLetterType.defaultRecipient !== "{eachComplainant}"
-              ? "Other"
-              : state.ui.editLetterType.defaultRecipient,
-          defaultRecipientAddress:
-            state.ui.editLetterType.defaultRecipientAddress,
-          editableTemplate: state.ui.editLetterType.editableTemplate,
-          firstPageHeader: getFirstPageHeader(state),
-          footerImage: getFooterImage(state),
-          footerText: getFooterText(state),
-          hasEditPage: state.ui.editLetterType.hasEditPage,
-          letterTypeInput: state.ui.editLetterType.type,
-          recipientNameInput:
-            state.ui.editLetterType.defaultRecipient !==
-              "{primaryComplainant}" &&
-            state.ui.editLetterType.defaultRecipient !== "{eachComplainant}"
-              ? state.ui.editLetterType.defaultRecipient
-              : "",
-          recipientAddressInput:
-            state.ui.editLetterType.defaultRecipient !==
-              "{primaryComplainant}" &&
-            state.ui.editLetterType.defaultRecipient !== "{eachComplainant}"
-              ? state.ui.editLetterType.defaultRecipientAddress
-              : "",
-          requiredStatus: state.ui.editLetterType.requiredStatus,
-          requiresApproval: state.ui.editLetterType.requiresApproval,
-          subsequentPageHeader: getSubsequentPageHeader(state),
-          template: getLetterContents(state)
-        },
-        letterTypeId: state.ui.editLetterType.id,
-        templateHead: getTemplateHead(state)
-      };
-    } else {
-      return {
-        ...commonProps,
-        templateHead: `
-          <style>
-            * {
-              font-size: 8.5pt;
-            }
-
-            p {
-              margin: 0;
-            }
-
-            .preserve-white-space {
-              white-space: pre-wrap;
-            }
-
-            .ql-align-center {
-              text-align: center;
-            }
-          </style>
-        `,
-        initialValues: {
-          ...complaintTypeValues,
-          firstPageHeader: `
-            <div style="text-align: center;">
-              {{{header}}}
-            </div>
-          `,
-          subsequentPageHeader: `
-            {{recipient}}<br/>
-              {{{formatLongDate currentDate}}}<br/>
-            Page \\{{page}}
-          `,
-          footerImage: `{{{smallIcon}}}`,
-          footerText: `
-            INDEPENDENT POLICE MONITOR <br />
-            2714 Canal Street, Suite 201 | NEW ORLEANS, LOUISIANA | 70119 <br />
-            Phone (504) 309-9799| Fax (504) 309-7345
-          `,
-          template: `
-            <p style="color: #7F7F7F;">
-              STELLA CZIMENT
-              <br/>
-              INDEPENDENT POLICE MONITOR
-            </p>
-            <p><br/></p>
-            <p>
-              {{{formatLongDate currentDate}}}
-            </p>
-            <p><br/></p>
-              {{#if (isCivilianComplainant complainantPersonType)}}
-            <p>
-              {{recipient}}
-                {{#if (isPresent (formatAddress recipientAddress))}}
-                <p>{{{formatAddress recipientAddress}}}</p>
-                {{/if}}
-              {{#if (isPresent complainantEmail)}}
-                <p>{{complainantEmail}}</p>
-              {{/if}}
-            </p>
-            {{/if}}
-            <p><br/></p>
-            <p>Re: OIPM Complaint# {{caseReference}}</p>
-            <p><br/></p>
-            <p>Dear {{title}} {{recipient}},</p>
-            <p><br/></p>
-            <p>
-              On {{{formatLongDate firstContactDate}}}, you contacted the Office of the Independent Police Monitor
-              (OIPM) alleging possible misconduct by an officer of the New Orleans Police
-              Department (NOPD or Department) for possible violations of several NOPD rules. As a
-              result of your contact with us, OIPM No. {{caseReference}} was generated.
-            </p>
-            <p><br/></p>
-            <p>
-              Among other things, the OIPM takes complaints and examines the NOPD’s internal investigations system by conducting independent reviews of completed investigations into allegations of misconduct to determine whether they have been conducted appropriately. The OIPM does not conduct separate or new investigations.
-            </p>
-            <p><br/></p>
-            <p>
-              We forwarded the information you provided us to the NOPD’s Public Integrity Bureau
-              (PIB) as an inquiry and asked that the matter be reviewed for possible violations of the
-              NOPD rules and regulations. You may be contacted by a representative of PIB or by an
-              NOPD supervisor regarding this matter.
-            </p>
-            <p><br/></p>
-            <p>
-              Please take into consideration that facts and/or allegations from your complaint may be
-              used in future OIPM reports. If facts and/or allegations are used in future OIPM
-              reports, names of witnesses, law enforcement, and complainants may be included. Once
-              the review of your investigation has been completed, all or parts of the complaint may
-              become public records.
-            </p>
-            <p><br/></p>
-            <p>
-              Enclosed you will find a copy of the OIPM letter to PIB and some information about
-              our office. If you have any questions regarding the status of the information you
-              provided, please contact us at (504) 309-9799 or via email at
-              policemonitor@nolaipm.gov. Please refer to your OIPM No. {{caseReference}} when you
-              contact our office.
-            </p>
-            <p><br/></p>
-            <p><br/></p>
-            Sincerely,
-            <p><br></p>
-            {{{signature}}}
-            <p><br/></p>
-            {{{renderHtml (newLineToLineBreak sender)}}}
-          `
-        }
-      };
-    }
-  },
-  { snackbarSuccess, change }
-)(
+export default connect(mapStateToProps, { snackbarSuccess, change })(
   reduxForm({ form: "letterTypeForm" })(
     withStyles(styles)(withRouter(LetterTypePage))
   )

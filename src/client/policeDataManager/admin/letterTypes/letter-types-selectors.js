@@ -86,10 +86,11 @@ export const getFooterImage = createSelector(getTemplateBody, body => {
 });
 
 export const getFooterText = createSelector(getTemplateBody, body => {
-  let index = body?.match(
+  let match = body?.match(
     /<span\s+style="display:inline-block;\s+font-size:7pt;\s+color:\s+#7F7F7F;"/i
-  ).index;
-  if (!body || index === -1) {
+  );
+  let index = match ? match.index : undefined;
+  if (!body || index === undefined) {
     return undefined;
   }
 
