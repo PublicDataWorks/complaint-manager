@@ -99,6 +99,7 @@ app.use(
     directives: {
       formAction: ["'none'"],
       defaultSrc: ["'self'"],
+      manifestSrc: ["https://noipm-ci.herokuapp.com"],
       baseUri: ["'none'"],
       connectSrc: config.contentSecurityPolicy.connectSrc,
       fontSrc: ["https://fonts.googleapis.com", "https://fonts.gstatic.com"],
@@ -124,12 +125,7 @@ app.use(
         "'unsafe-inline'"
       ],
       workerSrc: ["'self'", "blob:"],
-      childSrc: ["'self'", "blob:"],
-      frameSrc: [
-        "'self'",
-        "https://dev-68895481.okta.com/"
-      ]
-      
+      childSrc: ["'self'", "blob:"]
     }
   })
 );
