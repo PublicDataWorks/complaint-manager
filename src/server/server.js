@@ -125,7 +125,11 @@ app.use(
         "'unsafe-inline'"
       ],
       workerSrc: ["'self'", "blob:"],
-      childSrc: ["'self'", "blob:"]
+      childSrc: ["'self'", "blob:"],
+      frameSrc: [
+        "'self'",
+        "https://dev-68895481.okta.com/"
+      ]
     }
   })
 );
