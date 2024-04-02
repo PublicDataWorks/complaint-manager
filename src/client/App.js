@@ -1,7 +1,6 @@
 import UsePageTracking from "./UsePageTracking";
 import React, { useEffect, useState } from "react";
 import { ConnectedRouter } from "connected-react-router";
-import { withOktaAuth } from "@okta/okta-react";
 import history from "./history";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import customTheme from "./common/globalStyling/muiTheme";
