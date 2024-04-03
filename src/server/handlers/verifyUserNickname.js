@@ -28,12 +28,14 @@ const verifyUserNickname = (request, response, next) => {
       return next(Boom.unauthorized(UNAUTHORIZED_ERRORS.USER_NICKNAME_MISSING));
     }
 
-    if (!userInfo.scope) {
-      return next(Boom.unauthorized(UNAUTHORIZED_ERRORS.USER_SCOPE_MISSING));
+    if (!userInfo.permissions) {
+      return next(
+        Boom.unauthorized(UNAUTHORIZED_ERRORS.USER_PERMISSIONS_MISSING)
+      );
     }
 
     request.nickname = userInfo[config.authentication.nicknameKey];
-    request.permissions = userInfo.scope.split(" ");
+    request.permissions = userInfo.permissions;
 
     next();
   }
