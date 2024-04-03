@@ -8,6 +8,8 @@ import {
   AccordionSummary,
   Typography
 } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
+import IconButton from "@material-ui/core/IconButton";
 import ExpansionPanelIconButton from "../../shared/components/ExpansionPanelIconButton";
 import StyledInfoDisplay from "../../shared/components/StyledInfoDisplay";
 import StyledExpansionPanelDetails from "../../shared/components/StyledExpansionPanelDetails";
@@ -173,7 +175,8 @@ const LetterTypeDisplay = props => {
       </div>
       <Divider />
       <ConfirmationDialog
-        confirmText="Delete"
+        confirmText="Yes"
+        cancelText="No"
         onConfirm={() => {
           axios
             .delete(`api/letter-types/${props.letterType.id}`)
@@ -185,10 +188,30 @@ const LetterTypeDisplay = props => {
         }}
         onCancel={() => setDeleteDialog(false)}
         open={deleteDialog}
-        title="Delete Letter Type"
+        title="Delete Letter Template"
+        closeButton={
+          <IconButton
+            style={{
+              float: "right",
+              position: "absolute",
+              right: "8px",
+              top: "8px"
+            }}
+            onClick={() => setDeleteDialog(false)}
+          >
+            <CloseIcon />
+          </IconButton>
+        }
       >
-        Once you delete this letter type you will no longer be able to generate
-        this type of letter.
+        <div style={{ fontSize: "1.1em" }}>
+          <strong>
+            Are you sure you want to permanently delete this letter template?
+          </strong>
+        </div>
+        <br></br>
+        By selecting "<strong>Yes</strong>", you will not be able to generate
+        any new letters using this template. This action will not affect
+        previously generated letters.
       </ConfirmationDialog>
     </div>
   );

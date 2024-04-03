@@ -19,7 +19,10 @@ const ConfirmationDialog = props => {
       open={props.open}
       data-testid={`confirmation-dialog-${props.title.replaceAll(" ", "")}`}
     >
-      <DialogTitle>{props.title}</DialogTitle>
+      <DialogTitle>
+        {props.title}
+        {props.closeButton}
+      </DialogTitle>
       <DialogContent>{props.children}</DialogContent>
       <DialogActions style={actionsStyle}>
         <SecondaryButton
