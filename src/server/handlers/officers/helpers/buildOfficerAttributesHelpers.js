@@ -71,14 +71,14 @@ const buildSupervisorAttributes = async newOfficer => {
   }
 
   const supervisor = await models.officer.findOne({
-    where: { officerNumber: newOfficer.supervisorOfficerNumber }
+    where: { windowsUsername: newOfficer.supervisorOfficerNumber }
   });
 
   return {
-    supervisorFirstName: supervisor.firstName,
-    supervisorMiddleName: supervisor.middleName,
-    supervisorLastName: supervisor.lastName,
-    supervisorWindowsUsername: supervisor.windowsUsername
+    supervisorFirstName: supervisor?.firstName,
+    supervisorMiddleName: supervisor?.middleName,
+    supervisorLastName: supervisor?.lastName,
+    supervisorWindowsUsername: supervisor?.windowsUsername
   };
 };
 

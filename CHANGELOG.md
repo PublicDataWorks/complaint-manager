@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.64.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.63.17...v3.64.0) (2024-04-04)
+
+
+### Features
+
+* Update parsePermissions.js to read from permissions in token ([5a72553](https://github.com/PublicDataWorks/complaint-manager/commit/5a72553bcbd76eae03d0de076fb4a68dd88845be))
+
+### [3.63.18](https://github.com/PublicDataWorks/complaint-manager/compare/v3.63.17...v3.63.18) (2024-04-03)
+
+### [3.63.17](https://github.com/PublicDataWorks/complaint-manager/compare/v3.63.13...v3.63.17) (2024-03-28)
+
+
+### Bug Fixes
+
+* Justin [[#464](https://github.com/PublicDataWorks/complaint-manager/issues/464)] add grid to column for styling ([785a17b](https://github.com/PublicDataWorks/complaint-manager/commit/785a17b9c536be3aba956a91c65b9f4158b94409))
+* Justin [03b0f52] change respose to null instead of empty object ([03c6d34](https://github.com/PublicDataWorks/complaint-manager/commit/03c6d3444984755e552ea623dc5255a77a475cb2))
+
 ### [3.63.16](https://github.com/PublicDataWorks/complaint-manager/compare/v3.63.13...v3.63.16) (2024-03-26)
 
 

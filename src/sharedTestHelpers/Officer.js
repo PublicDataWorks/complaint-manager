@@ -106,7 +106,7 @@ class Officer {
       }
 
       withSupervisor(officer) {
-        this.supervisorOfficerNumber = officer.officerNumber;
+        this.supervisorOfficerNumber = officer.windowsUsername;
         return this;
       }
 
