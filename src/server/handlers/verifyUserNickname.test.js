@@ -36,7 +36,11 @@ describe("verifyUserNickname", () => {
       user: {
         [config.authentication.nicknameKey]: "mrsmith",
         iss: "https://noipm.auth0.com/",
-        scope: "scope"
+        scope: "scope",
+        permissions: [
+          USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES,
+          USER_PERMISSIONS.EXPORT_AUDIT_LOG
+        ]
       }
     });
 
@@ -56,7 +60,7 @@ describe("verifyUserNickname", () => {
     });
 
     await verifyUserNickname(request, response, next);
-    expect(next).toHaveBeenCalledWith(new Error("User scope missing"));
+    expect(next).toHaveBeenCalledWith(new Error("User permissions missing"));
   });
 
   test("should attach permissions to request when it has been parsed", async () => {
@@ -67,7 +71,10 @@ describe("verifyUserNickname", () => {
       user: {
         [config.authentication.nicknameKey]: "suzie",
         iss: "https://noipm.auth0.com/",
-        scope: `${USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES} ${USER_PERMISSIONS.EXPORT_AUDIT_LOG}`
+        permissions: [
+          USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES,
+          USER_PERMISSIONS.EXPORT_AUDIT_LOG
+        ]
       }
     });
     await verifyUserNickname(request, response, next);
