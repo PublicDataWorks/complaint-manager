@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Architecture Decision Records
-has_children: true
+has_children: false
 permalink: /adrs
 ---
 

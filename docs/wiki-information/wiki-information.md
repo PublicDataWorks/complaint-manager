@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Wiki Information
-has_children: true
+has_children: false
 permalink: /wiki-info
 ---
 
