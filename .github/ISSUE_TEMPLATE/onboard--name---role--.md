@@ -17,7 +17,7 @@ assignees: ''
 
 ###  Role based checklist
 All
-- [ ] Go through onboarding checklist on Trello (https://trello.com/b/ou7Ddhvt/on-off-boarding-template)
+- [ ] Go through onboarding checklist on Trello (https://trello.com/b/KBvIPuf3/on-off-boarding-template-do-not-edit-anything-make-your-own-copy)
 
 Dev
 - [ ] Pair with another dev to go through the dev specific onboarding items
