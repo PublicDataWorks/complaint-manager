@@ -51,10 +51,13 @@ export const buildTokenWithPermissions = (permissions, nickname) => {
 
   const payload = {
     foo: "bar",
-    scope: `${config.authentication.scope} ${permissions}`,
-    perms: permissions
+    scope: `${config.authentication.scope}`,
+    perms: permissions,
+    permissions: Array.isArray(permissions)
+      ? [...permissions, "read:users"]
+      : [...permissions.split(" "), "read:users"],
+    [config.authentication.nicknameKey]: nickname
   };
-  payload[`${config.authentication.nicknameKey}`] = nickname;
 
   const options = {
     audience: config.authentication.audience,
