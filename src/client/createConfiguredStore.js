@@ -40,7 +40,7 @@ import letterDownloadReducer from "./policeDataManager/reducers/ui/letterDownloa
 import loadPdfPreviewReducer from "./policeDataManager/reducers/ui/loadPdfPreviewReducer";
 import intakeSourceReducer from "./policeDataManager/reducers/ui/intakeSourceReducer";
 import priorityLevelReducer from "./policeDataManager/reducers/ui/priorityLevelReducer";
-import priorityReasonsReducer from "./policeDataManager/reducers/ui/priorityReasonsReducer";
+import priorityReasonsReducer from "./policeDataManager/cases/CreateCaseDialog/priorityReasonsSlice";
 import raceEthnicityReducer from "./policeDataManager/reducers/ui/raceEthnicityReducer";
 import editIncidentDetailsDialogReducer from "./policeDataManager/reducers/ui/editIncidentDetailsDialogReducer";
 import restoreArchivedCaseDialogReducer from "./policeDataManager/reducers/ui/restoreArchivedCaseDialogReducer";
