@@ -60,9 +60,25 @@ describe("verifyUserNickname", () => {
     });
 
     await verifyUserNickname(request, response, next);
-    expect(next).toHaveBeenCalledWith(new Error("User permissions missing"));
+    expect(next).toHaveBeenCalledWith(new Error("User scope missing"));
   });
 
+  test("should throw error if permission exist and is missing from user info in the request", async () => {
+    const request = httpMocks.createRequest({
+      headers: {
+        authorization: "Bearer VALID_TOKEN_FORMAT"
+      },
+      user: {
+        [config.authentication.nicknameKey]: "mrsmith",
+        iss: "https://noipm.auth0.com/",
+        scope: ["opendid", "profile"],
+        permissions: "not-array"
+      }
+    });
+
+    await verifyUserNickname(request, response, next);
+    expect(next).toHaveBeenCalledWith(new Error("User permissions missing"));
+  });
   test("should attach permissions to request when it has been parsed", async () => {
     const request = httpMocks.createRequest({
       headers: {
@@ -74,7 +90,8 @@ describe("verifyUserNickname", () => {
         permissions: [
           USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES,
           USER_PERMISSIONS.EXPORT_AUDIT_LOG
-        ]
+        ],
+        scope: ["opendid", "profile"]
       }
     });
     await verifyUserNickname(request, response, next);

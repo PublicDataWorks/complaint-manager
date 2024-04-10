@@ -74,6 +74,7 @@ export const UNAUTHORIZED_ERRORS = {
   UNAUTHORIZED_ERROR: "UnauthorizedError",
   INVALID_TOKEN: "Invalid token",
   USER_NICKNAME_MISSING: "User nickname missing",
+  USER_SCOPE_MISSING: "User scope missing",
   USER_PERMISSIONS_MISSING: "User permissions missing",
   USER_INFO_MISSING: "User info missing"
 };
