@@ -25,19 +25,6 @@ const searchOfficers = asyncMiddleware(async (request, response, next) => {
   if (request.query.districtId) {
     whereClause.district_id = { [Op.eq]: `${request.query.districtId}` };
   }
-  if (process.env.OFFICER_ROSTER_LATEST_DATE) {
-    const date = getYearMonthDayFromEpoch(
-      process.env.OFFICER_ROSTER_LATEST_DATE
-    );
-
-    if (date instanceof Error) {
-      throw date;
-    } else {
-      whereClause.created_at = {
-        [Op.gte]: date
-      };
-    }
-  }
 
   const offset = request.query.page
     ? (request.query.page - 1) * DEFAULT_PAGINATION_LIMIT
@@ -84,14 +71,3 @@ const searchOfficers = asyncMiddleware(async (request, response, next) => {
 });
 
 module.exports = searchOfficers;
-
-const getYearMonthDayFromEpoch = epoch => {
-  try {
-    const date = new Date(0);
-    date.setUTCSeconds(epoch);
-    return date.toISOString().substring(0, 10);
-  } catch (error) {
-    console.error(error);
-    return error;
-  }
-};
