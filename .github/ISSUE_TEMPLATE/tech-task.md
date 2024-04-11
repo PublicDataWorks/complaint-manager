@@ -1,8 +1,8 @@
 ---
-name: Tech Debt or Tech Task
+name: Tech Task
 about: Tech debt item template
 title: ''
-labels: tech debt
+labels: tech task
 assignees: ''
 
 ---
@@ -13,7 +13,7 @@ I want to
 So that 
 
 ### Definition of Done
-What means that this take is done?
+What means that this card is done?
 
 ### Acceptance Criteria
 **Given** xxxx
