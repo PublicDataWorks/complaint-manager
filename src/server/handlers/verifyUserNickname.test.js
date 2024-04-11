@@ -63,7 +63,7 @@ describe("verifyUserNickname", () => {
     expect(next).toHaveBeenCalledWith(new Error("User scope missing"));
   });
 
-  test("should throw error if permission exist and is missing from user info in the request", async () => {
+  test("should throw error if permission exist and it is not an array", async () => {
     const request = httpMocks.createRequest({
       headers: {
         authorization: "Bearer VALID_TOKEN_FORMAT"
