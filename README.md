@@ -140,7 +140,7 @@ We use a tool called `mkcert` to manage self-signed certificates for the local e
 
 - If you want to run using certs on Firefox also run `brew install nss`.
 
-- > [!TIP]
+> [!TIP]
 > Make sure you have the export keyword in front of CERT_DIR and REACT_APP_INSTANCE_FILES_DIR in your zshrc.
 
 ##### Troubleshooting
