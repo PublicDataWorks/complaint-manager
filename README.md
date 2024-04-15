@@ -94,9 +94,9 @@ For Mac, you can [download Docker here](https://www.docker.com/products/docker).
 
 - To prevent Docker from running out of memory, you will need to adjust your Docker settings
 - Under “Resources > Advanced” section in Docker preferences, change your default settings to the following:
-  - CPUs: 4
-  - Memory: 6.0 GB
-  - Swap: 1.0 GB
+  - CPUs: 6
+  - Memory: 10.0 GB
+  - Swap: 3.0 GB
 
 ---
 
@@ -140,6 +140,9 @@ We use a tool called `mkcert` to manage self-signed certificates for the local e
 
 - If you want to run using certs on Firefox also run `brew install nss`.
 
+- > [!TIP]
+> Make sure you have the export keyword in front of CERT_DIR and REACT_APP_INSTANCE_FILES_DIR in your zshrc.
+
 ##### Troubleshooting
 
 If you run into issues like
@@ -153,33 +156,6 @@ You can solve this using:
 ```bash
 sudo chown <username> /Users/<username>/Library/Application\ Support/mkcert/rootCA-key.pem
 ```
-
----
-
-#### Set up Google Maps API key
-
-##### Core team
-
-- Log in to Google with the NOIPM infrastructure Google account from 1Password.
-- Look up the Core Team API key for test environment [here](https://console.cloud.google.com/apis/credentials).
-- Set a local environment variable called `REACT_APP_GOOGLE_API_KEY` with this test key in your `~/.profile` or `~/.zshrc` file.
-
-##### Contributors
-
-- You will receive a Contributor Test Key for Google Maps API from a Core Team member.
-- Set a local environment variable called `REACT_APP_GOOGLE_API_KEY` with this test key in your `~/.profile` or `~/.zshrc` file.
-
----
-
-#### Set up test environment variables
-
-- Using your credentials for Auth0 CI, set local test environment variables called `TEST_USER` and `TEST_PASS` in either your `~/.profile` or `~/.zshrc` file.
-
-> [!NOTE]
-> Make sure your credentials are given DPM access.
-
-> [!TIP]
-> Contributors should receive these credentials from a Core Team member.
 
 ---
 
