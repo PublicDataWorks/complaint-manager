@@ -152,17 +152,6 @@ describe("exportCases request", function () {
 
   describe("getAndValidateDateRangeData", () => {
     describe("audit log export", () => {
-      test("", () => {
-        const request = httpMocks.createRequest({
-          params: {
-            operation: JOB_OPERATION.AUDIT_LOG_EXPORT.name
-          },
-          query: {}
-        });
-
-        expect(getAndValidateDateRangeData(request)).toEqual(null);
-      });
-
       test("returns null with no query parameters", () => {
         const request = httpMocks.createRequest({
           params: {
