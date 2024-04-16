@@ -17,6 +17,7 @@ const localhostUserNickname = (request, response, next) => {
     iss: issuer,
     [nicknameKey]: NICKNAME,
     scope: PERMISSIONS.join(" "),
+    permissions: PERMISSIONS.join(" "),
     iat: currentDate,
     exp: expirationDate
   };

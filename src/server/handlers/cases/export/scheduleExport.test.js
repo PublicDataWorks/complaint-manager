@@ -1,6 +1,7 @@
-import { BAD_DATA_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
-
-const { JOB_OPERATION } = require("../../../../sharedUtilities/constants");
+import {
+  BAD_DATA_ERRORS,
+  BAD_REQUEST_ERRORS
+} from "../../../../sharedUtilities/errorMessageConstants";
 import scheduleExport from "./scheduleExport";
 import Boom from "boom";
 import { getAndValidateDateRangeData } from "./scheduleExport";
@@ -10,14 +11,16 @@ import {
   QUEUE_PREFIX,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
+import getInstance from "./queueFactory";
+import Queue from "bull/lib/queue";
+import Job from "bull/lib/job";
+
+const { JOB_OPERATION } = require("../../../../sharedUtilities/constants");
 const config =
   require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`)[
     process.env.NODE_ENV
   ];
 const httpMocks = require("node-mocks-http");
-import getInstance from "./queueFactory";
-import Queue from "bull/lib/queue";
-import Job from "bull/lib/job";
 
 jest.mock("./queueFactory");
 jest.mock("bull/lib/queue");
@@ -29,6 +32,36 @@ describe("exportCases request", function () {
   beforeEach(() => {
     queueMock = new Queue(QUEUE_PREFIX);
     getInstance.mockImplementation(() => queueMock);
+  });
+
+  test("should throw exception when permissions is not valid", async () => {
+    const request = {
+      nickname: "someUser",
+      params: { operation: JOB_OPERATION.AUDIT_LOG_EXPORT.name },
+      user: { permissions: ["not valid one"] }
+    };
+    const response = { json: jest.fn() };
+
+    await expect(
+      scheduleExport(request, response, error => {
+        throw error;
+      })
+    ).rejects.toThrow(Boom.badData(BAD_REQUEST_ERRORS.OPERATION_NOT_PERMITTED));
+  });
+
+  test("should throw exception when permissions in SCOPE are not valid", async () => {
+    const request = {
+      nickname: "someUser",
+      params: { operation: JOB_OPERATION.AUDIT_LOG_EXPORT.name },
+      user: { scope: "not valid one" }
+    };
+    const response = { json: jest.fn() };
+
+    await expect(
+      scheduleExport(request, response, error => {
+        throw error;
+      })
+    ).rejects.toThrow(Boom.badData(BAD_REQUEST_ERRORS.OPERATION_NOT_PERMITTED));
   });
   test("create a job in the job Queue", async () => {
     const jobMock = new Job();

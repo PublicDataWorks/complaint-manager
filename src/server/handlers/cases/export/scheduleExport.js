@@ -22,8 +22,10 @@ const scheduleExport = asyncMiddleware(async (request, response, next) => {
     JOB_OPERATION.AUDIT_LOG_EXPORT.key ===
     JOB_OPERATION[request.params.operation].key
   ) {
-    const scopes = request.user.scope.split(" ");
-    if (scopes.indexOf(USER_PERMISSIONS.EXPORT_AUDIT_LOG) === -1) {
+    const permissions = Array.isArray(request.user.permissions)
+      ? request.user.permissions
+      : request.user.scope.split(" ");
+    if (permissions.indexOf(USER_PERMISSIONS.EXPORT_AUDIT_LOG) === -1) {
       throw Boom.badRequest(BAD_REQUEST_ERRORS.OPERATION_NOT_PERMITTED);
     }
   }
