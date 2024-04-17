@@ -2,6 +2,82 @@
 
 const LETTER_TYPES_HAWAII =
   defaultSender => `INSERT INTO public.letter_types ("type",default_sender,created_at,updated_at,"template",editable_template,required_status,requires_approval,has_edit_page,default_recipient,default_recipient_address) VALUES
+  ('CAN''T HELP',${defaultSender},NULL,NULL,'<html>
+  <head>
+    <style>
+      * {
+        font-size: 8.5pt;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      .preserve-white-space {
+        white-space: pre-wrap;
+      }
+
+      .ql-align-center {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="pageHeader-first">
+      <div style="text-align: center">
+        {{{header}}}
+      </div>
+    </div>
+    <div id="pageHeader" style="font-size:8.5pt; color: #7F7F7F;">
+      {{{recipient}}}<br/>
+      {{{formatLongDate currentDate}}}<br/>
+    </div>
+
+    <div id="pageFooter" style="text-align: center; margin-top: 16px">
+      <span style="display:inline-block; font-size:7pt; color: #7F7F7F;">
+                Page \{{page}} of \{{pages}}
+            </span>
+      <span  style="display:inline-block; width: 46px">&nbsp;</span>
+    </div>
+    {{{formatLongDate currentDate}}}
+    <p><br></p>
+    {{{renderHtml recipient}}}</br>
+    {{{renderHtml (newLineToLineBreak recipientAddress)}}}
+    <p><br></p>
+    <p><strong>RE: Complaint submitted to the commission</strong></p>
+    <p><br></p>
+    <p>Dear {{{recipient}}}:</p>
+    <p><br></p>
+    {{{renderHtml letterBody}}}
+    <p><br></p>
+    Sincerely,
+    <p><br></p>
+    {{{signature}}}
+    <p><br></p>
+    {{{renderHtml (newLineToLineBreak sender)}}}
+    {{#if transcribedBy}}
+    <p><br></p>
+    Transcribed by: {{transcribedBy}}
+    {{/if}}
+  </body>
+</html>
+','<div>
+  <p>We have received the complaint you submitted to the Office of Legislative Corrections Ombudsman. This letter is to notify you
+that the Ombudsman is declining to investigate your complaint at this time.</p>
+  <p>If the complaint you sent is about a major misconduct and you have not filed a request for rehearing with the Department of
+Corrections, please refer to Policy Directive 03.03.105, Prisoner Discipline, for information about appealing major misconducts.
+If you have filed a rehearing request and it has been denied, you can appeal the Department’s decision to circuit court. This
+appeal is by leave of the court. You may send a denied rehearing request to our office to review at the same time you file an
+appeal with the court or if you decide not to file with the court. However, there are time limits for filing with the court so you
+should not wait for our response before you file with the court.</p>
+  <p>Public Act 46 of 1975, as amended, created the Ombudsman&#39;s office. The law states that a person is not entitled as a right to be
+heard by the Ombudsman, and that the Ombudsman is not required to conduct an investigation on a complaint. At present, we
+are only able to investigate mental and medical health complaints, protection and safety issues because of our current resources.
+Due to the limited number of staff in the Ombudsman&#39;s office, we are not able to investigate the issue you have raised. Our
+decision to not investigate does not mean that we believe your issue is without merit, but our office simply does not have
+sufficient resources to investigate every matter that is brought before the Ombudsman.</p>
+  <p>I am sorry our response could not be more favorable at this time.</p>
+</div>',${defaultSender},false,true,'{primaryComplainant}','{primaryComplainantAddress}'),
 ('Access to Court Missed Evals Response',${defaultSender},NULL,NULL,'
 <html>
 <head>
