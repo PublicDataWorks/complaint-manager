@@ -24,6 +24,24 @@ if (process.env.ORG === "NOIPM") {
   WHERE type = 'COMPLAINANT'`;
 }
 
+let CANNOT_HELP_LETTER_TEMPLATE_QUERY;
+if (process.env.ORG === "HAWAII") {
+  const cannotHelpLetterTemplate = fs.readFileSync(
+    `${process.env.REACT_APP_INSTANCE_FILES_DIR}/cannotHelpLetter.tpl`
+  );
+  const cannotHelpLetterBodyTemplate = fs.readFileSync(
+    `${process.env.REACT_APP_INSTANCE_FILES_DIR}/cannotHelpLetterBody.tpl`
+  );
+
+  CANNOT_HELP_LETTER_TEMPLATE_QUERY = `UPDATE letter_types
+  SET template = '${cannotHelpLetterTemplate.toString().replace(/'/g, "''")}',
+    editable_template = '${cannotHelpLetterBodyTemplate
+      .toString()
+      .replace(/'/g, "''")}'
+  WHERE type = 'CAN''T HELP'
+`;
+}
+
 const REVERSION_QUERY = `UPDATE letter_types
   SET template = '',
     editable_template = NULL
