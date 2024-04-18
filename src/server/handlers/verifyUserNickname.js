@@ -1,3 +1,4 @@
+import { getPermissions } from "../../auth";
 import { NICKNAME, PERMISSIONS } from "../../sharedUtilities/constants";
 import { UNAUTHORIZED_ERRORS } from "../../sharedUtilities/errorMessageConstants";
 import checkFeatureToggleEnabled from "../checkFeatureToggleEnabled";
@@ -39,9 +40,7 @@ const verifyUserNickname = (request, response, next) => {
     }
 
     request.nickname = userInfo[config.authentication.nicknameKey];
-    request.permissions = Array.isArray(userInfo.permissions)
-      ? userInfo.permissions
-      : userInfo.scope.split(" ");
+    request.permissions = getPermissions(userInfo.permissions, userInfo.scope);
 
     next();
   }

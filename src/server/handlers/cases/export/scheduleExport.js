@@ -5,6 +5,7 @@ import {
 import moment from "moment";
 import { CASE_EXPORT_TYPE } from "../../../../sharedUtilities/constants";
 import getInstance from "./queueFactory";
+import { getPermissions } from "../../../../auth";
 
 const {
   JOB_OPERATION,
@@ -22,9 +23,11 @@ const scheduleExport = asyncMiddleware(async (request, response, next) => {
     JOB_OPERATION.AUDIT_LOG_EXPORT.key ===
     JOB_OPERATION[request.params.operation].key
   ) {
-    const permissions = Array.isArray(request.user.permissions)
-      ? request.user.permissions
-      : request.user.scope.split(" ");
+    const permissions = getPermissions(
+      request.user.permissions,
+      request.user.scope
+    );
+
     if (permissions.indexOf(USER_PERMISSIONS.EXPORT_AUDIT_LOG) === -1) {
       throw Boom.badRequest(BAD_REQUEST_ERRORS.OPERATION_NOT_PERMITTED);
     }

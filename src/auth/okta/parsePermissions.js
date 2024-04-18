@@ -1,1 +1,5 @@
-export const parsePermissions = decodedToken => decodedToken.perms.split(" ");
+import { getPermissions } from "..";
+
+export const parsePermissions = decodedToken => {
+  return getPermissions(undefined, decodedToken.perms);
+};
