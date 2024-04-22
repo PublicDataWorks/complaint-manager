@@ -131,7 +131,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       employeeType: {
         field: "employee_type",
-        type: DataTypes.ENUM(["Commissioned", "Non-Commissioned", "Recruit"]),
+        type: DataTypes.ENUM([
+          "Commissioned",
+          "Non-Commissioned",
+          "Recruit",
+          "Civilian"
+        ]),
         allowNull: true
       },
       caseEmployeeType: {

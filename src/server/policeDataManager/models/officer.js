@@ -93,7 +93,12 @@ module.exports = (sequelize, DataTypes) => {
       field: "end_date"
     },
     employeeType: {
-      type: DataTypes.ENUM(["Commissioned", "Non-Commissioned", "Recruit"]),
+      type: DataTypes.ENUM([
+        "Commissioned",
+        "Non-Commissioned",
+        "Recruit",
+        "Civilian"
+      ]),
       field: "employee_type"
     },
     windowsUsername: {
