@@ -1,6 +1,6 @@
 ---
 name: Tech Task
-about: Tech debt item template
+about: Tech task
 title: ''
 labels: tech task
 assignees: ''
