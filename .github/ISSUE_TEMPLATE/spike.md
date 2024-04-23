@@ -1,17 +1,30 @@
 ---
 name: Spike
-about: Describe this issue template's purpose here.
+about: Create a new spike
 title: ''
-labels: ''
+labels: spike
 assignees: ''
 
 ---
 
 ### Business Context
-xxxx
+Short context about what we are trying to look into (Tech stack, Library, Extension, etc) 
+
+### Definition of Done
+What means that this task is done? 
 
 ### Timebox
-xxxx
+Amount of days 
 
-### Notes
-xxxx
+### Acceptance Criteria
+Do research/play around and answer:
+- [ ] Is there possible tech solution library? Name and link to documentation
+- [ ] What are the advantages and disadvantages? 
+- [ ] Is the value add worth it? 
+- [ ] How difficult is implementation? 
+- [ ] Record your findings in form of documentation(markdown or ADR)
+- [ ] Present/deskcheck your findings.
+- [ ] If approved write down the steps in a new Story Card
+
+### Notes: 
+N/A
