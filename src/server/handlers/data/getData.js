@@ -25,7 +25,9 @@ const getData = asyncMiddleware(async (request, response, next) => {
     "displayAllStatusInDashboard"
   );
 
-  const filterCaseByStatus = displayAllStatusInDashboard
+  const filterCaseByStatus = request.query.filterByCaseStatus
+    ? request.query.filterByCaseStatus.split(",")
+    : displayAllStatusInDashboard
     ? [
         CASE_STATUS.FORWARDED_TO_AGENCY,
         CASE_STATUS.CLOSED,
