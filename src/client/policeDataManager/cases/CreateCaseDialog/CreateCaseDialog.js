@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Field, formValueSelector, initialize, reduxForm } from "redux-form";
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import {
   Dialog,
   DialogContent,
@@ -20,10 +20,12 @@ import {
 } from "../../../../sharedUtilities/constants";
 import { generateMenuOptions } from "../../utilities/generateMenuOptions";
 import Dropdown from "../../../common/components/Dropdown";
-import { intakeSourceIsRequired,
+import {
+  intakeSourceIsRequired,
   complaintTypeIsRequired,
   priorityLevelIsRequired,
-  priorityReasonIsRequired  } from "../../../formFieldLevelValidations";
+  priorityReasonIsRequired
+} from "../../../formFieldLevelValidations";
 import CreateCaseActions from "./CreateCaseActions";
 import getIntakeSourceDropdownValues from "../../intakeSources/thunks/getIntakeSourceDropdownValues";
 import getPriorityLevelDropdownValues from "../../intakeSources/thunks/priorityLevelsThunks/getPriorityLevelDropdownValues";
@@ -38,6 +40,7 @@ import {
   getDefaultPersonType,
   getSelectedPersonType
 } from "../../globalData/person-type-selectors";
+import { fetchPriorityReasons } from "./priorityReasonsSlice";
 
 const styles = {
   dialogPaper: {
@@ -45,197 +48,185 @@ const styles = {
   }
 };
 
-class CreateCaseDialog extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      complaintTypes: [],
-      priorityReasons: [],
-      dropdownValue: {
-        label: "",
-        value: null
-      }
-    };
-    this.handleDropdownChange = this.handleDropdownChange.bind(this);
-    this.retrievePriorityReasons = this.retrievePriorityReasons.bind(this);
-  }
+const CreateCaseDialog = ({
+  classes,
+  complainantType,
+  handleSubmit,
+  isUnknown,
+  open,
+  organization,
+  submitting,
+  chooseComplaintTypeFeatureFlag,
+  priorityLevels,
+  priorityReasons,
+  intakeSources,
+  defaultPersonType,
+  formattedAddress,
+  selectedPersonType,
+  personTypes,
+  change
+}) => {
+  const [complaintTypes, setComplaintTypes] = useState([]);
+  const [dropdownValue, setDropdownValue] = useState({
+    label: "",
+    value: null
+  });
 
-  handleDropdownChange(newValue) {
-    this.setState({ dropdownValue: newValue });
-  }
+  const handleDropdownChange = newValue => setDropdownValue(newValue);
+  const dispatch = useDispatch();
+  const error = useSelector(state => state.ui.priorityReasons.error);
 
-  retrievePriorityReasons() {
-    axios
-      .get("/api/priority-reasons")
-      .then(response => {
-        this.setState({
-          priorityReasons:
-            !response.data || response.data.length === 0
-              ? [{ name: "N/A", id: -1 }]
-              : response.data
-        });
-      })
-      .catch(error =>
-        this.props.dispatch(
-          snackbarError("There was a problem retrieving priority reasons")
-        )
-      );
-  }
+  useEffect(() => {
+    dispatch(fetchPriorityReasons());
+    dispatch(getIntakeSourceDropdownValues());
+    dispatch(getPriorityLevelDropdownValues());
+    dispatch(getPriorityReasonsDropdownValues());
+  }, [dispatch]);
 
-  componentDidMount() {
-    this.props.dispatch(getIntakeSourceDropdownValues());
-    this.props.dispatch(getPriorityLevelDropdownValues());
-    this.props.dispatch(getPriorityReasonsDropdownValues());
-  }
+  useEffect(() => {
+    if (error) {
+      dispatch(snackbarError(error));
+    }
+  }, [error, dispatch]);
 
-  componentDidUpdate() {
-    if (
-      this.props.chooseComplaintTypeFeatureFlag &&
-      this.state.complaintTypes.length === 0
-    ) {
+  useEffect(() => {
+    if (chooseComplaintTypeFeatureFlag && complaintTypes.length === 0) {
       axios
         .get("/api/complaint-types")
-        .then(response => this.setState({ complaintTypes: response.data }))
+        .then(response => setComplaintTypes(response.data))
         .catch(error =>
-          this.props.dispatch(
+          dispatch(
             snackbarError("There was a problem retrieving complaint types")
           )
         );
     }
 
-    if (this.state.priorityReasons.length === 0) {
-      this.retrievePriorityReasons();
-    }
+    // if (priorityReasons.length === 0) {
+    //   ();
+    // }
 
-    if (!this.props.selectedPersonType && this.props.defaultPersonType) {
-      this.props.dispatch(
+    if (!selectedPersonType && defaultPersonType) {
+      dispatch(
         initialize(CREATE_CASE_FORM_NAME, {
           case: {
-            complainantType: this.props.defaultPersonType.key,
+            complainantType: defaultPersonType.key,
             firstContactDate: moment(Date.now()).format(ISO_DATE)
           }
         })
       );
     }
-  }
+  }, [
+    chooseComplaintTypeFeatureFlag,
+    complaintTypes,
+    priorityReasons,
+    selectedPersonType,
+    defaultPersonType,
+    dispatch
+  ]);
 
-  resetForm = () => {
-    this.setState({
-      complaintTypes: [],
-      priorityReasons: [],
-      dropdownValue: {
-        label: "",
-        value: null
-      }
+  const resetForm = () => {
+    setComplaintTypes([]);
+    setPriorityReasons([]);
+    setDropdownValue({
+      label: "",
+      value: null
     });
   };
 
-  render() {
-    const {
-      classes,
-      complainantType,
-      handleSubmit,
-      isUnknown,
-      open,
-      organization,
-      submitting
-    } = this.props;
-
-    return (
-      <Dialog
-        data-testid="createCaseDialog"
-        classes={{
-          paper: classes.dialogPaper
-        }}
-        open={open}
-        fullWidth
-        style={{ position: "absolute", top: "70px" }}
+  return (
+    <Dialog
+      data-testid="createCaseDialog"
+      classes={{
+        paper: classes.dialogPaper
+      }}
+      open={open}
+      fullWidth
+      style={{ position: "absolute", top: "70px" }}
+    >
+      <DialogTitle
+        data-testid="createCaseDialogTitle"
+        aria-label="createCaseDialogTitle"
+        style={{ paddingBottom: "1%" }}
       >
-        <DialogTitle
-          data-testid="createCaseDialogTitle"
-          aria-label="createCaseDialogTitle"
-          style={{ paddingBottom: "1%" }}
-        >
-          Create New Case
-        </DialogTitle>
-        <DialogContent style={{ padding: "0px 24px" }}>
-          <DialogContentText style={{ paddingBottom: "3%" }}>
-            <Typography variant="caption">
-              Enter as much information as available to start a case. You will
-              be able to edit this information later.
-            </Typography>
-          </DialogContentText>
-          <form data-testid="createCaseForm">
-            <Timeline organization={organization} />
-            <IntakeSource
-              handleDropdownChange={this.handleDropdownChange}
-              intakeSources={this.props.intakeSources}
-            />
-            <br />
+        Create New Case
+      </DialogTitle>
+      <DialogContent style={{ padding: "0px 24px" }}>
+        <DialogContentText style={{ paddingBottom: "3%" }}>
+          <Typography variant="caption">
+            Enter as much information as available to start a case. You will be
+            able to edit this information later.
+          </Typography>
+        </DialogContentText>
+        <form data-testid="createCaseForm">
+          <Timeline organization={organization} />
+          <IntakeSource
+            handleDropdownChange={handleDropdownChange}
+            intakeSources={intakeSources}
+          />
+          <br />
 
-            {this.state.dropdownValue === "Priority Incident" && (
-              <div>
-                <PriorityLevel priorityLevels={this.props.priorityLevels} />
-                <br />
-                <PriorityReason priorityReasons={this.props.priorityReasons} />
-                <br />
-              </div>
-            )}
+          {dropdownValue === "Priority Incident" && (
+            <div>
+              <PriorityLevel priorityLevels={priorityLevels} />
+              <br />
+              <PriorityReason priorityReasons={priorityReasons} />
+              <br />
+            </div>
+          )}
 
-            {this.props.chooseComplaintTypeFeatureFlag && (
-              <>
-                <Field
-                  required
-                  component={Dropdown}
-                  placeholder="Select a Complaint Type*"
-                  name="case.complaintType"
-                  style={{ width: "90%", marginBottom: "15px" }}
-                  inputProps={{
-                    "data-testid": "complaintTypeDropdown",
-                    "aria-label": "Complaint Type Dropdown"
-                  }}
-                  validate={[complaintTypeIsRequired]}
-                >
-                  {generateMenuOptions(
-                    this.state.complaintTypes.map(type => type.name).sort()
-                  )}
-                </Field>
-                <br />
-              </>
-            )}
-            <PersonTypeSelection
-              personTypes={this.props.personTypes}
-              selectedType={this.props.selectedPersonType}
-              showLabels={true}
-              subtypeFieldName="civilian.personSubType"
-              typeFieldName="case.complainantType"
-            />
-            {this.props.selectedPersonType?.dialogAction === SHOW_FORM && (
-              <>
-                <AnonymousFields />
-                {!isUnknown && (
-                  <CivilianComplainantFields
-                    formattedAddress={this.props.formattedAddress}
-                    formName={CREATE_CASE_FORM_NAME}
-                  />
+          {chooseComplaintTypeFeatureFlag && (
+            <>
+              <Field
+                required
+                component={Dropdown}
+                placeholder="Select a Complaint Type*"
+                name="case.complaintType"
+                style={{ width: "90%", marginBottom: "15px" }}
+                inputProps={{
+                  "data-testid": "complaintTypeDropdown",
+                  "aria-label": "Complaint Type Dropdown"
+                }}
+                validate={[complaintTypeIsRequired]}
+              >
+                {generateMenuOptions(
+                  complaintTypes.map(type => type.name).sort()
                 )}
-              </>
-            )}
-          </form>
-        </DialogContent>
-        <CreateCaseActions
-          complainantType={complainantType}
-          handleSubmit={handleSubmit}
-          disabled={submitting}
-          change={this.props.change}
-          resetForm={this.resetForm}
-        />
-      </Dialog>
-    );
-  }
-}
+              </Field>
+              <br />
+            </>
+          )}
+          <PersonTypeSelection
+            personTypes={personTypes}
+            selectedType={selectedPersonType}
+            showLabels={true}
+            subtypeFieldName="civilian.personSubType"
+            typeFieldName="case.complainantType"
+          />
+          {selectedPersonType?.dialogAction === SHOW_FORM && (
+            <>
+              <AnonymousFields />
+              {!isUnknown && (
+                <CivilianComplainantFields
+                  formattedAddress={formattedAddress}
+                  formName={CREATE_CASE_FORM_NAME}
+                />
+              )}
+            </>
+          )}
+        </form>
+      </DialogContent>
+      <CreateCaseActions
+        complainantType={complainantType}
+        handleSubmit={handleSubmit}
+        disabled={submitting}
+        change={change}
+        resetForm={resetForm}
+      />
+    </Dialog>
+  );
+};
 
-const Timeline = props => (
+const Timeline = ({ organization }) => (
   <>
     <Typography variant="subtitle2" style={{ marginBottom: "8px" }}>
       Timeline
@@ -243,7 +234,7 @@ const Timeline = props => (
     <DateField
       required
       name="case.firstContactDate"
-      label={`First Contacted ${props.organization}`}
+      label={`First Contacted ${organization}`}
       data-testid="firstContactDateField"
       inputProps={{
         "data-testid": "firstContactDateInput",
@@ -262,70 +253,63 @@ const Timeline = props => (
   </>
 );
 
-const IntakeSource = props => {
-  return (
-    <Field
-      required
-      name="case.intakeSourceId"
-      component={Dropdown}
-      label="Intake Source"
-      hinttext="Intake Source"
-      data-testid="intakeSourceDropdown"
-      style={{ width: "50%" }}
-      inputProps={{
-        "data-testid": "intakeSourceInput",
-        autoComplete: "off",
-        "aria-label": "Intake Source Field"
-      }}
-      validate={[intakeSourceIsRequired]}
-      handleDropdownChange={props.handleDropdownChange}
-    >
-      {generateMenuOptions(props.intakeSources)}
-    </Field>
-  );
-};
-
-const PriorityLevel = props => {
-  return (
-    <Field
+const IntakeSource = ({ intakeSources, handleDropdownChange }) => (
+  <Field
     required
-      component={Dropdown}
-      label="Priority Level"
-      data-testid="priorityLevelDropdown"
-      placeholder="Select a Priority Level"
-      name="case.priorityLevels"
-      style={{ width: "90%", marginBottom: "15px" }}
-      inputProps={{
-        "data-testid": "priorityLevelInput",
-        "aria-label": "Priority Level Input"
-      }}
-      validate={[priorityLevelIsRequired]}
-    >
-      {generateMenuOptions(props.priorityLevels)}
-    </Field>
-  );
-};
+    name="case.intakeSourceId"
+    component={Dropdown}
+    label="Intake Source"
+    hinttext="Intake Source"
+    data-testid="intakeSourceDropdown"
+    style={{ width: "50%" }}
+    inputProps={{
+      "data-testid": "intakeSourceInput",
+      autoComplete: "off",
+      "aria-label": "Intake Source Field"
+    }}
+    validate={[intakeSourceIsRequired]}
+    handleDropdownChange={handleDropdownChange}
+  >
+    {generateMenuOptions(intakeSources)}
+  </Field>
+);
 
-const PriorityReason = props => {
-  return (
-    <Field
-      required
-      name="case.priorityReasons"
-      component={Dropdown}
-      label="Priority Reason"
-      placeholder="Select a Priority Reason"
-      style={{ width: "90%", marginBottom: "15px" }}
-      inputProps={{
-        "data-testid": "priorityReasonDropdown",
-        "aria-label": "Priority Reason Dropdown"
-      }}
-      validate={[priorityReasonIsRequired]}
-    >
-  
-      {generateMenuOptions(props.priorityReasons)}
-    </Field>
-  );
-};
+const PriorityLevel = ({ priorityLevels }) => (
+  <Field
+    required
+    component={Dropdown}
+    label="Priority Level"
+    data-testid="priorityLevelDropdown"
+    placeholder="Select a Priority Level"
+    name="case.priorityLevels"
+    style={{ width: "90%", marginBottom: "15px" }}
+    inputProps={{
+      "data-testid": "priorityLevelInput",
+      "aria-label": "Priority Level Input"
+    }}
+    validate={[priorityLevelIsRequired]}
+  >
+    {generateMenuOptions(priorityLevels)}
+  </Field>
+);
+
+const PriorityReason = ({ priorityReasons }) => (
+  <Field
+    required
+    name="case.priorityReasons"
+    component={Dropdown}
+    label="Priority Reason"
+    placeholder="Select a Priority Reason"
+    style={{ width: "90%", marginBottom: "15px" }}
+    inputProps={{
+      "data-testid": "priorityReasonDropdown",
+      "aria-label": "Priority Reason Dropdown"
+    }}
+    validate={[priorityReasonIsRequired]}
+  >
+    {generateMenuOptions(priorityReasons)}
+  </Field>
+);
 
 const mapStateToProps = state => {
   const selector = formValueSelector(CREATE_CASE_FORM_NAME);
@@ -349,7 +333,7 @@ const mapStateToProps = state => {
   return {
     addressValid: state.ui.addressInput.addressValid,
     chooseComplaintTypeFeatureFlag,
-    complainantType: complainantType,
+    complainantType,
     defaultPersonType: getDefaultPersonType(state),
     formattedAddress: formatAddressAsString(addressValues.address),
     intakeSources: state.ui.intakeSources,
