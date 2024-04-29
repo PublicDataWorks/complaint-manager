@@ -44,6 +44,32 @@ class DataDashboard extends Component {
       statusLetterInProgress: CASE_STATUS.LETTER_IN_PROGRESS,
       statusReadyForReview: CASE_STATUS.READY_FOR_REVIEW
     };
+    this.statusFilter = [
+      {
+      name: "statusForwarded",
+      displayName: CASE_STATUS.FORWARDED_TO_AGENCY
+      },
+      {
+        name: "statusClosed",
+        displayName: CASE_STATUS.CLOSED
+      },
+      {
+        name: "statusActive",
+        displayName: CASE_STATUS.ACTIVE
+      },
+      {
+        name: "statusInitial",
+        displayName: CASE_STATUS.INITIAL
+      },
+      {
+        name: "statusLetterInProgress",
+        displayName: CASE_STATUS.LETTER_IN_PROGRESS
+      },
+      {
+        name: "statusReadyForReview",
+        displayName: CASE_STATUS.READY_FOR_REVIEW
+      }
+      ]
   }
 
   handleCheckboxChange = event => {
@@ -56,7 +82,7 @@ class DataDashboard extends Component {
       caseStatusesToFilterBy: statusToFilter
     });
   };
-
+  
   render() {
     return (
       <div>
@@ -69,66 +95,22 @@ class DataDashboard extends Component {
             </section>
           )}
           <div>
-            <Checkbox
-              checked={this.state.statusForwarded}
-              onChange={event => {
-                this.handleCheckboxChange(event);
-              }}
-              color="default"
-              style={{ color: "#000000" }}
-              name="statusForwarded"
+            {this.statusFilter.map(status => {
+              return (
+               <> 
+              <Checkbox 
+                checked={this.state[status.name]}
+                onChange={event => {
+                  this.handleCheckboxChange(event);
+                }}
+                color="default"
+                style={{ color: "#000000" }}
+                name={status.name}
             />
-            {CASE_STATUS.FORWARDED_TO_AGENCY}
-            <Checkbox
-              checked={this.state.statusClosed}
-              onChange={event => {
-                this.handleCheckboxChange(event);
-              }}
-              color="default"
-              style={{ color: "#000000" }}
-              name="statusClosed"
-            />
-            {CASE_STATUS.CLOSED}
-            <Checkbox
-              checked={this.state.statusActive}
-              onChange={event => {
-                this.handleCheckboxChange(event);
-              }}
-              color="default"
-              style={{ color: "#000000" }}
-              name="statusActive"
-            />
-            {CASE_STATUS.ACTIVE}
-            <Checkbox
-              checked={this.state.statusInitial}
-              onChange={event => {
-                this.handleCheckboxChange(event);
-              }}
-              color="default"
-              style={{ color: "#000000" }}
-              name="statusInitial"
-            />
-            {CASE_STATUS.INITIAL}
-            <Checkbox
-              checked={this.state.statusLetterInProgress}
-              onChange={event => {
-                this.handleCheckboxChange(event);
-              }}
-              color="default"
-              style={{ color: "#000000" }}
-              name="statusLetterInProgress"
-            />
-            {CASE_STATUS.LETTER_IN_PROGRESS}
-            <Checkbox
-              checked={this.state.statusReadyForReview}
-              onChange={event => {
-                this.handleCheckboxChange(event);
-              }}
-              color="default"
-              style={{ color: "#000000" }}
-              name="statusReadyForReview"
-            />
-            {CASE_STATUS.READY_FOR_REVIEW}
+            {status.displayName}
+            </>
+          )
+          })}
           </div>
           <div
             style={{
