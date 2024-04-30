@@ -4,7 +4,6 @@ import { policeDataManagerMenuOptions } from "../shared/components/NavBar/police
 import Visualization from "../../common/components/Visualization/Visualization";
 import MapVisualization from "../../common/components/Visualization/MapVisualization";
 import {
-  QUERY_TYPES,
   DATE_RANGE_TYPE,
   CASE_STATUS
 } from "../../../sharedUtilities/constants";
@@ -98,7 +97,9 @@ class DataDashboard extends Component {
             {this.statusFilter.map(status => {
               return (
                <> 
-              <Checkbox 
+              <Checkbox
+                key={status.name}
+                data-testid={"checkbox"} 
                 checked={this.state[status.name]}
                 onChange={event => {
                   this.handleCheckboxChange(event);
