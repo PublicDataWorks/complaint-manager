@@ -4,7 +4,7 @@ import { REASSIGN_CASE_FORM_NAME } from "../../../../sharedUtilities/constants";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import getCaseDetails from "./getCaseDetails";
 
-const updateCase = values => async dispatch => {
+const   updateCase = values => async dispatch => {
   try {
     dispatch(startSubmit(REASSIGN_CASE_FORM_NAME));
     await axios.put(`api/cases/${values.id}`, values);
