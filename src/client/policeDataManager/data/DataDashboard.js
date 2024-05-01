@@ -45,8 +45,8 @@ class DataDashboard extends Component {
     };
     this.statusFilter = [
       {
-      name: "statusForwarded",
-      displayName: CASE_STATUS.FORWARDED_TO_AGENCY
+        name: "statusForwarded",
+        displayName: CASE_STATUS.FORWARDED_TO_AGENCY
       },
       {
         name: "statusClosed",
@@ -68,20 +68,22 @@ class DataDashboard extends Component {
         name: "statusReadyForReview",
         displayName: CASE_STATUS.READY_FOR_REVIEW
       }
-      ]
+    ];
   }
 
   handleCheckboxChange = event => {
     const caseStatus = this.statusEnum[event.target.name];
     const statusToFilter = event.target.checked
       ? [...this.state.caseStatusesToFilterBy, caseStatus]
-      : this.state.caseStatusesToFilterBy.filter(s => s !== caseStatus);
+      : this.state.caseStatusesToFilterBy.filter(
+          status => status !== caseStatus
+        );
     this.setState({
       [event.target.name]: event.target.checked,
       caseStatusesToFilterBy: statusToFilter
     });
   };
-  
+
   render() {
     return (
       <div>
@@ -96,22 +98,22 @@ class DataDashboard extends Component {
           <div>
             {this.statusFilter.map(status => {
               return (
-               <> 
-              <Checkbox
-                key={status.name}
-                data-testid={"checkbox"} 
-                checked={this.state[status.name]}
-                onChange={event => {
-                  this.handleCheckboxChange(event);
-                }}
-                color="default"
-                style={{ color: "#000000" }}
-                name={status.name}
-            />
-            {status.displayName}
-            </>
-          )
-          })}
+                <>
+                  <Checkbox
+                    key={status.name}
+                    data-testid={"checkbox"}
+                    checked={this.state[status.name]}
+                    onChange={event => {
+                      this.handleCheckboxChange(event);
+                    }}
+                    color="default"
+                    style={{ color: "#000000" }}
+                    name={status.name}
+                  />
+                  {status.displayName}
+                </>
+              );
+            })}
           </div>
           <div
             style={{
