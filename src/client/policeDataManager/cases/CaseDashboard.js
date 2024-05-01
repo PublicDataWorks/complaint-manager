@@ -7,7 +7,7 @@ import {
   resetWorkingCasesLoaded,
   updateSort
 } from "../actionCreators/casesActionCreators";
-import getUsers from "../../common/thunks/getUsers";
+// import getUsers from "../../common/thunks/getUsers";
 import { policeDataManagerMenuOptions } from "../shared/components/NavBar/policeDataManagerMenuOptions";
 import ComplaintTotals from "./ComplaintTotals";
 import { closeCreateDialog } from "../../common/actionCreators/createDialogActionCreators";
@@ -22,9 +22,9 @@ class CaseDashboard extends Component {
     this.props.closeCreateDialog(DialogTypes.CASE);
     this.props.resetWorkingCasesLoaded();
   }
-  componentDidMount() {
-    this.props.getUsers();
-  }
+  // componentDidMount() {
+  //   this.props.getUsers();
+  // }
 
   render() {
     return (
@@ -50,7 +50,7 @@ const mapDispatchToProps = {
   updateSort,
   resetWorkingCasesLoaded,
   closeCreateDialog,
-  getUsers
+  // getUsers
 };
 
 const mapStateToProps = state => {

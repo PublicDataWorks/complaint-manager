@@ -20,8 +20,8 @@ import {
 import CreateCaseButton from "./CreateCaseButton";
 import moment from "moment";
 
-jest.mock("./thunks/getWorkingCases", () => () => ({
-  type: "MOCK_GET_CASES_THUNK"
+jets.mock("./thunks/getUsers", () => () => ({  
+  type: "MOCK_GET_USERS_THUNK"
 }));
 
 jest.mock("../../common/components/Visualization/PlotlyWrapper", () => {
