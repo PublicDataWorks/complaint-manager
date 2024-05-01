@@ -31,7 +31,7 @@ export const generateDateRange = range => {
   }
 };
 
-const Visualization = ({ queryModel, isPublic, hasDropdown }) => {
+const Visualization = ({ queryModel, isPublic, hasDropdown, queryOptions }) => {
   const [data, setData] = useState({ data: [], isFetching: true });
   const [layout, setLayout] = useState({});
   const [config, setConfig] = useState({});
@@ -43,7 +43,7 @@ const Visualization = ({ queryModel, isPublic, hasDropdown }) => {
       try {
         const newData = await queryModel.getVisualizationData({
           isPublic,
-          queryOptions: generateDateRange(dateRange)
+          queryOptions: { ...generateDateRange(dateRange), ...queryOptions }
         });
 
         setData({ data: newData.data, isFetching: false });

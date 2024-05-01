@@ -10,7 +10,6 @@ import * as countTop10Tags from "./queries/countTop10Tags";
 import * as countTop10Allegations from "./queries/countTop10Allegations";
 import * as locationDataQuery from "./queries/locationData";
 import * as countComplaintsByDistrict from "./queries/countComplaintsByDistrict";
-import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
 
 const getData = asyncMiddleware(async (request, response, next) => {
   let data;
@@ -19,14 +18,9 @@ const getData = asyncMiddleware(async (request, response, next) => {
     minDate: request.query.minDate,
     maxDate: request.query.maxDate
   };
-
-  const displayAllStatusInDashboard = checkFeatureToggleEnabled(
-    request,
-    "displayAllStatusInDashboard"
-  );
-
-  const filterCaseByStatus = displayAllStatusInDashboard
-    ? [
+  const filterCaseByStatus = request.query.filterByCaseStatus
+    ? request.query.filterByCaseStatus.split(",")
+    : [
         CASE_STATUS.FORWARDED_TO_AGENCY,
         CASE_STATUS.CLOSED,
         CASE_STATUS.ACTIVE,
@@ -34,7 +28,6 @@ const getData = asyncMiddleware(async (request, response, next) => {
         CASE_STATUS.LETTER_IN_PROGRESS,
         CASE_STATUS.READY_FOR_REVIEW
       ]
-    : [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED];
 
   switch (queryType) {
     case QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE:
