@@ -83,7 +83,7 @@ export default class CountTop10Allegations extends BarGraphVisualization {
   transformData(rawData) {
     let xValues = [];
     let yValues = [];
-    let hoverValues = []
+    let hoverValues = [];
     let CHAR_LIMIT = 115;
 
     rawData.reverse();
@@ -93,13 +93,13 @@ export default class CountTop10Allegations extends BarGraphVisualization {
         return value.substring(0, CHAR_LIMIT).concat("...");
       }
       return value;
-    }
-  
+    };
+
     rawData.forEach(({ count, rule, directive, paragraph }) => {
-      let directiveVal = directive ? (directive) : "";
+      let directiveVal = directive ? directive : "";
       xValues.push(count);
-      yValues.push(directive || paragraph);
-      hoverValues.push(rule + "<br>" + paragraph + "<br>" + truncateValue(directiveVal) );
+      yValues.push(directive || rule);
+      hoverValues.push(paragraph + "<br>" + truncateValue(directiveVal));
     });
 
     let truncatedYValues = truncateYValues(yValues);

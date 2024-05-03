@@ -48,7 +48,12 @@ describe("CountTop10Allegations model", () => {
             text: ["3", "2", "1", "1"],
             textposition: "auto",
             textangle: 0,
-            hovertext: ["Rule 4<br>description for Arrest<br>Arrest", "Rule 3<br>description for Workplace<br>Workplace", "Rule 2<br>description for Unauthorized Force<br>Unauthorized Force", "Rule 1<br>description for Professionalism<br>Professionalism"],
+            hovertext: [
+              "description for Arrest<br>Arrest",
+              "description for Workplace<br>Workplace",
+              "description for Unauthorized Force<br>Unauthorized Force",
+              "description for Professionalism<br>Professionalism"
+            ],
             hoverinfo: "text"
           }
         ]
@@ -89,11 +94,7 @@ describe("CountTop10Allegations model", () => {
         data: [
           {
             x: ["3", "2", "1", "1"],
-            y: [
-              "description for...", 
-              "Workplace", 
-              "Unauthorized Fo...", 
-              "description for..."],
+            y: ["Rule 4", "Workplace", "Unauthorized Fo...", "Rule 1"],
             type: "bar",
             width: 0.75,
             orientation: "h",
@@ -103,7 +104,12 @@ describe("CountTop10Allegations model", () => {
             text: ["3", "2", "1", "1"],
             textposition: "auto",
             textangle: 0,
-            hovertext: ["Rule 4<br>description for Arrest<br>", "Rule 3<br>description for Workplace<br>Workplace", "Rule 2<br>description for Unauthorized Force<br>Unauthorized Force", "Rule 1<br>description for Professionalism<br>"],
+            hovertext: [
+              "description for Arrest<br>",
+              "description for Workplace<br>Workplace",
+              "description for Unauthorized Force<br>Unauthorized Force",
+              "description for Professionalism<br>"
+            ],
             hoverinfo: "text"
           }
         ]
@@ -161,7 +167,12 @@ describe("CountTop10Allegations model", () => {
             text: ["3", "2", "1", "1"],
             textposition: "auto",
             textangle: 0,
-            hovertext: ["Rule 4<br>description for Arrest<br>Arrest", "Rule 3<br>description for Workplace<br>Workplace Discrimination", "Rule 2<br>description for Unauthorized Force<br>Unauthorized Use of Force", "Rule 1<br>description for Professionalism<br>Professionalism"],
+            hovertext: [
+              "description for Arrest<br>Arrest",
+              "description for Workplace<br>Workplace Discrimination",
+              "description for Unauthorized Force<br>Unauthorized Use of Force",
+              "description for Professionalism<br>Professionalism"
+            ],
             hoverinfo: "text"
           }
         ]
