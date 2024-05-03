@@ -7,6 +7,7 @@ import { mount } from "enzyme/build/index";
 import { Provider } from "react-redux";
 import createConfiguredStore from "../../../createConfiguredStore";
 import { BrowserRouter as Router } from "react-router-dom";
+import { render, screen, waitFor } from '@testing-library/react';
 import {
   getWorkingCasesSuccess,
   updateSort
@@ -27,7 +28,11 @@ import SortableCase from "../../testUtilities/SortableCase";
 import getWorkingCases from "../thunks/getWorkingCases";
 import getArchivedCases from "../thunks/getArchivedCases";
 import getSearchCases from "../thunks/getSearchCases";
+import { getUsers } from '../../../auth/okta/userService';
 
+jest.mock('../../../auth/okta/userService', () => ({
+  getUsers: jest.fn(),
+}));
 jest.mock("../thunks/getWorkingCases");
 jest.mock("../thunks/getArchivedCases");
 jest.mock("../thunks/getSearchCases");
@@ -329,9 +334,15 @@ describe("cases table", () => {
       expect(tags.text()).toEqual("cold-cut sandwich, Grapes, Use of Force");
     });
 
-    test("should display assigned to", () => {
-      const assignedTo = caseRow.find('td[data-testid="caseAssignedTo"]');
-      expect(assignedTo.text()).toEqual("TU");
+    test("should display assigned to", async () => {
+      getUsers.mockResolvedValue([
+        { email: 'someone@gmail.com', name: 'Tom Upton' },
+      ]);
+      render(<CasesTable />);
+      const caseRow = await screen.findByTestId("caseAssignedTo");
+      await waitFor(() => {
+        expect(assignedTo.text()).toEqual("TU")
+      });
     });
 
     test("should display multiple cases", () => {
