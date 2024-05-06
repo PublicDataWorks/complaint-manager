@@ -28,9 +28,9 @@ import SortableCase from "../../testUtilities/SortableCase";
 import getWorkingCases from "../thunks/getWorkingCases";
 import getArchivedCases from "../thunks/getArchivedCases";
 import getSearchCases from "../thunks/getSearchCases";
-import { getUsers } from '../../../auth/okta/userService';
+import { getUsers } from '../../../../auth/okta/userService';
 
-jest.mock('../../../auth/okta/userService', () => ({
+jest.mock('../../../../auth/okta/userService', () => ({
   getUsers: jest.fn(),
 }));
 jest.mock("../thunks/getWorkingCases");
@@ -338,8 +338,12 @@ describe("cases table", () => {
       getUsers.mockResolvedValue([
         { email: 'someone@gmail.com', name: 'Tom Upton' },
       ]);
-      render(<CasesTable />);
-      const caseRow = await screen.findByTestId("caseAssignedTo");
+      const assignedTo = caseRow.find('td[data-testid="caseAssignedTo"]');
+      expect(assignedTo.exists()).toEqual(true);    
+      // expect(assignedTo.text()).toEqual("TU");
+
+      // // render(<CasesTable />);
+      // const caseRow = await screen.findByTestId("caseAssignedTo");
       await waitFor(() => {
         expect(assignedTo.text()).toEqual("TU")
       });
