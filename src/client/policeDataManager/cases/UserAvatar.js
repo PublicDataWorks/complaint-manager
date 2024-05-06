@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   }
 });
 
-const UserAvatar = (props) => {
+const UserAvatar = ({ email }) => {
   const [initials, setInitials] = useState(''); 
   const classes = useStyles(); 
 
@@ -22,45 +22,37 @@ const UserAvatar = (props) => {
     let isMounted = true; // Boolean flag to track component's mounted state
 
     const fetchInitials = async () => {
-      const getUserNameInitialsForAvatar = async () => {
-        try {
-          const getListOfUsers = await getUsers();
-          const findSelectedUser = getListOfUsers.find((user) => user.email === props.email);
+      try {
+        const users = await getUsers();
+        const user = users.find((user) => user.email === email);
 
-          if (findSelectedUser) {
-            const nameParts = findSelectedUser.name.trim().split(/\s+/);
-            const firstInitial = nameParts[0][0];
-            const lastInitial = nameParts.length > 1 ? nameParts[nameParts.length - 1][0] : '';
-            return firstInitial + lastInitial;
+        if (user) {
+          const nameParts = user.name.trim().split(/\s+/);
+          const firstInitial = nameParts[0][0];
+          const lastInitial = nameParts.length > 1 ? nameParts[nameParts.length - 1][0] : '';
+          if (isMounted) {
+            setInitials(firstInitial + lastInitial);
           }
-
-          return ''; // Return empty string if no user is found
-        } catch (error) {
-          console.error('Error fetching user:', error);
-          return '';
         }
-      };
-
-      const initials = await getUserNameInitialsForAvatar(); // Await the initials
-      if (isMounted) {
-        setInitials(initials); // Update the state only if the component is still mounted
+      } catch (error) {
+        console.error('Error fetching user:', error);
       }
     };
 
-    if (props.email) {
-      fetchInitials(); // Call the async function to fetch initials
+    if (email) {
+      fetchInitials();
     }
 
-    // Cleanup function to set isMounted to false when component unmounts
     return () => {
       isMounted = false;
     };
-  }, [props.email]);
+    
+  }, [email]);
 
   return (
     <div>
-      {props.email ? (
-        <Tooltip data-testid={`tooltip-${initials}`} title={props.email}>
+      {email ? (
+        <Tooltip data-testid={`tooltip-${initials}`} title={email}>
           <Avatar className={classes.avatar}>{initials}</Avatar>
         </Tooltip>
       ) : (
