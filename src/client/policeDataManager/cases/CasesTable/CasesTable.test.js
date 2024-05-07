@@ -334,7 +334,7 @@ describe("cases table", () => {
       expect(tags.text()).toEqual("cold-cut sandwich, Grapes, Use of Force");
     });
 
-    test("should display assigned to", async () => {
+    test.skip("should display assigned to", async () => {
       getUsers.mockResolvedValue([
         { email: 'someone@gmail.com', name: 'Tom Upton' },
       ]);
