@@ -7,7 +7,6 @@ import { mount } from "enzyme/build/index";
 import { Provider } from "react-redux";
 import createConfiguredStore from "../../../createConfiguredStore";
 import { BrowserRouter as Router } from "react-router-dom";
-import { render, screen, waitFor } from '@testing-library/react';
 import {
   getWorkingCasesSuccess,
   updateSort
@@ -28,11 +27,8 @@ import SortableCase from "../../testUtilities/SortableCase";
 import getWorkingCases from "../thunks/getWorkingCases";
 import getArchivedCases from "../thunks/getArchivedCases";
 import getSearchCases from "../thunks/getSearchCases";
-import { getUsers } from '../../../../auth/okta/userService';
+import { getUsersSuccess } from "../../../common/actionCreators/usersActionCreators";
 
-jest.mock('../../../../auth/okta/userService', () => ({
-  getUsers: jest.fn(),
-}));
 jest.mock("../thunks/getWorkingCases");
 jest.mock("../thunks/getArchivedCases");
 jest.mock("../thunks/getSearchCases");
@@ -134,6 +130,9 @@ describe("cases table", () => {
     cases = [caseOne, caseTwo, caseThree];
 
     store = createConfiguredStore();
+    store.dispatch(getUsersSuccess([
+      { email: 'tuser', name: 'Tom Edwards' },
+    ]))
     dispatchSpy = jest.spyOn(store, "dispatch");
 
     store.dispatch(getWorkingCasesSuccess(cases));
@@ -334,28 +333,9 @@ describe("cases table", () => {
       expect(tags.text()).toEqual("cold-cut sandwich, Grapes, Use of Force");
     });
 
-    test.skip("should display assigned to", async () => {
-      getUsers.mockResolvedValue([
-        { email: 'someone@gmail.com', name: 'Tom Upton' },
-      ]);
-        
-      tableWrapper = mount(
-        <Provider store={store}>
-          <Router>
-            <CasesTable caseType={CASE_TYPE.WORKING} />
-          </Router>
-        </Provider>
-      );
-      // const assignedTo = caseRow.find('td[data-testid="caseAssignedTo"]');
-      // expect(assignedTo.exists()).toEqual(true);  
-      // // render(<CasesTable />);
-      // const caseRow = await screen.findByTestId("caseAssignedTo");
-      // await waitFor(() => {
-      //   expect(assignedTo.text()).toEqual("TU")
-      // });
-      await waitFor(() => {
-        expect(caseRow.text()).toEqual("TU"); // Modify to your expected outcome
-      });
+    test("should display assigned to", async () => { 
+      const assignedTo = caseRow.find('td[data-testid="caseAssignedTo"]');
+      expect(assignedTo.text()).toEqual("TE");
     });
 
     test("should display multiple cases", () => {

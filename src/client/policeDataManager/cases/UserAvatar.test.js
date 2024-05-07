@@ -1,20 +1,20 @@
 import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import React from "react";
 import UserAvatar from "./UserAvatar";
-import { getUsers } from '../../../auth/okta/userService';
-
-jest.mock('../../../auth/okta/userService', () => ({
-  getUsers: jest.fn(),
-}));
-
+import { Provider } from "react-redux";
+import createConfiguredStore from "../../createConfiguredStore";
+import { getUsersSuccess } from "../../common/actionCreators/usersActionCreators";
 
 describe("UserAvatar", () => {
-  test("should parse the first 2 letters of user's name and display in upper case", async () => {
-    getUsers.mockResolvedValue([
+ let store;
+  beforeEach(() => {
+    store = createConfiguredStore();
+    store.dispatch(getUsersSuccess([
       { email: 'test@gmail.com', name: 'Tom Edwards' },
-    ]);
-  
-    render(<UserAvatar email="test@gmail.com" />);
+    ]))})
+  test("should parse the first 2 letters of user's name and display in upper case", async () => {
+   
+    render(<Provider store={store}><UserAvatar email="test@gmail.com" /></Provider>);
 
     await waitFor(() => {
       const avatarElement = screen.getByTestId("tooltip-TE"); 
@@ -25,13 +25,13 @@ describe("UserAvatar", () => {
   });
 
   it("should display full email on mouse hover", () => {
-    render(<UserAvatar email="test@gmail.com"></UserAvatar>);
+    render(<Provider store={store}><UserAvatar email="test@gmail.com"></UserAvatar></Provider>);
     fireEvent.mouseMove(screen.getByTitle("test@gmail.com"));
-    expect(screen.getByTestId("tooltip-")).toBeTruthy();
+    expect(screen.getByTestId("tooltip-TE")).toBeTruthy();
   });
 
     it("should not display avatar unless an email is provided", () => {
-    render(<UserAvatar></UserAvatar>);
+    render(<Provider store={store}><UserAvatar></UserAvatar></Provider>);
     expect(screen.getByTestId("no-avatar")).toBeTruthy();
   });
 });

@@ -9,7 +9,6 @@ import { openSnackbar } from "../actionCreators/snackBarActionCreators";
 import { mockLocalStorage } from "../../../mockLocalStorage";
 import { getWorkingCasesSuccess } from "../actionCreators/casesActionCreators";
 import CaseModel from "../../../sharedTestHelpers/case";
-import getWorkingCases from "./thunks/getWorkingCases";
 import { containsText } from "../../testHelpers";
 import {
   CASE_STATUS,
@@ -103,8 +102,8 @@ describe("CaseDashboard", () => {
     });
 
     test.skip("should load all cases when mounted", () => {
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        getWorkingCases(SORT_CASES_BY.CASE_REFERENCE, DESCENDING)
+      expect(mockGetWorkingCases).toHaveBeenCalledWith(
+       SORT_CASES_BY.CASE_REFERENCE, DESCENDING
       );
     });
 
