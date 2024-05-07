@@ -2,7 +2,7 @@ import { Avatar, Tooltip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { useEffect, useState } from "react";
-import { getUsers } from "../../../auth/okta/userService";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles({
   avatar: {
@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   }
 });
 
-const UserAvatar = ({ email }) => {
+const UserAvatar = ({ email, users }) => {
   const [initials, setInitials] = useState(''); 
   const classes = useStyles(); 
 
@@ -23,7 +23,6 @@ const UserAvatar = ({ email }) => {
 
     const fetchInitials = async () => {
       try {
-        const users = await getUsers();
         const user = users.find((user) => user.email === email);
 
         if (user) {
@@ -49,7 +48,7 @@ const UserAvatar = ({ email }) => {
       isMounted = false;
     };
     
-  }, [email]);
+  }, [email, users]);
 
   return (
     <div>
@@ -63,5 +62,7 @@ const UserAvatar = ({ email }) => {
     </div>
   );
 };
-
-export default UserAvatar;
+const mapStateToProps = state => ({
+  users: state.users.all
+});
+export default connect(mapStateToProps)(UserAvatar);
