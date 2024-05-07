@@ -334,15 +334,16 @@ describe("cases table", () => {
       expect(tags.text()).toEqual("cold-cut sandwich, Grapes, Use of Force");
     });
 
-    test.skip("should display assigned to", async () => {
+    test("should display assigned to", async () => {
       getUsers.mockResolvedValue([
         { email: 'someone@gmail.com', name: 'Tom Upton' },
       ]);
         
-      // expect(assignedTo.text()).toEqual("TU");
-      render(
+      tableWrapper = mount(
         <Provider store={store}>
-          <CasesTable />
+          <Router>
+            <CasesTable caseType={CASE_TYPE.WORKING} />
+          </Router>
         </Provider>
       );
       // const assignedTo = caseRow.find('td[data-testid="caseAssignedTo"]');
