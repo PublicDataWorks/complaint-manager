@@ -190,6 +190,7 @@ yarn install
 #### Log in to Docker
 
 Log in to Docker using credentials provided by the Core Team with the following command:
+test
 
 ```bash
 docker login
