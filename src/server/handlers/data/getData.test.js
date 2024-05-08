@@ -16,6 +16,7 @@ import {
   ISO_DATE,
   QUERY_TYPES
 } from "../../../sharedUtilities/constants";
+import mockFflipObject from "../../testHelpers/mockFflipObject";
 
 const MOCK_INTAKE_SOURCE_DATA_VALUES = [
   { cases: "2", name: "Email" },
@@ -109,16 +110,12 @@ describe("getData", () => {
     const request = httpMocks.createRequest({
       method: "GET",
       query: {
-        filterByCaseStatus: [
-          CASE_STATUS.FORWARDED_TO_AGENCY,
-          CASE_STATUS.CLOSED,
-          CASE_STATUS.ACTIVE
-        ].join(","),
         queryType: "countComplaintsByIntakeSource",
         minDate: `${moment().format("YYYY")}-01-01`
       },
       nickname: "tuser",
 
+      fflip: mockFflipObject({ displayAllStatusInDashboard: true })
     });
 
     await getData(request, response, next);
@@ -129,7 +126,10 @@ describe("getData", () => {
       [
         CASE_STATUS.FORWARDED_TO_AGENCY,
         CASE_STATUS.CLOSED,
-        CASE_STATUS.ACTIVE
+        CASE_STATUS.ACTIVE,
+        CASE_STATUS.INITIAL,
+        CASE_STATUS.LETTER_IN_PROGRESS,
+        CASE_STATUS.READY_FOR_REVIEW
       ]
     );
     expect(response._getData()).toEqual(MOCK_INTAKE_SOURCE_DATA_VALUES);
@@ -164,10 +164,7 @@ describe("getData", () => {
     expect(countComplaintsByComplainantType.executeQuery).toHaveBeenCalledWith(
       "tuser",
       { minDate: `${moment().format("YYYY")}-01-01` },
-      [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED, CASE_STATUS.ACTIVE,
-        CASE_STATUS.INITIAL,
-        CASE_STATUS.LETTER_IN_PROGRESS,
-        CASE_STATUS.READY_FOR_REVIEW]
+      [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
     );
     expect(response._getData()).toEqual(MOCK_COMPLAINANT_TYPE_DATA_VALUES);
   });
@@ -189,10 +186,7 @@ describe("getData", () => {
     ).toHaveBeenCalledWith(
       "tuser",
       { minDate: moment().subtract(12, "months").format(ISO_DATE) },
-      [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED, CASE_STATUS.ACTIVE,
-        CASE_STATUS.INITIAL,
-        CASE_STATUS.LETTER_IN_PROGRESS,
-        CASE_STATUS.READY_FOR_REVIEW]
+      [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
     );
     expect(response._getData()).toEqual(
       MOCK_COMPLAINANT_TYPE_PAST_12_MONTHS_VALUES
@@ -216,10 +210,7 @@ describe("getData", () => {
       {
         minDate: moment().subtract(12, "months").format(ISO_DATE)
       },
-      [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED, CASE_STATUS.ACTIVE,
-        CASE_STATUS.INITIAL,
-        CASE_STATUS.LETTER_IN_PROGRESS,
-        CASE_STATUS.READY_FOR_REVIEW]
+      [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
     );
     expect(response._getData()).toEqual(MOCK_TOP_TAGS_VALUES);
   });
@@ -241,10 +232,7 @@ describe("getData", () => {
       {
         minDate: moment().subtract(12, "months").format(ISO_DATE)
       },
-      [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED, CASE_STATUS.ACTIVE,
-        CASE_STATUS.INITIAL,
-        CASE_STATUS.LETTER_IN_PROGRESS,
-        CASE_STATUS.READY_FOR_REVIEW]
+      [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
     );
     expect(response._getData()).toEqual(MOCK_TOP_ALLEGATIONS_VALUES);
   });
@@ -265,10 +253,7 @@ describe("getData", () => {
       {
         minDate: moment().subtract(12, "months").format(ISO_DATE)
       },
-      [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED, CASE_STATUS.ACTIVE,
-        CASE_STATUS.INITIAL,
-        CASE_STATUS.LETTER_IN_PROGRESS,
-        CASE_STATUS.READY_FOR_REVIEW]
+      [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
     );
     expect(response._getData()).toEqual(MOCK_LOCATION_DATA);
   });
@@ -290,10 +275,7 @@ describe("getData", () => {
       {
         minDate: moment().subtract(12, "months").format(ISO_DATE)
       },
-      [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED, CASE_STATUS.ACTIVE,
-        CASE_STATUS.INITIAL,
-        CASE_STATUS.LETTER_IN_PROGRESS,
-        CASE_STATUS.READY_FOR_REVIEW]
+      [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
     );
     expect(response._getData()).toEqual(MOCK_DISTRICT_DATA);
   });

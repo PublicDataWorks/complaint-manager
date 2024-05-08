@@ -72,10 +72,4 @@ describe("DataDashboard", () => {
       dataDashboardWrapper.find('[data-testid="top10TagsGraph"]').exists()
     ).toBeTrue();
   });
-  test("should display case status filter checkboxes", async () => {
-    dataDashboardWrapper.update();
-    expect(
-      dataDashboardWrapper.find('[data-testid="checkbox"]').exists()
-    ).toBeTrue();
-  })
 });
