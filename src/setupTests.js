@@ -1,7 +1,7 @@
 import Enzyme from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
+import Adapter from "@wojtekmaj/enzyme-adapter-react-17";
 import EventEmitter from "events";
-import winston from "winston/lib/winston";
+import winston from "winston";
 import "jest-extended";
 import { TextEncoder, TextDecoder } from "util";
 
