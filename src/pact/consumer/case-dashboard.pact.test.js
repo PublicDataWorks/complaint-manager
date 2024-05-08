@@ -11,6 +11,7 @@ import createConfiguredStore from "../../client/createConfiguredStore";
 import SharedSnackbarContainer from "../../client/policeDataManager/shared/components/SharedSnackbarContainer";
 import CaseDashboard from "../../client/policeDataManager/cases/CaseDashboard";
 import {
+  FAKE_USERS,
   GET_FEATURES_SUCCEEDED,
   GET_PERSON_TYPES,
   SHOW_FORM,
@@ -388,6 +389,20 @@ describe("Case dashboard", () => {
                   "Content-Type": "application/json; charset=utf-8"
                 },
                 body: like({ ytd: 53, previousYear: 124 })
+              }
+            }),
+            provider.addInteraction({
+              uponReceiving: "get users",
+              withRequest: {
+                method: "GET",
+                path: "/api/users"
+              },
+              willRespondWith: {
+                status: 200,
+                headers: {
+                  "Content-Type": "application/json; charset=utf-8"
+                },
+                body: eachLike(FAKE_USERS[0])
               }
             })
           ]);
