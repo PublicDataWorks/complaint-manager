@@ -6,14 +6,15 @@ import createConfiguredStore from "../../createConfiguredStore";
 import { getUsersSuccess } from "../../common/actionCreators/usersActionCreators";
 
 describe("UserAvatar", () => {
- let store;
+let store;
   beforeEach(() => {
     store = createConfiguredStore();
     store.dispatch(getUsersSuccess([
       { email: 'test@gmail.com', name: 'Tom Edwards' },
     ]))})
-  test("should parse the first 2 letters of user's name and display in upper case", async () => {
-   
+
+  test("should parse first letter from user first name and last name", async () => {
+
     render(<Provider store={store}><UserAvatar email="test@gmail.com" /></Provider>);
 
     await waitFor(() => {

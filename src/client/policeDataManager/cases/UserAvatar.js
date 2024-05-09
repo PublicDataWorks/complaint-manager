@@ -19,9 +19,7 @@ const UserAvatar = ({ email, users }) => {
   const classes = useStyles(); 
 
   useEffect(() => {
-    let isMounted = true; // Boolean flag to track component's mounted state
-
-    const getUsersAndParseInitials = async () => {
+    if (email) {
       try {
         const user = users.find((user) => user.email === email);
 
@@ -29,23 +27,13 @@ const UserAvatar = ({ email, users }) => {
           const nameParts = user.name.trim().split(/\s+/);
           const firstInitial = nameParts[0][0];
           const lastInitial = nameParts.length > 1 ? nameParts[nameParts.length - 1][0] : '';
-          if (isMounted) {
             setUserInitials(firstInitial + lastInitial);
-          }
         }
       } catch (error) {
         console.error('Error while loading list of users:', error);
         return error;
       }
-    };
-
-    if (email) {
-      getUsersAndParseInitials();
     }
-
-    return () => {
-      isMounted = false;
-    };
     
   }, [email, users]);
 
