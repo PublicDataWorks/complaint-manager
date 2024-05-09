@@ -5,8 +5,10 @@ import {
   PUBLIC_LABEL_FONT,
   COLORS
 } from "../dataVizStyling";
-import { QUERY_TYPES } from "../../../../../sharedUtilities/constants";
-import { truncateYValues } from "./countComplaintsByDistrict.model";
+import {
+  QUERY_TYPES,
+  TAG_LABEL_CHAR_LIMIT
+} from "../../../../../sharedUtilities/constants";
 
 export default class CountTop10Allegations extends BarGraphVisualization {
   get queryType() {
@@ -95,6 +97,28 @@ export default class CountTop10Allegations extends BarGraphVisualization {
       return value;
     };
 
+    const formatYValues = values => {
+      return values.map(value => {
+        const words = value.split(" ");
+        let i = 1;
+        while (words.slice(0, i).join(" ").length < TAG_LABEL_CHAR_LIMIT) {
+          i++;
+        }
+        let j = i;
+        if (words.slice(i - 1, j).join(" ").length > TAG_LABEL_CHAR_LIMIT) {
+          j++;
+        }
+
+        return (
+          words.slice(0, i - 1).join(" ") +
+          "<br>" +
+          words.slice(i - 1, j).join(" ") +
+          "<br>" +
+          words.slice(j).join(" ")
+        );
+      });
+    };
+
     rawData.forEach(({ count, rule, directive, paragraph }) => {
       let directiveVal = directive ? directive : "";
       xValues.push(count);
@@ -102,7 +126,7 @@ export default class CountTop10Allegations extends BarGraphVisualization {
       hoverValues.push(paragraph + "<br>" + truncateValue(directiveVal));
     });
 
-    let truncatedYValues = truncateYValues(yValues);
+    let truncatedYValues = formatYValues(yValues);
 
     let caseAllegationTrace = {
       x: xValues,
