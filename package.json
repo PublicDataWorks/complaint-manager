@@ -85,6 +85,7 @@
     "bull": "^4.10.2",
     "bull-repl": "^0.29.0",
     "busboy": "^1.6.0",
+    "canvas": "^2.11.2",
     "compression": "^1.7.4",
     "connected-react-router": "6.9.1",
     "cookie-parser": "~1.4.4",
