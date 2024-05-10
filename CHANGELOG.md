@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.66.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.65.2...v3.66.0) (2024-05-10)
+
+
+### Features
+
+* [[#599](https://github.com/PublicDataWorks/complaint-manager/issues/599)] Add checkbox to filter dashboard by case status ([5ec1b03](https://github.com/PublicDataWorks/complaint-manager/commit/5ec1b038d9750bc07eb3f81b51c540afa2cf4efe))
+* [[#599](https://github.com/PublicDataWorks/complaint-manager/issues/599)] Add test for checkbox to filter dashboard by case status ([09d1f1f](https://github.com/PublicDataWorks/complaint-manager/commit/09d1f1f9e27cd48e26d02f3804de447dc3b318ed))
+* [[#599](https://github.com/PublicDataWorks/complaint-manager/issues/599)] Add test for checkbox to filter dashboard by case status ([ac78f37](https://github.com/PublicDataWorks/complaint-manager/commit/ac78f37148a393a0e41aaa42c3857776c765774d))
+
 ### [3.65.3](https://github.com/PublicDataWorks/complaint-manager/compare/v3.65.2...v3.65.3) (2024-04-24)
 
 ### [3.65.2](https://github.com/PublicDataWorks/complaint-manager/compare/v3.65.1...v3.65.2) (2024-04-19)
