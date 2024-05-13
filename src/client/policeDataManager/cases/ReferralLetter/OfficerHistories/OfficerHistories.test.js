@@ -1,8 +1,9 @@
+import { render, fireEvent, screen, getByTestId } from "@testing-library/react";
 import createConfiguredStore from "../../../../createConfiguredStore";
 import { Provider } from "react-redux";
 import OfficerHistories from "./OfficerHistories";
 import React from "react";
-import { mount } from "enzyme";
+// import { mount } from "enzyme";
 import { BrowserRouter as Router } from "react-router-dom";
 import { changeInput, containsText } from "../../../../testHelpers";
 import OfficerHistoryNote from "./OfficerHistoryNote";
@@ -13,6 +14,7 @@ import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getReferralLetterData from "../thunks/getReferralLetterData";
 import getCaseDetails from "../../thunks/getCaseDetails";
 import { getOfficerHistoryOptionsRadioButtonValuesSuccess } from "../../../actionCreators/officerHistoryOptionsActionCreator";
+import { createMemoryHistory } from "history/cjs/history.min";
 
 jest.mock("../../../shared/components/RichTextEditor/RichTextEditor");
 jest.mock("../thunks/getReferralLetterData", () => caseId => ({
@@ -34,7 +36,7 @@ jest.mock("../thunks/editOfficerHistory", () =>
 );
 
 describe("OfficerHistories page", function () {
-  let store, wrapper, caseId, dispatchSpy;
+  let store, caseId, dispatchSpy;
 
   beforeEach(() => {
     caseId = "12";
@@ -80,9 +82,11 @@ describe("OfficerHistories page", function () {
 
       store.dispatch(getReferralLetterSuccess(referralLetterDetails));
 
-      wrapper = mount(
+      // wrapper = mount
+      const history = createMemoryHistory();
+      render(
         <Provider store={store}>
-          <Router>
+          <Router history={history}>
             <OfficerHistories match={{ params: { id: caseId } }} />
           </Router>
         </Provider>
@@ -104,224 +108,442 @@ describe("OfficerHistories page", function () {
     });
 
     test("it renders a tab header for each officer", () => {
-      containsText(wrapper, "[data-testid='tab-10']", "Officer 1");
-      containsText(wrapper, "[data-testid='tab-11']", "Officer 2");
-      containsText(wrapper, "[data-testid='tab-12']", "Officer 3");
+      containsText(screen, "[data-testid='tab-10']", "Officer 1");
+      containsText(screen, "[data-testid='tab-11']", "Officer 2");
+      containsText(screen, "[data-testid='tab-12']", "Officer 3");
     });
 
+    // test("it renders a tab content for the default selected officer", () => {
+    //   containsText(screen, "[data-testid='tab-content-10']", "Officer 1");
+    //   expect(
+    //     screen.getByTestId("[data-testid='tab-content-10']").get(0).props.style
+    //   ).toHaveProperty("display", "block");
+    //   expect(
+    //     screen.find("[data-testid='tab-content-11']").get(0).props.style
+    //   ).toHaveProperty("display", "none");
+    //   expect(
+    //     screen.find("[data-testid='tab-content-12']").get(0).props.style
+    //   ).toHaveProperty("display", "none");
+    // });
     test("it renders a tab content for the default selected officer", () => {
-      containsText(wrapper, "[data-testid='tab-content-10']", "Officer 1");
-      expect(
-        wrapper.find("[data-testid='tab-content-10']").get(0).props.style
-      ).toHaveProperty("display", "block");
-      expect(
-        wrapper.find("[data-testid='tab-content-11']").get(0).props.style
-      ).toHaveProperty("display", "none");
-      expect(
-        wrapper.find("[data-testid='tab-content-12']").get(0).props.style
-      ).toHaveProperty("display", "none");
+      containsText(screen, "[data-testid='tab-content-10']", "Officer 1");
+
+      expect(screen.getByTestId("tab-content-10").style).toHaveProperty(
+        "display",
+        "block"
+      );
+
+      expect(screen.getByTestId("tab-content-11").style).toHaveProperty(
+        "display",
+        "none"
+      );
+
+      expect(screen.getByTestId("tab-content-12").style).toHaveProperty(
+        "display",
+        "none"
+      );
     });
 
+    // test("it renders a tab content for the selected officer", () => {
+    //   screen.find("[data-testid='tab-11']").first().simulate("click");
+    //   containsText(screen, "[data-testid='tab-content-11']", "Officer 2");
+    //   expect(
+    //     screen.find("[data-testid='tab-content-11']").get(0).props.style
+    //   ).toHaveProperty("display", "block");
+    //   expect(
+    //     screen.find("[data-testid='tab-content-10']").get(0).props.style
+    //   ).toHaveProperty("display", "none");
+    //   expect(
+    //     screen.find("[data-testid='tab-content-12']").get(0).props.style
+    //   ).toHaveProperty("display", "none");
+    // });
     test("it renders a tab content for the selected officer", () => {
-      wrapper.find("[data-testid='tab-11']").first().simulate("click");
-      containsText(wrapper, "[data-testid='tab-content-11']", "Officer 2");
-      expect(
-        wrapper.find("[data-testid='tab-content-11']").get(0).props.style
-      ).toHaveProperty("display", "block");
-      expect(
-        wrapper.find("[data-testid='tab-content-10']").get(0).props.style
-      ).toHaveProperty("display", "none");
-      expect(
-        wrapper.find("[data-testid='tab-content-12']").get(0).props.style
-      ).toHaveProperty("display", "none");
+      fireEvent.click(screen.getByTestId("tab-11"));
+      containsText(screen, "[data-testid='tab-content-11']", "Officer 2");
+
+      expect(screen.getByTestId("tab-content-11").style).toHaveProperty(
+        "display",
+        "block"
+      );
+
+      expect(screen.getByTestId("tab-content-10").style).toHaveProperty(
+        "display",
+        "none"
+      );
+
+      expect(screen.getByTestId("tab-content-12").style).toHaveProperty(
+        "display",
+        "none"
+      );
     });
+
+    // test("it calculates the number of total historical allegations entered", () => {
+    //   changeInput(
+    //     screen,
+    //     "[name='letterOfficers[0].numHistoricalHighAllegations']",
+    //     "1"
+    //   );
+    //   changeInput(
+    //     screen,
+    //     "[name='letterOfficers[0].numHistoricalMedAllegations']",
+    //     "2"
+    //   );
+    //   changeInput(
+    //     screen,
+    //     "[name='letterOfficers[0].numHistoricalLowAllegations']",
+    //     "3"
+    //   );
+    //   containsText(
+    //     screen,
+    //     `[data-testid='officers-10-total-historical-allegations']`,
+    //     "6 total allegations"
+    //   );
+    // });
 
     test("it calculates the number of total historical allegations entered", () => {
-      changeInput(
-        wrapper,
-        "[name='letterOfficers[0].numHistoricalHighAllegations']",
-        "1"
+      fireEvent.change(
+        screen.getByLabelText("letterOfficers[0].numHistoricalHighAllegations"),
+        { target: { value: "1" } }
       );
-      changeInput(
-        wrapper,
-        "[name='letterOfficers[0].numHistoricalMedAllegations']",
-        "2"
+      fireEvent.change(
+        screen.getByLabelText("letterOfficers[0].numHistoricalMedAllegations"),
+        { target: { value: "2" } }
       );
-      changeInput(
-        wrapper,
-        "[name='letterOfficers[0].numHistoricalLowAllegations']",
-        "3"
+      fireEvent.change(
+        screen.getByLabelText("letterOfficers[0].numHistoricalLowAllegations"),
+        { target: { value: "3" } }
       );
+
       containsText(
-        wrapper,
-        `[data-testid='officers-10-total-historical-allegations']`,
+        screen,
+        "officers-10-total-historical-allegations",
         "6 total allegations"
       );
     });
 
+    // test("it ignores invalid values when calculating the number of total historical allegations entered", () => {
+    //   changeInput(
+    //     screen,
+    //     "[name='letterOfficers[0].numHistoricalHighAllegations']",
+    //     "abc"
+    //   );
+    //   changeInput(
+    //     screen,
+    //     "[name='letterOfficers[0].numHistoricalMedAllegations']",
+    //     " "
+    //   );
+    //   changeInput(
+    //     screen,
+    //     "[name='letterOfficers[0].numHistoricalLowAllegations']",
+    //     2
+    //   );
+    //   containsText(
+    //     screen,
+    //     `[data-testid='officers-10-total-historical-allegations']`,
+    //     "2 total allegations"
+    //   );
+    // });
+
     test("it ignores invalid values when calculating the number of total historical allegations entered", () => {
-      changeInput(
-        wrapper,
-        "[name='letterOfficers[0].numHistoricalHighAllegations']",
-        "abc"
+      fireEvent.change(
+        screen.getByLabelText("letterOfficers[0].numHistoricalHighAllegations"),
+        { target: { value: "abc" } }
       );
-      changeInput(
-        wrapper,
-        "[name='letterOfficers[0].numHistoricalMedAllegations']",
-        " "
+      fireEvent.change(
+        screen.getByLabelText("letterOfficers[0].numHistoricalMedAllegations"),
+        { target: { value: " " } }
       );
-      changeInput(
-        wrapper,
-        "[name='letterOfficers[0].numHistoricalLowAllegations']",
-        2
+      fireEvent.change(
+        screen.getByLabelText("letterOfficers[0].numHistoricalLowAllegations"),
+        { target: { value: "2" } }
       );
+
       containsText(
-        wrapper,
-        `[data-testid='officers-10-total-historical-allegations']`,
+        screen,
+        "officers-10-total-historical-allegations",
         "2 total allegations"
       );
     });
 
-    test("it should display message when no officers", () => {
-      const referralLetterDetailsWithoutOfficers = {
-        id: caseId,
-        caseId: caseId,
-        letterOfficers: []
-      };
-      store.dispatch(
-        getReferralLetterSuccess(referralLetterDetailsWithoutOfficers)
-      );
-      wrapper.update();
-      containsText(
-        wrapper,
-        `[data-testid='no-officers-message']`,
-        "There are no officers on this case"
-      );
-    });
+    // test("it should display message when no officers", () => {
+    //   const referralLetterDetailsWithoutOfficers = {
+    //     id: caseId,
+    //     caseId: caseId,
+    //     letterOfficers: []
+    //   };
+    //   store.dispatch(
+    //     getReferralLetterSuccess(referralLetterDetailsWithoutOfficers)
+    //   );
+    //   screen.update();
+    //   containsText(
+    //     screen,
+    //     `[data-testid='no-officers-message']`,
+    //     "There are no officers on this case"
+    //   );
+    // });
 
+test("it should display message when no officers", () => {
+  const referralLetterDetailsWithoutOfficers = {
+    id: caseId,
+    caseId: caseId,
+    letterOfficers: []
+  };
+  store.dispatch(
+    getReferralLetterSuccess(referralLetterDetailsWithoutOfficers)
+  );
+
+  render(
+    <Provider store={store}>
+      <OfficerHistoryNote />
+    </Provider>
+  );
+
+  containsText(screen, 'no-officers-message', "There are no officers on this case");
+
+
+    // test("it should add a note when click add note button", () => {
+    //   const addNoteButton = screen
+    //     .find('[data-testid="addOfficerHistoryNoteButton"]')
+    //     .first();
+    //   addNoteButton.simulate("click");
+    //   expect(screen.find(OfficerHistoryNote).length).toEqual(1);
+    // });
     test("it should add a note when click add note button", () => {
-      const addNoteButton = wrapper
-        .find('[data-testid="addOfficerHistoryNoteButton"]')
-        .first();
-      addNoteButton.simulate("click");
-      expect(wrapper.find(OfficerHistoryNote).length).toEqual(1);
-    });
+  fireEvent.click(screen.getByTestId('addOfficerHistoryNoteButton'));
+
+  expect(screen.getAllByTestId('officer-history-note')).toHaveLength(1);
+});
+
+    // test("it should remove a note when click remove note button", () => {
+    //   const addNoteButton = screen
+    //     .find('[data-testid="addOfficerHistoryNoteButton"]')
+    //     .first();
+    //   addNoteButton.simulate("click");
+    //   addNoteButton.simulate("click");
+    //   addNoteButton.simulate("click");
+
+    //   const notesFields = screen.find(OfficerHistoryNote);
+    //   expect(notesFields.length).toEqual(3);
+    //   changeInput(
+    //     notesFields.first(),
+    //     '[data-testid="note-pib-case-number"]',
+    //     "first note"
+    //   );
+    //   changeInput(
+    //     notesFields.at(1),
+    //     '[data-testid="note-pib-case-number"]',
+    //     "second note"
+    //   );
+    //   changeInput(
+    //     notesFields.at(2),
+    //     '[data-testid="note-pib-case-number"]',
+    //     "third note"
+    //   );
+
+    //   const indexOfSecondNote = 1;
+    //   const openDialogButton = screen
+    //     .find(
+    //       `[data-testid="note-${indexOfSecondNote}-openRemoveOfficerHistoryNoteButton"]`
+    //     )
+    //     .first();
+    //   openDialogButton.simulate("click");
+    //   const removeNoteButton = screen
+    //     .find('[data-testid="removeOfficerHistoryNoteButton"]')
+    //     .first();
+    //   removeNoteButton.simulate("click");
+
+    //   const updatedNotesFields = screen.find(OfficerHistoryNote);
+    //   expect(updatedNotesFields.length).toEqual(2);
+    //   const firstNotePIBField = updatedNotesFields
+    //     .first()
+    //     .find('[data-testid="note-pib-case-number"]');
+    //   const secondNotePIBField = updatedNotesFields
+    //     .at(1)
+    //     .find('[data-testid="note-pib-case-number"]');
+    //   expect(firstNotePIBField.props().value).toEqual("first note");
+    //   expect(secondNotePIBField.props().value).toEqual("third note");
+    // });
 
     test("it should remove a note when click remove note button", () => {
-      const addNoteButton = wrapper
-        .find('[data-testid="addOfficerHistoryNoteButton"]')
-        .first();
-      addNoteButton.simulate("click");
-      addNoteButton.simulate("click");
-      addNoteButton.simulate("click");
+  const addNoteButton = screen.getByTestId('addOfficerHistoryNoteButton');
+  fireEvent.click(addNoteButton);
+  fireEvent.click(addNoteButton);
+  fireEvent.click(addNoteButton);
 
-      const notesFields = wrapper.find(OfficerHistoryNote);
-      expect(notesFields.length).toEqual(3);
-      changeInput(
-        notesFields.first(),
-        '[data-testid="note-pib-case-number"]',
-        "first note"
-      );
-      changeInput(
-        notesFields.at(1),
-        '[data-testid="note-pib-case-number"]',
-        "second note"
-      );
-      changeInput(
-        notesFields.at(2),
-        '[data-testid="note-pib-case-number"]',
-        "third note"
-      );
+  let notesFields = screen.getAllByTestId('note-pib-case-number');
+  expect(notesFields.length).toEqual(3);
+  fireEvent.change(notesFields[0], { target: { value: 'first note' } });
+  fireEvent.change(notesFields[1], { target: { value: 'second note' } });
+  fireEvent.change(notesFields[2], { target: { value: 'third note' } });
 
-      const indexOfSecondNote = 1;
-      const openDialogButton = wrapper
-        .find(
-          `[data-testid="note-${indexOfSecondNote}-openRemoveOfficerHistoryNoteButton"]`
-        )
-        .first();
-      openDialogButton.simulate("click");
-      const removeNoteButton = wrapper
-        .find('[data-testid="removeOfficerHistoryNoteButton"]')
-        .first();
-      removeNoteButton.simulate("click");
+  const indexOfSecondNote = 1;
+  const openDialogButton = screen.getByTestId(`note-${indexOfSecondNote}-openRemoveOfficerHistoryNoteButton`);
+  fireEvent.click(openDialogButton);
+  const removeNoteButton = screen.getByTestId('removeOfficerHistoryNoteButton');
+  fireEvent.click(removeNoteButton);
 
-      const updatedNotesFields = wrapper.find(OfficerHistoryNote);
-      expect(updatedNotesFields.length).toEqual(2);
-      const firstNotePIBField = updatedNotesFields
-        .first()
-        .find('[data-testid="note-pib-case-number"]');
-      const secondNotePIBField = updatedNotesFields
-        .at(1)
-        .find('[data-testid="note-pib-case-number"]');
-      expect(firstNotePIBField.props().value).toEqual("first note");
-      expect(secondNotePIBField.props().value).toEqual("third note");
-    });
+  notesFields = screen.getAllByTestId('note-pib-case-number');
+  expect(notesFields.length).toEqual(2);
+  expect(notesFields[0].value).toEqual("first note");
+  expect(notesFields[1].value).toEqual("third note");
+});
+
+    // test("it dispatches edit to referral letter when click back to review button when values valid", () => {
+    //   editOfficerHistory.mockClear();
+    //   changeInput(
+    //     screen,
+    //     "[name='letterOfficers[0].numHistoricalHighAllegations']",
+    //     "9"
+    //   );
+    //   const backButton = screen.find('[data-testid="back-button"]').first();
+    //   backButton.simulate("click");
+    //   const expectedFormValues = {
+    //     letterOfficers: [
+    //       {
+    //         fullName: "Officer 1",
+    //         id: 0,
+    //         caseOfficerId: 10,
+    //         numHistoricalHighAllegations: "9",
+    //         officerHistoryOptionId: "4"
+    //       },
+    //       {
+    //         fullName: "Officer 2",
+    //         id: 1,
+    //         caseOfficerId: 11,
+    //         officerHistoryOptionId: "4"
+    //       },
+    //       {
+    //         fullName: "Officer 3",
+    //         id: 2,
+    //         caseOfficerId: 12,
+    //         officerHistoryOptionId: "4"
+    //       }
+    //     ]
+    //   };
+    //   expect(editOfficerHistory).toHaveBeenCalledWith(
+    //     caseId,
+    //     expectedFormValues,
+    //     `/cases/${caseId}/letter/review`
+    //   );
+    // });
 
     test("it dispatches edit to referral letter when click back to review button when values valid", () => {
-      editOfficerHistory.mockClear();
-      changeInput(
-        wrapper,
-        "[name='letterOfficers[0].numHistoricalHighAllegations']",
-        "9"
-      );
-      const backButton = wrapper.find('[data-testid="back-button"]').first();
-      backButton.simulate("click");
-      const expectedFormValues = {
-        letterOfficers: [
-          {
-            fullName: "Officer 1",
-            id: 0,
-            caseOfficerId: 10,
-            numHistoricalHighAllegations: "9",
-            officerHistoryOptionId: "4"
-          },
-          {
-            fullName: "Officer 2",
-            id: 1,
-            caseOfficerId: 11,
-            officerHistoryOptionId: "4"
-          },
-          {
-            fullName: "Officer 3",
-            id: 2,
-            caseOfficerId: 12,
-            officerHistoryOptionId: "4"
-          }
-        ]
-      };
-      expect(editOfficerHistory).toHaveBeenCalledWith(
-        caseId,
-        expectedFormValues,
-        `/cases/${caseId}/letter/review`
-      );
-    });
+  editOfficerHistory.mockClear();
+  fireEvent.change(screen.getByLabelText('letterOfficers[0].numHistoricalHighAllegations'), { target: { value: '9' } });
+
+  const backButton = screen.getByTestId('back-button');
+  fireEvent.click(backButton);
+
+  const expectedFormValues = {
+    letterOfficers: [
+      {
+        fullName: "Officer 1",
+        id: 0,
+        caseOfficerId: 10,
+        numHistoricalHighAllegations: "9",
+        officerHistoryOptionId: "4"
+      },
+      {
+        fullName: "Officer 2",
+        id: 1,
+        caseOfficerId: 11,
+        officerHistoryOptionId: "4"
+      },
+      {
+        fullName: "Officer 3",
+        id: 2,
+        caseOfficerId: 12,
+        officerHistoryOptionId: "4"
+      }
+    ]
+  };
+
+  expect(editOfficerHistory).toHaveBeenCalledWith(
+    caseId,
+    expectedFormValues,
+    `/cases/${caseId}/letter/review`
+  );
+});
+
+    // test("allegation fields don't accept bad input", () => {
+    //   editOfficerHistory.mockClear();
+    //   changeInput(
+    //     screen,
+    //     "[name='letterOfficers[0].numHistoricalHighAllegations']",
+    //     "abc"
+    //   );
+    //   expect(
+    //     screen
+    //       .find("[name='letterOfficers[0].numHistoricalHighAllegations']")
+    //       .last()
+    //       .prop("value")
+    //   ).toBe("");
+    // });
 
     test("allegation fields don't accept bad input", () => {
       editOfficerHistory.mockClear();
-      changeInput(
-        wrapper,
-        "[name='letterOfficers[0].numHistoricalHighAllegations']",
-        "abc"
+      fireEvent.change(
+        screen.getByLabelText("letterOfficers[0].numHistoricalHighAllegations"),
+        { target: { value: "abc" } }
       );
+
       expect(
-        wrapper
-          .find("[name='letterOfficers[0].numHistoricalHighAllegations']")
-          .last()
-          .prop("value")
+        screen.getByLabelText("letterOfficers[0].numHistoricalHighAllegations")
+          .value
       ).toBe("");
     });
 
+    // test("it dispatches edit to referral letter when click back to cases button when values valid", () => {
+    //   editOfficerHistory.mockClear();
+    //   changeInput(
+    //     screen,
+    //     "[name='letterOfficers[0].numHistoricalHighAllegations']",
+    //     "9"
+    //   );
+    //   const backButton = screen
+    //     .find('[data-testid="save-and-return-to-case-link"]')
+    //     .first();
+    //   backButton.simulate("click");
+    //   const expectedFormValues = {
+    //     letterOfficers: [
+    //       {
+    //         fullName: "Officer 1",
+    //         id: 0,
+    //         caseOfficerId: 10,
+    //         numHistoricalHighAllegations: "9",
+    //         officerHistoryOptionId: "4"
+    //       },
+    //       {
+    //         fullName: "Officer 2",
+    //         id: 1,
+    //         caseOfficerId: 11,
+    //         officerHistoryOptionId: "4"
+    //       },
+    //       {
+    //         fullName: "Officer 3",
+    //         id: 2,
+    //         caseOfficerId: 12,
+    //         officerHistoryOptionId: "4"
+    //       }
+    //     ]
+    //   };
+    //   expect(editOfficerHistory).toHaveBeenCalledWith(
+    //     caseId,
+    //     expectedFormValues,
+    //     `/cases/${caseId}`
+    //   );
+    // });
+
     test("it dispatches edit to referral letter when click back to cases button when values valid", () => {
       editOfficerHistory.mockClear();
-      changeInput(
-        wrapper,
-        "[name='letterOfficers[0].numHistoricalHighAllegations']",
-        "9"
+      fireEvent.change(
+        screen.getByLabelText("letterOfficers[0].numHistoricalHighAllegations"),
+        { target: { value: "9" } }
       );
-      const backButton = wrapper
-        .find('[data-testid="save-and-return-to-case-link"]')
-        .first();
-      backButton.simulate("click");
+
+      const backButton = screen.getByTestId("save-and-return-to-case-link");
+      fireEvent.click(backButton);
+
       const expectedFormValues = {
         letterOfficers: [
           {
@@ -345,6 +567,7 @@ describe("OfficerHistories page", function () {
           }
         ]
       };
+
       expect(editOfficerHistory).toHaveBeenCalledWith(
         caseId,
         expectedFormValues,
@@ -352,93 +575,186 @@ describe("OfficerHistories page", function () {
       );
     });
 
-    test("it dispatches edit to referral letter when click next when values valid", () => {
-      editOfficerHistory.mockClear();
-      changeInput(
-        wrapper,
-        "[name='letterOfficers[0].numHistoricalHighAllegations']",
-        "9"
-      );
-      const backButton = wrapper.find('[data-testid="next-button"]').first();
-      backButton.simulate("click");
-      const expectedFormValues = {
-        letterOfficers: [
-          {
-            fullName: "Officer 1",
-            id: 0,
-            caseOfficerId: 10,
-            numHistoricalHighAllegations: "9",
-            officerHistoryOptionId: "4"
-          },
-          {
-            fullName: "Officer 2",
-            id: 1,
-            caseOfficerId: 11,
-            officerHistoryOptionId: "4"
-          },
-          {
-            fullName: "Officer 3",
-            id: 2,
-            caseOfficerId: 12,
-            officerHistoryOptionId: "4"
-          }
-        ]
-      };
-      expect(editOfficerHistory).toHaveBeenCalledWith(
-        caseId,
-        expectedFormValues,
-        `/cases/${caseId}/letter/recommended-actions`
-      );
-    });
+    // test("it dispatches edit to referral letter when click next when values valid", () => {
+    //   editOfficerHistory.mockClear();
+    //   changeInput(
+    //     screen,
+    //     "[name='letterOfficers[0].numHistoricalHighAllegations']",
+    //     "9"
+    //   );
+    //   const backButton = screen.find('[data-testid="next-button"]').first();
+    //   backButton.simulate("click");
+    //   const expectedFormValues = {
+    //     letterOfficers: [
+    //       {
+    //         fullName: "Officer 1",
+    //         id: 0,
+    //         caseOfficerId: 10,
+    //         numHistoricalHighAllegations: "9",
+    //         officerHistoryOptionId: "4"
+    //       },
+    //       {
+    //         fullName: "Officer 2",
+    //         id: 1,
+    //         caseOfficerId: 11,
+    //         officerHistoryOptionId: "4"
+    //       },
+    //       {
+    //         fullName: "Officer 3",
+    //         id: 2,
+    //         caseOfficerId: 12,
+    //         officerHistoryOptionId: "4"
+    //       }
+    //     ]
+    //   };
+    //   expect(editOfficerHistory).toHaveBeenCalledWith(
+    //     caseId,
+    //     expectedFormValues,
+    //     `/cases/${caseId}/letter/recommended-actions`
+    //   );
+    // });
 
-    describe("Saves and Redirects when click Stepper Buttons", function () {
-      let expectedFormValues;
-      beforeEach(function () {
-        editOfficerHistory.mockClear();
-        changeInput(
-          wrapper,
-          "[name='letterOfficers[0].numHistoricalHighAllegations']",
-          "9"
-        );
-        expectedFormValues = {
-          letterOfficers: [
-            {
-              fullName: "Officer 1",
-              id: 0,
-              caseOfficerId: 10,
-              numHistoricalHighAllegations: "9",
-              officerHistoryOptionId: "4"
-            },
-            {
-              fullName: "Officer 2",
-              id: 1,
-              caseOfficerId: 11,
-              officerHistoryOptionId: "4"
-            },
-            {
-              fullName: "Officer 3",
-              id: 2,
-              caseOfficerId: 12,
-              officerHistoryOptionId: "4"
-            }
-          ]
-        };
-      });
+    // describe("Saves and Redirects when click Stepper Buttons", function () {
+    //   let expectedFormValues;
+    //   beforeEach(function () {
+    //     editOfficerHistory.mockClear();
+    //     changeInput(
+    //       screen,
+    //       "[name='letterOfficers[0].numHistoricalHighAllegations']",
+    //       "9"
+    //     );
+    //     expectedFormValues = {
+    //       letterOfficers: [
+    //         {
+    //           fullName: "Officer 1",
+    //           id: 0,
+    //           caseOfficerId: 10,
+    //           numHistoricalHighAllegations: "9",
+    //           officerHistoryOptionId: "4"
+    //         },
+    //         {
+    //           fullName: "Officer 2",
+    //           id: 1,
+    //           caseOfficerId: 11,
+    //           officerHistoryOptionId: "4"
+    //         },
+    //         {
+    //           fullName: "Officer 3",
+    //           id: 2,
+    //           caseOfficerId: 12,
+    //           officerHistoryOptionId: "4"
+    //         }
+    //       ]
+    //     };
+    //   });
+
+    test("it dispatches edit to referral letter when click next when values valid", () => {
+  editOfficerHistory.mockClear();
+  fireEvent.change(screen.getByLabelText('letterOfficers[0].numHistoricalHighAllegations'), { target: { value: '9' } });
+
+  const nextButton = screen.getByTestId('next-button');
+  fireEvent.click(nextButton);
+
+  const expectedFormValues = {
+    letterOfficers: [
+      {
+        fullName: "Officer 1",
+        id: 0,
+        caseOfficerId: 10,
+        numHistoricalHighAllegations: "9",
+        officerHistoryOptionId: "4"
+      },
+      {
+        fullName: "Officer 2",
+        id: 1,
+        caseOfficerId: 11,
+        officerHistoryOptionId: "4"
+      },
+      {
+        fullName: "Officer 3",
+        id: 2,
+        caseOfficerId: 12,
+        officerHistoryOptionId: "4"
+      }
+    ]
+  };
+
+  expect(editOfficerHistory).toHaveBeenCalledWith(
+    caseId,
+    expectedFormValues,
+    `/cases/${caseId}/letter/recommended-actions`
+  );
+});
+
+describe("Saves and Redirects when click Stepper Buttons", function () {
+  let expectedFormValues;
+  beforeEach(function () {
+    editOfficerHistory.mockClear();
+    fireEvent.change(screen.getByLabelText('letterOfficers[0].numHistoricalHighAllegations'), { target: { value: '9' } });
+
+    expectedFormValues = {
+      letterOfficers: [
+        {
+          fullName: "Officer 1",
+          id: 0,
+          caseOfficerId: 10,
+          numHistoricalHighAllegations: "9",
+          officerHistoryOptionId: "4"
+        },
+        {
+          fullName: "Officer 2",
+          id: 1,
+          caseOfficerId: 11,
+          officerHistoryOptionId: "4"
+        },
+        {
+          fullName: "Officer 3",
+          id: 2,
+          caseOfficerId: 12,
+          officerHistoryOptionId: "4"
+        }
+      ]
+    };
+  });
+});
+
+      // test("it dispatches edit and redirects to review letter when click review case details stepper button", () => {
+      //   const reviewCaseDetailsButton = screen
+      //     .find('[data-testid="step-button-Review Case Details"]')
+      //     .first();
+      //   reviewCaseDetailsButton.simulate("click");
+      //   expect(editOfficerHistory).toHaveBeenCalledWith(
+      //     caseId,
+      //     expectedFormValues,
+      //     `/cases/${caseId}/letter/review`
+      //   );
+      // });
 
       test("it dispatches edit and redirects to review letter when click review case details stepper button", () => {
-        const reviewCaseDetailsButton = wrapper
-          .find('[data-testid="step-button-Review Case Details"]')
-          .first();
-        reviewCaseDetailsButton.simulate("click");
-        expect(editOfficerHistory).toHaveBeenCalledWith(
-          caseId,
-          expectedFormValues,
-          `/cases/${caseId}/letter/review`
-        );
-      });
+  const reviewCaseDetailsButton = screen.getByTestId('step-button-Review Case Details');
+  fireEvent.click(reviewCaseDetailsButton);
+
+  expect(editOfficerHistory).toHaveBeenCalledWith(
+    caseId,
+    expectedFormValues,
+    `/cases/${caseId}/letter/review`
+  );
+});
+
+      // test("it dispatches edit and redirects to officer history when click officer history stepper button", () => {
+      //   const reviewCaseDetailsButton = screen
+      //     .find('[data-testid="step-button-Officer Complaint Histories"]')
+      //     .first();
+      //   reviewCaseDetailsButton.simulate("click");
+      //   expect(editOfficerHistory).toHaveBeenCalledWith(
+      //     caseId,
+      //     expectedFormValues,
+      //     `/cases/${caseId}/letter/officer-history`
+      //   );
+      // });
 
       test("it dispatches edit and redirects to officer history when click officer history stepper button", () => {
-        const reviewCaseDetailsButton = wrapper
+        const reviewCaseDetailsButton = screen
           .find('[data-testid="step-button-Officer Complaint Histories"]')
           .first();
         reviewCaseDetailsButton.simulate("click");
@@ -449,30 +765,77 @@ describe("OfficerHistories page", function () {
         );
       });
 
-      test("it dispatches edit and redirects to recommended actions when click recommended actions stepper button", () => {
-        const reviewCaseDetailsButton = wrapper
-          .find('[data-testid="step-button-Recommended Actions"]')
-          .first();
-        reviewCaseDetailsButton.simulate("click");
-        expect(editOfficerHistory).toHaveBeenCalledWith(
-          caseId,
-          expectedFormValues,
-          `/cases/${caseId}/letter/recommended-actions`
-        );
-      });
+      // test("it dispatches edit and redirects to recommended actions when click recommended actions stepper button", () => {
+      //   const reviewCaseDetailsButton = screen
+      //     .find('[data-testid="step-button-Recommended Actions"]')
+      //     .first();
+      //   reviewCaseDetailsButton.simulate("click");
+      //   expect(editOfficerHistory).toHaveBeenCalledWith(
+      //     caseId,
+      //     expectedFormValues,
+      //     `/cases/${caseId}/letter/recommended-actions`
+      //   );
+      // });
 
-      test("it dispatches edit and redirects to preview when click preview stepper button", () => {
-        const reviewCaseDetailsButton = wrapper
-          .find('[data-testid="step-button-Preview"]')
-          .first();
-        reviewCaseDetailsButton.simulate("click");
-        expect(editOfficerHistory).toHaveBeenCalledWith(
-          caseId,
-          expectedFormValues,
-          `/cases/${caseId}/letter/letter-preview`
-        );
-      });
-    });
+      test("it dispatches edit and redirects to recommended actions when click recommended actions stepper button", () => {
+  const recommendedActionsButton = screen.getByTestId('step-button-Recommended Actions');
+  fireEvent.click(recommendedActionsButton);
+
+  expect(editOfficerHistory).toHaveBeenCalledWith(
+    caseId,
+    expectedFormValues,
+    `/cases/${caseId}/letter/recommended-actions`
+  );
+});
+
+  //     test("it dispatches edit and redirects to preview when click preview stepper button", () => {
+  //       const reviewCaseDetailsButton = screen
+  //         .find('[data-testid="step-button-Preview"]')
+  //         .first();
+  //       reviewCaseDetailsButton.simulate("click");
+  //       expect(editOfficerHistory).toHaveBeenCalledWith(
+  //         caseId,
+  //         expectedFormValues,
+  //         `/cases/${caseId}/letter/letter-preview`
+  //       );
+  //     });
+  //   });
+  // });
+
+  // describe("no officers on the case", function () {
+  //   let dispatchSpy;
+  //   beforeEach(() => {
+  //     editOfficerHistory.mockClear();
+  //     const letterId = "15";
+  //     const referralLetterDetails = {
+  //       id: letterId,
+  //       caseId: caseId,
+  //       letterOfficers: []
+  //     };
+
+  //     store.dispatch(getReferralLetterSuccess(referralLetterDetails));
+  //     dispatchSpy = jest.spyOn(store, "dispatch");
+
+  //     // screen = mount
+  //     const history = createMemoryHistory();
+  //     render(
+  //       <Provider store={store}>
+  //         <Router history={history}>
+  //           <OfficerHistories match={{ params: { id: caseId } }} />
+  //         </Router>
+  //       </Provider>
+  //     );
+  //   });
+
+  test("it dispatches edit and redirects to preview when click preview stepper button", () => {
+    const previewButton = screen.getByTestId("step-button-Preview");
+    fireEvent.click(previewButton);
+
+    expect(editOfficerHistory).toHaveBeenCalledWith(
+      caseId,
+      expectedFormValues,
+      `/cases/${caseId}/letter/letter-preview`
+    );
   });
 
   describe("no officers on the case", function () {
@@ -489,31 +852,52 @@ describe("OfficerHistories page", function () {
       store.dispatch(getReferralLetterSuccess(referralLetterDetails));
       dispatchSpy = jest.spyOn(store, "dispatch");
 
-      wrapper = mount(
+      const history = createMemoryHistory();
+      render(
         <Provider store={store}>
-          <Router>
+          <Router history={history}>
             <OfficerHistories match={{ params: { id: caseId } }} />
           </Router>
         </Provider>
       );
     });
+  });
+
+    // test("it does not submit the form but does redirect when no officers on the case when click back button", () => {
+    //   const backButton = screen.find('[data-testid="back-button"]').first();
+    //   backButton.simulate("click");
+    //   expect(editOfficerHistory).not.toHaveBeenCalled();
+    //   expect(dispatchSpy).toHaveBeenCalledWith(
+    //     push(`/cases/${caseId}/letter/review`)
+    //   );
+    // });
 
     test("it does not submit the form but does redirect when no officers on the case when click back button", () => {
-      const backButton = wrapper.find('[data-testid="back-button"]').first();
-      backButton.simulate("click");
+      const backButton = screen.getByTestId("back-button");
+      fireEvent.click(backButton);
+
       expect(editOfficerHistory).not.toHaveBeenCalled();
       expect(dispatchSpy).toHaveBeenCalledWith(
         push(`/cases/${caseId}/letter/review`)
       );
     });
 
+    // test("it does not submit the form but does redirect when no officers on the case when click back to case button", () => {
+    //   const backButton = screen
+    //     .find('[data-testid="save-and-return-to-case-link"]')
+    //     .first();
+    //   backButton.simulate("click");
+    //   expect(editOfficerHistory).not.toHaveBeenCalled();
+    //   expect(dispatchSpy).toHaveBeenCalledWith(push(`/cases/${caseId}`));
+    // });
+
     test("it does not submit the form but does redirect when no officers on the case when click back to case button", () => {
-      const backButton = wrapper
-        .find('[data-testid="save-and-return-to-case-link"]')
-        .first();
-      backButton.simulate("click");
+      const backButton = screen.getByTestId("save-and-return-to-case-link");
+      fireEvent.click(backButton);
+
       expect(editOfficerHistory).not.toHaveBeenCalled();
       expect(dispatchSpy).toHaveBeenCalledWith(push(`/cases/${caseId}`));
     });
   });
+});
 });
