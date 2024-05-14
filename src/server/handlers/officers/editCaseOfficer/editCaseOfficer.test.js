@@ -585,6 +585,8 @@ describe("editCaseOfficer", () => {
         .withAllegationId(existingAllegation.id)
         .build();
 
+      delete officerAllegationAttributes.customDirective;
+
       await models.officer_allegation.create(officerAllegationAttributes, {
         auditUser: "someone"
       });
