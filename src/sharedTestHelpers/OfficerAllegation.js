@@ -8,6 +8,7 @@ class OfficerAllegation {
     this.caseOfficerId = build.caseOfficerId;
     this.createdAt = build.createdAt;
     this.allegationId = build.allegationId;
+    this.customDirective = build.customDirective;
   }
 
   static get Builder() {
@@ -44,6 +45,11 @@ class OfficerAllegation {
 
       withAllegationId(id) {
         this.allegationId = id;
+        return this;
+      }
+
+      withCustomDirective(customDirective) {
+        this.customDirective = customDirective;
         return this;
       }
 
