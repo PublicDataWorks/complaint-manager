@@ -6,8 +6,7 @@ import {
   COLORS
 } from "../dataVizStyling";
 import { QUERY_TYPES } from "../../../../../sharedUtilities/constants";
-import { truncateYValues } from "./countComplaintsByDistrict.model";
-import { count } from "d3";
+
 
 export default class CountTop10Allegations extends BarGraphVisualization {
   get queryType() {
@@ -17,8 +16,6 @@ export default class CountTop10Allegations extends BarGraphVisualization {
   get baseLayout() {
     return {
       barmode: "group",
-      hovermode: "closest",
-      hoverlabel: { bgcolor: "#FFF", align: "left" },
       dragmode: false,
       showlegend: false,
       xaxis: {
@@ -94,55 +91,15 @@ export default class CountTop10Allegations extends BarGraphVisualization {
   }
 
   transformData(rawData) {
-    let xValues = [];
-    let yValues = [];
-    let hoverValues = [];
-    let CHAR_LIMIT = 115;
 
     rawData.reverse();
 
-    const truncateValue = value => {
-      if (value?.length > CHAR_LIMIT) {
-        return value.substring(0, CHAR_LIMIT).concat("...");
-      }
-      return value;
-    };
-
-    // rawData.forEach(({ count, rule, directive, paragraph }) => {
-    //   let directiveVal = directive ? directive : "";
-    //   xValues.push(count);
-    //   yValues.push(directive || rule + paragraph);
-    //   hoverValues.push(paragraph + "<br>" + truncateValue(directiveVal));
-    // });
-
-    // let traces = rawData.map((item, index) => {
-    //   let directiveVal = item.directive ? item.directive : "";
-    //   let yValue = item.directive || item.rule + "<br>" + item.paragraph;
-    //   let hoverValue = item.paragraph + "<br>" + truncateValue(directiveVal);
-
-    //   return {
-    //     x: [item.count],
-    //     y: [yValue],
-    //     type: "bar",
-    //     width: 0.75,
-    //     orientation: "h",
-    //     marker: {
-    //       color: COLORS[0],
-    //       width: 1
-    //     },
-    //     textposition: "auto",
-    //     textangle: 0,
-    //     hovertext: [hoverValue],
-    //     hoverinfo: "text"
-    //   };
-    // });
     let traces = [];
 
     rawData.forEach(item => {
       let directiveVal = item.directive ? item.directive : "";
       let yValue = item.directive || item.rule + "<br>" + item.paragraph;
-      let hoverValue = item.paragraph + "<br>" + truncateValue(directiveVal);
-
+      
       // Find an existing trace with the same rule and paragraph
       let existingTrace = traces.find(trace => trace.y[0] === yValue);
 
@@ -162,41 +119,11 @@ export default class CountTop10Allegations extends BarGraphVisualization {
           },
           textposition: "auto",
           textangle: 0,
-          hovertext: [hoverValue],
-          hoverinfo: "text"
         });
       }
     });
 
     console.log("traces", traces);
-
-    // let caseAllegationTrace = {
-
-    //   x: xValues,
-    //   y: truncatedYValues,
-    //   type: "bar",
-    //   width: 0.75,
-    //   orientation: "h",
-    //   marker: {
-    //     color: COLORS[0]
-    //   },
-    //   text: xValues,
-    //   textposition: "auto",
-    //   textangle: 0,
-    //   hovertext: hoverValues,
-    //   hoverinfo: "text"
-    // };
-    // let getData = rawData.map(currentVal => {
-    //   return {
-    //     x: [currentVal.count],
-    //     y: [[currentVal.rule || directive ]+ " " + currentVal.paragraph],
-    //     orientation: 'h',
-    //     name: 'test',
-    //   }
-    // })
-
-
-    let truncatedYValues = truncateYValues(yValues);
 
     return {
       data: traces
