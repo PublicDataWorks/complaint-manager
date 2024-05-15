@@ -13,7 +13,7 @@ import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Case from "../../../../sharedTestHelpers/case";
 import Signer from "../../../../sharedTestHelpers/signer";
 import Allegation from "../../../../sharedTestHelpers/Allegation";
-import OfficerAllegation from "../../../../sharedTestHelpers/officerAllegation";
+import OfficerAllegation from "../../../../sharedTestHelpers/OfficerAllegation";
 import ReferralLetter from "../../../testHelpers/ReferralLetter";
 import LetterImage from "../../../../sharedTestHelpers/LetterImage";
 import LetterTypeLetterImage from "../../../../sharedTestHelpers/LetterTypeLetterImage";
