@@ -56,13 +56,13 @@ describe("GET /cases/:id", () => {
     const supervisor = new Officer.Builder()
       .defaultOfficer()
       .withId(undefined)
-      .withOfficerNumber(123)
+      .withEmployeeId(123)
       .build();
     const createdSupervisor = await models.officer.create(supervisor);
 
     const officer = new Officer.Builder()
       .defaultOfficer()
-      .withOfficerNumber(567)
+      .withEmployeeId(567)
       .withSupervisor(createdSupervisor)
       .withId(undefined)
       .build();

@@ -147,21 +147,21 @@ describe("executeQuery", () => {
       new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)
-        .withOfficerNumber(201)
+        .withEmployeeId(201)
     );
 
     officer2 = await models.officer.create(
       new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)
-        .withOfficerNumber(202)
+        .withEmployeeId(202)
     );
 
     officer3 = await models.officer.create(
       new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)
-        .withOfficerNumber(203)
+        .withEmployeeId(203)
     );
 
     allegation1 = await models.allegation.create(
@@ -375,7 +375,7 @@ describe("executeQuery", () => {
       new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)
-        .withOfficerNumber(100)
+        .withEmployeeId(100)
     );
 
     const newAllegation = await models.allegation.create(
@@ -433,7 +433,7 @@ describe("executeQuery", () => {
       new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)
-        .withOfficerNumber(101)
+        .withEmployeeId(101)
     );
 
     const newAllegation = await models.allegation.create(

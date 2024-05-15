@@ -89,7 +89,6 @@ const normalizeRaceValue = originalRaceValue => {
 };
 
 const columns = {
-  officerNumber: "officerNumber",
   firstName: "firstName",
   middleName: "middleName",
   lastName: "lastName",
@@ -101,9 +100,9 @@ const columns = {
   hireDate: "hireDate",
   bureau: "bureau",
   district: "district",
-  windowsUsername: "windowsUsername",
+  employeeId: "employeeId",
   employeeType: "employeeType",
-  supervisorOfficerNumber: "supervisorOfficerNumber"
+  supervisorEmployeeId: "supervisorEmployeeId"
 };
 
 const csvOptions = { header: true, columns };

@@ -278,12 +278,12 @@ describe("changeStatus", () => {
       const officerAttributes1 = new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)
-        .withOfficerNumber(123);
+        .withEmployeeId(123)
 
       const officerAttributes2 = new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)
-        .withOfficerNumber(321);
+        .withEmployeeId(321)
 
       const officer1 = await models.officer.create(officerAttributes1, {
         auditUser: "someone"

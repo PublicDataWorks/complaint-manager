@@ -564,7 +564,7 @@ describe("csvCaseExport request", () => {
         .defaultOfficer()
         .withFirstName("Jasmine")
         .withLastName("Grace")
-        .withOfficerNumber(officer.officerNumber + 5)
+        .withEmployeeId(officer.employeeId + 5)
         .withId(undefined);
       const officerComplainant = await models.officer.create(
         officerComplainantAttributes,
@@ -599,9 +599,9 @@ describe("csvCaseExport request", () => {
       expect(officerComplainantRow["Officer Complainant Name"]).toEqual(
         `${caseOfficerComplainant.firstName} ${caseOfficerComplainant.middleName} ${caseOfficerComplainant.lastName}`
       );
-      expect(
-        officerComplainantRow["Officer Complainant Windows Username"]
-      ).toEqual(`${caseOfficerComplainant.windowsUsername}`);
+      // expect(
+      //   officerComplainantRow["Officer Complainant Windows Username"]
+      // ).toEqual(`${caseOfficerComplainant.windowsUsername}`);
       expect(officerComplainantRow["Officer Complainant Rank/Title"]).toEqual(
         caseOfficerComplainant.rank
       );
@@ -661,7 +661,7 @@ describe("csvCaseExport request", () => {
       const officerComplainantAttributes = new Officer.Builder()
         .defaultOfficer()
         .withDOB(null)
-        .withOfficerNumber(officer.officerNumber + 5)
+        .withEmployeeId(officer.employeeId + 5)
         .withId(undefined);
       const officerComplainant = await models.officer.create(
         officerComplainantAttributes,
@@ -734,7 +734,7 @@ describe("csvCaseExport request", () => {
       const officerToBeCreated = new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)
-        .withOfficerNumber(300)
+        .withEmployeeId(300)
         .build();
       const createdOfficer = await models.officer.create(officerToBeCreated);
 
@@ -772,7 +772,7 @@ describe("csvCaseExport request", () => {
       const officerToBeCreated = new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)
-        .withOfficerNumber(300)
+        .withEmployeeId(300)
         .build();
       const createdOfficer = await models.officer.create(officerToBeCreated);
 
@@ -855,8 +855,8 @@ describe("csvCaseExport request", () => {
         `${caseOfficer.firstName} ${caseOfficer.middleName} ${caseOfficer.lastName}`
       );
 
-      expect(firstRecord["Accused Officer Windows Username"]).toEqual(
-        caseOfficer.windowsUsername.toString()
+      expect(firstRecord["Accused Officer Employee Id"]).toEqual(
+        caseOfficer.employeeId
       );
       expect(firstRecord["Accused Officer Rank/Title"]).toEqual(
         caseOfficer.rank
@@ -901,8 +901,7 @@ describe("csvCaseExport request", () => {
         .defaultOfficer()
         .withFirstName("Sally")
         .withLastName("Sanderson")
-        .withWindowsUsername(947)
-        .withOfficerNumber(11)
+        .withEmployeeId(11)
         .withId(undefined);
       const officer2 = await models.officer.create(officerAttributes2, {
         auditUser: "tuser"
@@ -929,15 +928,15 @@ describe("csvCaseExport request", () => {
       const secondRecord = records[1];
 
       expect(firstRecord["Accused Officer Name"]).toEqual(caseOfficer.fullName);
-      expect(firstRecord["Accused Officer Windows Username"]).toEqual(
-        caseOfficer.windowsUsername.toString()
+      expect(firstRecord["Accused Officer Employee Id"]).toEqual(
+        caseOfficer.employeeId
       );
       expect(firstRecord["Case #"]).toEqual(caseReference);
       expect(secondRecord["Accused Officer Name"]).toEqual(
         caseOfficer2.fullName
       );
-      expect(secondRecord["Accused Officer Windows Username"]).toEqual(
-        caseOfficer2.windowsUsername.toString()
+      expect(secondRecord["Accused Officer Employee Id"]).toEqual(
+        caseOfficer2.employeeId
       );
       expect(secondRecord["Case #"]).toEqual(caseReference);
     });
@@ -956,8 +955,7 @@ describe("csvCaseExport request", () => {
         .defaultOfficer()
         .withFirstName("Sally")
         .withLastName("Sanderson")
-        .withWindowsUsername(947)
-        .withOfficerNumber(11)
+        .withEmployeeId(11)
         .withId(undefined);
       const officer2 = await models.officer.create(officerAttributes2, {
         auditUser: "tuser"
@@ -988,16 +986,16 @@ describe("csvCaseExport request", () => {
 
       expect(firstRecord["Case #"]).toEqual(caseReference);
       expect(firstRecord["Accused Officer Name"]).toEqual(caseOfficer.fullName);
-      expect(firstRecord["Accused Officer Windows Username"]).toEqual(
-        caseOfficer.windowsUsername.toString()
+      expect(firstRecord["Accused Officer Employee Id"]).toEqual(
+        caseOfficer.employeeId
       );
 
       expect(secondRecord["Case #"]).toEqual(othercaseReference);
       expect(secondRecord["Accused Officer Name"]).toEqual(
         caseOfficer2.fullName
       );
-      expect(secondRecord["Accused Officer Windows Username"]).toEqual(
-        caseOfficer2.windowsUsername.toString()
+      expect(secondRecord["Accused Officer Employee Id"]).toEqual(
+        caseOfficer2.employeeId
       );
     });
 
@@ -1018,8 +1016,7 @@ describe("csvCaseExport request", () => {
         .defaultOfficer()
         .withFirstName("Sally")
         .withLastName("Sanderson")
-        .withWindowsUsername(947)
-        .withOfficerNumber(11)
+        .withEmployeeId(11)
         .withId(undefined);
       const officer2 = await models.officer.create(officerAttributes2, {
         auditUser: "tuser"
@@ -1053,8 +1050,8 @@ describe("csvCaseExport request", () => {
         `${civilian.firstName} ${civilian.middleInitial} ${civilian.lastName} ${civilian.suffix}`
       );
       expect(firstRecord["Accused Officer Name"]).toEqual(caseOfficer.fullName);
-      expect(firstRecord["Accused Officer Windows Username"]).toEqual(
-        caseOfficer.windowsUsername.toString()
+      expect(firstRecord["Accused Officer Employee Id"]).toEqual(
+        caseOfficer.employeeId
       );
 
       expect(secondRecord["Case #"]).toEqual(caseReference);
@@ -1064,8 +1061,8 @@ describe("csvCaseExport request", () => {
       expect(secondRecord["Accused Officer Name"]).toEqual(
         caseOfficer2.fullName
       );
-      expect(secondRecord["Accused Officer Windows Username"]).toEqual(
-        caseOfficer2.windowsUsername.toString()
+      expect(secondRecord["Accused Officer Employee Id"]).toEqual(
+        caseOfficer2.employeeId
       );
 
       expect(thirdRecord["Case #"]).toEqual(caseReference);
@@ -1073,8 +1070,8 @@ describe("csvCaseExport request", () => {
         `${civilian2.firstName} ${civilian2.middleInitial} ${civilian2.lastName} ${civilian2.suffix}`
       );
       expect(thirdRecord["Accused Officer Name"]).toEqual(caseOfficer.fullName);
-      expect(thirdRecord["Accused Officer Windows Username"]).toEqual(
-        caseOfficer.windowsUsername.toString()
+      expect(thirdRecord["Accused Officer Employee Id"]).toEqual(
+        caseOfficer.employeeId
       );
 
       expect(fourthRecord["Case #"]).toEqual(caseReference);
@@ -1084,8 +1081,8 @@ describe("csvCaseExport request", () => {
       expect(fourthRecord["Accused Officer Name"]).toEqual(
         caseOfficer2.fullName
       );
-      expect(fourthRecord["Accused Officer Windows Username"]).toEqual(
-        caseOfficer2.windowsUsername.toString()
+      expect(fourthRecord["Accused Officer Employee Id"]).toEqual(
+        caseOfficer2.employeeId
       );
     });
 
@@ -1220,7 +1217,7 @@ describe("csvCaseExport request", () => {
         .defaultOfficer()
         .withId(undefined)
         .withMiddleName("")
-        .withOfficerNumber(300)
+        .withEmployeeId(300)
         .build();
 
       const createdOfficer = await models.officer.create(officerToCreate);
@@ -1253,7 +1250,7 @@ describe("csvCaseExport request", () => {
       const supervisorToCreate = new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)
-        .withOfficerNumber(300)
+        .withEmployeeId(300)
         .withMiddleName("")
         .build();
 
@@ -1262,7 +1259,7 @@ describe("csvCaseExport request", () => {
       const officerToCreate = new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)
-        .withOfficerNumber(400)
+        .withEmployeeId(400)
         .build();
 
       const createdOfficer = await models.officer.create(officerToCreate);

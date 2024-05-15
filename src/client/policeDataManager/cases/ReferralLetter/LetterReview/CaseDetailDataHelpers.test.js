@@ -355,7 +355,7 @@ describe("caseDetailDataHelpers", function () {
           {
             isUnknownOfficer: false,
             fullName: "officer joe",
-            windowsUsername: 12345,
+            employeeId: 12345,
             district: "some district"
           }
         ]
@@ -382,7 +382,7 @@ describe("caseDetailDataHelpers", function () {
             isUnknownOfficer: false,
             isAnonymous: true,
             fullName: "officer joe",
-            windowsUsername: 12345,
+            employeeId: 12345,
             district: "some district"
           }
         ]
@@ -430,7 +430,7 @@ describe("caseDetailDataHelpers", function () {
           {
             isUnknownOfficer: false,
             fullName: "complainant joe",
-            windowsUsername: 12345,
+            employeeId: 12345,
             district: "some district",
             caseEmployeeType: "Civilian Within GCPD"
           }
@@ -458,7 +458,7 @@ describe("caseDetailDataHelpers", function () {
             isUnknownOfficer: false,
             isAnonymous: true,
             fullName: "complainant joe",
-            windowsUsername: 12345,
+            employeeId: 12345,
             district: "some district",
             caseEmployeeType: "Civilian Within GCPD"
           }
@@ -534,7 +534,7 @@ describe("caseDetailDataHelpers", function () {
             isUnknownOfficer: false,
             isAnonymous: true,
             fullName: "officer joe",
-            windowsUsername: 12345,
+            employeeId: 12345,
             district: "some district"
           },
           {
@@ -704,7 +704,7 @@ describe("caseDetailDataHelpers", function () {
             {
               isUnknownOfficer: false,
               fullName: "witness officer joe",
-              windowsUsername: 12345,
+              employeeId: 12345,
               district: "some district",
               caseEmployeeType: "Known Officer"
             }
@@ -732,7 +732,7 @@ describe("caseDetailDataHelpers", function () {
               isUnknownOfficer: false,
               isAnonymous: true,
               fullName: "witness officer joe",
-              windowsUsername: 12345,
+              employeeId: 12345,
               district: "some district",
               caseEmployeeType: "Known Officer"
             }
@@ -759,7 +759,7 @@ describe("caseDetailDataHelpers", function () {
             {
               isUnknownOfficer: false,
               fullName: "witness joe",
-              windowsUsername: 12345,
+              employeeId: 12345,
               district: "some district",
               caseEmployeeType: "Civilian Within GCPD"
             }
@@ -787,7 +787,7 @@ describe("caseDetailDataHelpers", function () {
               isUnknownOfficer: false,
               isAnonymous: true,
               fullName: "witness joe",
-              windowsUsername: 12345,
+              employeeId: 12345,
               district: "some district",
               caseEmployeeType: "Civilian Within GCPD"
             }
@@ -854,7 +854,7 @@ describe("caseDetailDataHelpers", function () {
               isUnknownOfficer: false,
               fullName: "witness officer joe",
               isAnonymous: true,
-              windowsUsername: 12345,
+              employeeId: 12345,
               district: "some district"
             },
             {
@@ -899,7 +899,7 @@ describe("caseDetailDataHelpers", function () {
         const officer = {
           isUnknownOfficer: false,
           fullName: "some name",
-          windowsUsername: "some id",
+          employeeId: "some id",
           district: "some district",
           caseEmployeeType: "Known Officer"
         };
@@ -934,7 +934,7 @@ describe("caseDetailDataHelpers", function () {
         const officer = {
           isUnknownOfficer: false,
           fullName: "some name",
-          windowsUsername: "some id",
+          employeeId: "some id",
           district: "some district",
           caseEmployeeType: "Civilian Within GCPD"
         };
@@ -956,7 +956,7 @@ describe("caseDetailDataHelpers", function () {
         const officer = {
           isUnknownOfficer: false,
           fullName: "some name",
-          windowsUsername: "some id",
+          employeeId: "some id",
           district: "some district",
           allegations: []
         };
@@ -970,7 +970,7 @@ describe("caseDetailDataHelpers", function () {
         const officer = {
           isUnknownOfficer: false,
           fullName: "some name",
-          windowsUsername: "some id",
+          employeeId: "some id",
           district: "some district",
           allegations: [
             {
@@ -1004,7 +1004,7 @@ describe("caseDetailDataHelpers", function () {
         const officer = {
           isUnknownOfficer: false,
           fullName: "some name",
-          windowsUsername: "some id",
+          employeeId: "some id",
           district: "some district",
           allegations: [
             {

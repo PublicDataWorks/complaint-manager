@@ -42,7 +42,7 @@ describe("removeCaseOfficer", () => {
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()
       .withId(undefined)
-      .withSupervisorOfficerNumber(undefined)
+      .withSupervisorEmployeeId(undefined)
       .build();
 
     const createdOfficer = await models.officer.create(officerAttributes);

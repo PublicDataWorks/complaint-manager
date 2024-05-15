@@ -63,9 +63,9 @@ const createSeedOfficerDataFromS3 = async (
   };
 
   const determineWhetherToCreateOrUpdateOfficer = async seedDataRow => {
-    const officerNumber = seedDataRow.officerNumber;
+    const employeeId = seedDataRow.employeeId;
     const existingOfficer = await models.officer.findOne({
-      where: { officerNumber }
+      where: { employeeId}
     });
 
     if (existingOfficer) {
@@ -92,11 +92,11 @@ const createSeedOfficerDataFromS3 = async (
       }
       await models.officer
         .update(officerData, {
-          where: { officerNumber: officerData.officerNumber }
+          where: { employeeId: officerData.employeeId }
         })
         .catch(error => {
           winston.error(
-            `Error updating officer number ${officerData.officerNumber}; `,
+            `Error updating officer number ${officerData.employeeId}; `,
             error.message
           );
           errorCount++;
