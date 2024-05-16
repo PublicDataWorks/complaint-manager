@@ -1,6 +1,7 @@
 import promiseRetry from "promise-retry";
 import { isAuthDisabled } from "./isAuthDisabled";
 
+
 export const changeInput = (mountedComponent, inputSelector, value) => {
   const input = mountedComponent.find(inputSelector).last();
   input.simulate("change", { target: { value } });
@@ -192,6 +193,7 @@ export const containsValue = (
 //handles if node contains text
 export const containsText = (mountedComponent, selector, expectedText) => {
   const containsText = mountedComponent.find(selector).first();
+  
 
   expect(containsText).not.toBeUndefined();
   return expect(containsText.text()).toContain(expectedText);
@@ -202,6 +204,8 @@ export const containsHTML = (mountedComponent, selector, expectedHTML) => {
   const containsHTML = mountedComponent.find(selector).first();
 
   expect(containsHTML).not.toBeUndefined();
+  console.log(containsHTML.html());
+  console.log(containsHTML.length);
   return expect(containsHTML.html()).toContain(expectedHTML);
 };
 

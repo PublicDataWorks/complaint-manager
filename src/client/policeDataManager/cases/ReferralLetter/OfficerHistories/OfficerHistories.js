@@ -126,7 +126,7 @@ class OfficerHistories extends Component {
     return (
       <WarningMessage
         variant="grayText"
-        data-testid="no-officers-message"
+        testId="no-officers-message"
         style={{ margin: "0 0 32px" }}
       >
         There are no officers on this case

@@ -18,14 +18,14 @@ const styles = theme => ({
   }
 });
 
-const WarningMessage = ({ classes, children, variant, style }) => {
+const WarningMessage = ({ classes, children, variant, style, testId }) => {
   const classesToApply =
     variant === "grayText"
       ? [classes.messageContainer, classes.grayText].join(" ")
       : classes.messageContainer;
 
   return (
-    <div className={classesToApply} style={style}>
+    <div className={classesToApply} style={style} data-testid={testId}>
       {variant === "grayText" ? null : (
         <ReportProblemIcon
           data-testid="warnIcon"
