@@ -77,7 +77,6 @@ describe("CountTop10Allegations model", () => {
 
       expect(transformedData).toEqual(expectedTransformedData);
     });
-    //q: what is directive? 
     test("should display the rule and paragraph in the y value", () => {
       const rawData = [
         {

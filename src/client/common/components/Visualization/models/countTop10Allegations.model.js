@@ -91,7 +91,6 @@ export default class CountTop10Allegations extends BarGraphVisualization {
   }
 
   transformData(rawData) {
-    console.log("rawData", rawData);
     rawData.reverse();
     let traces = [];
     if (rawData.length === 0) {
@@ -113,7 +112,6 @@ export default class CountTop10Allegations extends BarGraphVisualization {
       let yValue = item.rule + "<br>" + item.paragraph;
       let existingTrace = traces.find(trace => trace.y[0] === yValue);
       if (existingTrace) {
-        // If an existing trace is found, add the count to the existing trace
         existingTrace.x[0] += item.count;
       } 
       else {
@@ -132,8 +130,6 @@ export default class CountTop10Allegations extends BarGraphVisualization {
         });
       }
     });
-
-    console.log("traces", traces);
 
     return {
       data: traces
