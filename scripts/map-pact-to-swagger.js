@@ -100,6 +100,19 @@ const mapObjectType = object => {
   }
 };
 
+const mapQueryString = queryString => {
+  const pairs = queryString.split("&");
+  return pairs.map(pair => {
+    const [key, value] = pair.split("=");
+    return {
+      in: "query",
+      name: key,
+      schema: { type: isNaN(value) ? "string" : "integer" },
+      description: `The ${key} parameter in the query string`
+    };
+  });
+};
+
 const mapElement = (element, key) => {
   const valueType = getValueType(element);
   if (valueType === "array") {
@@ -109,6 +122,54 @@ const mapElement = (element, key) => {
   } else {
     return { type: valueType };
   }
+};
+
+const formatIdName = idFor => {
+  let formattedName = idFor;
+  if (formattedName.includes("-")) {
+    formattedName = formattedName.split("-").reduce((acc, curr) => {
+      if (!acc) {
+        return curr;
+      } else {
+        return acc + curr[0].toUpperCase() + curr.substring(1);
+      }
+    }, "");
+  }
+
+  if (formattedName.endsWith("s")) {
+    formattedName = formattedName.substring(0, formattedName.length - 1);
+  }
+
+  return `${formattedName}Id`;
+};
+
+const mapPathParams = path => {
+  const parts = path.split("/");
+  const pathParams = [];
+  const replacedParts = parts.map((part, idx) => {
+    if (part && !isNaN(part)) {
+      const name = idx > 0 ? formatIdName(parts[idx - 1]) : "id";
+      pathParams.push({
+        name,
+        in: "path",
+        required: true,
+        schema: { type: "integer" },
+        description:
+          name === "id"
+            ? "The unique identifier"
+            : `The unique identifier for the ${name.substring(
+                0,
+                name.length - 2
+              )}`
+      });
+      return `{${name}}`;
+    }
+    return part;
+  });
+  return {
+    pathWithWildCards: replacedParts.join("/"),
+    pathParams
+  };
 };
 
 // Path to the Pact JSON file
@@ -124,7 +185,7 @@ const swagger = {
   openapi: "3.0.0",
   info: {
     title: "Complaint Manager API",
-    version: "1.0.0",
+    version: "1.0.0", // TODO read version from package.json
     description: "API for managing complaints"
   },
   servers: [
@@ -140,28 +201,36 @@ const swagger = {
   paths: Object.values(JSON.parse(pact).interactions).reduce(
     (paths, interaction) => {
       const { description, request, response } = interaction;
-      const { method, path } = request;
+      const { method, path: apiPath } = request;
       const { status } = response;
 
-      if (!paths[path]) {
-        // TODO handle path params
-        paths[path] = {};
+      const { pathWithWildCards, pathParams } = mapPathParams(apiPath);
+      if (!paths[pathWithWildCards]) {
+        paths[pathWithWildCards] = {};
       }
-      paths[path][method.toLowerCase()] = {
+      paths[pathWithWildCards][method.toLowerCase()] = {
         summary: description,
+        parameters: pathParams.concat(
+          request.query ? mapQueryString(request.query) : []
+        ),
+        requestBody: request.body
+          ? {
+              content: {
+                [request.headers?.["Content-Type"] || "application/json"]: {
+                  schema: mapElement(request.body),
+                  example: request.body
+                }
+              }
+            }
+          : undefined,
         responses: {
           [status]: {
             description: STATUS_MAPPING[status],
             content: response.body
               ? {
-                  [response.headers["Content-Type"]]: {
+                  [response.headers?.["Content-Type"] || "application/json"]: {
                     schema: mapElement(response.body),
-                    example: Array.isArray(response.body)
-                      ? undefined
-                      : {
-                          summary: `${description} example request`,
-                          value: response.body
-                        }
+                    example: response.body
                   }
                 }
               : undefined
