@@ -78,7 +78,7 @@ describe("CountTop10Allegations model", () => {
       expect(transformedData).toEqual(expectedTransformedData);
     });
     //q: what is directive? 
-    test.skip("should display the rule and paragraph in the y value", () => {
+    test("should display the rule and paragraph in the y value", () => {
       const rawData = [
         {
           rule: "Rule 1",
@@ -109,24 +109,52 @@ describe("CountTop10Allegations model", () => {
       const expectedTransformedData = {
         data: [
           {
-            x: ["3", "2", "1", "1"],
-            y: ["Rule 4", "Workplace", "Unauthorized Fo...", "Rule 1"],
+            x: ["3"],
+            y: ["Rule 4<br>description for Arrest"],
             type: "bar",
             width: 0.75,
             orientation: "h",
             marker: {
               color: COLORS[0]
             },
-            text: ["3", "2", "1", "1"],
             textposition: "auto",
-            textangle: 0,
-            hovertext: [
-              "description for Arrest<br>",
-              "description for Workplace<br>Workplace",
-              "description for Unauthorized Force<br>Unauthorized Force",
-              "description for Professionalism<br>"
-            ],
-            hoverinfo: "text"
+            textangle: 0
+          },
+          {
+            x: ["2"],
+            y: ["Rule 3<br>description for Workplace"],
+            type: "bar",
+            width: 0.75,
+            orientation: "h",
+            marker: {
+              color: COLORS[0]
+            },
+            textposition: "auto",
+            textangle: 0
+          },
+          {
+            x: ["1"],
+            y: ["Rule 2<br>description for Unauthorized Force"],
+            type: "bar",
+            width: 0.75,
+            orientation: "h",
+            marker: {
+              color: COLORS[0]
+            },
+            textposition: "auto",
+            textangle: 0
+          },
+          {
+            x: ["1"],
+            y: ["Rule 1<br>description for Professionalism"],
+            type: "bar",
+            width: 0.75,
+            orientation: "h",
+            marker: {
+              color: COLORS[0]
+            },
+            textposition: "auto",
+            textangle: 0
           }
         ]
       };
