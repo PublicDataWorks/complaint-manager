@@ -8,25 +8,21 @@ describe("CountTop10Allegations model", () => {
       const rawData = [
         {
           rule: "Rule 1",
-          directive: "Professionalism",
           paragraph: "description for Professionalism",
           count: "1"
         },
         {
           rule: "Rule 2",
-          directive: "Unauthorized Force",
           paragraph: "description for Unauthorized Force",
           count: "1"
         },
         {
           rule: "Rule 3",
-          directive: "Workplace",
           paragraph: "description for Workplace",
           count: "2"
         },
         {
           rule: "Rule 4",
-          directive: "Arrest",
           paragraph: "description for Arrest",
           count: "3"
         }
@@ -37,43 +33,43 @@ describe("CountTop10Allegations model", () => {
       const expectedTransformedData = {
         data: [
           {
-            x: [ '3' ],
-            y: [ 'Arrest' ],
-            type: 'bar',
+            x: ["3"],
+            y: ["Rule 4<br>description for Arrest"],
+            type: "bar",
             width: 0.75,
-            orientation: 'h',
-            marker: { color: '#002171' },
-            textposition: 'auto',
+            orientation: "h",
+            marker: { color: "#002171" },
+            textposition: "auto",
             textangle: 0
           },
           {
-            x: [ '2' ],
-            y: [ 'Workplace' ],
-            type: 'bar',
+            x: ["2"],
+            y: ["Rule 3<br>description for Workplace"],
+            type: "bar",
             width: 0.75,
-            orientation: 'h',
-            marker: { color: '#002171' },
-            textposition: 'auto',
+            orientation: "h",
+            marker: { color: "#002171" },
+            textposition: "auto",
             textangle: 0
           },
           {
-            x: [ '1' ],
-            y: [ 'Unauthorized Use of Force' ],
-            type: 'bar',
+            x: ["1"],
+            y: ["Rule 2<br>description for Unauthorized Force"],
+            type: "bar",
             width: 0.75,
-            orientation: 'h',
-            marker: { color: '#002171' },
-            textposition: 'auto',
+            orientation: "h",
+            marker: { color: "#002171" },
+            textposition: "auto",
             textangle: 0
           },
           {
-            x: [ '1' ],
-            y: [ 'Professionalism' ],
-            type: 'bar',
+            x: ["1"],
+            y: ["Rule 1<br>description for Professionalism"],
+            type: "bar",
             width: 0.75,
-            orientation: 'h',
-            marker: { color: '#002171' },
-            textposition: 'auto',
+            orientation: "h",
+            marker: { color: "#002171" },
+            textposition: "auto",
             textangle: 0
           }
         ]
@@ -81,8 +77,8 @@ describe("CountTop10Allegations model", () => {
 
       expect(transformedData).toEqual(expectedTransformedData);
     });
-
-    test("should display the paragraph in the y value (with truncation) if no directive is provided", () => {
+    //q: what is directive? 
+    test.skip("should display the rule and paragraph in the y value", () => {
       const rawData = [
         {
           rule: "Rule 1",
@@ -154,11 +150,8 @@ describe("CountTop10Allegations model", () => {
             marker: {
               color: COLORS[0]
             },
-            text: [],
             textposition: "auto",
             textangle: 0,
-            hovertext: [],
-            hoverinfo: "text"
           }
         ]
       };

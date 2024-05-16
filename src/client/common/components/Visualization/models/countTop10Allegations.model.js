@@ -91,22 +91,32 @@ export default class CountTop10Allegations extends BarGraphVisualization {
   }
 
   transformData(rawData) {
-
+    console.log("rawData", rawData);
     rawData.reverse();
-
     let traces = [];
+    if (rawData.length === 0) {
+      traces.push({
+        x: [],
+        y: [],
+        type: "bar",
+        width: 0.75,
+        orientation: "h",
+        marker: {
+          color: COLORS[0]
+        },
+        textposition: "auto",
+        textangle: 0
+        });
+      }    
 
     rawData.forEach(item => {
-      let directiveVal = item.directive ? item.directive : "";
-      let yValue = item.directive || item.rule + "<br>" + item.paragraph;
-      
-      // Find an existing trace with the same rule and paragraph
+      let yValue = item.rule + "<br>" + item.paragraph;
       let existingTrace = traces.find(trace => trace.y[0] === yValue);
-
       if (existingTrace) {
         // If an existing trace is found, add the count to the existing trace
         existingTrace.x[0] += item.count;
-      } else {
+      } 
+      else {
         // If no existing trace is found, create a new trace
         traces.push({
           x: [item.count],
