@@ -163,6 +163,13 @@ module.exports = (sequelize, DataTypes) => {
       updatedAt: {
         type: DataTypes.DATE,
         field: "updated_at"
+      },
+      deletedAt: {
+        type: DataTypes.DATE,
+        field: "deleted_at"
+      },
+      address: {
+        type: DataTypes.STRING
       }
     },
     { tableName: "inmates" }
