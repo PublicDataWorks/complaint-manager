@@ -343,13 +343,13 @@ const anonymizeOfficer = officer => {
     officer.isUnknownOfficer = false;
     officer.phoneNumber = "";
     officer.email = "";
-    officer.windowsUsername = "";
+    officer.employeeId = "";
     officer.supervisorFirstName = "";
     officer.supervisorMiddleName = "";
     officer.supervisorLastName = "";
     officer.supervisorFullName = "";
     officer.supervisorWindowsUsername = "";
-    officer.supervisorOfficerNumber = "";
+    officer.supervisorEmployeeId = "";
     officer.employeeType = "";
     officer.caseEmployeeType = "";
     officer.district = "";

@@ -287,12 +287,12 @@ describe("constructFilename", function () {
     const firstOfficer = await createOfficer({
       firstName: "First",
       lastName: "2nd Off Complainant",
-      officerNumber: 1
+      employeeId: 1
     });
     const secondOfficer = await createOfficer({
       firstName: "First",
       lastName: "Jones",
-      officerNumber: 2
+      employeeId: 2
     });
 
     const officerComplainants =
@@ -440,7 +440,7 @@ describe("constructFilename", function () {
       .defaultOfficer()
       .withFirstName(officerAttributes.firstName)
       .withLastName(officerAttributes.lastName)
-      .withOfficerNumber(officerAttributes.officerNumber)
+      .withEmployeeId(officerAttributes.employeeId)
       .withId(undefined);
 
     return await models.officer.create(builtOfficerAttributes, {

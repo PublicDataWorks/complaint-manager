@@ -328,7 +328,7 @@ describe("editRecommendedActions", function () {
         test("removes existing referral letter officer recommended action for only the correct letter officer", async () => {
           const otherOfficerAttributes = new Officer.Builder()
             .defaultOfficer()
-            .withOfficerNumber(1)
+            .withEmployeeId(1)
             .withId(1);
 
           const otherOfficer = await models.officer.create(

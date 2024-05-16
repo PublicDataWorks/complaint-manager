@@ -13,7 +13,7 @@ const OfficerNameDisplay = props => {
         {props.fullName ? props.fullName : "N/A"}
       </Typography>
       <Typography variant="body2" style={{ whiteSpace: "pre-wrap" }}>
-        {props.windowsUsername ? `#${props.windowsUsername}` : "N/A"}
+        {props.employeeId ? `#${props.employeeId}` : "N/A"}
       </Typography>
     </div>
   );

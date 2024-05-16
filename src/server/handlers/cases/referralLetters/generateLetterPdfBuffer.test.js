@@ -239,7 +239,7 @@ describe("generateLetterPdfBuffer", () => {
         new Officer.Builder()
           .defaultOfficer()
           .withId(100)
-          .withOfficerNumber(100),
+          .withEmployeeId(100),
         { auditUser: "user" }
       );
 
@@ -270,7 +270,7 @@ describe("generateLetterPdfBuffer", () => {
       );
 
       await models.officer.create(
-        new Officer.Builder().defaultOfficer().withId(99).withOfficerNumber(99),
+        new Officer.Builder().defaultOfficer().withId(99).withEmployeeId(99),
         { auditUser: "user" }
       );
 
@@ -286,7 +286,7 @@ describe("generateLetterPdfBuffer", () => {
       );
 
       await models.officer.create(
-        new Officer.Builder().defaultOfficer().withId(2).withOfficerNumber(2),
+        new Officer.Builder().defaultOfficer().withId(2).withEmployeeId(2),
         { auditUser: "user" }
       );
 

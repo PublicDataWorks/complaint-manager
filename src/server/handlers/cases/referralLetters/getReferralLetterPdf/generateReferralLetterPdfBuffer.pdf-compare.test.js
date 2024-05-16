@@ -134,11 +134,11 @@ describe("Compare Generated Referral Letter to Baseline", () => {
     );
 
     const complainantOfficer = await models.officer.create(
-      new Officer.Builder().defaultOfficer().withId(1).withOfficerNumber(39393)
+      new Officer.Builder().defaultOfficer().withId(1).withEmployeeId(39393)
     );
 
     const accusedOfficer = await models.officer.create(
-      new Officer.Builder().defaultOfficer().withId(2).withOfficerNumber(38383)
+      new Officer.Builder().defaultOfficer().withId(2).withEmployeeId(38383)
     );
 
     const letterComplainant = await models.case_officer.create(

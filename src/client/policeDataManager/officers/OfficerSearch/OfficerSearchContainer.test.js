@@ -76,7 +76,6 @@ describe("OfficerSearchContainer", () => {
       .defaultOfficer()
       .withId(234)
       .withFullName("Some Other Officer")
-      .withOfficerNumber(456)
       .build();
     const caseDetails = new Case.Builder().defaultCase().build();
 

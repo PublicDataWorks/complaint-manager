@@ -62,3 +62,4 @@ src/testPDFs/*.pdf
 src/testPDFs/**/*.png
 
 scripts/deploy-*.config
+swagger.json

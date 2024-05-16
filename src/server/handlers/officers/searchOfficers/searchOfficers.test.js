@@ -89,7 +89,7 @@ describe("searchOfficers", function () {
     for (let x = 1; x <= totalOfficers; x++) {
       officers.push(
         new Officer.Builder()
-          .withOfficerNumber(x)
+          .withEmployeeId(x)
           .withFirstName("Sal")
           .withLastName("Foo")
           .build()

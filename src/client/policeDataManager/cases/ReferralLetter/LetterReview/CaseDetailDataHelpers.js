@@ -53,7 +53,7 @@ export const mapOfficer = (officer, pd) => {
 
     const officerData = {
       [nameTitle]: fullNameIsAnonymous(officer),
-      ID: `#${officer.windowsUsername}`,
+      ID: `#${officer.employeeId}`,
       District: officer.district
     };
     return officerData;

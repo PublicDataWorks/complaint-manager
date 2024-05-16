@@ -113,18 +113,17 @@ describe("POST /cases/:caseId/cases_officers", () => {
 
     supervisorToCreate = new Officer.Builder()
       .defaultOfficer()
-      .withOfficerNumber(123)
       .withFirstName("Garret")
       .withMiddleName("Bobby")
       .withLastName("Ferguson")
-      .withWindowsUsername(12345)
+      .withSupervisorEmployeeId(123)
       .withId(undefined)
       .build();
     seededSupervisor = await models.officer.create(supervisorToCreate);
 
     officerToCreate = new Officer.Builder()
       .defaultOfficer()
-      .withOfficerNumber(132)
+      .withEmployeeId(123)
       .withId(undefined)
       .withSupervisor(seededSupervisor)
       .build();
@@ -146,7 +145,7 @@ describe("POST /cases/:caseId/cases_officers", () => {
         notes: officerNotes,
         roleOnCase: officerRole
       });
-
+    console.log("supervisor to create", supervisorToCreate);
     await expectResponse(
       responsePromise,
       200,
@@ -165,8 +164,7 @@ describe("POST /cases/:caseId/cases_officers", () => {
             supervisorMiddleName: seededSupervisor.middleName,
             supervisorLastName: seededSupervisor.lastName,
             supervisorFullName: "Garret Bobby Ferguson",
-            supervisorWindowsUsername: seededSupervisor.windowsUsername,
-            supervisorOfficerNumber: seededSupervisor.windowsUsername
+            supervisorWindowsUsername: seededSupervisor.supervisorEmployeeId
           })
         ])
       })
