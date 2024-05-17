@@ -77,7 +77,7 @@ describe("CountTop10Allegations model", () => {
 
       expect(transformedData).toEqual(expectedTransformedData);
     });
-    test("should display the rule and paragraph in the y value", () => {
+    test("should display the rule and paragraph in the y-value and the number of each in the x-value", () => {
       const rawData = [
         {
           rule: "Rule 1",
