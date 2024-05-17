@@ -40,7 +40,8 @@ describe("CountTop10Allegations model", () => {
             orientation: "h",
             marker: { color: "#002171" },
             textposition: "auto",
-            textangle: 0
+            textangle: 0,
+            hoverinfo: "none"
           },
           {
             x: ["2"],
@@ -50,7 +51,8 @@ describe("CountTop10Allegations model", () => {
             orientation: "h",
             marker: { color: "#002171" },
             textposition: "auto",
-            textangle: 0
+            textangle: 0,
+            hoverinfo: "none"
           },
           {
             x: ["1"],
@@ -60,7 +62,8 @@ describe("CountTop10Allegations model", () => {
             orientation: "h",
             marker: { color: "#002171" },
             textposition: "auto",
-            textangle: 0
+            textangle: 0,
+            hoverinfo: "none"
           },
           {
             x: ["1"],
@@ -70,7 +73,8 @@ describe("CountTop10Allegations model", () => {
             orientation: "h",
             marker: { color: "#002171" },
             textposition: "auto",
-            textangle: 0
+            textangle: 0,
+            hoverinfo: "none"
           }
         ]
       };
@@ -117,7 +121,8 @@ describe("CountTop10Allegations model", () => {
               color: COLORS[0]
             },
             textposition: "auto",
-            textangle: 0
+            textangle: 0,
+            hoverinfo: "none"
           },
           {
             x: ["2"],
@@ -129,7 +134,8 @@ describe("CountTop10Allegations model", () => {
               color: COLORS[0]
             },
             textposition: "auto",
-            textangle: 0
+            textangle: 0,
+            hoverinfo: "none"
           },
           {
             x: ["1"],
@@ -141,7 +147,8 @@ describe("CountTop10Allegations model", () => {
               color: COLORS[0]
             },
             textposition: "auto",
-            textangle: 0
+            textangle: 0,
+            hoverinfo: "none"
           },
           {
             x: ["1"],
@@ -153,7 +160,8 @@ describe("CountTop10Allegations model", () => {
               color: COLORS[0]
             },
             textposition: "auto",
-            textangle: 0
+            textangle: 0,
+            hoverinfo: "none"
           }
         ]
       };
@@ -179,6 +187,7 @@ describe("CountTop10Allegations model", () => {
             },
             textposition: "auto",
             textangle: 0,
+            hoverinfo: "none"
           }
         ]
       };
