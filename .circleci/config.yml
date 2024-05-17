@@ -926,11 +926,18 @@ jobs:
           command: AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY yarn test:pact:server:ci
           environment:
             REACT_APP_INSTANCE_FILES_DIR: /root/project/src/instance-files-noipm
+      - run:
+          name: Generate Swagger Docs
+          command: yarn swaggerize
       - store_artifacts:
           name: Upload pact logs
           path: /root/project/pact/logs
           destination: .
           when: on_fail
+      - store_artifacts:
+          name: Upload swagger docs
+          path: /root/project/src/swagger.json
+          destination: .
 
   test-pact-hawaii:
     docker:
