@@ -106,16 +106,14 @@ export default class CountTop10Allegations extends BarGraphVisualization {
         textposition: "auto",
         textangle: 0
         });
-      }    
-
-    rawData.forEach(item => {
+      } else {
+      rawData.forEach(item => {
       let yValue = item.rule + "<br>" + item.paragraph;
       let existingTrace = traces.find(trace => trace.y[0] === yValue);
-      if (existingTrace) {
+
+        if (existingTrace) {
         existingTrace.x[0] += item.count;
-      } 
-      else {
-        // If no existing trace is found, create a new trace
+        } else {
         traces.push({
           x: [item.count],
           y: [yValue],
@@ -135,4 +133,5 @@ export default class CountTop10Allegations extends BarGraphVisualization {
       data: traces
     };
   }
+}
 }
