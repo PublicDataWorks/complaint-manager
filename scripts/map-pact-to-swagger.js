@@ -13,23 +13,7 @@ const STATUS_MAPPING = {
   500: "Internal Server Error"
 };
 
-const getValueType = value => {
-  if (typeof value === "string") {
-    return "string";
-  } else if (Number.isInteger(value)) {
-    return "integer";
-  } else if (typeof value === "number") {
-    return "float";
-  } else if (typeof value === "boolean") {
-    return "boolean";
-  } else if (Array.isArray(value)) {
-    return "array";
-  } else if (typeof value === "object") {
-    return "object";
-  } else {
-    return "unknown";
-  }
-};
+const DEFAULT_CONTENT_TYPE = "application/json";
 
 const CASE_OFFICER = {
   id: { type: "integer" },
@@ -72,6 +56,24 @@ const HARD_CODINGS = {
     items: {
       type: "string"
     }
+  }
+};
+
+const getValueType = value => {
+  if (typeof value === "string") {
+    return "string";
+  } else if (Number.isInteger(value)) {
+    return "integer";
+  } else if (typeof value === "number") {
+    return "float";
+  } else if (typeof value === "boolean") {
+    return "boolean";
+  } else if (Array.isArray(value)) {
+    return "array";
+  } else if (typeof value === "object") {
+    return "object";
+  } else {
+    return "unknown";
   }
 };
 
@@ -181,6 +183,15 @@ const pactFilePath = path.join(
 // Read the Pact JSON file
 const pact = fs.readFileSync(pactFilePath, "utf8");
 
+const createContent = (header, body) => {
+  return {
+    [header?.["Content-Type"] || DEFAULT_CONTENT_TYPE]: {
+      schema: mapElement(body),
+      example: body
+    }
+  };
+};
+
 const swagger = {
   openapi: "3.0.0",
   info: {
@@ -215,24 +226,14 @@ const swagger = {
         ),
         requestBody: request.body
           ? {
-              content: {
-                [request.headers?.["Content-Type"] || "application/json"]: {
-                  schema: mapElement(request.body),
-                  example: request.body
-                }
-              }
+              content: createContent(request.headers, request.body)
             }
           : undefined,
         responses: {
           [status]: {
             description: STATUS_MAPPING[status],
             content: response.body
-              ? {
-                  [response.headers?.["Content-Type"] || "application/json"]: {
-                    schema: mapElement(response.body),
-                    example: response.body
-                  }
-                }
+              ? createContent(response.headers, response.body)
               : undefined
           }
         }
