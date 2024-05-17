@@ -104,16 +104,19 @@ export default class CountTop10Allegations extends BarGraphVisualization {
           color: COLORS[0]
         },
         textposition: "auto",
-        textangle: 0
+        textangle: 0,
+        hoverinfo: "none"
         });
-      } else {
-      rawData.forEach(item => {
+      }    
+
+    rawData.forEach(item => {
       let yValue = item.rule + "<br>" + item.paragraph;
       let existingTrace = traces.find(trace => trace.y[0] === yValue);
-
-        if (existingTrace) {
+      if (existingTrace) {
         existingTrace.x[0] += item.count;
-        } else {
+      } 
+      else {
+        // If no existing trace is found, create a new trace
         traces.push({
           x: [item.count],
           y: [yValue],
@@ -125,6 +128,7 @@ export default class CountTop10Allegations extends BarGraphVisualization {
           },
           textposition: "auto",
           textangle: 0,
+          hoverinfo: "none"
         });
       }
     });
@@ -133,5 +137,4 @@ export default class CountTop10Allegations extends BarGraphVisualization {
       data: traces
     };
   }
-}
 }
