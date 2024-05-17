@@ -104,7 +104,8 @@ export default class CountTop10Allegations extends BarGraphVisualization {
           color: COLORS[0]
         },
         textposition: "auto",
-        textangle: 0
+        textangle: 0,
+        hoverinfo: "none"
         });
       }    
 
@@ -127,6 +128,7 @@ export default class CountTop10Allegations extends BarGraphVisualization {
           },
           textposition: "auto",
           textangle: 0,
+          hoverinfo: "none"
         });
       }
     });
