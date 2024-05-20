@@ -954,9 +954,9 @@ jobs:
           path: /root/project/src/swagger
           destination: .
       - persist_to_workspace:
-          root: /root/project/src/swagger
+          root: .
           paths:
-            - swagger
+            - src/swagger
 
   test-pact-hawaii:
     docker:
@@ -984,9 +984,9 @@ jobs:
           path: /root/project/src/swagger
           destination: .
       - persist_to_workspace:
-          root: /root/project/src/swagger
+          root: .
           paths:
-            - swagger.json
+            - src/swagger.json
 
   update-search-indices-ci:
     docker:
