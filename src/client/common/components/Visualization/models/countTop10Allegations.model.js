@@ -6,7 +6,7 @@ import {
   COLORS
 } from "../dataVizStyling";
 import { QUERY_TYPES } from "../../../../../sharedUtilities/constants";
-
+import { truncateYValues } from "./countComplaintsByDistrict.model";
 
 export default class CountTop10Allegations extends BarGraphVisualization {
   get queryType() {
@@ -33,7 +33,7 @@ export default class CountTop10Allegations extends BarGraphVisualization {
         },
         tickfont: {
           size: 10
-        },
+        }
       },
       margin: {
         l: 300,
@@ -91,12 +91,10 @@ export default class CountTop10Allegations extends BarGraphVisualization {
   }
 
   transformData(rawData) {
-    rawData.reverse();
-    let traces = [];
-    if (rawData.length === 0) {
-      traces.push({
-        x: [],
-        y: [],
+    const traceData = (xValue = undefined, yValue = undefined) => {
+      return {
+        x: xValue ? [xValue] : [],
+        y: yValue ? [yValue] : [],
         type: "bar",
         width: 0.75,
         orientation: "h",
@@ -106,31 +104,21 @@ export default class CountTop10Allegations extends BarGraphVisualization {
         textposition: "auto",
         textangle: 0,
         hoverinfo: "none"
-        });
-      }    
+      };
+    };
+    rawData.reverse();
+    const traces = [];
+    if (rawData.length === 0) {
+      traces.push(traceData());
+    }
 
     rawData.forEach(item => {
-      let yValue = item.rule + "<br>" + item.paragraph;
-      let existingTrace = traces.find(trace => trace.y[0] === yValue);
-      if (existingTrace) {
-        existingTrace.x[0] += item.count;
-      } 
-      else {
-        // If no existing trace is found, create a new trace
-        traces.push({
-          x: [item.count],
-          y: [yValue],
-          type: "bar",
-          width: 0.75,
-          orientation: "h",
-          marker: {
-            color: COLORS[0],
-          },
-          textposition: "auto",
-          textangle: 0,
-          hoverinfo: "none"
-        });
-      }
+      const truncatedParagraph =
+        item.paragraph.length > 40
+          ? item.paragraph.substring(0, 40) + "..."
+          : item.paragraph;
+      const yValue = item.rule + "<br>" + truncatedParagraph;
+      traces.push(traceData(item.count, yValue));
     });
 
     return {
