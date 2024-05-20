@@ -6,7 +6,9 @@ const publicAPIs = [
   "/api/person-types",
   "/api/public-data",
   "/api/visualizations",
-  "features"
+  "features",
+  "api-docs",
+  "api-docs.json"
 ];
 
 const ensureTokenOnRequestInterceptor =

@@ -51,7 +51,7 @@ const app = express();
 
 try {
   const swaggerUI = require("swagger-ui-express");
-  const spec = require("./swagger");
+  const spec = require("../swagger/swagger.json");
   app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(spec));
 
   app.get("/api-docs.json", function (req, res) {
@@ -126,10 +126,7 @@ app.use(
       ],
       workerSrc: ["'self'", "blob:"],
       childSrc: ["'self'", "blob:"],
-      frameSrc: [
-        "'self'",
-        "https://dev-68895481.okta.com/"
-      ]
+      frameSrc: ["'self'", "https://dev-68895481.okta.com/"]
     }
   })
 );

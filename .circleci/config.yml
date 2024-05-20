@@ -433,6 +433,9 @@ jobs:
       - image: docker:stable
     steps:
       - checkout
+      - attach_workspace:
+          at: .
+      - run: ls src/swagger
       - build-base-image:
           env: "ci"
           instance-image: << pipeline.parameters.instance-files-image-name-noipm >>
@@ -450,6 +453,9 @@ jobs:
       - image: docker:stable
     steps:
       - checkout
+      - attach_workspace:
+          at: .
+      - run: ls src/swagger
       - build-base-image:
           env: "ci"
           instance-image: << pipeline.parameters.instance-files-image-name-hawaii >>
@@ -467,6 +473,9 @@ jobs:
       - image: docker:stable
     steps:
       - checkout
+      - attach_workspace:
+          at: .
+      - run: ls src/swagger
       - build-base-image:
           env: playground
       - build-and-publish-app-image:
@@ -806,6 +815,9 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - run: ls src/swagger
+      - attach_workspace:
+          at: .
       - build-base-image:
           env: staging
           version: $(cat version.txt)
@@ -824,6 +836,9 @@ jobs:
       - image: docker:stable
     steps:
       - checkout
+      - attach_workspace:
+          at: .
+      - run: ls src/swagger
       - attach_workspace:
           at: .
       - build-base-image:
@@ -936,8 +951,12 @@ jobs:
           when: on_fail
       - store_artifacts:
           name: Upload swagger docs
-          path: /root/project/src/swagger.json
+          path: /root/project/src/swagger
           destination: .
+      - persist_to_workspace:
+          root: /root/project/src/swagger
+          paths:
+            - swagger
 
   test-pact-hawaii:
     docker:
@@ -960,6 +979,14 @@ jobs:
           path: /root/project/pact/logs
           destination: .
           when: on_fail
+      - store_artifacts:
+          name: Upload swagger docs
+          path: /root/project/src/swagger
+          destination: .
+      - persist_to_workspace:
+          root: /root/project/src/swagger
+          paths:
+            - swagger.json
 
   update-search-indices-ci:
     docker:

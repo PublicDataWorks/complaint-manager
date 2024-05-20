@@ -247,9 +247,13 @@ const swagger = {
   }
 };
 
-// Write swagger as JSON to a file
-const swaggerFilePath = path.join(
+const pathToFolder = path.join(
   __dirname.replace("/scripts", ""),
-  "swagger.json"
+  "src/swagger"
 );
+// Write swagger as JSON to a file
+const swaggerFilePath = `${pathToFolder}/swagger.json`;
+if (!fs.existsSync(pathToFolder)) {
+  fs.mkdirSync(pathToFolder);
+}
 fs.writeFileSync(swaggerFilePath, JSON.stringify(swagger, null, 2));
