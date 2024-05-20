@@ -435,7 +435,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run: ls /root/app/src/swagger
+      - run: ls /root/project/src/swagger
       - build-base-image:
           env: "ci"
           instance-image: << pipeline.parameters.instance-files-image-name-noipm >>
@@ -455,7 +455,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run: ls /root/app/src/swagger
+      - run: ls /root/project/src/swagger
       - build-base-image:
           env: "ci"
           instance-image: << pipeline.parameters.instance-files-image-name-hawaii >>
@@ -475,7 +475,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run: ls /root/app/src/swagger
+      - run: ls /root/project/src/swagger
       - build-base-image:
           env: playground
       - build-and-publish-app-image:
@@ -815,7 +815,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run: ls /root/app/src/swagger
+      - run: ls /root/project/src/swagger
       - attach_workspace:
           at: .
       - build-base-image:
@@ -838,7 +838,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - run: ls /root/app/src/swagger
+      - run: ls /root/project/src/swagger
       - attach_workspace:
           at: .
       - build-base-image:
