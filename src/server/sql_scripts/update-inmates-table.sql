@@ -35,7 +35,7 @@ SELECT
     new_inmates_table.last_name, new_inmates_table.first_name, new_inmates_table.inmate_id, 
     new_inmates_table.facility, new_inmates_table.location_sub_1, new_inmates_table.status, 
     new_inmates_table.custody_status, new_inmates_table.security_classification, 
-    new_inmates_table.booking_start_date, new_inmates_table.gender, new_inmates_table.primary_ethnicity, 
+    TO_DATE(new_inmates_table.booking_start_date,'YYYY-MM-DD'), new_inmates_table.gender, new_inmates_table.primary_ethnicity, 
     new_inmates_table.race, 
     TO_DATE(new_inmates_table.date_of_birth, 'MM-DD-YYYY'), 
     new_inmates_table.age, new_inmates_table.country_of_birth, new_inmates_table.citizenship, 
@@ -60,5 +60,4 @@ WHERE NOT EXISTS (
     SELECT 1
     FROM new_inmates_table
     WHERE new_inmates_table.inmate_id = inmates.inmate_id
-);   
-   
+); 
