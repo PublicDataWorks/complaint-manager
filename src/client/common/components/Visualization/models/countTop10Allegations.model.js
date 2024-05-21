@@ -6,7 +6,6 @@ import {
   COLORS
 } from "../dataVizStyling";
 import { QUERY_TYPES } from "../../../../../sharedUtilities/constants";
-import { truncateYValues } from "./countComplaintsByDistrict.model";
 
 export default class CountTop10Allegations extends BarGraphVisualization {
   get queryType() {
@@ -16,6 +15,8 @@ export default class CountTop10Allegations extends BarGraphVisualization {
   get baseLayout() {
     return {
       barmode: "group",
+      hovermode: "closest",
+      hoverlabel: { bgcolor: "#FFF", align: "left" },
       dragmode: false,
       showlegend: false,
       xaxis: {
@@ -91,7 +92,13 @@ export default class CountTop10Allegations extends BarGraphVisualization {
   }
 
   transformData(rawData) {
-    const traceData = (xValue = undefined, yValue = undefined) => {
+    const traces = [];
+
+    const buildTraceData = (
+      xValue = undefined,
+      yValue = undefined,
+      hoverText = undefined
+    ) => {
       return {
         x: xValue ? [xValue] : [],
         y: yValue ? [yValue] : [],
@@ -103,22 +110,51 @@ export default class CountTop10Allegations extends BarGraphVisualization {
         },
         textposition: "auto",
         textangle: 0,
-        hoverinfo: "none"
+        hoverinfo: hoverText ? "text" : "none",
+        hovertext: hoverText ? [hoverText] : []
       };
     };
+
     rawData.reverse();
-    const traces = [];
+
     if (rawData.length === 0) {
-      traces.push(traceData());
+      traces.push(buildTraceData());
     }
 
+    const buildYValue = (rule, originalParagraph) => {
+      const CHARACTER_LIMIT = 40;
+      const paragraph = originalParagraph.replace(/paragraph/gi, "PAR.");
+      const paragraphToBeDisplayed =
+        paragraph.length > CHARACTER_LIMIT
+          ? paragraph.substring(0, CHARACTER_LIMIT) + "..."
+          : paragraph;
+
+      return rule + "<br>" + paragraphToBeDisplayed;
+    };
+
+    const buildHoverText = (rule, paragraph) => {
+      let initialIndex = 0;
+      let endIndex = 40;
+
+      let hoverText = `${rule}<br>${paragraph.substring(
+        initialIndex,
+        endIndex
+      )}`;
+      while (paragraph.substring(endIndex).length > 0) {
+        initialIndex = endIndex;
+        endIndex += 40;
+        hoverText += `<br>${paragraph.substring(initialIndex, endIndex)}`;
+      }
+
+      hoverText += paragraph.substring(endIndex);
+
+      return hoverText;
+    };
+
     rawData.forEach(item => {
-      const truncatedParagraph =
-        item.paragraph.length > 40
-          ? item.paragraph.substring(0, 40) + "..."
-          : item.paragraph;
-      const yValue = item.rule + "<br>" + truncatedParagraph;
-      traces.push(traceData(item.count, yValue));
+      const yValue = buildYValue(item.rule, item.paragraph);
+      const hoverText = buildHoverText(item.rule, item.paragraph);
+      traces.push(buildTraceData(item.count, yValue, hoverText));
     });
 
     return {

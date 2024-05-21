@@ -8,17 +8,18 @@ describe("CountTop10Allegations model", () => {
       const rawData = [
         {
           rule: "Rule 1",
-          paragraph: "description for Professionalism",
+          paragraph:
+            "description for Professionalism. This is a really long description that we are using here to exemplify the point of a test we are validating.",
           count: "1"
         },
         {
           rule: "Rule 2",
-          paragraph: "description for Unauthorized Force",
+          paragraph: "PARAGRAPH: description for Unauthorized Force",
           count: "1"
         },
         {
           rule: "Rule 3",
-          paragraph: "description for Workplace",
+          paragraph: "paragraph(3): description for Workplace",
           count: "2"
         },
         {
@@ -41,40 +42,48 @@ describe("CountTop10Allegations model", () => {
             marker: { color: "#002171" },
             textposition: "auto",
             textangle: 0,
-            hoverinfo: "none"
+            hoverinfo: "text",
+            hovertext: ["Rule 4<br>description for Arrest"]
           },
           {
             x: ["2"],
-            y: ["Rule 3<br>description for Workplace"],
+            y: ["Rule 3<br>PAR.(3): description for Workplace"],
             type: "bar",
             width: 0.75,
             orientation: "h",
             marker: { color: "#002171" },
             textposition: "auto",
             textangle: 0,
-            hoverinfo: "none"
+            hoverinfo: "text",
+            hovertext: ["Rule 3<br>paragraph(3): description for Workplace"]
           },
           {
             x: ["1"],
-            y: ["Rule 2<br>description for Unauthorized Force"],
+            y: ["Rule 2<br>PAR.: description for Unauthorized Force"],
             type: "bar",
             width: 0.75,
             orientation: "h",
             marker: { color: "#002171" },
             textposition: "auto",
             textangle: 0,
-            hoverinfo: "none"
+            hoverinfo: "text",
+            hovertext: [
+              "Rule 2<br>PARAGRAPH: description for Unauthorized <br>Force"
+            ]
           },
           {
             x: ["1"],
-            y: ["Rule 1<br>description for Professionalism"],
+            y: ["Rule 1<br>description for Professionalism. This is..."],
             type: "bar",
             width: 0.75,
             orientation: "h",
             marker: { color: "#002171" },
             textposition: "auto",
             textangle: 0,
-            hoverinfo: "none"
+            hoverinfo: "text",
+            hovertext: [
+              "Rule 1<br>description for Professionalism. This is<br> a really long description that we are u<br>sing here to exemplify the point of a te<br>st we are validating."
+            ]
           }
         ]
       };
@@ -122,7 +131,8 @@ describe("CountTop10Allegations model", () => {
             },
             textposition: "auto",
             textangle: 0,
-            hoverinfo: "none"
+            hoverinfo: "text",
+            hovertext: expect.any(Array)
           },
           {
             x: ["2"],
@@ -135,7 +145,8 @@ describe("CountTop10Allegations model", () => {
             },
             textposition: "auto",
             textangle: 0,
-            hoverinfo: "none"
+            hoverinfo: "text",
+            hovertext: expect.any(Array)
           },
           {
             x: ["1"],
@@ -148,7 +159,8 @@ describe("CountTop10Allegations model", () => {
             },
             textposition: "auto",
             textangle: 0,
-            hoverinfo: "none"
+            hoverinfo: "text",
+            hovertext: expect.any(Array)
           },
           {
             x: ["1"],
@@ -161,7 +173,8 @@ describe("CountTop10Allegations model", () => {
             },
             textposition: "auto",
             textangle: 0,
-            hoverinfo: "none"
+            hoverinfo: "text",
+            hovertext: expect.any(Array)
           }
         ]
       };
@@ -187,7 +200,8 @@ describe("CountTop10Allegations model", () => {
             },
             textposition: "auto",
             textangle: 0,
-            hoverinfo: "none"
+            hoverinfo: "none",
+            hovertext: []
           }
         ]
       };
