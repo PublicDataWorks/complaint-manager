@@ -989,7 +989,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - src/swagger.json
+            - src/swagger
 
   update-search-indices-ci:
     docker:
