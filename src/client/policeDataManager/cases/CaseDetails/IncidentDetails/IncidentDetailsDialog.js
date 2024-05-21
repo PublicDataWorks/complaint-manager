@@ -320,42 +320,46 @@ class IncidentDetailsDialog extends Component {
               </div>
             )}
 
-            <div style={{ marginTop: "16px" }}>
-              <Field
-                name="howDidYouHearAboutUsSourceId"
-                component={Dropdown}
-                label="How did you hear about us?"
-                hinttext="How did you hear about us?"
-                data-testid="howDidYouHearAboutUsSourceDropdown"
-                inputProps={{
-                  "data-testid": "howDidYouHearAboutUsSourceInput"
-                }}
-                style={{ width: "60%" }}
-              >
-                {generateMenuOptions(props.howDidYouHearAboutUsSources)}
-              </Field>
-            </div>
-            <div style={{ display: "flex", marginTop: "16px" }}>
-              <Field
-                name="pibCaseNumber"
-                component={renderTextField}
-                label={pbCaseNumberText}
-                data-testid="pibCaseNumber"
-                placeholder={enterPbCaseNumberText}
-                inputProps={{
-                  "data-testid": "pibCaseNumberInput",
-                  maxLength: 25,
-                  autoComplete: "off"
-                }}
-                InputLabelProps={{ shrink: true }}
-                style={{
-                  marginRight: "5%",
-                  flex: "2"
-                }}
-                autoComplete="off"
-              />
-              <div style={{ flex: 1 }} />
-            </div>
+            {props.policeIncidentDetails && (
+              <>
+                <div style={{ marginTop: "16px" }}>
+                  <Field
+                    name="howDidYouHearAboutUsSourceId"
+                    component={Dropdown}
+                    label="How did you hear about us?"
+                    hinttext="How did you hear about us?"
+                    data-testid="howDidYouHearAboutUsSourceDropdown"
+                    inputProps={{
+                      "data-testid": "howDidYouHearAboutUsSourceInput"
+                    }}
+                    style={{ width: "60%" }}
+                  >
+                    {generateMenuOptions(props.howDidYouHearAboutUsSources)}
+                  </Field>
+                </div>
+                <div style={{ display: "flex", marginTop: "16px" }}>
+                  <Field
+                    name="pibCaseNumber"
+                    component={renderTextField}
+                    label={pbCaseNumberText}
+                    data-testid="pibCaseNumber"
+                    placeholder={enterPbCaseNumberText}
+                    inputProps={{
+                      "data-testid": "pibCaseNumberInput",
+                      maxLength: 25,
+                      autoComplete: "off"
+                    }}
+                    InputLabelProps={{ shrink: true }}
+                    style={{
+                      marginRight: "5%",
+                      flex: "2"
+                    }}
+                    autoComplete="off"
+                  />
+                  <div style={{ flex: 1 }} />
+                </div>
+              </>
+            )}
           </form>
         </DialogContent>
         <DialogActions
@@ -429,6 +433,7 @@ const mapStateToProps = state => {
     formattedAddress: formatAddressAsString(values.incidentLocation),
     howDidYouHearAboutUsSources: state.ui.howDidYouHearAboutUsSources,
     intakeSources: state.ui.intakeSources,
+    policeIncidentDetails: state.featureToggles.policeIncidentDetails,
     priorityLevels: state.ui.priorityLevels,
     priorityReasons: state.ui.priorityReasons
   };

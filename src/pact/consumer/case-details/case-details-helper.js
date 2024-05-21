@@ -17,6 +17,7 @@ import {
   USER_PERMISSIONS,
   SHOW_FORM
 } from "../../../sharedUtilities/constants";
+import { getFeaturesSuccess } from "../../../client/policeDataManager/actionCreators/featureTogglesActionCreators";
 
 const { PD } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
@@ -842,6 +843,8 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
       }
     });
   }
+
+  store.dispatch(getFeaturesSuccess({ policeIncidentDetails: true }));
 
   let dispatchSpy = jest.spyOn(store, "dispatch");
 

@@ -19,6 +19,7 @@ import { getDistrictsSuccess } from "../../../actionCreators/districtsActionCrea
 import getDistrictDropdownValues from "../../../districts/thunks/getDistrictDropdownValues";
 import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
 import { getIntakeSourcesSuccess } from "../../../actionCreators/intakeSourceActionCreators";
+import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 
 jest.mock("../../thunks/editIncidentDetails", () =>
   jest.fn(values => ({
@@ -83,6 +84,7 @@ describe("incident details", () => {
         .withIntakeSourceId(2)
         .build();
 
+      store.dispatch(getFeaturesSuccess({ policeIncidentDetails: true }));
       dispatchSpy = jest.spyOn(store, "dispatch");
       store.dispatch(getCaseDetailsSuccess(currentCase));
       store.dispatch(
@@ -130,6 +132,7 @@ describe("incident details", () => {
         .withIntakeSourceId(2)
         .build();
 
+      store.dispatch(getFeaturesSuccess({ policeIncidentDetails: true }));
       dispatchSpy = jest.spyOn(store, "dispatch");
       store.dispatch(getCaseDetailsSuccess(currentCase));
       store.dispatch(
