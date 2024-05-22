@@ -44,7 +44,11 @@ export const getUsers = async () => {
 
   const collection = await client.userApi.listUsers();
   await collection.each(user => {
-    const fullName = user.profile.firstName + " " + user.profile.lastName;
+    const fullName =
+      user.profile.firstName +
+      " " +
+      (user.profile.middleName ? user.profile.middleName + " " : "") +
+      user.profile.lastName;
     userData.push({ email: user.profile.email, name: fullName });
   });
   cache.set(key, userData);
