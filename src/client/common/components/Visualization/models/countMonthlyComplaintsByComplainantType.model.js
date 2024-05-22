@@ -50,6 +50,13 @@ export default class CountMonthlyComplaintsByComplainantType extends Visualizati
     };
   }
 
+  get visualizationConfig() {
+    return {
+      responsive: true,
+      useResizeHandler: true
+    };
+  }
+
   transformData(rawData) {
     let maximum = 0;
     const determineMax = (count = 0) => {
