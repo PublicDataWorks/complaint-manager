@@ -777,7 +777,8 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
       generateLetterButton: options.includes(GENERATE_LETTER_BUTTON),
       chooseComplaintType: options.includes(COMPLAINT_TYPES),
       allowAllTypesToBeAccused: options.includes(CIVILIAN_ACCUSED),
-      choosePersonTypeInAddDialog: options.includes(CHOOSE_PERSON_TYPE)
+      choosePersonTypeInAddDialog: options.includes(CHOOSE_PERSON_TYPE),
+      policeIncidentDetails: true
     }
   });
 
@@ -843,8 +844,6 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
       }
     });
   }
-
-  store.dispatch(getFeaturesSuccess({ policeIncidentDetails: true }));
 
   let dispatchSpy = jest.spyOn(store, "dispatch");
 
