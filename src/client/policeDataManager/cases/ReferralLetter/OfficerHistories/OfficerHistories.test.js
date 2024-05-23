@@ -224,13 +224,19 @@ describe("OfficerHistories page", function () {
         "There are no officers on this case"
       );
     });
-    test("it should add a note when click add note button", () => {
-      fireEvent.click(screen.getByTestId("addOfficerHistoryNoteButton"));
-      expect(screen.getAllByTestId("officer-history-note")).toHaveLength(1);
+    test("it should add a note when click add note button", async () => {
+      await userEvent.click(
+        screen.getAllByTestId("addOfficerHistoryNoteButton")[0]
+      );
+      expect(
+        screen.getByTestId("note-0-openRemoveOfficerHistoryNoteButton")
+      ).toBeTruthy();
     });
 
     test("it should remove a note when click remove note button", () => {
-      const addNoteButton = screen.getByTestId("addOfficerHistoryNoteButton");
+      const addNoteButton = screen.getAllByTestId(
+        "addOfficerHistoryNoteButton"
+      )[0];
       fireEvent.click(addNoteButton);
       fireEvent.click(addNoteButton);
       fireEvent.click(addNoteButton);
@@ -259,10 +265,9 @@ describe("OfficerHistories page", function () {
 
     test("it dispatches edit to referral letter when click back to review button when values valid", () => {
       editOfficerHistory.mockClear();
-      fireEvent.change(
-        screen.getByLabelText("letterOfficers[0].numHistoricalHighAllegations"),
-        { target: { value: "9" } }
-      );
+      fireEvent.change(screen.getAllByTestId("high-allegations")[0], {
+        target: { value: "9" }
+      });
 
       const backButton = screen.getByTestId("back-button");
       fireEvent.click(backButton);
@@ -300,23 +305,18 @@ describe("OfficerHistories page", function () {
 
     test("allegation fields don't accept bad input", () => {
       editOfficerHistory.mockClear();
-      fireEvent.change(
-        screen.getByLabelText("letterOfficers[0].numHistoricalHighAllegations"),
-        { target: { value: "abc" } }
-      );
+      fireEvent.change(screen.getAllByTestId("high-allegations")[0], {
+        target: { value: "abc" }
+      });
 
-      expect(
-        screen.getByLabelText("letterOfficers[0].numHistoricalHighAllegations")
-          .value
-      ).toBe("");
+      expect(screen.getAllByTestId("high-allegations")[0].value).toBe("");
     });
 
     test("it dispatches edit to referral letter when click back to cases button when values valid", () => {
       editOfficerHistory.mockClear();
-      fireEvent.change(
-        screen.getByLabelText("letterOfficers[0].numHistoricalHighAllegations"),
-        { target: { value: "9" } }
-      );
+      fireEvent.change(screen.getAllByTestId("high-allegations")[0], {
+        target: { value: "9" }
+      });
 
       const backButton = screen.getByTestId("save-and-return-to-case-link");
       fireEvent.click(backButton);
@@ -354,10 +354,9 @@ describe("OfficerHistories page", function () {
 
     test("it dispatches edit to referral letter when click next when values valid", () => {
       editOfficerHistory.mockClear();
-      fireEvent.change(
-        screen.getByLabelText("letterOfficers[0].numHistoricalHighAllegations"),
-        { target: { value: "9" } }
-      );
+      fireEvent.change(screen.getAllByTestId("high-allegations")[0], {
+        target: { value: "9" }
+      });
 
       const nextButton = screen.getByTestId("next-button");
       fireEvent.click(nextButton);
@@ -478,54 +477,54 @@ describe("OfficerHistories page", function () {
         );
       });
     });
+  });
 
-    describe("no officers on the case", function () {
-      let dispatchSpy;
-      beforeEach(() => {
-        editOfficerHistory.mockClear();
-        const letterId = "15";
-        const referralLetterDetails = {
-          id: letterId,
-          caseId: caseId,
-          letterOfficers: []
-        };
+  describe("no officers on the case", function () {
+    let dispatchSpy;
+    beforeEach(() => {
+      editOfficerHistory.mockClear();
+      const letterId = "15";
+      const referralLetterDetails = {
+        id: letterId,
+        caseId: caseId,
+        letterOfficers: []
+      };
 
-        store.dispatch(getReferralLetterSuccess(referralLetterDetails));
-        dispatchSpy = jest.spyOn(store, "dispatch");
-        const Wrapper = ({ children }) => {
-          return children;
-        };
-        const FormWrapper = reduxForm({ form: "testForm" })(Wrapper);
+      store.dispatch(getReferralLetterSuccess(referralLetterDetails));
+      dispatchSpy = jest.spyOn(store, "dispatch");
+      const Wrapper = ({ children }) => {
+        return children;
+      };
+      const FormWrapper = reduxForm({ form: "testForm" })(Wrapper);
 
-        const history = createMemoryHistory();
-        render(
-          <Provider store={store}>
-            <Router history={history}>
-              <FormWrapper />
+      const history = createMemoryHistory();
+      render(
+        <Provider store={store}>
+          <Router history={history}>
+            <FormWrapper>
               <OfficerHistories match={{ params: { id: caseId } }} />
-              <FormWrapper />
-            </Router>
-          </Provider>
-        );
-      });
+            </FormWrapper>
+          </Router>
+        </Provider>
+      );
+    });
 
-      test("it does not submit the form but does redirect when no officers on the case when click back button", () => {
-        const backButton = screen.getByTestId("back-button");
-        fireEvent.click(backButton);
+    test("it does not submit the form but does redirect when no officers on the case when click back button", () => {
+      const backButton = screen.getByTestId("back-button");
+      fireEvent.click(backButton);
 
-        expect(editOfficerHistory).not.toHaveBeenCalled();
-        expect(dispatchSpy).toHaveBeenCalledWith(
-          push(`/cases/${caseId}/letter/review`)
-        );
-      });
+      expect(editOfficerHistory).not.toHaveBeenCalled();
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        push(`/cases/${caseId}/letter/review`)
+      );
+    });
 
-      test("it does not submit the form but does redirect when no officers on the case when click back to case button", () => {
-        const backButton = screen.getByTestId("save-and-return-to-case-link");
-        fireEvent.click(backButton);
+    test("it does not submit the form but does redirect when no officers on the case when click back to case button", () => {
+      const backButton = screen.getByTestId("save-and-return-to-case-link");
+      fireEvent.click(backButton);
 
-        expect(editOfficerHistory).not.toHaveBeenCalled();
-        expect(dispatchSpy).toHaveBeenCalledWith(push(`/cases/${caseId}`));
-      });
+      expect(editOfficerHistory).not.toHaveBeenCalled();
+      expect(dispatchSpy).toHaveBeenCalledWith(push(`/cases/${caseId}`));
     });
   });
 });
