@@ -63,6 +63,7 @@ class IncidentDetails extends React.Component {
       howDidYouHearAboutUsSource,
       classes,
       pibCaseNumber,
+      policeIncidentDetails,
       priorityReason,
       priorityLevel,
       configs
@@ -76,6 +77,144 @@ class IncidentDetails extends React.Component {
     const priorityReasonName = priorityReason ? priorityReason.name : "";
     const priorityLevelName = priorityLevel ? priorityLevel.name : "";
 
+    const FirstContacted = (
+      <StyledInfoDisplay>
+        <CivilianInfoDisplay
+          displayLabel={`First Contacted ${configs[CONFIGS.ORGANIZATION]}`}
+          value={formatDate(firstContactDate)}
+          testLabel="firstContactDate"
+        />
+      </StyledInfoDisplay>
+    );
+
+    const IncidentDate = (
+      <StyledInfoDisplay>
+        <CivilianInfoDisplay
+          displayLabel="Incident Date"
+          value={formatDate(incidentDate)}
+          testLabel="incidentDate"
+        />
+      </StyledInfoDisplay>
+    );
+
+    const IncidentTime = incidentTime ? (
+      <StyledInfoDisplay>
+        <CivilianInfoDisplay
+          displayLabel="Incident Time"
+          value={
+            this.formatTimeForDisplay(incidentDate, incidentTime) +
+            " " +
+            incidentTimezone
+          }
+          testLabel="incidentTime"
+        />
+      </StyledInfoDisplay>
+    ) : (
+      <StyledInfoDisplay>
+        <CivilianInfoDisplay
+          displayLabel="Incident Time"
+          value={this.formatTimeForDisplay(incidentDate, incidentTime)}
+          testLabel="incidentTime"
+        />
+      </StyledInfoDisplay>
+    );
+
+    const IncidentLocation = (
+      <StyledInfoDisplay gridColumn={1}>
+        <AddressInfoDisplay
+          testLabel="incidentLocation"
+          displayLabel="Incident Location"
+          address={incidentLocation}
+          useLineBreaks={true}
+        />
+      </StyledInfoDisplay>
+    );
+
+    const District = (
+      <StyledInfoDisplay gridColumn={2}>
+        <CivilianInfoDisplay
+          displayLabel="District"
+          value={districtName}
+          testLabel="incidentDistrict"
+        />
+      </StyledInfoDisplay>
+    );
+
+    const PriorityReason = intakeSourceName === "Priority Incident" && (
+      <StyledInfoDisplay gridColumn={3}>
+        <CivilianInfoDisplay
+          displayLabel="Priority Reason"
+          value={priorityReasonName}
+          testLabel="incidentPriorityReasons"
+        />
+      </StyledInfoDisplay>
+    );
+
+    const HowDidYouHearAboutUs = (
+      <StyledInfoDisplay>
+        <CivilianInfoDisplay
+          displayLabel="How did you hear about us?"
+          value={howDidYouHearAboutUsSourceName}
+          testLabel="howDidYouHearAboutUsSource"
+        />
+      </StyledInfoDisplay>
+    );
+
+    const PbCaseNumber = (
+      <StyledInfoDisplay>
+        <CivilianInfoDisplay
+          displayLabel={pbCaseNumberText}
+          value={pibCaseNumber}
+          testLabel="pibCaseNumber"
+        />
+      </StyledInfoDisplay>
+    );
+
+    const IntakeSource = (
+      <StyledInfoDisplay>
+        <CivilianInfoDisplay
+          displayLabel="Intake Source"
+          value={intakeSourceName}
+          testLabel="intakeSource"
+        />
+      </StyledInfoDisplay>
+    );
+
+    const PriorityLevel = intakeSourceName === "Priority Incident" && (
+      <StyledInfoDisplay>
+        <CivilianInfoDisplay
+          displayLabel="Priority Level"
+          value={priorityLevelName}
+          testLabel="incidentPriorityLevel"
+        />
+      </StyledInfoDisplay>
+    );
+
+    const detailsRows = policeIncidentDetails
+      ? [
+          [FirstContacted, IncidentDate, IncidentTime],
+          [IncidentLocation, District, PriorityReason],
+          [
+            HowDidYouHearAboutUs,
+            PbCaseNumber,
+            <div style={{ flex: 1, textAlign: "left", marginRight: "10px" }} />
+          ],
+          [
+            IntakeSource,
+            PriorityLevel,
+            <div style={{ flex: 1, textAlign: "left", marginRight: "10px" }} />
+          ]
+        ]
+      : [
+          [FirstContacted, IncidentDate, IncidentTime],
+          [IncidentLocation, District, PriorityReason],
+          [
+            IntakeSource,
+            PriorityLevel,
+            <div style={{ flex: 1, textAlign: "left", marginRight: "10px" }} />
+          ]
+        ];
+
     return (
       <DetailsCard title="Incident Details" maxWidth="850px">
         <CardContent style={{ padding: "24px" }}>
@@ -87,117 +226,18 @@ class IncidentDetails extends React.Component {
             }}
           >
             <div style={{ width: "100%" }}>
-              <div className={classes.detailsRow}>
-                <StyledInfoDisplay>
-                  <CivilianInfoDisplay
-                    displayLabel={`First Contacted ${
-                      configs[CONFIGS.ORGANIZATION]
-                    }`}
-                    value={formatDate(firstContactDate)}
-                    testLabel="firstContactDate"
-                  />
-                </StyledInfoDisplay>
-                <StyledInfoDisplay>
-                  <CivilianInfoDisplay
-                    displayLabel="Incident Date"
-                    value={formatDate(incidentDate)}
-                    testLabel="incidentDate"
-                  />
-                </StyledInfoDisplay>
-                {incidentTime ? (
-                  <StyledInfoDisplay>
-                    <CivilianInfoDisplay
-                      displayLabel="Incident Time"
-                      value={
-                        this.formatTimeForDisplay(incidentDate, incidentTime) +
-                        " " +
-                        incidentTimezone
-                      }
-                      testLabel="incidentTime"
-                    />
-                  </StyledInfoDisplay>
-                ) : (
-                  <StyledInfoDisplay>
-                    <CivilianInfoDisplay
-                      displayLabel="Incident Time"
-                      value={this.formatTimeForDisplay(
-                        incidentDate,
-                        incidentTime
-                      )}
-                      testLabel="incidentTime"
-                    />
-                  </StyledInfoDisplay>
-                )}
-              </div>
-              <div
-                className={classes.detailsRow}
-                style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}
-              >
-                <StyledInfoDisplay gridColumn={1}>
-                  <AddressInfoDisplay
-                    testLabel="incidentLocation"
-                    displayLabel="Incident Location"
-                    address={incidentLocation}
-                    useLineBreaks={true}
-                  />
-                </StyledInfoDisplay>
-                <StyledInfoDisplay gridColumn={2}>
-                  <CivilianInfoDisplay
-                    displayLabel="District"
-                    value={districtName}
-                    testLabel="incidentDistrict"
-                  />
-                </StyledInfoDisplay>
-                {intakeSourceName === "Priority Incident" && (
-                  <StyledInfoDisplay gridColumn={3}>
-                    <CivilianInfoDisplay
-                      displayLabel="Priority Reason"
-                      value={priorityReasonName}
-                      testLabel="incidentPriorityReasons"
-                    />
-                  </StyledInfoDisplay>
-                )}
-              </div>
-              <div className={classes.detailsRow}>
-                <StyledInfoDisplay>
-                  <CivilianInfoDisplay
-                    displayLabel="How did you hear about us?"
-                    value={howDidYouHearAboutUsSourceName}
-                    testLabel="howDidYouHearAboutUsSource"
-                  />
-                </StyledInfoDisplay>
-                <StyledInfoDisplay>
-                  <CivilianInfoDisplay
-                    displayLabel={pbCaseNumberText}
-                    value={pibCaseNumber}
-                    testLabel="pibCaseNumber"
-                  />
-                </StyledInfoDisplay>
+              {detailsRows.map((row, index) => (
                 <div
-                  style={{ flex: 1, textAlign: "left", marginRight: "10px" }}
-                />
-              </div>
-              <div className={classes.detailsRow}>
-                <StyledInfoDisplay>
-                  <CivilianInfoDisplay
-                    displayLabel="Intake Source"
-                    value={intakeSourceName}
-                    testLabel="intakeSource"
-                  />
-                </StyledInfoDisplay>
-                {intakeSourceName === "Priority Incident" && (
-                  <StyledInfoDisplay>
-                    <CivilianInfoDisplay
-                      displayLabel="Priority Level"
-                      value={priorityLevelName}
-                      testLabel="incidentPriorityLevel"
-                    />
-                  </StyledInfoDisplay>
-                )}
-                <div
-                  style={{ flex: 1, textAlign: "left", marginRight: "10px" }}
-                />
-              </div>
+                  key={index}
+                  className={classes.detailsRow}
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr 1fr"
+                  }}
+                >
+                  {row}
+                </div>
+              ))}
             </div>
             <div className={classes.detailsPaneButtons}>
               {this.props.isArchived ||
@@ -246,7 +286,8 @@ const mapStateToProps = state => ({
   permissions: state?.users?.current?.userInfo?.permissions,
   pibCaseNumber: state.currentCase.details.pibCaseNumber,
   priorityReason: state.currentCase.details.priorityReason,
-  priorityLevel: state.currentCase.details.priorityLevel
+  priorityLevel: state.currentCase.details.priorityLevel,
+  policeIncidentDetails: state.featureToggles.policeIncidentDetails
 });
 
 export default connect(mapStateToProps)(IncidentDetails);

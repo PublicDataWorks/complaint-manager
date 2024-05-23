@@ -65,8 +65,8 @@ export default class CountComplaintsByComplainantType extends DonutVisualization
 
   get visualizationConfig() {
     return {
-      responsive: false,
-      useResizeHandler: false
+      responsive: true,
+      useResizeHandler: true
     };
   }
 

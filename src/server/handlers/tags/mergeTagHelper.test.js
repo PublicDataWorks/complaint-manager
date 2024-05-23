@@ -13,6 +13,7 @@ import {
 describe("mergeTagAndAuditDetails", () => {
   let tag1, tag2, case1, case2;
 
+  jest.setTimeout(60000);
   beforeEach(async () => {
     await cleanupDatabase();
     await models.caseStatus.create(

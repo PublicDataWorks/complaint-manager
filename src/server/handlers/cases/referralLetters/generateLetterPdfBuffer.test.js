@@ -12,6 +12,8 @@ import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Case from "../../../../sharedTestHelpers/case";
 import Signer from "../../../../sharedTestHelpers/signer";
+import Allegation from "../../../../sharedTestHelpers/Allegation";
+import OfficerAllegation from "../../../../sharedTestHelpers/OfficerAllegation";
 import ReferralLetter from "../../../testHelpers/ReferralLetter";
 import LetterImage from "../../../../sharedTestHelpers/LetterImage";
 import LetterTypeLetterImage from "../../../../sharedTestHelpers/LetterTypeLetterImage";
@@ -237,7 +239,7 @@ describe("generateLetterPdfBuffer", () => {
         new Officer.Builder()
           .defaultOfficer()
           .withId(100)
-          .withOfficerNumber(100),
+          .withEmployeeId(100),
         { auditUser: "user" }
       );
 
@@ -252,8 +254,23 @@ describe("generateLetterPdfBuffer", () => {
         { auditUser: "user" }
       );
 
+      const allegation = await models.allegation.create(
+        new Allegation.Builder().defaultAllegation().build(),
+        { auditUser: "user" }
+      );
+
+      const officerAllegation = await models.officer_allegation.create(
+        new OfficerAllegation.Builder()
+          .defaultOfficerAllegation()
+          .withAllegationId(allegation.id)
+          .withCaseOfficerId(officer1.id)
+          .withCustomDirective("Custom Directive")
+          .build(),
+        { auditUser: "user" }
+      );
+
       await models.officer.create(
-        new Officer.Builder().defaultOfficer().withId(99).withOfficerNumber(99),
+        new Officer.Builder().defaultOfficer().withId(99).withEmployeeId(99),
         { auditUser: "user" }
       );
 
@@ -269,7 +286,7 @@ describe("generateLetterPdfBuffer", () => {
       );
 
       await models.officer.create(
-        new Officer.Builder().defaultOfficer().withId(2).withOfficerNumber(2),
+        new Officer.Builder().defaultOfficer().withId(2).withEmployeeId(2),
         { auditUser: "user" }
       );
 
@@ -295,6 +312,10 @@ describe("generateLetterPdfBuffer", () => {
         expect.objectContaining({ id: officer2.id }),
         expect.objectContaining({ id: officer3.id })
       ]);
+
+      expect(
+        result.data.accusedOfficers[0].allegations[0].directive.name
+      ).toEqual("Custom Directive");
     });
   });
 

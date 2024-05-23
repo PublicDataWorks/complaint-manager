@@ -558,8 +558,8 @@ describe("getReferralLetterPreview", function () {
 
           const accusedOfficerAttributes = new Officer.Builder()
             .defaultOfficer()
-            .withId(undefined)
-            .withOfficerNumber(2);
+            .withEmployeeId(2)
+            .withId(undefined);
           const accusedOfficer = await models.officer.create(
             accusedOfficerAttributes,
             {
@@ -680,7 +680,7 @@ describe("getReferralLetterPreview", function () {
         test("renders correctly with an officer complainant", async () => {
           const officerComplainantAttributes = new Officer.Builder()
             .defaultOfficer()
-            .withOfficerNumber(159)
+            .withEmployeeId(159)
             .withId(undefined);
           const officerComplainant = await models.officer.create(
             officerComplainantAttributes,
@@ -776,8 +776,8 @@ describe("getReferralLetterPreview", function () {
 
           const officerComplainantAttributes = new Officer.Builder()
             .defaultOfficer()
-            .withId(undefined)
-            .withOfficerNumber(132);
+            .withEmployeeId(132)
+            .withId(undefined);
           const officerComplainant = await models.officer.create(
             officerComplainantAttributes,
             { auditUser: "test" }

@@ -65,7 +65,7 @@ export const addClassificationsToCase = async theCase => {
 
 export const addAccusedToCase = async (caseId, withAllegation) => {
   const officer = await models.officer.create(
-    new Officer.Builder().defaultOfficer().withId(1).withOfficerNumber(27),
+    new Officer.Builder().defaultOfficer().withId(1).withEmployeeId(27),
     { auditUser: "user" }
   );
 

@@ -38,7 +38,6 @@ pactWith(
         fullName: "Bob Loblaw",
         age: 74,
         id: 1,
-        officerNumber: 6135,
         firstName: "Gideon",
         middleName: "B",
         lastName: "Abshire",
@@ -51,7 +50,7 @@ pactWith(
         workStatus: "Active",
         hireDate: "2016-07-17",
         employeeType: "Commissioned",
-        windowsUsername: 29281,
+        employeeId: 29281,
         officerDistrict: {
           id: 1,
           name: "1st District"

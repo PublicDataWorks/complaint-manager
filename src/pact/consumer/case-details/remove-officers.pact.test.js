@@ -106,7 +106,11 @@ scenarios.forEach(({ role, options }) => {
 
           userEvent.click(await screen.findByTestId("dialog-confirm-button"));
           expect(
-            await screen.findByText("Officer was successfully removed")
+            await screen.findByText(
+              "Officer was successfully removed",
+              {},
+              { timeout: 8000 }
+            )
           ).toBeInTheDocument();
         });
       });

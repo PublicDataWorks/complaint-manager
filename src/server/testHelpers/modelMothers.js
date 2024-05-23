@@ -54,7 +54,7 @@ export const createCase = async customCaseAttributes => {
     .defaultOfficer()
     .withFirstName("Bruce")
     .withLastName("Mario")
-    .withOfficerNumber(1)
+    .withEmployeeId(1)
     .withId(undefined);
 
   const complainantOfficer = await models.officer.create(
@@ -66,7 +66,7 @@ export const createCase = async customCaseAttributes => {
 
   const accusedOfficerAttributes = new Officer.Builder()
     .defaultOfficer()
-    .withOfficerNumber(2)
+    .withEmployeeId(2)
     .withId(undefined);
 
   const accusedOfficer = await models.officer.create(accusedOfficerAttributes, {

@@ -61,7 +61,7 @@ describe("officers", () => {
         firstName: "Johann",
         middleName: "",
         lastName: "Bach",
-        officerNumber: 1
+        employeeId: 1,
       });
 
       const officer = await models.officer.findOne({

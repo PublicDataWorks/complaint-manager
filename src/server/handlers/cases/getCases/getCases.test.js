@@ -510,7 +510,7 @@ describe("getCases", () => {
           new Officer.Builder()
             .defaultOfficer()
             .withId(undefined)
-            .withOfficerNumber(1)
+            .withEmployeeId(1),
         );
 
         const firstKnownOfficer = new CaseOfficer.Builder()
@@ -542,8 +542,8 @@ describe("getCases", () => {
         const secondOfficer = await models.officer.create(
           new Officer.Builder()
             .defaultOfficer()
-            .withId(undefined)
-            .withOfficerNumber(2),
+            .withEmployeeId(2)
+            .withId(undefined),
           {
             auditUser: "test"
           }
@@ -560,8 +560,8 @@ describe("getCases", () => {
         const thirdOfficer = await models.officer.create(
           new Officer.Builder()
             .defaultOfficer()
-            .withId(777)
-            .withOfficerNumber(5),
+            .withEmployeeId(5)
+            .withId(777),
           {
             auditUser: "test"
           }
@@ -803,8 +803,8 @@ describe("getCases", () => {
         const firstOfficer = await models.officer.create(
           new Officer.Builder()
             .defaultOfficer()
-            .withId(undefined)
-            .withOfficerNumber(1),
+            .withEmployeeId(1)
+            .withId(undefined),
           {
             auditUser: "user"
           }
@@ -841,8 +841,8 @@ describe("getCases", () => {
         const secondOfficer = await models.officer.create(
           new Officer.Builder()
             .defaultOfficer()
-            .withId(undefined)
-            .withOfficerNumber(2),
+            .withEmployeeId(2)
+            .withId(undefined),
           {
             auditUser: "user"
           }
@@ -1264,7 +1264,7 @@ describe("getCases", () => {
         officer1 = await models.officer.create(
           new Officer.Builder()
             .defaultOfficer()
-            .withOfficerNumber(456)
+            .withEmployeeId(456)
             .withId(456)
             .build(),
           { auditUser: "test" }
@@ -1273,7 +1273,7 @@ describe("getCases", () => {
         officer2 = await models.officer.create(
           new Officer.Builder()
             .defaultOfficer()
-            .withOfficerNumber(457)
+            .withEmployeeId(457)
             .withId(457)
             .build(),
           { auditUser: "test" }
@@ -1283,7 +1283,7 @@ describe("getCases", () => {
           new Officer.Builder()
             .defaultOfficer()
             .withLastName("Old")
-            .withOfficerNumber(458)
+            .withEmployeeId(458)
             .withId(458)
             .build(),
           { auditUser: "test" }
@@ -1360,7 +1360,7 @@ describe("getCases", () => {
             .withFirstName("Bob")
             .withMiddleName("M")
             .withLastName("Loblaw")
-            .withOfficerNumber(470)
+            .withEmployeeId(470)
             .withId(470)
             .build(),
           { auditUser: "test" }
@@ -1372,7 +1372,7 @@ describe("getCases", () => {
             .withFirstName("Hope")
             .withMiddleName("M")
             .withLastName("Loblaw")
-            .withOfficerNumber(471)
+            .withEmployeeId(471)
             .withId(471)
             .build(),
           { auditUser: "test" }

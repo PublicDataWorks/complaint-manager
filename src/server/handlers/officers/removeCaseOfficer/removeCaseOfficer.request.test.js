@@ -53,16 +53,14 @@ describe("DELETE /cases/:caseId/cases-officers/:caseOfficerId", () => {
     const officer1Attributes = new Officer.Builder()
       .defaultOfficer()
       .withId(undefined)
-      .withWindowsUsername(1)
-      .withOfficerNumber(1)
-      .withSupervisorOfficerNumber(undefined)
+      .withEmployeeId(1)
+      .withSupervisorEmployeeId(undefined)
       .build();
     const officer2Attributes = new Officer.Builder()
       .defaultOfficer()
       .withId(undefined)
-      .withWindowsUsername(2)
-      .withOfficerNumber(2)
-      .withSupervisorOfficerNumber(undefined)
+      .withEmployeeId(2)
+      .withSupervisorEmployeeId(undefined)
       .build();
     const createdOfficer1 = await models.officer.create(officer1Attributes);
     const createdOfficer2 = await models.officer.create(officer2Attributes);

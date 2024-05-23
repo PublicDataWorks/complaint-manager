@@ -6,7 +6,6 @@ import {
   COLORS
 } from "../dataVizStyling";
 import { QUERY_TYPES } from "../../../../../sharedUtilities/constants";
-import { truncateYValues } from "./countComplaintsByDistrict.model";
 
 export default class CountTop10Allegations extends BarGraphVisualization {
   get queryType() {
@@ -19,14 +18,26 @@ export default class CountTop10Allegations extends BarGraphVisualization {
       hovermode: "closest",
       hoverlabel: { bgcolor: "#FFF", align: "left" },
       dragmode: false,
+      showlegend: false,
       xaxis: {
-        showgrid: false,
-        zeroline: false,
+        title: "Number of Allegations",
+        showgrid: true,
+        zeroline: true,
         automargin: true,
-        showticklabels: false
+        showticklabels: true,
+        dtick: 1
+      },
+      yaxis: {
+        title: {
+          text: "Allegations",
+          standoff: 30
+        },
+        tickfont: {
+          size: 10
+        }
       },
       margin: {
-        l: 145,
+        l: 300,
         r: 0,
         b: 70,
         t: 130,
@@ -81,47 +92,73 @@ export default class CountTop10Allegations extends BarGraphVisualization {
   }
 
   transformData(rawData) {
-    let xValues = [];
-    let yValues = [];
-    let hoverValues = [];
-    let CHAR_LIMIT = 115;
+    const traces = [];
+
+    const buildTraceData = (
+      xValue = undefined,
+      yValue = undefined,
+      hoverText = undefined
+    ) => {
+      return {
+        x: xValue ? [xValue] : [],
+        y: yValue ? [yValue] : [],
+        type: "bar",
+        width: 0.75,
+        orientation: "h",
+        marker: {
+          color: COLORS[0]
+        },
+        textposition: "auto",
+        textangle: 0,
+        hoverinfo: hoverText ? "text" : "none",
+        hovertext: hoverText ? [hoverText] : []
+      };
+    };
 
     rawData.reverse();
 
-    const truncateValue = value => {
-      if (value?.length > CHAR_LIMIT) {
-        return value.substring(0, CHAR_LIMIT).concat("...");
-      }
-      return value;
+    if (rawData.length === 0) {
+      traces.push(buildTraceData());
+    }
+
+    const buildYValue = (rule, originalParagraph) => {
+      const CHARACTER_LIMIT = 40;
+      const paragraph = originalParagraph.replace(/paragraph/gi, "PAR.");
+      const paragraphToBeDisplayed =
+        paragraph.length > CHARACTER_LIMIT
+          ? paragraph.substring(0, CHARACTER_LIMIT) + "..."
+          : paragraph;
+
+      return rule + "<br>" + paragraphToBeDisplayed;
     };
 
-    rawData.forEach(({ count, rule, directive, paragraph }) => {
-      let directiveVal = directive ? directive : "";
-      xValues.push(count);
-      yValues.push(directive || rule);
-      hoverValues.push(paragraph + "<br>" + truncateValue(directiveVal));
+    const buildHoverText = (rule, paragraph) => {
+      let initialIndex = 0;
+      let endIndex = 40;
+
+      let hoverText = `${rule}<br>${paragraph.substring(
+        initialIndex,
+        endIndex
+      )}`;
+      while (paragraph.substring(endIndex).length > 0) {
+        initialIndex = endIndex;
+        endIndex += 40;
+        hoverText += `<br>${paragraph.substring(initialIndex, endIndex)}`;
+      }
+
+      hoverText += paragraph.substring(endIndex);
+
+      return hoverText;
+    };
+
+    rawData.forEach(item => {
+      const yValue = buildYValue(item.rule, item.paragraph);
+      const hoverText = buildHoverText(item.rule, item.paragraph);
+      traces.push(buildTraceData(item.count, yValue, hoverText));
     });
 
-    let truncatedYValues = truncateYValues(yValues);
-
-    let caseAllegationTrace = {
-      x: xValues,
-      y: truncatedYValues,
-      type: "bar",
-      width: 0.75,
-      orientation: "h",
-      marker: {
-        color: COLORS[0]
-      },
-      text: xValues,
-      textposition: "auto",
-      textangle: 0,
-      hovertext: hoverValues,
-      hoverinfo: "text"
-    };
-
     return {
-      data: [caseAllegationTrace]
+      data: traces
     };
   }
 }

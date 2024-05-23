@@ -433,6 +433,9 @@ jobs:
       - image: docker:stable
     steps:
       - checkout
+      - attach_workspace:
+          at: .
+      - run: ls /root/project/src/swagger
       - build-base-image:
           env: "ci"
           instance-image: << pipeline.parameters.instance-files-image-name-noipm >>
@@ -450,6 +453,9 @@ jobs:
       - image: docker:stable
     steps:
       - checkout
+      - attach_workspace:
+          at: .
+      - run: ls /root/project/src/swagger
       - build-base-image:
           env: "ci"
           instance-image: << pipeline.parameters.instance-files-image-name-hawaii >>
@@ -467,6 +473,9 @@ jobs:
       - image: docker:stable
     steps:
       - checkout
+      - attach_workspace:
+          at: .
+      - run: ls /root/project/src/swagger
       - build-base-image:
           env: playground
       - build-and-publish-app-image:
@@ -806,6 +815,9 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - run: ls /root/project/src/swagger
+      - attach_workspace:
+          at: .
       - build-base-image:
           env: staging
           version: $(cat version.txt)
@@ -824,6 +836,9 @@ jobs:
       - image: docker:stable
     steps:
       - checkout
+      - attach_workspace:
+          at: .
+      - run: ls /root/project/src/swagger
       - attach_workspace:
           at: .
       - build-base-image:
@@ -926,11 +941,22 @@ jobs:
           command: AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY yarn test:pact:server:ci
           environment:
             REACT_APP_INSTANCE_FILES_DIR: /root/project/src/instance-files-noipm
+      - run:
+          name: Generate Swagger Docs
+          command: yarn swaggerize
       - store_artifacts:
           name: Upload pact logs
           path: /root/project/pact/logs
           destination: .
           when: on_fail
+      - store_artifacts:
+          name: Upload swagger docs
+          path: /root/project/src/swagger
+          destination: .
+      - persist_to_workspace:
+          root: .
+          paths:
+            - src/swagger
 
   test-pact-hawaii:
     docker:
@@ -948,11 +974,22 @@ jobs:
           command: AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY yarn test:pact:server:ci
           environment:
             REACT_APP_INSTANCE_FILES_DIR: /root/project/src/instance-files-hawaii-csoc
+      - run:
+          name: Generate Swagger Docs
+          command: yarn swaggerize
       - store_artifacts:
           name: Upload pact logs
           path: /root/project/pact/logs
           destination: .
           when: on_fail
+      - store_artifacts:
+          name: Upload swagger docs
+          path: /root/project/src/swagger
+          destination: .
+      - persist_to_workspace:
+          root: .
+          paths:
+            - src/swagger
 
   update-search-indices-ci:
     docker:
@@ -1058,7 +1095,7 @@ workflows:
             - get-instance-files-latest-noipm
       - build-and-publish-master-noipm:
           requires:
-            - get-instance-files-latest-noipm
+            - test-pact-noipm
       - test-client-hawaii:
           requires:
             - get-instance-files-latest-hawaii
@@ -1070,7 +1107,7 @@ workflows:
             - get-instance-files-latest-hawaii
       - build-and-publish-master-hawaii:
           requires:
-            - get-instance-files-latest-hawaii
+            - test-pact-hawaii
       - deploy-no-to-ci:
           type: approval
           requires:

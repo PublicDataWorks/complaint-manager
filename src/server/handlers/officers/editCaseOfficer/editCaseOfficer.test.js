@@ -69,7 +69,6 @@ describe("editCaseOfficer", () => {
         .defaultOfficer()
         .withFirstName("Brandon")
         .withId(undefined)
-        .withOfficerNumber(200)
         .withHireDate("2018-01-12")
         .build();
 
@@ -92,10 +91,9 @@ describe("editCaseOfficer", () => {
         .withFirstName("Garret")
         .withMiddleName("Bobby")
         .withLastName("Freezer")
-        .withWindowsUsername(87654)
+        .withEmployeeId(201)
         .withId(undefined)
         .withHireDate("2008-01-12")
-        .withOfficerNumber(201)
         .build();
       const createdNewOfficer = await models.officer.create(newOfficer);
       const fieldsToUpdate = {
@@ -123,6 +121,7 @@ describe("editCaseOfficer", () => {
       const updatedCaseOfficer = await models.case_officer.findByPk(
         existingCaseOfficer.id
       );
+      console.log("updated Case officer", updatedCaseOfficer);
       expect(updatedCaseOfficer.officerId).toEqual(createdNewOfficer.id);
       expect(updatedCaseOfficer.firstName).toEqual(createdNewOfficer.firstName);
       expect(updatedCaseOfficer.middleName).toEqual(
@@ -131,7 +130,7 @@ describe("editCaseOfficer", () => {
       expect(updatedCaseOfficer.lastName).toEqual(createdNewOfficer.lastName);
       expect(updatedCaseOfficer.fullName).toEqual(createdNewOfficer.fullName);
       expect(updatedCaseOfficer.windowsUsername).toEqual(
-        createdNewOfficer.windowsUsername
+        createdNewOfficer.employeeId
       );
       expect(updatedCaseOfficer.phoneNumber).toEqual(
         fieldsToUpdate.phoneNumber
@@ -309,9 +308,8 @@ describe("editCaseOfficer", () => {
         .withFirstName("Super")
         .withMiddleName("G")
         .withLastName("Visor")
-        .withWindowsUsername(27705)
+        .withEmployeeId(27705)
         .withId(undefined)
-        .withOfficerNumber(444)
         .build();
       const supervisor = await models.officer.create(supervisorAttributes, {
         returning: true
@@ -322,9 +320,8 @@ describe("editCaseOfficer", () => {
         .withFirstName("Garret")
         .withMiddleName("Bobby")
         .withLastName("Freezer")
-        .withWindowsUsername(87654)
+        .withEmployeeId(87654)
         .withId(undefined)
-        .withOfficerNumber(201)
         .withSupervisor(supervisor)
         .build();
       const newOfficer = await models.officer.create(newOfficerAttributes, {
@@ -362,7 +359,7 @@ describe("editCaseOfficer", () => {
       expect(updatedCaseOfficer.lastName).toEqual(newOfficer.lastName);
       expect(updatedCaseOfficer.fullName).toEqual(newOfficer.fullName);
       expect(updatedCaseOfficer.windowsUsername).toEqual(
-        newOfficer.windowsUsername
+        newOfficer.employeeId
       );
       expect(updatedCaseOfficer.supervisorFirstName).toEqual(
         supervisor.firstName
@@ -374,7 +371,7 @@ describe("editCaseOfficer", () => {
         supervisor.lastName
       );
       expect(updatedCaseOfficer.supervisorWindowsUsername).toEqual(
-        supervisor.windowsUsername
+        supervisor.supervisorEmployeeId
       );
     });
 
@@ -384,10 +381,9 @@ describe("editCaseOfficer", () => {
         .withFirstName("Garret")
         .withMiddleName("Bobby")
         .withLastName("Freezer")
-        .withWindowsUsername(87654)
+        .withEmployeeId(87654)
         .withId(undefined)
-        .withOfficerNumber(201)
-        .withSupervisorOfficerNumber(null)
+        .withSupervisorEmployeeId(null)
         .build();
       const newOfficer = await models.officer.create(newOfficerAttributes, {
         returning: true
@@ -424,7 +420,7 @@ describe("editCaseOfficer", () => {
       expect(updatedCaseOfficer.lastName).toEqual(newOfficer.lastName);
       expect(updatedCaseOfficer.fullName).toEqual(newOfficer.fullName);
       expect(updatedCaseOfficer.windowsUsername).toEqual(
-        newOfficer.windowsUsername
+        newOfficer.employeeId
       );
       expect(updatedCaseOfficer.supervisorFirstName).toEqual(null);
       expect(updatedCaseOfficer.supervisorMiddleName).toEqual(null);
@@ -480,10 +476,9 @@ describe("editCaseOfficer", () => {
       .withFirstName("Garret")
       .withMiddleName("Bobby")
       .withLastName("Freezer")
-      .withWindowsUsername(87654)
+      .withEmployeeId(87654)
       .withId(undefined)
       .withHireDate("2008-01-12")
-      .withOfficerNumber(201)
       .build();
 
     const createdNewOfficer = await models.officer.create(newOfficer);
@@ -529,7 +524,7 @@ describe("editCaseOfficer", () => {
         .defaultOfficer()
         .withFirstName("Brandon")
         .withId(undefined)
-        .withOfficerNumber(200)
+        .withEmployeeId(200)
         .withHireDate("2018-01-12")
         .build();
 
@@ -538,7 +533,7 @@ describe("editCaseOfficer", () => {
       const existingComplainantOfficerAttributes = new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)
-        .withOfficerNumber(900);
+        .withEmployeeId(900);
 
       const existingComplainantOfficer = await models.officer.create(
         existingComplainantOfficerAttributes,
@@ -548,7 +543,7 @@ describe("editCaseOfficer", () => {
       const existingWitnessOfficerAttributes = new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)
-        .withOfficerNumber(500);
+        .withEmployeeId(500);
 
       const existingWitnessOfficer = await models.officer.create(
         existingWitnessOfficerAttributes,
@@ -584,6 +579,8 @@ describe("editCaseOfficer", () => {
         .withCaseOfficerId(existingCaseOfficer.id)
         .withAllegationId(existingAllegation.id)
         .build();
+
+      delete officerAllegationAttributes.customDirective;
 
       await models.officer_allegation.create(officerAllegationAttributes, {
         auditUser: "someone"

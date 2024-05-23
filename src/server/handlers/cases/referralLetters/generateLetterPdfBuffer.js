@@ -365,9 +365,24 @@ export const getLetterData = async caseId => {
   };
 
   let letterData = await models.cases.findByPk(caseId, queryOptions);
-
+  let data = letterData.toJSON();
+  // console.log(
+  //   "data before we tweaked it: ",
+  //   data.accusedOfficers[0].allegations
+  // );
+  data.accusedOfficers = data.accusedOfficers.map(officer => ({
+    ...officer,
+    allegations: officer.allegations.map(allegation => ({
+      ...allegation,
+      directive: allegation.directive || { name: allegation.customDirective }
+    }))
+  }));
+  // console.log(
+  //   "data AFTER we tweaked it: ",
+  //   data.accusedOfficers[0].allegations
+  // );
   return {
-    data: letterData.toJSON(),
+    data,
     auditDetails: getQueryAuditAccessDetails(queryOptions, models.cases.name)
   };
 };

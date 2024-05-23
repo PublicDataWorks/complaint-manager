@@ -86,7 +86,6 @@ class Case {
           .withOfficerAttributes(
             new Officer.Builder()
               .defaultOfficer()
-              .withOfficerNumber(456)
               .withId(456)
               .build()
           )
@@ -99,7 +98,6 @@ class Case {
           .withOfficerAttributes(
             new Officer.Builder()
               .defaultOfficer()
-              .withOfficerNumber(654)
               .withId(654)
               .build()
           )
@@ -112,7 +110,6 @@ class Case {
           .withOfficerAttributes(
             new Officer.Builder()
               .defaultOfficer()
-              .withOfficerNumber(565)
               .withId(565)
               .build()
           )

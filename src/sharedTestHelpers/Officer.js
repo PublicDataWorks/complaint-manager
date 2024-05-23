@@ -3,7 +3,6 @@ import { CASE_STATUS } from "../sharedUtilities/constants";
 class Officer {
   constructor(build) {
     this.id = build.id;
-    this.officerNumber = build.officerNumber;
     this.fullName = build.fullName;
     this.firstName = build.firstName;
     this.middleName = build.middleName;
@@ -17,10 +16,10 @@ class Officer {
     this.officerDistrict = build.officerDistrict;
     this.districtId = build.districtId;
     this.workStatus = build.workStatus;
-    this.supervisorOfficerNumber = build.supervisorOfficerNumber;
+    this.supervisorEmployeeId = build.supervisorEmployeeId;
     this.hireDate = build.hireDate;
     this.endDate = build.endDate;
-    this.windowsUsername = build.windowsUsername;
+    this.employeeId = build.employeeId;
     this.employeeType = build.employeeType;
   }
 
@@ -28,7 +27,6 @@ class Officer {
     class Builder {
       defaultOfficer() {
         this.id = 57;
-        this.officerNumber = 200;
         this.fullName = "Ugochi Grant Smith";
         this.firstName = "Ugochi";
         this.middleName = "Grant";
@@ -42,21 +40,16 @@ class Officer {
         this.officerDistrict = null;
         this.districtId = null;
         this.workStatus = CASE_STATUS.ACTIVE;
-        this.supervisorOfficerNumber = null;
+        this.supervisorEmployeeId = null;
         this.hireDate = "2008-04-30";
         this.endDate = "2009-04-30";
         this.employeeType = "Commissioned";
-        this.windowsUsername = 3241;
+        this.employeeId = 3241;
         return this;
       }
 
       withId(id) {
         this.id = id;
-        return this;
-      }
-
-      withOfficerNumber(officerNumber) {
-        this.officerNumber = officerNumber;
         return this;
       }
 
@@ -106,12 +99,12 @@ class Officer {
       }
 
       withSupervisor(officer) {
-        this.supervisorOfficerNumber = officer.windowsUsername;
+        this.supervisorEmployeeId = officer.employeeId;
         return this;
       }
 
-      withWindowsUsername(windowsUsername) {
-        this.windowsUsername = windowsUsername;
+      withEmployeeId(employeeId) {
+        this.employeeId = employeeId;
         return this;
       }
 
@@ -120,8 +113,8 @@ class Officer {
         return this;
       }
 
-      withSupervisorOfficerNumber(supervisorOfficerNumber) {
-        this.supervisorOfficerNumber = supervisorOfficerNumber;
+      withSupervisorEmployeeId(supervisorEmployeeId) {
+        this.supervisorEmployeeId = supervisorEmployeeId;
         return this;
       }
 

@@ -44,7 +44,7 @@ const buildOfficerAttributesForNewOfficer = async (
       firstName: newOfficer.firstName,
       middleName: newOfficer.middleName,
       lastName: newOfficer.lastName,
-      windowsUsername: newOfficer.windowsUsername,
+      windowsUsername: newOfficer.employeeId,
       bureau: newOfficer.bureau,
       rank: newOfficer.rank,
       race: newOfficer.race,
@@ -58,7 +58,7 @@ const buildOfficerAttributesForNewOfficer = async (
       email: email,
       employeeType: newOfficer.employeeType,
       workStatus: newOfficer.workStatus,
-      supervisorOfficerNumber: newOfficer.supervisorOfficerNumber,
+      supervisorWindowsUsername: newOfficer.supervisorEmployeeId,
       personTypeKey: personType
     },
     supervisorAttributes
@@ -66,19 +66,19 @@ const buildOfficerAttributesForNewOfficer = async (
 };
 
 const buildSupervisorAttributes = async newOfficer => {
-  if (!newOfficer.supervisorOfficerNumber) {
+  if (!newOfficer.supervisorEmployeeId) {
     return {};
   }
 
   const supervisor = await models.officer.findOne({
-    where: { windowsUsername: newOfficer.supervisorOfficerNumber }
+    where: { employeeId: newOfficer.supervisorEmployeeId }
   });
 
   return {
     supervisorFirstName: supervisor?.firstName,
     supervisorMiddleName: supervisor?.middleName,
     supervisorLastName: supervisor?.lastName,
-    supervisorWindowsUsername: supervisor?.windowsUsername
+    supervisorWindowsUsername: supervisor?.supervisorEmployeeId
   };
 };
 

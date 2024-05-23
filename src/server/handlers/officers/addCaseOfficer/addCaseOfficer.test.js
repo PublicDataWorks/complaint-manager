@@ -253,7 +253,7 @@ describe("addCaseOfficer", () => {
       .defaultOfficer()
       .withFirstName("Brandon")
       .withId(undefined)
-      .withOfficerNumber(200)
+      .withEmployeeId(200)
       .withHireDate("2018-01-12")
       .build();
 
@@ -337,7 +337,7 @@ describe("addCaseOfficer", () => {
       .defaultOfficer()
       .withFirstName("Brandon")
       .withId(undefined)
-      .withOfficerNumber(200)
+      .withEmployeeId(200)
       .withHireDate("2018-01-12")
       .build();
 
@@ -377,7 +377,7 @@ describe("addCaseOfficer", () => {
       .defaultOfficer()
       .withFirstName("Brandon")
       .withId(undefined)
-      .withOfficerNumber(200)
+      .withEmployeeId(200)
       .withHireDate("2018-01-12")
       .build();
 
@@ -416,7 +416,7 @@ describe("addCaseOfficer", () => {
       .defaultOfficer()
       .withFirstName("Brandon")
       .withId(undefined)
-      .withOfficerNumber(200)
+      .withEmployeeId(200)
       .withHireDate("2018-01-12")
       .build();
 
@@ -453,7 +453,7 @@ describe("addCaseOfficer", () => {
       .defaultOfficer()
       .withFirstName("Brandon")
       .withId(undefined)
-      .withOfficerNumber(200)
+      .withEmployeeId(200)
       .withHireDate("2018-01-12")
       .build();
 

@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.67.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.66.0...v3.67.0) (2024-05-22)
+
+
+### Features
+
+* Andrew [[#467](https://github.com/PublicDataWorks/complaint-manager/issues/467)] arranges incident details display based on feature flag ([1a2ee7b](https://github.com/PublicDataWorks/complaint-manager/commit/1a2ee7bef42a1fbebd3e62a85d59cc057e9dcfa8))
+* Andrew [[#467](https://github.com/PublicDataWorks/complaint-manager/issues/467)] removes unwanted fields from incident details dialog ([075c253](https://github.com/PublicDataWorks/complaint-manager/commit/075c253646000d9446c2d6fe843654114fa8e516))
+
+
+### Bug Fixes
+
+* Andrew fixes config.yml ([7115c1f](https://github.com/PublicDataWorks/complaint-manager/commit/7115c1f0a5b89958e7b20911fb59756b13c93b24))
+* fixes debug command in config.yml ([5715381](https://github.com/PublicDataWorks/complaint-manager/commit/571538191ef09349ee56898a2d39a7f62f543793))
+* fixes debug command in config.yml better ([fd59f53](https://github.com/PublicDataWorks/complaint-manager/commit/fd59f534012ba2537406deaf63bbef43e3d427fc))
+* fixes persist path in config.yml ([2b86148](https://github.com/PublicDataWorks/complaint-manager/commit/2b861486860253f6211bc8842f2de6b0628563b5))
+
+### [3.66.2](https://github.com/PublicDataWorks/complaint-manager/compare/v3.66.0...v3.66.2) (2024-05-20)
+
+### [3.66.1](https://github.com/PublicDataWorks/complaint-manager/compare/v3.66.0...v3.66.1) (2024-05-17)
+
+## [3.66.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.65.2...v3.66.0) (2024-05-10)
+
+
+### Features
+
+* [[#599](https://github.com/PublicDataWorks/complaint-manager/issues/599)] Add checkbox to filter dashboard by case status ([5ec1b03](https://github.com/PublicDataWorks/complaint-manager/commit/5ec1b038d9750bc07eb3f81b51c540afa2cf4efe))
+* [[#599](https://github.com/PublicDataWorks/complaint-manager/issues/599)] Add test for checkbox to filter dashboard by case status ([09d1f1f](https://github.com/PublicDataWorks/complaint-manager/commit/09d1f1f9e27cd48e26d02f3804de447dc3b318ed))
+* [[#599](https://github.com/PublicDataWorks/complaint-manager/issues/599)] Add test for checkbox to filter dashboard by case status ([ac78f37](https://github.com/PublicDataWorks/complaint-manager/commit/ac78f37148a393a0e41aaa42c3857776c765774d))
+
 ### [3.65.3](https://github.com/PublicDataWorks/complaint-manager/compare/v3.65.2...v3.65.3) (2024-04-24)
 
 ### [3.65.2](https://github.com/PublicDataWorks/complaint-manager/compare/v3.65.1...v3.65.2) (2024-04-19)

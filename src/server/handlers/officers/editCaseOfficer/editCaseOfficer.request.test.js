@@ -49,7 +49,7 @@ describe("PUT /cases/:id/cases-officers/:caseOfficerId", () => {
   test("it updates the case officer", async () => {
     const existingOfficer = new Officer.Builder()
       .defaultOfficer()
-      .withOfficerNumber(123)
+      .withEmployeeId(123)
       .build();
     const createdOfficer = await models.officer.create(existingOfficer);
 

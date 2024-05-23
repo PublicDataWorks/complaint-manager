@@ -474,12 +474,12 @@ describe("getCaseHelpers", () => {
 async function createCaseOfficer(
   existingCase,
   role,
-  officerNumber,
+  employeeId,
   dateCreated
 ) {
   const officerAttributes = new Officer.Builder()
     .defaultOfficer()
-    .withOfficerNumber(officerNumber)
+    .withEmployeeId(employeeId)
     .withId(undefined);
 
   const officer = await models.officer.create(officerAttributes, {
@@ -569,13 +569,13 @@ const createAnonymousUnknownCivilian = async (
 
 const createAnonymousCaseOfficer = async (
   existingCase,
-  officerNumber,
+  employeeId,
   role,
   dateCreated
 ) => {
   const officerAttributes = new Officer.Builder()
     .defaultOfficer()
-    .withOfficerNumber(officerNumber)
+    .withEmployeeId(employeeId)
     .withId(undefined);
 
   const officer = await models.officer.create(officerAttributes, {

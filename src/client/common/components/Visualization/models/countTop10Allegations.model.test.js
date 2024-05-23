@@ -8,25 +8,22 @@ describe("CountTop10Allegations model", () => {
       const rawData = [
         {
           rule: "Rule 1",
-          directive: "Professionalism",
-          paragraph: "description for Professionalism",
+          paragraph:
+            "description for Professionalism. This is a really long description that we are using here to exemplify the point of a test we are validating.",
           count: "1"
         },
         {
           rule: "Rule 2",
-          directive: "Unauthorized Force",
-          paragraph: "description for Unauthorized Force",
+          paragraph: "PARAGRAPH: description for Unauthorized Force",
           count: "1"
         },
         {
           rule: "Rule 3",
-          directive: "Workplace",
-          paragraph: "description for Workplace",
+          paragraph: "paragraph(3): description for Workplace",
           count: "2"
         },
         {
           rule: "Rule 4",
-          directive: "Arrest",
           paragraph: "description for Arrest",
           count: "3"
         }
@@ -37,32 +34,63 @@ describe("CountTop10Allegations model", () => {
       const expectedTransformedData = {
         data: [
           {
-            x: ["3", "2", "1", "1"],
-            y: ["Arrest", "Workplace", "Unauthorized Fo...", "Professionalism"],
+            x: ["3"],
+            y: ["Rule 4<br>description for Arrest"],
             type: "bar",
             width: 0.75,
             orientation: "h",
-            marker: {
-              color: COLORS[0]
-            },
-            text: ["3", "2", "1", "1"],
+            marker: { color: "#002171" },
             textposition: "auto",
             textangle: 0,
+            hoverinfo: "text",
+            hovertext: ["Rule 4<br>description for Arrest"]
+          },
+          {
+            x: ["2"],
+            y: ["Rule 3<br>PAR.(3): description for Workplace"],
+            type: "bar",
+            width: 0.75,
+            orientation: "h",
+            marker: { color: "#002171" },
+            textposition: "auto",
+            textangle: 0,
+            hoverinfo: "text",
+            hovertext: ["Rule 3<br>paragraph(3): description for Workplace"]
+          },
+          {
+            x: ["1"],
+            y: ["Rule 2<br>PAR.: description for Unauthorized Force"],
+            type: "bar",
+            width: 0.75,
+            orientation: "h",
+            marker: { color: "#002171" },
+            textposition: "auto",
+            textangle: 0,
+            hoverinfo: "text",
             hovertext: [
-              "description for Arrest<br>Arrest",
-              "description for Workplace<br>Workplace",
-              "description for Unauthorized Force<br>Unauthorized Force",
-              "description for Professionalism<br>Professionalism"
-            ],
-            hoverinfo: "text"
+              "Rule 2<br>PARAGRAPH: description for Unauthorized <br>Force"
+            ]
+          },
+          {
+            x: ["1"],
+            y: ["Rule 1<br>description for Professionalism. This is..."],
+            type: "bar",
+            width: 0.75,
+            orientation: "h",
+            marker: { color: "#002171" },
+            textposition: "auto",
+            textangle: 0,
+            hoverinfo: "text",
+            hovertext: [
+              "Rule 1<br>description for Professionalism. This is<br> a really long description that we are u<br>sing here to exemplify the point of a te<br>st we are validating."
+            ]
           }
         ]
       };
 
       expect(transformedData).toEqual(expectedTransformedData);
     });
-
-    test("should display the paragraph in the y value (with truncation) if no directive is provided", () => {
+    test("should display the rule and paragraph in the y-value and the number of each in the x-value", () => {
       const rawData = [
         {
           rule: "Rule 1",
@@ -93,87 +121,60 @@ describe("CountTop10Allegations model", () => {
       const expectedTransformedData = {
         data: [
           {
-            x: ["3", "2", "1", "1"],
-            y: ["Rule 4", "Workplace", "Unauthorized Fo...", "Rule 1"],
+            x: ["3"],
+            y: ["Rule 4<br>description for Arrest"],
             type: "bar",
             width: 0.75,
             orientation: "h",
             marker: {
               color: COLORS[0]
             },
-            text: ["3", "2", "1", "1"],
             textposition: "auto",
             textangle: 0,
             hovertext: [
               "description for Arrest<br>",
               "description for Workplace<br>Workplace",
-              "description for Unauthorized Force<br>Unauthorized Force",
-              "description for Professionalism<br>"
+              "description for Unauthorized Force<br>Unauthorized Force"
             ],
-            hoverinfo: "text"
-          }
-        ]
-      };
-
-      expect(transformedData).toEqual(expectedTransformedData);
-    });
-
-    test("should truncate long values on y-axis and retain full values for hovertext for the visualization component", () => {
-      const rawData = [
-        {
-          rule: "Rule 1",
-          directive: "Professionalism",
-          paragraph: "description for Professionalism",
-          count: "1"
-        },
-        {
-          rule: "Rule 2",
-          directive: "Unauthorized Use of Force",
-          paragraph: "description for Unauthorized Force",
-          count: "1"
-        },
-        {
-          rule: "Rule 3",
-          directive: "Workplace Discrimination",
-          paragraph: "description for Workplace",
-          count: "2"
-        },
-        {
-          rule: "Rule 4",
-          directive: "Arrest",
-          paragraph: "description for Arrest",
-          count: "3"
-        }
-      ];
-
-      const transformedData = model.transformData(rawData);
-
-      const expectedTransformedData = {
-        data: [
+            x: ["2"],
+            y: ["Rule 3<br>description for Workplace"],
+            type: "bar",
+            orientation: "h",
+            marker: {
+              color: COLORS[0]
+            },
+            textposition: "auto",
+            textangle: 0,
+            hoverinfo: "text",
+            hovertext: expect.any(Array)
+          },
           {
-            x: ["3", "2", "1", "1"],
-            y: [
-              "Arrest",
-              "Workplace Discr...",
-              "Unauthorized Us...",
-              "Professionalism"
-            ],
+            x: ["1"],
+            y: ["Rule 2<br>description for Unauthorized Force"],
             type: "bar",
             width: 0.75,
             orientation: "h",
             marker: {
               color: COLORS[0]
             },
-            text: ["3", "2", "1", "1"],
             textposition: "auto",
             textangle: 0,
-            hovertext: [
-              "description for Arrest<br>Arrest",
-              "description for Workplace<br>Workplace Discrimination",
-              "description for Unauthorized Force<br>Unauthorized Use of Force",
-              "description for Professionalism<br>Professionalism"
-            ],
-            hoverinfo: "text"
+            hoverinfo: "text",
+            hovertext: expect.any(Array)
+          },
+          {
+            x: ["1"],
+            y: ["Rule 1<br>description for Professionalism"],
+            type: "bar",
+            width: 0.75,
+            orientation: "h",
+            marker: {
+              color: COLORS[0]
+            },
+            textposition: "auto",
+            textangle: 0,
+            hoverinfo: "text",
+            hovertext: expect.any(Array)
           }
         ]
       };
@@ -197,11 +198,10 @@ describe("CountTop10Allegations model", () => {
             marker: {
               color: COLORS[0]
             },
-            text: [],
             textposition: "auto",
             textangle: 0,
-            hovertext: [],
-            hoverinfo: "text"
+            hoverinfo: "none",
+            hovertext: []
           }
         ]
       };

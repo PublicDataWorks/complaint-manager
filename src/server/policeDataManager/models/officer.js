@@ -12,10 +12,6 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    officerNumber: {
-      type: DataTypes.INTEGER,
-      field: "officer_number"
-    },
     firstName: {
       type: DataTypes.STRING,
       field: "first_name"
@@ -80,9 +76,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       field: "work_status"
     },
-    supervisorOfficerNumber: {
+    supervisorEmployeeId: {
       type: DataTypes.INTEGER,
-      field: "supervisor_officer_number"
+      field: "supervisor_employee_id"
     },
     hireDate: {
       type: DataTypes.DATEONLY,
@@ -101,9 +97,9 @@ module.exports = (sequelize, DataTypes) => {
       ]),
       field: "employee_type"
     },
-    windowsUsername: {
+    employeeId: {
       type: DataTypes.INTEGER,
-      field: "windows_username"
+      field: "employee_id"
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -127,11 +123,11 @@ module.exports = (sequelize, DataTypes) => {
     Officer.belongsTo(models.officer, {
       as: "supervisor",
       foreignKey: {
-        name: "supervisorOfficerNumber",
-        field: "supervisor_officer_number",
+        name: "supervisorEmployeeId",
+        field: "supervisor_employee_id",
         allowNull: true
       },
-      targetKey: "officerNumber"
+      targetKey: "employeeId"
     });
     Officer.belongsTo(models.district, {
       as: "officerDistrict",

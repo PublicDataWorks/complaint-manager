@@ -17,6 +17,7 @@ import {
   USER_PERMISSIONS,
   SHOW_FORM
 } from "../../../sharedUtilities/constants";
+import { getFeaturesSuccess } from "../../../client/policeDataManager/actionCreators/featureTogglesActionCreators";
 
 const { PD } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
@@ -776,7 +777,8 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
       generateLetterButton: options.includes(GENERATE_LETTER_BUTTON),
       chooseComplaintType: options.includes(COMPLAINT_TYPES),
       allowAllTypesToBeAccused: options.includes(CIVILIAN_ACCUSED),
-      choosePersonTypeInAddDialog: options.includes(CHOOSE_PERSON_TYPE)
+      choosePersonTypeInAddDialog: options.includes(CHOOSE_PERSON_TYPE),
+      policeIncidentDetails: true
     }
   });
 

@@ -6,32 +6,45 @@ import createConfiguredStore from "../../createConfiguredStore";
 import { getUsersSuccess } from "../../common/actionCreators/usersActionCreators";
 
 describe("UserAvatar", () => {
- let store;
+  let store;
   beforeEach(() => {
     store = createConfiguredStore();
-    store.dispatch(getUsersSuccess([
-      { email: 'test@gmail.com', name: 'Tom Edwards' },
-    ]))})
-  test("should parse the first 2 letters of user's name and display in upper case", async () => {
-   
-    render(<Provider store={store}><UserAvatar email="test@gmail.com" /></Provider>);
+    store.dispatch(
+      getUsersSuccess([{ email: "test@gmail.com", name: "Tom Edwards" }])
+    );
+  });
+
+  test("should parse first letter from user first name and last name", async () => {
+    render(
+      <Provider store={store}>
+        <UserAvatar email="test@gmail.com" />
+      </Provider>
+    );
 
     await waitFor(() => {
-      const avatarElement = screen.getByTestId("tooltip-TE"); 
-      expect(avatarElement).toBeTruthy(); 
-      expect(avatarElement.title).toEqual('test@gmail.com');
-      expect(avatarElement.textContent).toEqual('TE'); 
+      const avatarElement = screen.getByTestId("tooltip-TE");
+      expect(avatarElement).toBeTruthy();
+      expect(avatarElement.title).toEqual("test@gmail.com");
+      expect(avatarElement.textContent).toEqual("TE");
     });
   });
 
   it("should display full email on mouse hover", () => {
-    render(<Provider store={store}><UserAvatar email="test@gmail.com"></UserAvatar></Provider>);
+    render(
+      <Provider store={store}>
+        <UserAvatar email="test@gmail.com"></UserAvatar>
+      </Provider>
+    );
     fireEvent.mouseMove(screen.getByTitle("test@gmail.com"));
     expect(screen.getByTestId("tooltip-TE")).toBeTruthy();
   });
 
-    it("should not display avatar unless an email is provided", () => {
-    render(<Provider store={store}><UserAvatar></UserAvatar></Provider>);
+  it("should not display avatar unless an email is provided", () => {
+    render(
+      <Provider store={store}>
+        <UserAvatar></UserAvatar>
+      </Provider>
+    );
     expect(screen.getByTestId("no-avatar")).toBeTruthy();
   });
 });
