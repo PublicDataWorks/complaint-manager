@@ -17,7 +17,18 @@ import createConfiguredStore from "../../../../createConfiguredStore";
 import EditGeneralLetter from "./EditGeneralLetter";
 import SharedSnackbarContainer from "../../../shared/components/SharedSnackbarContainer";
 
-jest.mock("../../../shared/components/RichTextEditor/RichTextEditor");
+jest.mock(
+  "../../../shared/components/RichTextEditor/RichTextEditor",
+  () => props =>
+    (
+      <input
+        type="text"
+        data-testid={props["data-testid"]}
+        onChange={props.onChange}
+        value={props.input.value}
+      />
+    )
+);
 
 describe("Edit General Letter Html", () => {
   let store, dispatchSpy;

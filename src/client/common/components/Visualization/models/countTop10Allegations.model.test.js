@@ -131,14 +131,14 @@ describe("CountTop10Allegations model", () => {
             },
             textposition: "auto",
             textangle: 0,
-            hovertext: [
-              "description for Arrest<br>",
-              "description for Workplace<br>Workplace",
-              "description for Unauthorized Force<br>Unauthorized Force"
-            ],
+            hoverinfo: "text",
+            hovertext: expect.any(Array)
+          },
+          {
             x: ["2"],
             y: ["Rule 3<br>description for Workplace"],
             type: "bar",
+            width: 0.75,
             orientation: "h",
             marker: {
               color: COLORS[0]

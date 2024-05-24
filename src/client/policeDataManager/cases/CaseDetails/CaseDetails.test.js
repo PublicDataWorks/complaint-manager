@@ -1,11 +1,10 @@
 import React from "react";
 import createConfiguredStore from "../../../createConfiguredStore";
-import { mount } from "enzyme/build/index";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import CaseDetails from "./CaseDetails";
 import { Provider } from "react-redux";
-import NavBar from "../../shared/components/NavBar/NavBar";
 import { BrowserRouter as Router } from "react-router-dom";
-import { containsText } from "../../../testHelpers";
 import { mockLocalStorage } from "../../../../mockLocalStorage";
 import Case from "../../../../sharedTestHelpers/case";
 import getCaseDetails from "../thunks/getCaseDetails";
@@ -35,6 +34,7 @@ import { scrollToTop } from "../../../ScrollToTop";
 import { clearOfficerPanelData } from "../../actionCreators/accusedOfficerPanelsActionCreators";
 import { clearHighlightedCaseNote } from "../../actionCreators/highlightCaseNoteActionCreators";
 import { userTimezone } from "../../../common/helpers/userTimezone";
+import nock from "nock";
 
 require("../../testUtilities/MockMutationObserver");
 
@@ -61,7 +61,7 @@ jest.mock("../thunks/updateNarrative", () => () => ({
 jest.mock("./PersonOnCaseDialog/MapServices/MapService");
 
 describe("Case Details Component", () => {
-  let caseDetails, expectedCase, dispatchSpy, store;
+  let unmount, expectedCase, dispatchSpy, store;
 
   beforeEach(() => {
     const incidentDateInUTC = "2017-12-25T06:00Z";
@@ -69,6 +69,26 @@ describe("Case Details Component", () => {
 
     store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
+
+    nock("http://localhost")
+      .get("/api/priority-levels")
+      .reply(() => [200, ["One", 1]]);
+
+    nock("http://localhost")
+      .get("/api/priority-reasons")
+      .reply(() => [200, ["Disaster", 1]]);
+
+    nock("http://localhost")
+      .get("/api/cases/612/case-notes")
+      .reply(() => [200, []]);
+
+    nock("http://localhost")
+      .get("/api/case-statuses")
+      .reply(() => [200, [{ id: 1, name: "Initial", orderKey: 0 }]]);
+
+    nock("http://localhost")
+      .get("/api/users")
+      .reply(() => [200, []]);
 
     expectedCase = new Case.Builder()
       .defaultCase()
@@ -100,13 +120,15 @@ describe("Case Details Component", () => {
       users: [{ email: expectedCase.assignedTo, name: "Fungi" }]
     });
 
-    caseDetails = mount(
+    const result = render(
       <Provider store={store}>
         <Router>
           <CaseDetails match={{ params: { id: expectedCase.id.toString() } }} />
         </Router>
       </Provider>
     );
+
+    unmount = result.unmount;
   });
 
   test("should dispatch get case details action on mount", () => {
@@ -121,14 +143,6 @@ describe("Case Details Component", () => {
     previousCase.nextStatus = CASE_STATUS.ACTIVE;
 
     store.dispatch(getCaseDetailsSuccess(previousCase));
-
-    caseDetails = mount(
-      <Provider store={store}>
-        <Router>
-          <CaseDetails match={{ params: { id: expectedCase.id.toString() } }} />
-        </Router>
-      </Provider>
-    );
 
     expect(dispatchSpy).toHaveBeenCalledWith(
       getCaseDetails(expectedCase.id.toString())
@@ -148,13 +162,11 @@ describe("Case Details Component", () => {
       })
     );
 
-    caseDetails.update();
-
     expect(scrollToTop).toHaveBeenCalled();
   });
 
   test("should dispatch close dialogs and clear highlighted case note action on unmount", () => {
-    caseDetails.unmount();
+    unmount();
     expect(dispatchSpy).toHaveBeenCalledWith(reset(NARRATIVE_FORM));
     expect(dispatchSpy).toHaveBeenCalledWith(clearOfficerPanelData());
     expect(dispatchSpy).toHaveBeenCalledWith(closeEditCivilianDialog());
@@ -170,17 +182,17 @@ describe("Case Details Component", () => {
 
   describe("nav bar", () => {
     test("should display with case reference", () => {
-      const navBar = caseDetails.find(NavBar);
+      const navBar = screen.getByTestId("header");
       const expectedFormattedName = `Case #${expectedCase.caseReference}`;
 
-      containsText(navBar, '[data-testid="pageTitle"]', expectedFormattedName);
+      expect(screen.getByTestId("pageTitle").textContent).toContain(
+        expectedFormattedName
+      );
     });
 
     test("should display with case status", () => {
-      const navBar = caseDetails.find(NavBar);
-      containsText(
-        navBar,
-        '[data-testid="caseStatusBox"]',
+      const navBar = screen.getByTestId("header");
+      expect(screen.getByTestId("caseStatusBox").textContent).toEqual(
         expectedCase.status
       );
     });
@@ -188,57 +200,47 @@ describe("Case Details Component", () => {
 
   describe("drawer", () => {
     test("should provide an option to go back to all cases", () => {
-      containsText(
-        caseDetails,
-        '[data-testid="all-cases-link"]',
+      expect(screen.getByTestId("all-cases-link").textContent).toEqual(
         "Back to all Cases"
       );
     });
 
     test("should display Case # as a default section title", () => {
-      containsText(
-        caseDetails,
-        '[data-testid="case-reference"]',
+      expect(screen.getByTestId("case-reference").textContent).toEqual(
         `Case #${expectedCase.caseReference}`
       );
     });
 
     test("should display created on date", () => {
-      containsText(caseDetails, '[data-testid="created-on"]', "Sep 13, 2015");
+      expect(screen.getByTestId("created-on").textContent).toEqual(
+        "Sep 13, 2015"
+      );
     });
 
     test("should display complaint type", () => {
-      containsText(
-        caseDetails,
-        '[data-testid="complaint-type"]',
+      expect(screen.getByTestId("complaint-type").textContent).toEqual(
         expectedCase.complaintType
       );
     });
 
     test("should display created by user", () => {
-      containsText(
-        caseDetails,
-        '[data-testid="created-by"]',
+      expect(screen.getByTestId("created-by").textContent).toEqual(
         expectedCase.createdBy
       );
     });
 
     test("should display assigned to user", () => {
-      containsText(caseDetails, '[data-testid="assigned-to"]', "Fungi");
+      expect(screen.getByTestId("assigned-to").textContent).toEqual("Fungi");
     });
   });
 
   describe("main", () => {
     test("should open Add Civilian Dialog when Add Civilian button is clicked", () => {
-      const addButton = caseDetails
-        .find('button[data-testid="addPersonOnCase"]')
-        .first();
-      addButton.simulate("click");
+      const addButton = screen.getAllByTestId("addPersonOnCase")[0];
+      userEvent.click(addButton);
 
-      const addCivilian = caseDetails.find(
-        'li[data-testid="addCivilianPersonOnCase"]'
-      );
-      addCivilian.simulate("click");
+      const addCivilian = screen.getByTestId("addCivilianPersonOnCase");
+      userEvent.click(addCivilian);
 
       expect(dispatchSpy).toHaveBeenCalledWith(
         openCivilianDialog("Add Civilian", "Create", createCivilian)
@@ -250,10 +252,8 @@ describe("Case Details Component", () => {
         type: GET_FEATURES_SUCCEEDED,
         features: { choosePersonTypeInAddDialog: true }
       });
-      const addButton = caseDetails
-        .find('button[data-testid="addPersonOnCase"]')
-        .first();
-      addButton.simulate("click");
+      const addButton = screen.getAllByTestId("addPersonOnCase")[0];
+      userEvent.click(addButton);
 
       expect(dispatchSpy).toHaveBeenCalledWith(
         openCivilianDialog("Add Person to Case", "Create", createCivilian)
@@ -261,24 +261,18 @@ describe("Case Details Component", () => {
     });
 
     test("should open dialog when remove civilian button is clicked", () => {
-      const removeComplainantButton = caseDetails
-        .find('[data-testid="removeCivilianLink"]')
-        .first();
-      removeComplainantButton.simulate("click");
+      const removeComplainantButton =
+        screen.getAllByTestId("removeCivilianLink")[1];
+      userEvent.click(removeComplainantButton);
 
       expect(
-        caseDetails
-          .find('[data-testid="confirmation-dialog-RemoveCivilian"]')
-          .first()
-          .text()
+        screen.getByTestId("confirmation-dialog-RemoveCivilian").textContent
       ).toContain("Remove Civilian");
     });
 
     test("should open and initialize Case Note Dialog when Add Case Note button is clicked", () => {
-      const addCaseNoteButton = caseDetails.find(
-        'button[data-testid="addCaseNoteButton"]'
-      );
-      addCaseNoteButton.simulate("click");
+      const addCaseNoteButton = screen.getByTestId("addCaseNoteButton");
+      userEvent.click(addCaseNoteButton);
 
       expect(dispatchSpy).toHaveBeenCalledWith(
         initialize("CaseNotes", {
@@ -287,9 +281,7 @@ describe("Case Details Component", () => {
             .format("YYYY-MM-DDTHH:mm")
         })
       );
-      expect(
-        caseDetails.find('[data-testid="caseNoteDialogTitle"]').exists()
-      ).toBeTrue();
+      expect(screen.getByTestId("caseNoteDialogTitle")).toBeTruthy();
     });
   });
 
@@ -303,13 +295,9 @@ describe("Case Details Component", () => {
         }
       });
 
-      caseDetails.update();
+      const addButton = screen.getAllByTestId("addPersonOnCase")[1];
 
-      const addButton = caseDetails
-        .find('button[data-testid="addPersonOnCase"]')
-        .at(2);
-
-      addButton.simulate("click");
+      userEvent.click(addButton);
 
       expect(dispatchSpy).toHaveBeenCalledWith(
         openCivilianDialog("Add Person to Case", "Create", createCivilian)
@@ -325,13 +313,9 @@ describe("Case Details Component", () => {
         }
       });
 
-      caseDetails.update();
+      const addAccusedMenuButton = screen.getByTestId("addAccusedMenu");
 
-      const addAccusedMenuButton = caseDetails
-        .find('[data-testid="addAccusedMenu"]')
-        .first();
-
-      expect(addAccusedMenuButton.exists()).toBeTruthy();
+      expect(addAccusedMenuButton).toBeTruthy();
     });
   });
 
@@ -345,13 +329,9 @@ describe("Case Details Component", () => {
         }
       });
 
-      caseDetails.update();
+      const addButton = screen.getAllByTestId("addPersonOnCase")[1];
 
-      const addButton = caseDetails
-        .find('button[data-testid="addPersonOnCase"]')
-        .at(2);
-
-      addButton.simulate("click");
+      userEvent.click(addButton);
 
       expect(dispatchSpy).toHaveBeenCalledWith(
         openCivilianDialog("Add Person to Case", "Create", createCivilian)
@@ -367,13 +347,9 @@ describe("Case Details Component", () => {
         }
       });
 
-      caseDetails.update();
+      const addAccusedMenuButton = screen.getByTestId("addAccusedMenu");
 
-      const addAccusedMenuButton = caseDetails
-        .find('[data-testid="addAccusedMenu"]')
-        .first();
-
-      expect(addAccusedMenuButton.exists()).toBeTruthy();
+      expect(addAccusedMenuButton).toBeTruthy();
     });
   });
 });

@@ -1,5 +1,5 @@
 import createConfiguredStore from "../../../../createConfiguredStore";
-import { mount } from "enzyme";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import React from "react";
@@ -16,6 +16,7 @@ import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 import { push } from "connected-react-router";
 import history from "../../../../history";
 import { initialize } from "redux-form";
+import userEvent from "@testing-library/user-event";
 
 require("../../../testUtilities/MockMutationObserver");
 
@@ -36,6 +37,19 @@ jest.mock(
     referralLetterHtml,
     url
   })
+);
+
+jest.mock(
+  "../../../shared/components/RichTextEditor/RichTextEditor",
+  () => props =>
+    (
+      <input
+        type="text"
+        data-testid={props["data-testid"]}
+        onChange={props.onChange}
+        value={props.input.value}
+      />
+    )
 );
 
 describe("Edit Referral Letter Html", () => {
@@ -63,7 +77,7 @@ describe("Edit Referral Letter Html", () => {
       })
     );
 
-    wrapper = mount(
+    render(
       <Provider store={store}>
         <Router>
           <EditReferralLetter match={{ params: { id: caseId } }} />
@@ -82,36 +96,28 @@ describe("Edit Referral Letter Html", () => {
     );
     expect(dispatchSpy).toHaveBeenCalledWith(getReferralLetterPreview(caseId));
 
-    wrapper.update();
-
-    const quillEditor = wrapper.find("Quill").first();
-    expect(quillEditor.props().value).toEqual(initialLetterHtml);
+    expect(screen.getByTestId("editLetterInput").value).toEqual(
+      initialLetterHtml
+    );
   });
 
   test("open cancel dialog when clicking cancel button only when letter is 'dirty'", () => {
-    const cancelButton = wrapper.find("[data-testid='cancel-button']").first();
-    cancelButton.simulate("click");
+    const cancelButton = screen.getByTestId("cancel-button");
+    userEvent.click(cancelButton);
 
-    expect(wrapper.find("[data-testid='dialog-cancel-button']")).toHaveLength(
-      0
-    );
+    expect(screen.queryAllByTestId("dialog-cancel-button")).toHaveLength(0);
 
-    const input = wrapper.find("Quill").first();
-    input.props().onChange("testing");
+    const input = screen.getByTestId("editLetterInput");
+    userEvent.type(input, "testing");
 
-    wrapper.update();
+    userEvent.click(cancelButton);
 
-    cancelButton.simulate("click");
-
-    const cancelEditLetterDialog = wrapper
-      .find("[data-testid='dialog-cancel-button']")
-      .first();
-    expect(cancelEditLetterDialog.length).toEqual(1);
+    expect(screen.getAllByTestId("dialog-cancel-button")).toHaveLength(1);
   });
 
   test("should redirect to letter-preview when clicking cancel button on 'pristine' letter", () => {
-    const cancelButton = wrapper.find("[data-testid='cancel-button']").first();
-    cancelButton.simulate("click");
+    const cancelButton = screen.getByTestId("cancel-button");
+    userEvent.click(cancelButton);
 
     expect(dispatchSpy).toHaveBeenCalledWith(
       push(`/cases/${caseId}/letter/letter-preview`)
@@ -119,14 +125,10 @@ describe("Edit Referral Letter Html", () => {
   });
 
   test("open cancel dialog and do not save edits when clicking any stepper button only when letter is 'dirty'", () => {
-    const statusStepper = wrapper
-      .find("[data-testid='step-button-Review Case Details']")
-      .first();
-    statusStepper.simulate("click");
+    const statusStepper = screen.getByTestId("step-button-Review Case Details");
+    userEvent.click(statusStepper);
 
-    expect(wrapper.find("[data-testid='dialog-cancel-button']")).toHaveLength(
-      0
-    );
+    expect(screen.queryAllByTestId("dialog-cancel-button")).toHaveLength(0);
 
     expect(dispatchSpy).not.toHaveBeenCalledWith(editReferralLetterContent());
 
@@ -134,95 +136,77 @@ describe("Edit Referral Letter Html", () => {
       push(`/cases/${caseId}/letter/review`)
     );
 
-    const input = wrapper.find("Quill").first();
-    input.props().onChange("testing");
+    const input = screen.getByTestId("editLetterInput");
+    userEvent.type(input, "testing");
 
-    wrapper.update();
+    userEvent.click(statusStepper);
 
-    statusStepper.simulate("click");
-
-    const cancelEditLetterDialog = wrapper
-      .find("[data-testid='dialog-cancel-button']")
-      .first();
-    expect(cancelEditLetterDialog.length).toEqual(1);
+    expect(screen.getAllByTestId("dialog-cancel-button")).toHaveLength(1);
   });
 
   test("open cancel dialog and not save edits when clicking back to case button only when letter is 'dirty'", () => {
-    const backToCaseButton = wrapper
-      .find("[data-testid='save-and-return-to-case-link']")
-      .first();
-    backToCaseButton.simulate("click");
+    const backToCaseButton = screen.getByTestId("save-and-return-to-case-link");
+    userEvent.click(backToCaseButton);
 
-    expect(wrapper.find("[data-testid='dialog-cancel-button']")).toHaveLength(
-      0
-    );
+    expect(screen.queryAllByTestId("dialog-cancel-button")).toHaveLength(0);
 
     expect(dispatchSpy).not.toHaveBeenCalledWith(editReferralLetterContent());
 
     expect(dispatchSpy).toHaveBeenCalledWith(push(`/cases/${caseId}`));
 
-    const input = wrapper.find("Quill").first();
-    input.props().onChange("testing");
+    const input = screen.getByTestId("editLetterInput");
+    userEvent.type(input, "testing");
 
-    wrapper.update();
+    userEvent.click(backToCaseButton);
 
-    backToCaseButton.simulate("click");
-
-    const cancelEditLetterDialog = wrapper
-      .find("[data-testid='dialog-cancel-button']")
-      .first();
+    const cancelEditLetterDialog = screen.getAllByTestId(
+      "dialog-cancel-button"
+    );
     expect(cancelEditLetterDialog.length).toEqual(1);
   });
 
   test("open cancel dialog and not save edits when clicking nav bar buttons", () => {
     history.push("/");
 
-    expect(wrapper.find("[data-testid='dialog-cancel-button']")).toHaveLength(
-      0
-    );
+    expect(screen.queryAllByTestId("dialog-cancel-button")).toHaveLength(0);
 
     expect(dispatchSpy).not.toHaveBeenCalledWith(editReferralLetterContent());
 
-    const input = wrapper.find("Quill").first();
-    input.props().onChange("testing");
+    const input = screen.getByTestId("editLetterInput");
+    userEvent.type(input, "testing");
 
     history.push("/");
-    wrapper.update();
-
-    const cancelEditLetterDialog = wrapper
-      .find("[data-testid='dialog-cancel-button']")
-      .first();
+    const cancelEditLetterDialog = screen.getAllByTestId(
+      "dialog-cancel-button"
+    );
     expect(cancelEditLetterDialog.length).toEqual(1);
   });
 
   test("open cancel dialog and not save edits when clicking logout", () => {
     history.push("/logout");
 
-    expect(wrapper.find("[data-testid='dialog-cancel-button']")).toHaveLength(
-      0
-    );
+    expect(screen.queryAllByTestId("dialog-cancel-button")).toHaveLength(0);
 
     expect(dispatchSpy).not.toHaveBeenCalledWith(editReferralLetterContent());
 
-    const input = wrapper.find("Quill").first();
-    input.props().onChange("testing");
+    const input = screen.getByTestId("editLetterInput");
+    userEvent.type(input, "testing");
 
     history.push("/logout");
-    wrapper.update();
-
-    const cancelEditLetterDialog = wrapper
-      .find("[data-testid='dialog-cancel-button']")
-      .first();
+    const cancelEditLetterDialog = screen.getAllByTestId(
+      "dialog-cancel-button"
+    );
     expect(cancelEditLetterDialog.length).toEqual(1);
   });
 
-  test("does not open cancel dialog and saves edits when clicking save button", () => {
+  test("does not open cancel dialog and saves edits when clicking save button", async () => {
     console.warn = () => {};
-    const input = wrapper.find("Quill").first();
-    input.props().onChange("<p>Letter Preview HTML change </p>");
+    const input = screen.getByTestId("editLetterInput");
+    userEvent.clear(input);
+    userEvent.type(input, "<p>Letter Preview HTML change </p>");
 
-    const saveButton = wrapper.find("[data-testid='save-button']").first();
-    saveButton.simulate("click");
+    const saveButton = screen.getByTestId("save-button");
+    userEvent.click(saveButton);
 
     const expectedFormValues = {
       editedLetterHtml: "<p>Letter Preview HTML change</p>"

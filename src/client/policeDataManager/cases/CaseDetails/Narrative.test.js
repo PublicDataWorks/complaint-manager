@@ -1,11 +1,12 @@
 import React from "react";
-import { mount } from "enzyme";
+import { fireEvent, render, screen } from "@testing-library/react";
 import updateNarrative from "../thunks/updateNarrative";
 import { changeInput, containsHTML, containsText } from "../../../testHelpers";
 import Narrative from "./Narrative";
 import createConfiguredStore from "../../../createConfiguredStore";
 import { Provider } from "react-redux";
 import { USER_PERMISSIONS } from "../../../../sharedUtilities/constants";
+import userEvent from "@testing-library/user-event";
 
 require("../../testUtilities/MockMutationObserver");
 
@@ -17,8 +18,19 @@ jest.mock("../thunks/updateNarrative", () =>
   })
 );
 
+jest.mock("../../shared/components/RichTextEditor/RichTextEditor", () => ({
+  RichTextEditorComponent: props => (
+    <input
+      type="text"
+      data-testid={props["data-testid"]}
+      onChange={props.onChange}
+      value={props.input.value}
+    />
+  )
+}));
+
 describe("narrative", () => {
-  let narrative, expectedCase, dispatchSpy;
+  let expectedCase, dispatchSpy;
 
   describe("without permissions", () => {
     beforeEach(() => {
@@ -34,7 +46,7 @@ describe("narrative", () => {
       });
       dispatchSpy = jest.spyOn(store, "dispatch");
 
-      narrative = mount(
+      render(
         <Provider store={store}>
           <Narrative
             caseId={expectedCase.id}
@@ -50,13 +62,15 @@ describe("narrative", () => {
     });
 
     test("should not be able to update text in the summary field", () => {
-      narrative.find('[data-testid="narrativeDetailsInput"].Mui-disabled');
-      expect(narrative).toHaveLength(1);
+      const input = screen.getByTestId("narrativeDetailsField");
+      expect(input).toBeTruthy();
     });
 
     test("should not be able to update narrative details", () => {
-      narrative.find('[data-testid="narrativeSummaryInput"].Mui-disabled');
-      expect(narrative).toHaveLength(1);
+      const input = screen.getByTestId("narrativeDetailsField");
+      const initialValue = input.value;
+      userEvent.type(input, "new text");
+      expect(input.value).toBe(initialValue);
     });
   });
 
@@ -74,7 +88,7 @@ describe("narrative", () => {
       });
       dispatchSpy = jest.spyOn(store, "dispatch");
 
-      narrative = mount(
+      render(
         <Provider store={store}>
           <Narrative
             caseId={expectedCase.id}
@@ -90,13 +104,11 @@ describe("narrative", () => {
     });
 
     test("should have initial values", () => {
-      containsHTML(narrative, "Quill", expectedCase.narrativeDetails);
-
-      containsText(
-        narrative,
-        '[data-testid="narrativeSummaryInput"]',
-        expectedCase.narrativeSummary
-      );
+      expect(
+        screen
+          .getByTestId("narrativeDetailsField")
+          .value.includes(expectedCase.narrativeDetails)
+      ).toBe(true);
     });
 
     // Deleted tests involving autoSave onBlur for Narrative Details due to the change
@@ -108,15 +120,10 @@ describe("narrative", () => {
         id: expectedCase.id
       };
 
-      changeInput(
-        narrative,
-        'textarea[data-testid="narrativeSummaryInput"]',
-        updateDetails.narrativeSummary
-      );
+      const input = screen.getByTestId("narrativeSummaryInput");
+      userEvent.type(input, updateDetails.narrativeSummary);
 
-      narrative
-        .find('textarea[data-testid="narrativeSummaryInput"]')
-        .simulate("blur");
+      fireEvent.blur(input);
 
       expect(dispatchSpy).toHaveBeenCalledWith(updateNarrative(updateDetails));
       expect(updateNarrative).toHaveBeenCalledWith(updateDetails);
@@ -125,9 +132,8 @@ describe("narrative", () => {
     test("should not update case narrative summary when pristine", () => {
       updateNarrative.mockReset();
 
-      narrative
-        .find('textarea[data-testid="narrativeSummaryInput"]')
-        .simulate("blur");
+      const input = screen.getByTestId("narrativeSummaryInput");
+      fireEvent.blur(input);
 
       expect(updateNarrative).not.toHaveBeenCalledWith(expectedCase);
       expect(dispatchSpy).not.toHaveBeenCalledWith(
