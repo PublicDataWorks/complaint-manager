@@ -22,7 +22,8 @@ export default class CountTop10Tags extends BarGraphVisualization {
         showgrid: false,
         zeroline: false,
         automargin: true,
-        showticklabels: false
+        tickangle: 0,
+        showticklabels: true
       },
       margin: {
         l: 145,
@@ -31,7 +32,7 @@ export default class CountTop10Tags extends BarGraphVisualization {
         t: 130,
         pad: 10
       },
-      font: LABEL_FONT,
+      font: LABEL_FONT, // font size is set to a fixed number
       title: {
         text: "Top Tags",
         font: TITLE_FONT
@@ -78,37 +79,56 @@ export default class CountTop10Tags extends BarGraphVisualization {
     };
   }
 
+  get dataProps() {
+    return this.rawData.map(item => ({
+      x: addLineBreaks(item.tag),
+      y: item.count,
+      type: "bar"
+    }));
+  }
+
   transformData(rawData) {
-    let xValues = [];
-    let yValues = [];
-
+    const traceData = (xValue = undefined, yValue = undefined) => {
+      return {
+        x: xValue ? [xValue] : [],
+        y: yValue ? [yValue] : [],
+        type: "bar",
+        width: 0.75,
+        orientation: "h",
+        marker: {
+          color: COLORS[0]
+        },
+        textposition: "auto",
+        textangle: 0
+      };
+    };
     rawData.reverse();
+    const traces = [];
+    if (rawData.length === 0) {
+      traces.push(traceData());
+    }
 
-    rawData.forEach(({ count, name }) => {
-      xValues.push(count);
-      yValues.push(name);
+    rawData.forEach(item => {
+      let name = item.name;
+      let formattedName = "";
+
+      while (name.length > 0) {
+        if (name.length > 14) {
+          let spaceIndex = name.lastIndexOf(" ", 14);
+          if (spaceIndex === -1) spaceIndex = 14;
+          formattedName += name.substring(0, spaceIndex) + "<br>";
+          name = name.substring(spaceIndex).trim();
+        } else {
+          formattedName += name;
+          name = "";
+        }
+      }
+
+      traces.push(traceData(item.count, formattedName));
     });
 
-    let truncatedYValues = truncateYValues(yValues);
-
-    let caseTagTrace = {
-      x: xValues,
-      y: truncatedYValues,
-      type: "bar",
-      width: 0.75,
-      orientation: "h",
-      marker: {
-        color: COLORS[0]
-      },
-      text: xValues,
-      textposition: "auto",
-      textangle: 0,
-      hovertext: yValues,
-      hoverinfo: "text"
-    };
-
     return {
-      data: [caseTagTrace]
+      data: traces
     };
   }
 }
