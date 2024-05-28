@@ -69,6 +69,8 @@ export default class CountTop10Allegations extends BarGraphVisualization {
 
   get mobileLayout() {
     return {
+      height: 500,
+      width: 600,
       font: { ...PUBLIC_LABEL_FONT, size: 10 }
     };
   }

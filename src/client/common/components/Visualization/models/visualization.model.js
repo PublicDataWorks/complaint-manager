@@ -67,10 +67,10 @@ export default class Visualization {
 
     if (isPublic) {
       aggregateLayout = { ...aggregateLayout, ...currentExtendedLayout };
-
-      if (isMobile) {
-        aggregateLayout = { ...aggregateLayout, ...currentMobileLayout };
-      }
+    }
+    
+    else if (isMobile) {
+      aggregateLayout = { ...aggregateLayout, ...currentMobileLayout };
     }
 
     if (options.dateRangeType) {

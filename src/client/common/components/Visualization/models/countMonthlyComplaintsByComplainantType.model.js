@@ -15,6 +15,7 @@ export default class CountMonthlyComplaintsByComplainantType extends Visualizati
 
   get baseLayout() {
     return {
+      width: 1600,
       barmode: "group",
       dragmode: false,
       font: LABEL_FONT,
@@ -27,7 +28,7 @@ export default class CountMonthlyComplaintsByComplainantType extends Visualizati
 
   get extendedLayout() {
     return {
-      width: 800,
+      width: 1600,
       title: null,
       font: PUBLIC_LABEL_FONT,
       plot_bgcolor: "#F5F4F4",
@@ -43,6 +44,14 @@ export default class CountMonthlyComplaintsByComplainantType extends Visualizati
       }
     };
   }
+
+  // get mobileLayout() {
+  //   return {
+  //     height: 500,
+  //     width: 600,
+  //   };
+  // }
+    
 
   get layoutProps() {
     return {
