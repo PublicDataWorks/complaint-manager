@@ -29,19 +29,52 @@ describe("CountTop10Tags model", () => {
       const expectedTransformedData = {
         data: [
           {
-            x: ["3", "2", "1", "1"],
-            y: ["Chicago hot dog...", "Tofu", "sabs", "karancitoooooo"],
+            x: ["3"],
+            y: ["Chicago hot<br>dogs"],
             type: "bar",
             width: 0.75,
             orientation: "h",
             marker: {
-              color: COLORS[0]
+              color: "#002171"
             },
-            text: ["3", "2", "1", "1"],
             textposition: "auto",
-            textangle: 0,
-            hovertext: ["Chicago hot dogs", "Tofu", "sabs", "karancitoooooo"],
-            hoverinfo: "text"
+            textangle: 0
+          },
+          {
+            x: ["2"],
+            y: ["Tofu"],
+            type: "bar",
+            width: 0.75,
+            orientation: "h",
+            marker: {
+              color: "#002171"
+            },
+            textposition: "auto",
+            textangle: 0
+          },
+          {
+            x: ["1"],
+            y: ["sabs"],
+            type: "bar",
+            width: 0.75,
+            orientation: "h",
+            marker: {
+              color: "#002171"
+            },
+            textposition: "auto",
+            textangle: 0
+          },
+          {
+            x: ["1"],
+            y: ["karancitoooooo"],
+            type: "bar",
+            width: 0.75,
+            orientation: "h",
+            marker: {
+              color: "#002171"
+            },
+            textposition: "auto",
+            textangle: 0
           }
         ]
       };
@@ -49,23 +82,11 @@ describe("CountTop10Tags model", () => {
       expect(transformedData).toEqual(expectedTransformedData);
     });
 
-    test("should truncate long values on y-axis and retain full values for hovertext for the visualization component", () => {
+    test("should wrap the text of long values on y-axis", () => {
       const rawData = [
         {
           name: "Chicago deep dish pizza",
           count: "1"
-        },
-        {
-          name: "Tofu",
-          count: "1"
-        },
-        {
-          name: "The Museum of Science and Industry",
-          count: "2"
-        },
-        {
-          name: "Cars",
-          count: "3"
         }
       ];
 
@@ -74,29 +95,16 @@ describe("CountTop10Tags model", () => {
       const expectedTransformedData = {
         data: [
           {
-            x: ["3", "2", "1", "1"],
-            y: [
-              "Cars",
-              "The Museum of S...",
-              "Tofu",
-              "Chicago deep di..."
-            ],
+            x: ["1"],
+            y: ["Chicago deep<br>dish pizza"],
             type: "bar",
             width: 0.75,
             orientation: "h",
             marker: {
-              color: COLORS[0]
+              color: "#002171"
             },
-            text: ["3", "2", "1", "1"],
             textposition: "auto",
-            textangle: 0,
-            hovertext: [
-              "Cars",
-              "The Museum of Science and Industry",
-              "Tofu",
-              "Chicago deep dish pizza"
-            ],
-            hoverinfo: "text"
+            textangle: 0
           }
         ]
       };
@@ -120,11 +128,8 @@ describe("CountTop10Tags model", () => {
             marker: {
               color: COLORS[0]
             },
-            text: [],
             textposition: "auto",
-            textangle: 0,
-            hovertext: [],
-            hoverinfo: "text"
+            textangle: 0
           }
         ]
       };

@@ -33,7 +33,7 @@ class DataDashboard extends Component {
               display: "flex",
               flexDirection: "row",
               justifyContent: "start",
-              flexWrap: "wrap"
+              flexWrap: "wrap",
             }}
           >
             <Visualization
@@ -52,6 +52,15 @@ class DataDashboard extends Component {
               }}
               hasDropdown={true}
             />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "start",
+              flexWrap: "wrap"
+            }}
+          >
             <Visualization
               data-testid={"complainantTypeGraphYTD"}
               queryModel={new CountComplaintsByComplainantType()}
@@ -109,6 +118,8 @@ class DataDashboard extends Component {
                 />
               </div>
             )}
+          </div>
+          <div>
             {this.props.topAllegationsVisualizationFeature && (
               <div style={{ width: "800px", marginLeft: "5px" }}>
                 <Visualization
