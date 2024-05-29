@@ -34,17 +34,16 @@ const MAKE_NULL = `
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     try {
-      await queryInterface.sequelize.transaction(async transaction => {
-        await queryInterface.sequelize.query(RENAME_TO_EMPLOYEE_ID, {
-          transaction
-        });
-      });
+      // await queryInterface.sequelize.transaction(async transaction => {
+      //   await queryInterface.sequelize.query(RENAME_TO_EMPLOYEE_ID, {
+      //     transaction
+      //   });
+      // });
       await queryInterface.sequelize.transaction(async transaction => {
         await queryInterface.sequelize.query(MAKE_UNIQUE, {
           transaction
         });
-      });
-      await queryInterface.sequelize.transaction(async transaction => {
+      
         await queryInterface.sequelize.query(MAKE_NOT_NULL, {
           transaction
         });
