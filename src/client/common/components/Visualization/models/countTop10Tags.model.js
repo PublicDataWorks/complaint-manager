@@ -15,6 +15,8 @@ export default class CountTop10Tags extends BarGraphVisualization {
 
   get baseLayout() {
     return {
+      height: 600,
+      width: 800,
       barmode: "group",
       hovermode: "closest",
       dragmode: false,
@@ -58,6 +60,8 @@ export default class CountTop10Tags extends BarGraphVisualization {
 
   get mobileLayout() {
     return {
+      height: 500,
+      width: 600,
       font: { ...PUBLIC_LABEL_FONT, size: 10 }
     };
   }

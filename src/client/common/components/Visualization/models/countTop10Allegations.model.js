@@ -14,6 +14,8 @@ export default class CountTop10Allegations extends BarGraphVisualization {
 
   get baseLayout() {
     return {
+      height: 600,
+      width: 800,
       barmode: "group",
       hovermode: "closest",
       hoverlabel: { bgcolor: "#FFF", align: "left" },

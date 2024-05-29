@@ -16,6 +16,7 @@ export default class CountMonthlyComplaintsByComplainantType extends Visualizati
   get baseLayout() {
     return {
       width: 1600,
+      height:800,
       barmode: "group",
       dragmode: false,
       font: LABEL_FONT,
@@ -45,12 +46,12 @@ export default class CountMonthlyComplaintsByComplainantType extends Visualizati
     };
   }
 
-  // get mobileLayout() {
-  //   return {
-  //     height: 500,
-  //     width: 600,
-  //   };
-  // }
+  get mobileLayout() {
+    return {
+      height: 500,
+      width: 600,
+    };
+  }
     
 
   get layoutProps() {

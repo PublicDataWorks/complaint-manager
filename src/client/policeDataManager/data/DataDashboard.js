@@ -78,7 +78,7 @@ class DataDashboard extends Component {
               hasDropdown={true}
             />
           </div>
-          <div>
+          <div >
             <Visualization
               data-testid={"complainantTypePast12MonthsGraph"}
               queryModel={new CountMonthlyComplaintsByComplainantType()}
