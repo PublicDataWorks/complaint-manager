@@ -24,6 +24,10 @@ export default class Visualization {
     return {};
   }
 
+  get midSizeLayout() {
+    return {};
+  }
+
   get layoutProps() {
     return {};
   }
@@ -54,7 +58,8 @@ export default class Visualization {
     options = {},
     isPublic = false,
     isMobile = false,
-    newData = {}
+    newData = {},
+    isMidSize = false
   }) {
     let aggregateLayout = this.baseLayout;
 
@@ -64,12 +69,17 @@ export default class Visualization {
 
     const currentExtendedLayout = this.extendedLayout;
     const currentMobileLayout = this.mobileLayout;
+    const currentMidSizeLayout = this.midSizeLayout;
 
     if (isPublic) {
       aggregateLayout = { ...aggregateLayout, ...currentExtendedLayout };
     }
-    
-    else if (isMobile) {
+
+    if (isMidSize) {
+      aggregateLayout = { ...aggregateLayout, ...currentMidSizeLayout };
+    }
+
+    if (isMobile) {
       aggregateLayout = { ...aggregateLayout, ...currentMobileLayout };
     }
 
