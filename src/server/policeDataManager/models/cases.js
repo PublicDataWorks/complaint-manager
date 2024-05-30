@@ -50,6 +50,7 @@ module.exports = (sequelize, DataTypes) => {
    * @property pibCaseNumber {string} - The external case number related to the case
    * @property createdBy {string} - The username of the user who created the case
    * @property assignedTo {string} - The username of the user to whom the case is assigned
+   * @property facilityId {number} - a foreign key to the facilities table indicating the facility where the incident took place
    *
    * Associations:
    * @property audit (One to Many) - changes/data accesses on the case
@@ -76,6 +77,7 @@ module.exports = (sequelize, DataTypes) => {
    * @property caseTags (Many to Many) - The tags applied to the case (associated through case_tags table)
    * @property status (Many to One) - The status of the case (statuses have their own table so that different orgs can have different statuses)
    * @property complaintType (Many to One) - The type of complaint
+   * @property facilityId (One to One) - The facility where the incident occurred
    */
   const Case = sequelize.define(
     "cases",
@@ -247,6 +249,15 @@ module.exports = (sequelize, DataTypes) => {
         field: "deleted_at",
         type: DataTypes.DATE,
         as: "deletedAt"
+      },
+      facilityId: {
+        field: "facility_id",
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+          model: models.facility,
+          key: "id"
+        }
       }
     },
     {
@@ -487,6 +498,14 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: {
         name: "isDefault",
         field: "is_default"
+      }
+    });
+    Case.belongsTo(models.facility, {
+      as: "facility",
+      foreignKey: {
+        name: "facilityId",
+        field: "facility_id",
+        allowNull: true
       }
     });
   };
