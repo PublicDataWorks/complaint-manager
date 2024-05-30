@@ -19,7 +19,7 @@ pactWith(
     });
     describe("Change Complaint Type Dialog", () => {
       beforeEach(async () => {
-        setUpCaseDetailsPage(provider, "hasComplaintTypes");
+        await setUpCaseDetailsPage(provider, "hasComplaintTypes");
         userEvent.click(await screen.findByTestId("complaintButton"));
       });
       test("should change complaint type", async () => {
