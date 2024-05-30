@@ -6,6 +6,7 @@
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "build": "INLINE_RUNTIME_CHUNK=false react-scripts --max_old_space_size=5120 build && babel src --out-dir dist --copy-files",
+    "cypress": "npx cypress run all tests",
     "drop:db": "sequelize db:drop",
     "e2e": "yarn e2e:pdm",
     "e2e:pdm": "./scripts/run-e2e-pdm.sh",
@@ -173,6 +174,7 @@
     "chromedriver": "94.0.0",
     "compare-pdf": "^1.1.6",
     "concurrently": "6.3.0",
+    "cypress": "^13.10.0",
     "enzyme": "3.11.0",
     "enzyme-to-json": "3.6.2",
     "jest-extended": "^0.11.1",
