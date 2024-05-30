@@ -30,10 +30,12 @@ describe("CountTop10Tags model", () => {
         data: [
           {
             x: ["3"],
-            y: ["Chicago hot<br>dogs"],
+            y: ["Chicago hot dogs"],
             type: "bar",
             width: 0.75,
             orientation: "h",
+            hovertemplate: "Chicago hot dogs<extra></extra>",
+            showlegend: false,
             marker: {
               color: "#002171"
             },
@@ -46,6 +48,8 @@ describe("CountTop10Tags model", () => {
             type: "bar",
             width: 0.75,
             orientation: "h",
+            hovertemplate: "Tofu<extra></extra>",
+            showlegend: false,
             marker: {
               color: "#002171"
             },
@@ -57,6 +61,8 @@ describe("CountTop10Tags model", () => {
             y: ["sabs"],
             type: "bar",
             width: 0.75,
+            hovertemplate: "sabs<extra></extra>",
+            showlegend: false,
             orientation: "h",
             marker: {
               color: "#002171"
@@ -70,6 +76,8 @@ describe("CountTop10Tags model", () => {
             type: "bar",
             width: 0.75,
             orientation: "h",
+            hovertemplate: "karancitoooooo<extra></extra>",
+            showlegend: false,
             marker: {
               color: "#002171"
             },
@@ -96,10 +104,12 @@ describe("CountTop10Tags model", () => {
         data: [
           {
             x: ["1"],
-            y: ["Chicago deep<br>dish pizza"],
+            y: ["Chicago deep dish<br>pizza"],
             type: "bar",
             width: 0.75,
             orientation: "h",
+            hovertemplate: "Chicago deep dish<br>pizza<extra></extra>",
+            showlegend: false,
             marker: {
               color: "#002171"
             },
@@ -123,6 +133,8 @@ describe("CountTop10Tags model", () => {
             x: [],
             y: [],
             type: "bar",
+            hovertemplate: "undefined<extra></extra>",
+            showlegend: false,
             width: 0.75,
             orientation: "h",
             marker: {

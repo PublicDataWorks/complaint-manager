@@ -20,6 +20,7 @@ export default class CountTop10Tags extends BarGraphVisualization {
       barmode: "group",
       hovermode: "closest",
       dragmode: false,
+      showLegend: false,
       xaxis: {
         showgrid: false,
         zeroline: false,
@@ -34,7 +35,7 @@ export default class CountTop10Tags extends BarGraphVisualization {
         t: 130,
         pad: 10
       },
-      font: LABEL_FONT, // font size is set to a fixed number
+      font: LABEL_FONT,
       title: {
         text: "Top Tags",
         font: TITLE_FONT
@@ -97,6 +98,8 @@ export default class CountTop10Tags extends BarGraphVisualization {
         x: xValue ? [xValue] : [],
         y: yValue ? [yValue] : [],
         type: "bar",
+        showlegend: false,
+        hovertemplate: `${yValue}<extra></extra>`,
         width: 0.75,
         orientation: "h",
         marker: {
@@ -117,9 +120,9 @@ export default class CountTop10Tags extends BarGraphVisualization {
       let formattedName = "";
 
       while (name.length > 0) {
-        if (name.length > 14) {
-          let spaceIndex = name.lastIndexOf(" ", 14);
-          if (spaceIndex === -1) spaceIndex = 14;
+        if (name.length > 20) {
+          let spaceIndex = name.lastIndexOf(" ", 20);
+          if (spaceIndex === -1) spaceIndex = 20;
           formattedName += name.substring(0, spaceIndex) + "<br>";
           name = name.substring(spaceIndex).trim();
         } else {
