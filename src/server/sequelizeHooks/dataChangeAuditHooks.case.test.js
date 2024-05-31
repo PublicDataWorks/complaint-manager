@@ -70,7 +70,8 @@ describe("dataChangeAuditHooks", () => {
           caseEmployeeType: "Officer"
         })
         .withAssignedTo("originalAssignedToPerson")
-        .withCreatedBy("createdByPerson");
+        .withCreatedBy("createdByPerson")
+        .withFacilityId(null);
 
       const emailIntakeSourceAttributes = new IntakeSource.Builder()
         .defaultIntakeSource()
@@ -146,7 +147,8 @@ describe("dataChangeAuditHooks", () => {
         statusId: { new: 1 },
         caseNumber: { new: 1 },
         primaryComplainant: {},
-        year: { new: 2017 }
+        year: { new: 2017 },
+        facilityId: { new: null }
       };
       expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });
@@ -190,7 +192,8 @@ describe("dataChangeAuditHooks", () => {
         intakeSource: { new: emailIntakeSource.name },
         caseNumber: { new: 1 },
         primaryComplainant: {},
-        year: { new: 2017 }
+        year: { new: 2017 },
+        facilityId: { new: null }
       };
       expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });
@@ -238,7 +241,8 @@ describe("dataChangeAuditHooks", () => {
         },
         caseNumber: { new: 1 },
         primaryComplainant: {},
-        year: { new: 2017 }
+        year: { new: 2017 },
+        facilityId: { new: null }
       };
       expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });
@@ -438,7 +442,8 @@ describe("dataChangeAuditHooks", () => {
         .withNarrativeDetails("original narrative details")
         .withAssignedTo("originalAssignedToPerson")
         .withIntakeSourceId(emailIntakeSource.id)
-        .withCreatedBy("createdByPerson");
+        .withCreatedBy("createdByPerson")
+        .withFacilityId(null);
       existingCase = await models.cases.create(initialCaseAttributes, {
         auditUser: "someone"
       });
@@ -622,7 +627,8 @@ describe("dataChangeAuditHooks", () => {
         caseReferencePrefix: existingCase.caseReferencePrefix,
         caseReference: existingCase.caseReference,
         year: 2017,
-        pibCaseNumber: null
+        pibCaseNumber: null,
+        facilityId: null
       };
       expect(audit.dataChangeAudit.snapshot).toEqual(
         expect.objectContaining(expectedSnapshot)
