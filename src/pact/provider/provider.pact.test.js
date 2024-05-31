@@ -695,8 +695,8 @@ describe("Pact Verification", () => {
           }
         },
         "intake sources exist": setupIntakeSources,
-        "priority reasons exsist": setupPriorityLevels,
-        "priority levels exsist": setupPriorityReasons,
+        "priority reasons exist": setupPriorityReasons,
+        "priority levels exist": setupPriorityLevels,
         "how did you hear about us sources exist":
           setupHowDidYouHearAboutUsSources,
         "case note actions exist": setupCaseNoteActions,
@@ -725,7 +725,7 @@ describe("Pact Verification", () => {
             console.log(error);
           }
         },
-        "Case exists; districts exist; intake sources exsist; how did you hear about us sources exist":
+        "Case exists; districts exist; intake sources exist; how did you hear about us sources exist":
           async () => {
             try {
               await Promise.all([

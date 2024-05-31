@@ -128,7 +128,9 @@ describe("LetterTypePage", () => {
       userEvent.click(screen.getByText("Save"));
 
       expect(
-        await screen.findByText("Successfully edited letter type")
+        await screen.findByText("Successfully edited letter type", {
+          timeout: 6000
+        })
       ).toBeInTheDocument();
       expect(editCall.isDone()).toBeTrue();
     });

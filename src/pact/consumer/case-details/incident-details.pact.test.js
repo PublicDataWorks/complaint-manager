@@ -27,7 +27,7 @@ pactWith(
       test("should change incident details", async () => {
         await provider.addInteraction({
           state:
-            "Case exists; districts exist; intake sources exsist; how did you hear about us sources exist",
+            "Case exists; districts exist; intake sources exist; how did you hear about us sources exist",
           uponReceiving: "edit incident details",
           withRequest: {
             method: "PUT",
