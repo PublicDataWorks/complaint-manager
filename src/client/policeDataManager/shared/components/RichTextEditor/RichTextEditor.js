@@ -29,8 +29,8 @@ class RichTextEditor extends React.Component {
   //   this.setState({ text: nextProps.initialValue });
   //   this.props.onChange(nextProps.initialValue);
   // }
-  
-// The above code is depracted.  I asked co pilot to update with new syntax
+
+  // The above code is depracted.  I asked co pilot to update with new syntax
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.initialValue !== prevState.text) {
       nextProps.onChange(nextProps.initialValue);
@@ -84,9 +84,7 @@ class RichTextEditor extends React.Component {
 const RichTextEditorContainer = connect()(RichTextEditor);
 
 export const RichTextEditorComponent = props => {
-  console.log("RichTextEditorComponent: props", props);
   if (!props.input) {
-    console.error("RichTextEditorComponent: props.input is undefined");
     return null;
   }
   return (
