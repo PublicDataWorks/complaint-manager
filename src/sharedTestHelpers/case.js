@@ -49,6 +49,7 @@ class Case {
     this.primaryComplainant = build.primaryComplainant;
     this.isCase = build.isCase;
     this.pibCaseNumber = build.pibCaseNumber;
+    this.facilityId = build.facilityId;
     if (build.defaultPersonType) {
       this.defaultPersonType = build.defaultPersonType;
     }
@@ -84,10 +85,7 @@ class Case {
           .defaultCaseOfficer()
           .withId(456)
           .withOfficerAttributes(
-            new Officer.Builder()
-              .defaultOfficer()
-              .withId(456)
-              .build()
+            new Officer.Builder().defaultOfficer().withId(456).build()
           )
           .withCaseId(id)
           .withRoleOnCase(ACCUSED)
@@ -96,10 +94,7 @@ class Case {
           .defaultCaseOfficer()
           .withId(654)
           .withOfficerAttributes(
-            new Officer.Builder()
-              .defaultOfficer()
-              .withId(654)
-              .build()
+            new Officer.Builder().defaultOfficer().withId(654).build()
           )
           .withCaseId(id)
           .withRoleOnCase(COMPLAINANT)
@@ -108,10 +103,7 @@ class Case {
           .defaultCaseOfficer()
           .withId(565)
           .withOfficerAttributes(
-            new Officer.Builder()
-              .defaultOfficer()
-              .withId(565)
-              .build()
+            new Officer.Builder().defaultOfficer().withId(565).build()
           )
           .withCaseId(id)
           .withRoleOnCase(WITNESS)
@@ -158,6 +150,7 @@ class Case {
         this.year = "2017";
         this.deletedAt = null;
         this.isCase = true;
+        this.facilityId = null;
         return this;
       }
 
@@ -338,6 +331,10 @@ class Case {
 
       withPibCaseNumber(pibCaseNumber) {
         this.pibCaseNumber = pibCaseNumber;
+        return this;
+      }
+      withFacilityId(facilityId) {
+        this.facilityId = facilityId;
         return this;
       }
 

@@ -60,7 +60,8 @@ describe("incident details", () => {
     wrapper,
     dispatchSpy,
     intakeSourceId,
-    formattedIncidentTime;
+    formattedIncidentTime,
+    facilityId;
 
   describe("without permissions", () => {
     beforeEach(() => {
@@ -72,6 +73,7 @@ describe("incident details", () => {
       incidentTimezone = "CDT";
       formattedIncidentTime = "02:00 PM CDT";
       intakeSourceId = 2;
+      facilityId = 1;
 
       currentCase = new Case.Builder()
         .defaultCase()
@@ -82,6 +84,7 @@ describe("incident details", () => {
         .withIncidentLocation(undefined)
         .withDistrictId(2)
         .withIntakeSourceId(2)
+        .withFacilityId(facilityId)
         .build();
 
       store.dispatch(getFeaturesSuccess({ policeIncidentDetails: true }));
@@ -120,6 +123,7 @@ describe("incident details", () => {
       incidentTimezone = "CDT";
       formattedIncidentTime = "02:00 PM CDT";
       intakeSourceId = 2;
+      facilityId = 1;
 
       currentCase = new Case.Builder()
         .defaultCase()
@@ -130,6 +134,7 @@ describe("incident details", () => {
         .withIncidentLocation(undefined)
         .withDistrictId(2)
         .withIntakeSourceId(2)
+        .withFacilityId(facilityId)
         .build();
 
       store.dispatch(getFeaturesSuccess({ policeIncidentDetails: true }));
@@ -188,6 +193,12 @@ describe("incident details", () => {
         wrapper.find('[data-testid="incidentDistrict"]').first().text()
       ).toEqual("N/A");
     });
+
+    // test("should display a facility ", () => {
+    //   expect(wrapper.find('[data-testid="facilityId"]').first().text()).toEqual(
+    //     "N/A"
+    //   );
+    // });
 
     test("should display intake source", () => {
       expect(

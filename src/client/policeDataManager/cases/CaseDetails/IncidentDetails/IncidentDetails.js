@@ -10,6 +10,7 @@ import AddressInfoDisplay from "../../../shared/components/AddressInfoDisplay";
 import { initialize, reset } from "redux-form";
 import { CardContent } from "@material-ui/core";
 import { connect } from "react-redux";
+//import getFacilities from "../cases/thunks/getFacilities";
 import {
   closeEditIncidentDetailsDialog,
   openEditIncidentDetailsDialog
@@ -66,6 +67,7 @@ class IncidentDetails extends React.Component {
       policeIncidentDetails,
       priorityReason,
       priorityLevel,
+      facilityId,
       configs
     } = this.props;
     const intakeSourceName = intakeSource ? intakeSource.name : "";
@@ -115,6 +117,15 @@ class IncidentDetails extends React.Component {
           displayLabel="Incident Time"
           value={this.formatTimeForDisplay(incidentDate, incidentTime)}
           testLabel="incidentTime"
+        />
+      </StyledInfoDisplay>
+    );
+    const Facility = (
+      <StyledInfoDisplay>
+        <CivilianInfoDisplay
+          displayLabel="Facility"
+          value={facilityId}
+          testLabel="facilityId"
         />
       </StyledInfoDisplay>
     );
@@ -207,7 +218,7 @@ class IncidentDetails extends React.Component {
         ]
       : [
           [FirstContacted, IncidentDate, IncidentTime],
-          [IncidentLocation, District, PriorityReason],
+          [Facility, District, PriorityReason],
           [
             IntakeSource,
             PriorityLevel,
@@ -287,7 +298,8 @@ const mapStateToProps = state => ({
   pibCaseNumber: state.currentCase.details.pibCaseNumber,
   priorityReason: state.currentCase.details.priorityReason,
   priorityLevel: state.currentCase.details.priorityLevel,
-  policeIncidentDetails: state.featureToggles.policeIncidentDetails
+  policeIncidentDetails: state.featureToggles.policeIncidentDetails,
+  facilityId: state.currentCase.details.facilityId
 });
 
 export default connect(mapStateToProps)(IncidentDetails);
