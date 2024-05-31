@@ -15,7 +15,7 @@ export default class CountMonthlyComplaintsByComplainantType extends Visualizati
 
   get baseLayout() {
     return {
-      width: 1600,
+      width: 1620,
       height: 800,
       barmode: "group",
       dragmode: false,
@@ -56,7 +56,7 @@ export default class CountMonthlyComplaintsByComplainantType extends Visualizati
   get midSizeLayout() {
     return {
       height: 600,
-      width: 1000
+      width: 800
     };
   }
 
