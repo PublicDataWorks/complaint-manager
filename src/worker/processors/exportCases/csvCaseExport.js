@@ -73,13 +73,13 @@ const csvCaseExport = async (job, done) => {
       "complainants.civilian_additional_info": "Civilian Complainant Notes",
       "complainants.officer_id": "Officer Complainant Case Officer Database ID",
       "complainants.officer_full_name": "Officer Complainant Name",
-      "complainants.officer_windows_username":
-        "Officer Complainant Windows Username",
+      "complainants.officer_employee_id":
+        "Officer Complainant Employee ID",
       "complainants.officer_rank": "Officer Complainant Rank/Title",
       "complainants.officer_supervisor_full_name":
         "Officer Complainant Supervisor Name",
-      "complainants.officer_supervisor_windows_username":
-        "Officer Complainant Supervisor Windows Username",
+      "complainants.officer_supervisor_employee_id":
+        "Officer Complainant Supervisor Employee ID",
       "complainants.officer_employee_type": "Officer Complainant Employee Type",
       "complainants.officer_district": "Officer Complainant District",
       "complainants.officer_bureau": "Officer Complainant Bureau",
@@ -95,11 +95,11 @@ const csvCaseExport = async (job, done) => {
       narrative_details: "Narrative Details",
       "accusedOfficers.id": "Accused Officer Case Officer Database ID",
       "accusedOfficers.full_name": "Accused Officer Name",
-      "accusedOfficers.windows_username": "Accused Officer Windows Username",
+      "accusedOfficers.employee_id": "Accused Officer Employee ID",
       "accusedOfficers.rank": "Accused Officer Rank/Title",
       "accusedOfficers.supervisor_full_name": "Accused Officer Supervisor Name",
-      "accusedOfficers.supervisor_windows_username":
-        "Accused Officer Supervisor Windows Username",
+      "accusedOfficers.supervisor_employee_id":
+        "Accused Officer Supervisor Employee ID",
       "accusedOfficers.employee_type": "Accused Officer Employee Type",
       "accusedOfficers.district": "Accused Officer District",
       "accusedOfficers.bureau": "Accused Officer Bureau",

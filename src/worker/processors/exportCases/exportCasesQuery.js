@@ -93,10 +93,10 @@ const exportCasesQuery = (dateRange = null) => {
     "   ELSE complainants.officer_full_name" +
     " END " +
     'AS "complainants.officer_full_name", ' +
-    'complainants.officer_windows_username AS "complainants.officer_windows_username", ' +
+    'complainants.officer_employee_id AS "complainants.officer_employee_id", ' +
     'complainants.officer_rank AS "complainants.officer_rank", ' +
     'complainants.officer_supervisor_full_name AS "complainants.officer_supervisor_full_name", ' +
-    'complainants.officer_supervisor_windows_username AS "complainants.officer_supervisor_windows_username", ' +
+    'complainants.officer_supervisor_employee_id AS "complainants.officer_supervisor_employee_id", ' +
     'complainants.officer_employee_type AS "complainants.officer_employee_type", ' +
     'complainants.officer_district AS "complainants.officer_district", ' +
     'complainants.officer_bureau AS "complainants.officer_bureau", ' +
@@ -129,7 +129,7 @@ const exportCasesQuery = (dateRange = null) => {
     "         accusedOfficers.last_name) " +
     "   END" +
     ' AS "accusedOfficers.full_name", ' +
-    'accusedOfficers.windows_username AS "accusedOfficers.windows_username", ' +
+    'accusedOfficers.employee_id AS "accusedOfficers.employee_id", ' +
     'accusedOfficers.rank AS "accusedOfficers.rank", ' +
     "concat_ws(" +
     " ' ', " +
@@ -137,7 +137,7 @@ const exportCasesQuery = (dateRange = null) => {
     " NULLIF(accusedOfficers.supervisor_middle_name, ''), " +
     " accusedOfficers.supervisor_last_name" +
     ') AS "accusedOfficers.supervisor_full_name", ' +
-    'accusedOfficers.supervisor_windows_username AS "accusedOfficers.supervisor_windows_username", ' +
+    'accusedOfficers.supervisor_employee_id AS "accusedOfficers.supervisor_employee_id", ' +
     'accusedOfficers.employee_type AS "accusedOfficers.employee_type", ' +
     'accusedOfficers.district AS "accusedOfficers.district", ' +
     'accusedOfficers.bureau AS "accusedOfficers.bureau", ' +
@@ -205,10 +205,10 @@ const exportCasesQuery = (dateRange = null) => {
     "   addresses.street_address2 AS civilian_street_address2, " +
     '   NULL AS "officer_id", ' +
     '   NULL AS "officer_full_name", ' +
-    "   NULL AS officer_windows_username, " +
+    "   NULL AS officer_employee_id, " +
     "   NULL AS officer_rank, " +
     "   NULL AS officer_supervisor_full_name, " +
-    "   NULL AS officer_supervisor_windows_username, " +
+    "   NULL AS officer_supervisor_employee_id, " +
     "   NULL AS officer_employee_type, " +
     "   NULL AS officer_district, " +
     "   NULL AS officer_bureau, " +
@@ -259,14 +259,14 @@ const exportCasesQuery = (dateRange = null) => {
     "     NULLIF(middle_name, ''), " +
     "     last_name) " +
     '     AS "officer_full_name", ' +
-    "   windows_username AS officer_windows_username, " +
+    "   employee_id AS officer_employee_id, " +
     "   rank AS officer_rank, " +
     "   concat_ws(' ', " +
     "     supervisor_first_name, " +
     "     NULLIF(supervisor_middle_name, ''), " +
     "     supervisor_last_name" +
     "   ) AS officer_supervisor_full_name, " +
-    "   supervisor_windows_username AS officer_supervisor_windows_username, " +
+    "   supervisor_employee_id AS officer_supervisor_employee_id, " +
     "   employee_type AS officer_employee_type, " +
     "   district AS district, " +
     "   bureau AS officer_bureau, " +
