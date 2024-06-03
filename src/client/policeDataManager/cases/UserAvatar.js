@@ -21,14 +21,17 @@ const UserAvatar = ({ email, users }) => {
   useEffect(() => {
     if (email) {
       try {
-        const user = users.find(user => user.email === email);
-
+        const user = users.find(user => user.email === email)
+        
         if (user) {
+          const firstNameIndex = 0;
+          const firstInititalIndex = 0;
           const nameParts = user.name.trim().split(/\s+/);
-          const firstInitial = nameParts[0][0];
+          const lastNameIndex = nameParts.length - 1;
+          const firstInitial = nameParts[firstNameIndex][firstInititalIndex];
           const lastInitial =
-            nameParts.length > 1 ? nameParts[nameParts.length - 1][0] : "";
-          setUserInitials(firstInitial + lastInitial);
+          nameParts.length > 1 ? nameParts[lastNameIndex][firstInititalIndex] : "";
+          setUserInitials((firstInitial + lastInitial).toUpperCase());
         }
       } catch (error) {
         console.error("Error while loading list of users:", error);

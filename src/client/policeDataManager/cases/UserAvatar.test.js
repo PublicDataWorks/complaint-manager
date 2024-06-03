@@ -10,7 +10,7 @@ describe("UserAvatar", () => {
   beforeEach(() => {
     store = createConfiguredStore();
     store.dispatch(
-      getUsersSuccess([{ email: "test@gmail.com", name: "Tom Edwards" }])
+      getUsersSuccess([{ email: "test@gmail.com", name: "Tom edwards" }])
     );
   });
 
