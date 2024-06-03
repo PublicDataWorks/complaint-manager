@@ -216,7 +216,6 @@ const EXAMPLE_DATA = {
       supervisorFirstName: "Jayson",
       supervisorMiddleName: "T",
       supervisorLastName: "Padberg",
-      supervisorWindowsUsername: 9973,
       supervisorEmployeeId: 2672,
       employeeType: "Commissioned",
       caseEmployeeType: "Officer",

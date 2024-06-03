@@ -348,7 +348,6 @@ const anonymizeOfficer = officer => {
     officer.supervisorMiddleName = "";
     officer.supervisorLastName = "";
     officer.supervisorFullName = "";
-    officer.supervisorWindowsUsername = "";
     officer.supervisorEmployeeId = "";
     officer.employeeType = "";
     officer.caseEmployeeType = "";

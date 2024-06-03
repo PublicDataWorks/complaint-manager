@@ -44,7 +44,7 @@ const buildOfficerAttributesForNewOfficer = async (
       firstName: newOfficer.firstName,
       middleName: newOfficer.middleName,
       lastName: newOfficer.lastName,
-      windowsUsername: newOfficer.employeeId,
+      employeeId: newOfficer.employeeId,
       bureau: newOfficer.bureau,
       rank: newOfficer.rank,
       race: newOfficer.race,
@@ -58,7 +58,7 @@ const buildOfficerAttributesForNewOfficer = async (
       email: email,
       employeeType: newOfficer.employeeType,
       workStatus: newOfficer.workStatus,
-      supervisorWindowsUsername: newOfficer.supervisorEmployeeId,
+      supervisorEmployeeId: newOfficer.supervisorEmployeeId,
       personTypeKey: personType
     },
     supervisorAttributes
@@ -78,7 +78,7 @@ const buildSupervisorAttributes = async newOfficer => {
     supervisorFirstName: supervisor?.firstName,
     supervisorMiddleName: supervisor?.middleName,
     supervisorLastName: supervisor?.lastName,
-    supervisorWindowsUsername: supervisor?.supervisorEmployeeId
+    supervisorEmployeeId: supervisor?.supervisorEmployeeId
   };
 };
 

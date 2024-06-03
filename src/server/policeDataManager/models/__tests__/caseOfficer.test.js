@@ -203,12 +203,11 @@ describe("caseOfficer", () => {
     expect(caseOfficer.firstName).toBeNull();
     expect(caseOfficer.middleName).toBeNull();
     expect(caseOfficer.lastName).toBeNull();
-    expect(caseOfficer.windowsUsername).toBeNull();
+    expect(caseOfficer.employeeId).toBeNull();
     expect(caseOfficer.supervisorFirstName).toBeNull();
     expect(caseOfficer.supervisorMiddleName).toBeNull();
     expect(caseOfficer.supervisorLastName).toBeNull();
-    expect(caseOfficer.supervisorWindowsUsername).toBeNull();
-    expect(caseOfficer.supervisorOfficerNumber).toBeNull();
+    expect(caseOfficer.supervisorEmployeeId).toBeNull();
     expect(caseOfficer.employeeType).toBeNull();
     expect(caseOfficer.district).toBeNull();
     expect(caseOfficer.bureau).toBeNull();

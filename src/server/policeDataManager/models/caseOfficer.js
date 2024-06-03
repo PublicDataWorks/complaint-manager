@@ -73,8 +73,8 @@ module.exports = (sequelize, DataTypes) => {
           return !this.get("officerId");
         }
       },
-      windowsUsername: {
-        field: "windows_username",
+      employeeId: {
+        field: "employee_id",
         type: DataTypes.INTEGER,
         allowNull: true
       },
@@ -119,13 +119,8 @@ module.exports = (sequelize, DataTypes) => {
           return "";
         }
       },
-      supervisorWindowsUsername: {
-        field: "supervisor_windows_username",
-        type: DataTypes.INTEGER,
-        allowNull: true
-      },
-      supervisorOfficerNumber: {
-        field: "supervisor_officer_number",
+      supervisorEmployeeId: {
+        field: "supervisor_employee_id",
         type: DataTypes.INTEGER,
         allowNull: true
       },
@@ -260,12 +255,11 @@ module.exports = (sequelize, DataTypes) => {
       firstName: null,
       middleName: null,
       lastName: null,
-      windowsUsername: null,
+      employeeId: null,
       supervisorFirstName: null,
       supervisorMiddleName: null,
       supervisorLastName: null,
-      supervisorWindowsUsername: null,
-      supervisorOfficerNumber: null,
+      supervisorEmployeeId: null,
       caseEmployeeType: "Officer",
       employeeType: null,
       district: null,

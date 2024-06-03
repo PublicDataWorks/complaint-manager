@@ -48,7 +48,7 @@ pactWith(
                 caseEmployeeType: "Officer",
                 isUnknownOfficer: false,
                 fullName: "Karen Tuti",
-                windowsUsername: 345,
+                employeeId: 345,
                 district: "5th District"
               }),
               accusedOfficers: [],

@@ -90,8 +90,7 @@ describe("POST /cases/:caseId/cases_officers", () => {
             supervisorMiddleName: null,
             supervisorLastName: null,
             supervisorFullName: "",
-            supervisorWindowsUsername: null,
-            supervisorOfficerNumber: null
+            supervisorEmployeeId: null
           })
         ])
       })
@@ -164,7 +163,7 @@ describe("POST /cases/:caseId/cases_officers", () => {
             supervisorMiddleName: seededSupervisor.middleName,
             supervisorLastName: seededSupervisor.lastName,
             supervisorFullName: "Garret Bobby Ferguson",
-            supervisorWindowsUsername: seededSupervisor.supervisorEmployeeId
+            supervisorEmployeeId: seededSupervisor.supervisorEmployeeId
           })
         ])
       })

@@ -129,7 +129,7 @@ describe("editCaseOfficer", () => {
       );
       expect(updatedCaseOfficer.lastName).toEqual(createdNewOfficer.lastName);
       expect(updatedCaseOfficer.fullName).toEqual(createdNewOfficer.fullName);
-      expect(updatedCaseOfficer.windowsUsername).toEqual(
+      expect(updatedCaseOfficer.employeeId).toEqual(
         createdNewOfficer.employeeId
       );
       expect(updatedCaseOfficer.phoneNumber).toEqual(
@@ -358,7 +358,7 @@ describe("editCaseOfficer", () => {
       expect(updatedCaseOfficer.middleName).toEqual(newOfficer.middleName);
       expect(updatedCaseOfficer.lastName).toEqual(newOfficer.lastName);
       expect(updatedCaseOfficer.fullName).toEqual(newOfficer.fullName);
-      expect(updatedCaseOfficer.windowsUsername).toEqual(
+      expect(updatedCaseOfficer.employeeId).toEqual(
         newOfficer.employeeId
       );
       expect(updatedCaseOfficer.supervisorFirstName).toEqual(
@@ -370,7 +370,7 @@ describe("editCaseOfficer", () => {
       expect(updatedCaseOfficer.supervisorLastName).toEqual(
         supervisor.lastName
       );
-      expect(updatedCaseOfficer.supervisorWindowsUsername).toEqual(
+      expect(updatedCaseOfficer.supervisorEmployeeId).toEqual(
         supervisor.supervisorEmployeeId
       );
     });
@@ -419,13 +419,13 @@ describe("editCaseOfficer", () => {
       expect(updatedCaseOfficer.middleName).toEqual(newOfficer.middleName);
       expect(updatedCaseOfficer.lastName).toEqual(newOfficer.lastName);
       expect(updatedCaseOfficer.fullName).toEqual(newOfficer.fullName);
-      expect(updatedCaseOfficer.windowsUsername).toEqual(
+      expect(updatedCaseOfficer.employeeId).toEqual(
         newOfficer.employeeId
       );
       expect(updatedCaseOfficer.supervisorFirstName).toEqual(null);
       expect(updatedCaseOfficer.supervisorMiddleName).toEqual(null);
       expect(updatedCaseOfficer.supervisorLastName).toEqual(null);
-      expect(updatedCaseOfficer.supervisorWindowsUsername).toEqual(null);
+      expect(updatedCaseOfficer.supervisorEmployeeId).toEqual(null);
     });
 
     test("it does not change the case officer attributes snapshot when editing notes or roleOnCase", async () => {

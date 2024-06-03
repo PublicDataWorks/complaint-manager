@@ -95,7 +95,7 @@ pactWith(
               {
                 id: 1,
                 fullName: "Bob Loblaw",
-                windowsUserName: 1,
+                employeeId: 1,
                 rank: "Attorney",
                 bureau: "Bob Loblaw's Law Blog",
                 allegations: [
@@ -184,7 +184,7 @@ pactWith(
               caseReference: "CC2022-0001",
               accusedOfficers: eachLike({
                 id: 1,
-                windowsUsername: 1,
+                employeeId: 1,
                 rank: "Attorney",
                 bureau: "Bob Loblaw's Law Blog",
                 fullName: "Bob Loblaw",
@@ -261,7 +261,7 @@ pactWith(
               caseReference: "CC2022-0001",
               accusedOfficers: eachLike({
                 id: 1,
-                windowsUsername: 1,
+                employeeId: 1,
                 rank: "Attorney",
                 bureau: "Bob Loblaw's Law Blog",
                 fullName: "Bob Loblaw",

@@ -14,9 +14,8 @@ class CaseOfficer {
     this.supervisorFirstName = build.supervisorFirstName;
     this.supervisorMiddleName = build.supervisorMiddleName;
     this.supervisorLastName = build.supervisorLastName;
-    this.windowsUsername = build.windowsUsername;
-    this.supervisorWindowsUsername = build.supervisorWindowsUsername;
-    this.supervisorOfficerNumber = build.supervisorOfficerNumber;
+    this.employeeId = build.employeeId;
+    this.supervisorEmployeeId = build.supervisorEmployeeId;
     this.rank = build.rank;
     this.race = build.race;
     this.sex = build.sex;
@@ -47,9 +46,8 @@ class CaseOfficer {
         this.supervisorFirstName = "Belly";
         this.supervisorMiddleName = "G";
         this.supervisorLastName = "Walsh";
-        this.windowsUsername = 12;
-        this.supervisorWindowsUsername = 14;
-        this.supervisorOfficerNumber = 1;
+        this.employeeId = 12;
+        this.supervisorEmployeeId = 1;
         this.rank = "ADMIN SUPPORT SPECIALIST II";
         this.race = "Black";
         this.sex = "M";
@@ -98,7 +96,7 @@ class CaseOfficer {
         this.firstName = null;
         this.middleName = null;
         this.lastName = null;
-        this.windowsUsername = null;
+        this.employeeId = null;
         this.rank = null;
         this.race = null;
         this.sex = null;
@@ -119,7 +117,7 @@ class CaseOfficer {
         this.firstName = officer.firstName;
         this.middleName = officer.middleName;
         this.lastName = officer.lastName;
-        this.windowsUsername = officer.windowsUsername;
+        this.employeeId = officer.employeeId;
         this.rank = officer.rank;
         this.race = officer.race;
         this.sex = officer.sex;
@@ -139,8 +137,7 @@ class CaseOfficer {
         this.supervisorFirstName = null;
         this.supervisorMiddleName = null;
         this.supervisorLastName = null;
-        this.supervisorWindowsUsername = null;
-        this.supervisorOfficerNumber = null;
+        this.supervisorEmployeeId = null;
 
         return this;
       }
@@ -149,8 +146,7 @@ class CaseOfficer {
         this.supervisorFirstName = officer.firstName;
         this.supervisorMiddleName = officer.middleName;
         this.supervisorLastName = officer.lastName;
-        this.supervisorWindowsUsername = officer.windowsUsername;
-        this.supervisorOfficerNumber = officer.officerNumber;
+        this.supervisorEmployeeId = officer.employeeId;
         return this;
       }
 

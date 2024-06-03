@@ -599,9 +599,9 @@ describe("csvCaseExport request", () => {
       expect(officerComplainantRow["Officer Complainant Name"]).toEqual(
         `${caseOfficerComplainant.firstName} ${caseOfficerComplainant.middleName} ${caseOfficerComplainant.lastName}`
       );
-      // expect(
-      //   officerComplainantRow["Officer Complainant Windows Username"]
-      // ).toEqual(`${caseOfficerComplainant.windowsUsername}`);
+      expect(
+        officerComplainantRow["Officer Complainant Windows Username"]
+      ).toEqual(`${caseOfficerComplainant.employeeId}`);
       expect(officerComplainantRow["Officer Complainant Rank/Title"]).toEqual(
         caseOfficerComplainant.rank
       );
@@ -612,7 +612,7 @@ describe("csvCaseExport request", () => {
       );
       expect(
         officerComplainantRow["Officer Complainant Supervisor Windows Username"]
-      ).toEqual(`${caseOfficerComplainant.supervisorWindowsUsername}`);
+      ).toEqual(`${caseOfficerComplainant.supervisorEmployeeId}`);
       expect(
         officerComplainantRow["Officer Complainant Employee Type"]
       ).toEqual(caseOfficerComplainant.employeeType);
@@ -866,7 +866,7 @@ describe("csvCaseExport request", () => {
       );
       expect(
         firstRecord["Accused Officer Supervisor Windows Username"]
-      ).toEqual(caseOfficer.supervisorWindowsUsername.toString());
+      ).toEqual(caseOfficer.supervisorEmployeeId.toString());
       expect(firstRecord["Accused Officer Employee Type"]).toEqual(
         caseOfficer.employeeType
       );

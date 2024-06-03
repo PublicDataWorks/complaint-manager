@@ -55,7 +55,7 @@ pactWith(
                 caseEmployeeType: "Officer",
                 isUnknownOfficer: false,
                 fullName: "Karen Tuti",
-                windowsUsername: 345,
+                employeeId: 345,
                 district: "5th District"
               }),
               accusedOfficers: eachLike({
@@ -63,7 +63,7 @@ pactWith(
                 caseEmployeeType: "Officer",
                 isUnknownOfficer: false,
                 fullName: "Barry Goldwater",
-                windowsUsername: 678,
+                employeeId: 678,
                 district: "5th District",
                 allegations: eachLike({
                   allegation: {

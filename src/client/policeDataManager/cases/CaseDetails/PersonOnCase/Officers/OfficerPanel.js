@@ -74,7 +74,7 @@ const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children, pd }) => {
                 <OfficerNameDisplay
                   displayLabel={caseEmployeeTitle}
                   fullName={fullNameIsAnonymous}
-                  windowsUsername={caseOfficer.windowsUsername}
+                  employeeId={caseOfficer.employeeId}
                 />
               </StyledInfoDisplay>
               <StyledInfoDisplay>
@@ -88,7 +88,7 @@ const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children, pd }) => {
                 <OfficerNameDisplay
                   displayLabel="Supervisor"
                   fullName={caseOfficer.supervisorFullName}
-                  windowsUsername={caseOfficer.supervisorWindowsUsername}
+                  employeeId={caseOfficer.supervisorEmployeeId}
                 />
               </StyledInfoDisplay>
             </div>
