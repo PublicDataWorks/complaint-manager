@@ -30,7 +30,7 @@ pactWith(
 
     describe("Reassign Case Dialog", () => {
       beforeEach(async () => {
-        setUpCaseDetailsPage(provider);
+        await setUpCaseDetailsPage(provider);
         userEvent.click(await screen.findByTestId("assignedToButton"));
       });
 
