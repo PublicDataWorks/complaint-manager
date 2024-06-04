@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import getUsers from "../../common/thunks/getUsers";
 
 const useStyles = makeStyles({
   avatar: {
@@ -14,7 +15,7 @@ const useStyles = makeStyles({
   }
 });
 
-const UserAvatar = ({ email, users }) => {
+const UserAvatar = ({ email, users, getUsers }) => {
   const [userInitials, setUserInitials] = useState("");
   const classes = useStyles();
 
@@ -35,6 +36,9 @@ const UserAvatar = ({ email, users }) => {
             nameParts.length > 1
               ? nameParts[lastNameIndex][firstInititalIndex]
               : "";
+          console.log(
+            `firstInitial: ${firstInitial} lastInitial: ${lastInitial}`
+          );
           setUserInitials((firstInitial + lastInitial).toUpperCase());
         }
       } catch (error) {
@@ -44,8 +48,19 @@ const UserAvatar = ({ email, users }) => {
     }
   }, [email, users]);
 
+  useEffect(() => {
+    if (users.length === 0) {
+      getUsers();
+    }
+  }, [getUsers]);
+
   return (
     <div>
+      {console.log(
+        `this is the email :${email}\nthis are the users ${JSON.stringify(
+          users
+        )} \nthis are the userInitials ${userInitials}`
+      )}
       {email ? (
         <Tooltip data-testid={`tooltip-${userInitials}`} title={email}>
           <Avatar className={classes.avatar}>{userInitials}</Avatar>
@@ -59,4 +74,4 @@ const UserAvatar = ({ email, users }) => {
 const mapStateToProps = state => ({
   users: state.users.all
 });
-export default connect(mapStateToProps)(UserAvatar);
+export default connect(mapStateToProps, { getUsers })(UserAvatar);

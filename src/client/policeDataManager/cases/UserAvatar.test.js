@@ -44,7 +44,7 @@ describe("UserAvatar", () => {
       expect(avatarElement.textContent).toEqual("U");
     });
   });
-  test("should get first letter and capitalize it when email is passed as username", async () => {
+  test("should get first letter and capitalize it when email is passed as user name", async () => {
     store.dispatch(
       getUsersSuccess([{ email: "test@email.com", name: "test@email.com" }])
     );
