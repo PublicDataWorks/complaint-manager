@@ -21,16 +21,20 @@ const UserAvatar = ({ email, users }) => {
   useEffect(() => {
     if (email) {
       try {
-        const user = users.find(user => user.email === email)
-        
+        const user = users.find(user => user.email === email);
+
         if (user) {
           const firstNameIndex = 0;
           const firstInititalIndex = 0;
-          const nameParts = user.name.trim().split(/\s+/);
+          const nameParts = user.name
+            ? user.name.trim().split(/\s+/)
+            : [user.email];
           const lastNameIndex = nameParts.length - 1;
           const firstInitial = nameParts[firstNameIndex][firstInititalIndex];
           const lastInitial =
-          nameParts.length > 1 ? nameParts[lastNameIndex][firstInititalIndex] : "";
+            nameParts.length > 1
+              ? nameParts[lastNameIndex][firstInititalIndex]
+              : "";
           setUserInitials((firstInitial + lastInitial).toUpperCase());
         }
       } catch (error) {

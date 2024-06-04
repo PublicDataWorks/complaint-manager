@@ -29,6 +29,38 @@ describe("UserAvatar", () => {
     });
   });
 
+  test("should get first letter from email and capitalize it when name is not available", async () => {
+    store.dispatch(getUsersSuccess([{ email: "user@email.com" }]));
+    render(
+      <Provider store={store}>
+        <UserAvatar email="user@email.com" />
+      </Provider>
+    );
+
+    await waitFor(() => {
+      const avatarElement = screen.getByTestId("tooltip-U");
+      expect(avatarElement).toBeTruthy();
+      expect(avatarElement.title).toEqual("user@email.com");
+      expect(avatarElement.textContent).toEqual("U");
+    });
+  });
+  test("should get first letter and capitalize it when email is passed as username", async () => {
+    store.dispatch(
+      getUsersSuccess([{ email: "test@email.com", name: "test@email.com" }])
+    );
+    render(
+      <Provider store={store}>
+        <UserAvatar email="test@email.com" />
+      </Provider>
+    );
+
+    await waitFor(() => {
+      const avatarElement = screen.getByTestId("tooltip-T");
+      expect(avatarElement).toBeTruthy();
+      expect(avatarElement.title).toEqual("test@email.com");
+      expect(avatarElement.textContent).toEqual("T");
+    });
+  });
   it("should display full email on mouse hover", () => {
     render(
       <Provider store={store}>
