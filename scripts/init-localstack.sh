@@ -56,9 +56,8 @@ for BUCKET in "${BUCKETS[@]}"; do
             $OFFICER_DATA_BUCKET)
                 # Place officer seed data in nopd-officers-local (from config) bucket
                 aws --endpoint-url=http://host.docker.internal:4566 s3 cp "$SEED_FILE_SRC_DIR/officerSeedData.csv" "s3://$OFFICER_DATA_BUCKET"
-                aws --endpoint-url=http://host.docker.internal:4566 s3 cp "$SEED_FILE_SRC_DIR/officerSeedData2023.csv" "s3://$OFFICER_DATA_BUCKET"
                 aws --endpoint-url=http://host.docker.internal:4566 s3 cp "$SEED_FILE_SRC_DIR/roster.csv" "s3://$OFFICER_DATA_BUCKET"
-                ;;
+                ;
             *)
                 echo "No files to be copied for $BUCKET bucket"
                 ;;
