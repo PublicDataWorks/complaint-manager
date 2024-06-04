@@ -36,9 +36,6 @@ const UserAvatar = ({ email, users, getUsers }) => {
             nameParts.length > 1
               ? nameParts[lastNameIndex][firstInititalIndex]
               : "";
-          console.log(
-            `firstInitial: ${firstInitial} lastInitial: ${lastInitial}`
-          );
           setUserInitials((firstInitial + lastInitial).toUpperCase());
         }
       } catch (error) {
@@ -56,11 +53,6 @@ const UserAvatar = ({ email, users, getUsers }) => {
 
   return (
     <div>
-      {console.log(
-        `this is the email :${email}\nthis are the users ${JSON.stringify(
-          users
-        )} \nthis are the userInitials ${userInitials}`
-      )}
       {email ? (
         <Tooltip data-testid={`tooltip-${userInitials}`} title={email}>
           <Avatar className={classes.avatar}>{userInitials}</Avatar>
