@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import getUsers from "../../common/thunks/getUsers";
 
 const useStyles = makeStyles({
   avatar: {
@@ -24,7 +23,7 @@ const UserAvatar = ({ email, users, getUsers }) => {
       try {
         const user = users.find(user => user.email === email);
 
-        if (user) {
+        const getInitialsFromUser = user => {
           const firstNameIndex = 0;
           const firstInititalIndex = 0;
           const nameParts = user.name
@@ -36,20 +35,18 @@ const UserAvatar = ({ email, users, getUsers }) => {
             nameParts.length > 1
               ? nameParts[lastNameIndex][firstInititalIndex]
               : "";
-          setUserInitials((firstInitial + lastInitial).toUpperCase());
-        }
+          return firstInitial + lastInitial;
+        };
+
+        const initials = user ? getInitialsFromUser(user) : email[0];
+
+        setUserInitials(initials.toUpperCase());
       } catch (error) {
         console.error("Error while loading list of users:", error);
         return error;
       }
     }
   }, [email, users]);
-
-  useEffect(() => {
-    if (users.length === 0) {
-      getUsers();
-    }
-  }, [getUsers]);
 
   return (
     <div>
@@ -66,4 +63,4 @@ const UserAvatar = ({ email, users, getUsers }) => {
 const mapStateToProps = state => ({
   users: state.users.all
 });
-export default connect(mapStateToProps, { getUsers })(UserAvatar);
+export default connect(mapStateToProps)(UserAvatar);

@@ -23,6 +23,10 @@ class CaseDashboard extends Component {
     this.props.resetWorkingCasesLoaded();
   }
 
+  componentDidMount() {
+    this.props.getUsers();
+  }
+
   render() {
     return (
       <div>
