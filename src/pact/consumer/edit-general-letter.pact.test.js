@@ -6,11 +6,14 @@ import { Provider } from "react-redux";
 import userEvent from "@testing-library/user-event";
 import axios from "axios";
 import { pactWith } from "jest-pact";
-import { like } from "@pact-foundation/pact/src/dsl/matchers";
+import { like, eachLike } from "@pact-foundation/pact/src/dsl/matchers";
 import createConfiguredStore from "../../client/createConfiguredStore";
 import EditGeneralLetter from "../../client/policeDataManager/cases/ReferralLetter/EditLetter/EditGeneralLetter";
 import SharedSnackbarContainer from "../../client/policeDataManager/shared/components/SharedSnackbarContainer";
-import { EDIT_LETTER_HTML_FORM } from "../../sharedUtilities/constants";
+import {
+  EDIT_LETTER_HTML_FORM,
+  FAKE_USERS
+} from "../../sharedUtilities/constants";
 import { change } from "redux-form";
 
 jest.mock("react-quill", () => props => (
@@ -73,6 +76,21 @@ pactWith(
           },
           willRespondWith: {
             status: 200
+          }
+        });
+
+        await provider.addInteraction({
+          uponReceiving: "get users",
+          withRequest: {
+            method: "GET",
+            path: "/api/users"
+          },
+          willRespondWith: {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            body: eachLike(FAKE_USERS[0])
           }
         });
 

@@ -11,7 +11,7 @@ import { eachLike, like } from "@pact-foundation/pact/src/dsl/matchers";
 import createConfiguredStore from "../../client/createConfiguredStore";
 import InmatesSearch from "../../client/policeDataManager/inmates/InmatesSearch";
 import SharedSnackbarContainer from "../../client/policeDataManager/shared/components/SharedSnackbarContainer";
-import { COMPLAINANT } from "../../sharedUtilities/constants";
+import { COMPLAINANT, FAKE_USERS } from "../../sharedUtilities/constants";
 
 pactWith(
   {
@@ -64,6 +64,21 @@ pactWith(
               abbreviation: "ABC",
               name: "ABC Pest and Lawn"
             })
+          }
+        });
+
+        await provider.addInteraction({
+          uponReceiving: "get users",
+          withRequest: {
+            method: "GET",
+            path: "/api/users"
+          },
+          willRespondWith: {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            body: eachLike(FAKE_USERS[0])
           }
         });
 

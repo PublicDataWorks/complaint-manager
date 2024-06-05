@@ -1,10 +1,11 @@
 import { screen } from "@testing-library/react";
 import axios from "axios";
 import { pactWith } from "jest-pact";
-import { like } from "@pact-foundation/pact/src/dsl/matchers";
+import { eachLike } from "@pact-foundation/pact/src/dsl/matchers";
 import userEvent from "@testing-library/user-event";
 import { setupAdminPortal } from "./admin-portal-helper";
 import "@testing-library/jest-dom";
+import { FAKE_USERS } from "../../../sharedUtilities/constants";
 
 jest.useRealTimers();
 jest.mock("../../../client/policeDataManager/shared/components/FileUpload");
@@ -23,6 +24,20 @@ pactWith(
 
     describe("letter types", () => {
       beforeEach(async () => {
+        await provider.addInteraction({
+          uponReceiving: "get users",
+          withRequest: {
+            method: "GET",
+            path: "/api/users"
+          },
+          willRespondWith: {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            body: eachLike(FAKE_USERS[0])
+          }
+        });
         await setupAdminPortal(provider);
         await Promise.all([
           screen.findByText("REFERRAL"),

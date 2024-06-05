@@ -6,10 +6,11 @@ import { Provider } from "react-redux";
 import userEvent from "@testing-library/user-event";
 import axios from "axios";
 import { pactWith } from "jest-pact";
-import { like } from "@pact-foundation/pact/src/dsl/matchers";
+import { like, eachLike } from "@pact-foundation/pact/src/dsl/matchers";
 import createConfiguredStore from "../../client/createConfiguredStore";
 import SharedSnackbarContainer from "../../client/policeDataManager/shared/components/SharedSnackbarContainer";
 import {
+  FAKE_USERS,
   CASE_STATUS,
   GET_CASE_DETAILS_SUCCESS,
   USER_PERMISSIONS
@@ -99,6 +100,21 @@ pactWith(
           willRespondWith: {
             status: 200,
             body: {}
+          }
+        });
+
+        await provider.addInteraction({
+          uponReceiving: "get users",
+          withRequest: {
+            method: "GET",
+            path: "/api/users"
+          },
+          willRespondWith: {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            body: eachLike(FAKE_USERS[0])
           }
         });
 

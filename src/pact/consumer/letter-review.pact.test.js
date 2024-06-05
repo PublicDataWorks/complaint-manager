@@ -10,6 +10,7 @@ import SharedSnackbarContainer from "../../client/policeDataManager/shared/compo
 import {
   CASE_STATUS,
   CONFIGS,
+  FAKE_USERS,
   GET_CONFIGS_SUCCEEDED,
   USER_PERMISSIONS
 } from "../../sharedUtilities/constants";
@@ -98,6 +99,21 @@ pactWith(
             body: like({
               editStatus: "Generated"
             })
+          }
+        });
+
+        await provider.addInteraction({
+          uponReceiving: "get users",
+          withRequest: {
+            method: "GET",
+            path: "/api/users"
+          },
+          willRespondWith: {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            body: eachLike(FAKE_USERS[0])
           }
         });
 

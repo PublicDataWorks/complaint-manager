@@ -10,6 +10,7 @@ import createConfiguredStore from "../../client/createConfiguredStore";
 import SharedSnackbarContainer from "../../client/policeDataManager/shared/components/SharedSnackbarContainer";
 import {
   CONFIGS,
+  FAKE_USERS,
   GET_CONFIGS_SUCCEEDED,
   USER_PERMISSIONS
 } from "../../sharedUtilities/constants";
@@ -114,6 +115,21 @@ pactWith(
               id: 4,
               name: "Officer has significant/noteworthy history"
             })
+          }
+        });
+
+        await provider.addInteraction({
+          uponReceiving: "get users",
+          withRequest: {
+            method: "GET",
+            path: "/api/users"
+          },
+          willRespondWith: {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            body: eachLike(FAKE_USERS[0])
           }
         });
 

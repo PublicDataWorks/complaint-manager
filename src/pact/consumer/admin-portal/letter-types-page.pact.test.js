@@ -10,6 +10,7 @@ import userEvent from "@testing-library/user-event";
 import createConfiguredStore from "../../../client/createConfiguredStore";
 import SharedSnackbarContainer from "../../../client/policeDataManager/shared/components/SharedSnackbarContainer";
 import {
+  FAKE_USERS,
   CASE_STATUSES_RETRIEVED,
   CIVILIAN_INITIATED,
   GET_COMPLAINT_TYPES_SUCCEEDED,
@@ -19,7 +20,7 @@ import {
 } from "../../../sharedUtilities/constants";
 import axios from "axios";
 import { pactWith } from "jest-pact";
-import { like } from "@pact-foundation/pact/src/dsl/matchers";
+import { like, eachLike } from "@pact-foundation/pact/src/dsl/matchers";
 import LetterTypePage from "../../../client/policeDataManager/admin/letterTypes/LetterTypePage";
 import { change } from "redux-form";
 import { getFeaturesSuccess } from "../../../client/policeDataManager/actionCreators/featureTogglesActionCreators";
@@ -43,7 +44,7 @@ pactWith(
     describe("LetterTypePage", () => {
       let store;
 
-      beforeEach(() => {
+      beforeEach(async () => {
         store = createConfiguredStore();
         store.dispatch({
           type: GET_SIGNERS,
@@ -72,6 +73,21 @@ pactWith(
             chooseDefaultRecipientFeature: true
           })
         );
+
+        await provider.addInteraction({
+          uponReceiving: "get users",
+          withRequest: {
+            method: "GET",
+            path: "/api/users"
+          },
+          willRespondWith: {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            body: eachLike(FAKE_USERS[0])
+          }
+        });
       });
 
       describe("Edit Letter Type", () => {

@@ -11,7 +11,10 @@ import {
   OFFICER_WITNESS,
   OFFICER_ACCUSED
 } from "./case-details-helper";
-import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
+import {
+  FAKE_USERS,
+  USER_PERMISSIONS
+} from "../../../sharedUtilities/constants";
 import SharedSnackbarContainer from "../../../client/policeDataManager/shared/components/SharedSnackbarContainer";
 import { push } from "connected-react-router";
 import EditOfficerDetails from "../../../client/policeDataManager/officers/OfficerDetails/EditOfficerDetails";
@@ -174,6 +177,21 @@ scenarios.forEach(({ currentRole, newRole, options }) => {
                 pdfAvailable: false,
                 isArchived: false
               })
+            }
+          });
+
+          await provider.addInteraction({
+            uponReceiving: "get users",
+            withRequest: {
+              method: "GET",
+              path: "/api/users"
+            },
+            willRespondWith: {
+              status: 200,
+              headers: {
+                "Content-Type": "application/json; charset=utf-8"
+              },
+              body: eachLike(FAKE_USERS[0])
             }
           });
 

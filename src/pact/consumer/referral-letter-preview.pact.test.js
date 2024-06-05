@@ -5,10 +5,14 @@ import { Provider } from "react-redux";
 import userEvent from "@testing-library/user-event";
 import axios from "axios";
 import { pactWith } from "jest-pact";
-import { like } from "@pact-foundation/pact/src/dsl/matchers";
+import { like, eachLike } from "@pact-foundation/pact/src/dsl/matchers";
 import createConfiguredStore from "../../client/createConfiguredStore";
 import SharedSnackbarContainer from "../../client/policeDataManager/shared/components/SharedSnackbarContainer";
-import { CASE_STATUS, USER_PERMISSIONS } from "../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  FAKE_USERS,
+  USER_PERMISSIONS
+} from "../../sharedUtilities/constants";
 import ReferralLetterPreview from "../../client/policeDataManager/cases/ReferralLetter/LetterPreview/ReferralLetterPreview";
 import "@testing-library/jest-dom";
 
@@ -23,7 +27,22 @@ pactWith(
     beforeAll(async () => {
       axios.defaults.baseURL = provider.mockService.baseUrl;
     });
-
+    beforeEach(async () => {
+      await provider.addInteraction({
+        uponReceiving: "get users",
+        withRequest: {
+          method: "GET",
+          path: "/api/users"
+        },
+        willRespondWith: {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          body: eachLike(FAKE_USERS[0])
+        }
+      });
+    });
     describe("letter preview page", () => {
       [
         {

@@ -9,7 +9,7 @@ import { eachLike, like } from "@pact-foundation/pact/src/dsl/matchers";
 import createConfiguredStore from "../../client/createConfiguredStore";
 import ManuallyEnteredInmateDetails from "../../client/policeDataManager/inmates/ManuallyEnteredInmateDetails";
 import SharedSnackbarContainer from "../../client/policeDataManager/shared/components/SharedSnackbarContainer";
-import { COMPLAINANT } from "../../sharedUtilities/constants";
+import { COMPLAINANT, FAKE_USERS } from "../../sharedUtilities/constants";
 
 pactWith(
   {
@@ -61,6 +61,21 @@ pactWith(
               id: 1,
               caseReference: "PiC2023-0001"
             })
+          }
+        });
+
+        await provider.addInteraction({
+          uponReceiving: "get users",
+          withRequest: {
+            method: "GET",
+            path: "/api/users"
+          },
+          willRespondWith: {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            body: eachLike(FAKE_USERS[0])
           }
         });
 

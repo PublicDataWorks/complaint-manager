@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import getUsers from "../../common/thunks/getUsers";
 
 const useStyles = makeStyles({
   avatar: {
@@ -48,6 +49,11 @@ const UserAvatar = ({ email, users, getUsers }) => {
     }
   }, [email, users]);
 
+  useEffect(() => {
+    if (users.length === 0) {
+      getUsers();
+    }
+  }, [getUsers]);
   return (
     <div>
       {email ? (
@@ -63,4 +69,4 @@ const UserAvatar = ({ email, users, getUsers }) => {
 const mapStateToProps = state => ({
   users: state.users.all
 });
-export default connect(mapStateToProps)(UserAvatar);
+export default connect(mapStateToProps, { getUsers })(UserAvatar);

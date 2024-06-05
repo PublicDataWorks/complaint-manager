@@ -15,16 +15,11 @@ import {
   CASE_TYPE,
   USER_PERMISSIONS
 } from "../../../sharedUtilities/constants";
-import getUsers from "../../common/thunks/getUsers";
 
 class CaseDashboard extends Component {
   componentWillUnmount() {
     this.props.closeCreateDialog(DialogTypes.CASE);
     this.props.resetWorkingCasesLoaded();
-  }
-
-  componentDidMount() {
-    this.props.getUsers();
   }
 
   render() {
@@ -52,8 +47,7 @@ class CaseDashboard extends Component {
 const mapDispatchToProps = {
   updateSort,
   resetWorkingCasesLoaded,
-  closeCreateDialog,
-  getUsers
+  closeCreateDialog
 };
 
 const mapStateToProps = state => {

@@ -25,6 +25,20 @@ pactWith(
 
     describe("Admin Portal", () => {
       beforeEach(async () => {
+        await provider.addInteraction({
+          uponReceiving: "get users",
+          withRequest: {
+            method: "GET",
+            path: "/api/users"
+          },
+          willRespondWith: {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            body: eachLike(FAKE_USERS[0])
+          }
+        });
         await setupAdminPortal(provider);
       });
 
@@ -73,25 +87,6 @@ pactWith(
                   rel: "signature",
                   href: "/api/signers/1/signature"
                 })
-              })
-            }
-          });
-
-          await provider.addInteraction({
-            state: "users exist in the store",
-            uponReceiving: "get users",
-            withRequest: {
-              method: "GET",
-              path: "/api/users"
-            },
-            willRespondWith: {
-              status: 200,
-              headers: {
-                "Content-Type": "application/json; charset=utf-8"
-              },
-              body: eachLike({
-                email: "anna.banana@gmail.com",
-                name: "Anna Banana"
               })
             }
           });

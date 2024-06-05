@@ -8,10 +8,7 @@ import { pactWith } from "jest-pact";
 import { eachLike, like } from "@pact-foundation/pact/src/dsl/matchers";
 import createConfiguredStore from "../../client/createConfiguredStore";
 import SharedSnackbarContainer from "../../client/policeDataManager/shared/components/SharedSnackbarContainer";
-import {
-  GET_CASE_DETAILS_SUCCESS,
-  USER_PERMISSIONS
-} from "../../sharedUtilities/constants";
+import { FAKE_USERS, USER_PERMISSIONS } from "../../sharedUtilities/constants";
 import AddOfficerSearch from "../../client/policeDataManager/officers/OfficerSearch/AddOfficerSearch";
 import EditOfficerSearch from "../../client/policeDataManager/officers/OfficerSearch/EditOfficerSearch";
 import { selectOfficer } from "../../client/policeDataManager/actionCreators/officersActionCreators";
@@ -149,6 +146,20 @@ pactWith(
           }
         });
 
+        await provider.addInteraction({
+          uponReceiving: "get users",
+          withRequest: {
+            method: "GET",
+            path: "/api/users"
+          },
+          willRespondWith: {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            body: eachLike(FAKE_USERS[0])
+          }
+        });
         let store = createConfiguredStore();
 
         store.dispatch({

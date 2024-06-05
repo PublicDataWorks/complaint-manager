@@ -10,7 +10,10 @@ import { like, eachLike } from "@pact-foundation/pact/src/dsl/matchers";
 import createConfiguredStore from "../../client/createConfiguredStore";
 import SharedSnackbarContainer from "../../client/policeDataManager/shared/components/SharedSnackbarContainer";
 import AllegationSearchContainer from "../../client/policeDataManager/allegations/AllegationSearchContainer";
-import { GET_CASE_DETAILS_SUCCESS } from "../../sharedUtilities/constants";
+import {
+  FAKE_USERS,
+  GET_CASE_DETAILS_SUCCESS
+} from "../../sharedUtilities/constants";
 
 jest.mock("../../client/policeDataManager/shared/components/FileUpload");
 
@@ -82,6 +85,21 @@ pactWith(
               id: 1,
               name: "R.S. 1234 - Crime is frowned upon, especially when committed by police officers"
             })
+          }
+        });
+
+        await provider.addInteraction({
+          uponReceiving: "get users",
+          withRequest: {
+            method: "GET",
+            path: "/api/users"
+          },
+          willRespondWith: {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            body: eachLike(FAKE_USERS[0])
           }
         });
 
