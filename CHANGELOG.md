@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.69.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.68.0...v3.69.0) (2024-06-06)
+
+
+### Features
+
+* Devon/Aerin [[#546](https://github.com/PublicDataWorks/complaint-manager/issues/546)] adds display facility test and adds some functionality for facility field on frontend ([0a58462](https://github.com/PublicDataWorks/complaint-manager/commit/0a58462541722faf0ee7a8ff8559406b14ba2ff5))
+
+
+### Bug Fixes
+
+* Mariah/Claire [[#604](https://github.com/PublicDataWorks/complaint-manager/issues/604)] fix syntax error in init-localstack ([88fa8aa](https://github.com/PublicDataWorks/complaint-manager/commit/88fa8aadcadf31d062f8cdf26e62711c07f9be88))
+
 ### [3.68.2](https://github.com/PublicDataWorks/complaint-manager/compare/v3.68.0...v3.68.2) (2024-06-03)
 
 ### [3.68.1](https://github.com/PublicDataWorks/complaint-manager/compare/v3.68.0...v3.68.1) (2024-05-31)
