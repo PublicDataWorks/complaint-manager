@@ -37,7 +37,7 @@ const Visualization = ({ queryModel, isPublic, hasDropdown }) => {
   const [config, setConfig] = useState({});
   const [dateRange, setDateRange] = useState(DATE_RANGE_TYPE.PAST_12_MONTHS);
   const isMobile = useMediaQuery("(max-width:768px)");
-  const isMidSize = useMediaQuery("(max-width:1400px)");
+  const isMidSize = useMediaQuery("(max-width:1639px)");
 
   useEffect(() => {
     const fetchData = async () => {
