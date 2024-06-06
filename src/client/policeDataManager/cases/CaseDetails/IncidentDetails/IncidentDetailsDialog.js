@@ -44,6 +44,7 @@ import { renderTextField } from "../../sharedFormComponents/renderFunctions";
 import Dropdown from "../../../../common/components/Dropdown";
 import scrollToFirstError from "../../../../common/helpers/scrollToFirstError";
 import { userTimezone } from "../../../../common/helpers/userTimezone";
+import getFacilities from "../../thunks/getFacilities";
 
 const submitIncidentDetails = (values, dispatch, props) => {
   const errors = addressMustBeValid(props.addressValid);
@@ -232,25 +233,51 @@ class IncidentDetailsDialog extends Component {
               </Field>
             </div>
             <div style={{ marginBottom: "16px" }}>
-              <AddressInput
-                name={"autoSuggestValue"}
-                data-testid="editAddressInput"
-                formName={"IncidentDetails"}
-                fieldName={"incidentLocation"}
-                addressLabel={"Incident Location"}
-                formattedAddress={props.formattedAddress}
-              />
+              {this.props.mapVisualizationFeature && (
+                <AddressInput
+                  name={"autoSuggestValue"}
+                  data-testid="editAddressInput"
+                  formName={"IncidentDetails"}
+                  fieldName={"incidentLocation"}
+                  addressLabel={"Incident Location"}
+                  formattedAddress={props.formattedAddress}
+                />
+              )}
             </div>
             <div style={{ display: "flex", marginBottom: "16px" }}>
-              <AddressSecondLine
-                data-testid="editAddressSecondLineInput"
-                label={"Address Line 2"}
-                fieldName={`incidentLocation`}
-                style={{
-                  marginRight: "5%",
-                  flex: "2"
+              {this.props.mapVisualizationFeature && (
+                <AddressSecondLine
+                  data-testid="editAddressSecondLineInput"
+                  label={"Address Line 2"}
+                  fieldName={`incidentLocation`}
+                  style={{
+                    marginRight: "5%",
+                    flex: "2"
+                  }}
+                />
+              )}
+
+              {/* {this.props.policeIncidentDetails && ( */}
+              <Field
+                label="Facility"
+                name="facility"
+                component={Dropdown}
+                data-testid="facility-field"
+                style={{ flex: "2", marginRight: "24px", padding: "5px" }}
+                inputProps={{
+                  "data-testid": "facility-input",
+                  "aria-label": "Facility Field"
                 }}
-              />
+              >
+                {/* {generateMenuOptions(
+                  this.props.facilities.map(facility => [
+                    facility.name,
+                    facility.id
+                  ]),
+                  "Search for Facility"
+                )} */}
+              </Field>
+              {/* )} */}
               <Field
                 label="District"
                 name="districtId"
@@ -435,7 +462,8 @@ const mapStateToProps = state => {
     intakeSources: state.ui.intakeSources,
     policeIncidentDetails: state.featureToggles.policeIncidentDetails,
     priorityLevels: state.ui.priorityLevels,
-    priorityReasons: state.ui.priorityReasons
+    priorityReasons: state.ui.priorityReasons,
+    facilityId: state.currentCase.details.facilityId
   };
 };
 
@@ -449,4 +477,7 @@ const mapDispatchToProps = {
 
 export default withStyles(styles)(
   connect(mapStateToProps, mapDispatchToProps)(connectedForm)
+);
+connect(state => ({ facilities: state.facilities }), { getFacilities })(
+  IncidentDetailsDialog
 );

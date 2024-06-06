@@ -39,11 +39,13 @@ class IncidentDetails extends React.Component {
       howDidYouHearAboutUsSourceId: this.props.howDidYouHearAboutUsSourceId,
       pibCaseNumber: this.props.pibCaseNumber,
       priorityReason: this.props.priorityReason,
-      priorityLevel: this.props.priorityLevel
+      priorityLevel: this.props.priorityLevel,
+      facilities: this.props.facilities
     };
 
     this.props.dispatch(initialize("IncidentDetails", formValues));
     this.props.dispatch(openEditIncidentDetailsDialog());
+    console.log("HEEEEERREE", this.props.facilities);
   };
 
   handleDialogClose = () => {
