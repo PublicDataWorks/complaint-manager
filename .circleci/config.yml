@@ -646,6 +646,30 @@ jobs:
           worker-image: "police-data-manager-hawaii-worker"
           version: "$(cat release.version)"
 
+  cypress-test-noipm:
+    docker:
+      - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: yarn install
+      - run:
+          name: Run Cypress tests
+          command: yarn cypress:noipm
+
+  cypress-test-hawaii:
+    docker:
+      - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: yarn install
+      - run:
+          name: Run Cypress tests
+          command: yarn cypress:hawaii
+
   e2e-testing-playground:
     docker:
       - image: publicdataworks/e2e-noipm:latest
@@ -1233,6 +1257,9 @@ workflows:
       - ensure-staging-deploy-succeeded:
           requires:
             - deploy-staging-noipm
+      - cypress-test-noipm:
+          requires:
+            - ensure-staging-deploy-succeeded
       - e2e-testing-staging:
           requires:
             - ensure-staging-deploy-succeeded
@@ -1260,6 +1287,9 @@ workflows:
       - ensure-staging-deploy-succeeded:
           requires:
             - deploy-staging-hawaii
+      - cypress-test-hawaii:
+          requires:
+            - ensure-staging-deploy-succeeded
       - e2e-testing-staging:
           requires:
             - ensure-staging-deploy-succeeded

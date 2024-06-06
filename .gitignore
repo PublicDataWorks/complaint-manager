@@ -63,3 +63,5 @@ src/testPDFs/**/*.png
 
 scripts/deploy-*.config
 src/swagger/
+cypress/downloads/
+cypress/screenshots/
