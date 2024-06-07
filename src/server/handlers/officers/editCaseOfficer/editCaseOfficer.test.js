@@ -358,9 +358,7 @@ describe("editCaseOfficer", () => {
       expect(updatedCaseOfficer.middleName).toEqual(newOfficer.middleName);
       expect(updatedCaseOfficer.lastName).toEqual(newOfficer.lastName);
       expect(updatedCaseOfficer.fullName).toEqual(newOfficer.fullName);
-      expect(updatedCaseOfficer.employeeId).toEqual(
-        newOfficer.employeeId
-      );
+      expect(updatedCaseOfficer.employeeId).toEqual(newOfficer.employeeId);
       expect(updatedCaseOfficer.supervisorFirstName).toEqual(
         supervisor.firstName
       );
@@ -371,7 +369,7 @@ describe("editCaseOfficer", () => {
         supervisor.lastName
       );
       expect(updatedCaseOfficer.supervisorEmployeeId).toEqual(
-        supervisor.supervisorEmployeeId
+        supervisor.employeeId
       );
     });
 
@@ -419,9 +417,7 @@ describe("editCaseOfficer", () => {
       expect(updatedCaseOfficer.middleName).toEqual(newOfficer.middleName);
       expect(updatedCaseOfficer.lastName).toEqual(newOfficer.lastName);
       expect(updatedCaseOfficer.fullName).toEqual(newOfficer.fullName);
-      expect(updatedCaseOfficer.employeeId).toEqual(
-        newOfficer.employeeId
-      );
+      expect(updatedCaseOfficer.employeeId).toEqual(newOfficer.employeeId);
       expect(updatedCaseOfficer.supervisorFirstName).toEqual(null);
       expect(updatedCaseOfficer.supervisorMiddleName).toEqual(null);
       expect(updatedCaseOfficer.supervisorLastName).toEqual(null);

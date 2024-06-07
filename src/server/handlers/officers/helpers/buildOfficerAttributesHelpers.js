@@ -78,7 +78,7 @@ const buildSupervisorAttributes = async newOfficer => {
     supervisorFirstName: supervisor?.firstName,
     supervisorMiddleName: supervisor?.middleName,
     supervisorLastName: supervisor?.lastName,
-    supervisorEmployeeId: supervisor?.supervisorEmployeeId
+    supervisorEmployeeId: supervisor?.employeeId
   };
 };
 
