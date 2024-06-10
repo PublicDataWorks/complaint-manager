@@ -102,6 +102,7 @@ import getRuleChapters from "./handlers/ruleChapters/getRuleChapters";
 import getDirectives from "./handlers/directives/getDirectives";
 import getPriorityLevels from "./handlers/priority_levels/getPriorityLevels";
 import getPriorityReasons from "./handlers/priority_reasons/getPriorityReasons";
+import getHousingUnits from "./handlers/housingUnits/getHousingUnits";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -816,6 +817,12 @@ export const API_ROUTES = {
     get: {
       handler: getPriorityReasons,
       errorMessage: "Something went wrong while getting priority reasons"
+    }
+  },
+  "/housing-units": {
+    get: {
+      handler: getHousingUnits,
+      errorMessage: "Something went wrong while getting housing units"
     }
   }
 };
