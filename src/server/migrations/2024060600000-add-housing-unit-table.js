@@ -31,5 +31,15 @@ module.exports = {
     }
   },
 
-  down: async (queryInterface, Sequelize) => {}
+  down: async (queryInterface, Sequelize) => {
+    try {
+      await queryInterface.sequelize.query(`DROP TABLE IF EXISTS ${TABLE}`, {
+        transaction
+      });
+    } catch (error) {
+      throw new Error(
+        `Error while removing ${TABLE} table. Internal Error: ${error}`
+      );
+    }
+  }
 };
