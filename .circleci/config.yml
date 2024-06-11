@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   browser-tools: circleci/browser-tools@1.2.4
+  cypress: cypress-io/cypress@3
 parameters:
   prod-indexing-branch:
     type: string
@@ -649,26 +650,28 @@ jobs:
   cypress-test-noipm:
     docker:
       - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
+    executor: cypress/default
     steps:
       - checkout
       - run:
           name: Install Dependencies
           command: yarn install
-      - run:
-          name: Run Cypress tests
-          command: yarn cypress:noipm
+      - cypress/install
+      - cypress/run-tests:
+          cypress-command: yarn cypress:noipm
 
   cypress-test-hawaii:
     docker:
       - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
+    executor: cypress/default
     steps:
       - checkout
       - run:
           name: Install Dependencies
           command: yarn install
-      - run:
-          name: Run Cypress tests
-          command: yarn cypress:hawaii
+      - cypress/install
+      - cypress/run-tests:
+          cypress-command: yarn cypress:hawaii
 
   e2e-testing-playground:
     docker:
