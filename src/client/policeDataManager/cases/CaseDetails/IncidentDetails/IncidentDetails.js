@@ -10,7 +10,6 @@ import AddressInfoDisplay from "../../../shared/components/AddressInfoDisplay";
 import { initialize, reset } from "redux-form";
 import { CardContent } from "@material-ui/core";
 import { connect } from "react-redux";
-//import getFacilities from "../cases/thunks/getFacilities";
 import {
   closeEditIncidentDetailsDialog,
   openEditIncidentDetailsDialog
@@ -40,12 +39,12 @@ class IncidentDetails extends React.Component {
       pibCaseNumber: this.props.pibCaseNumber,
       priorityReason: this.props.priorityReason,
       priorityLevel: this.props.priorityLevel,
-      facilities: this.props.facilities
+      facilityId: this.props.policeIncidentDetails ? undefined : this.props.facilityId,
+      facilities: this.props.policeIncidentDetails ? undefined : this.props.facilities
     };
 
     this.props.dispatch(initialize("IncidentDetails", formValues));
     this.props.dispatch(openEditIncidentDetailsDialog());
-    console.log("HEEEEERREE", this.props.facilities);
   };
 
   handleDialogClose = () => {
@@ -70,6 +69,7 @@ class IncidentDetails extends React.Component {
       priorityReason,
       priorityLevel,
       facilityId,
+      facilities,
       configs
     } = this.props;
     const intakeSourceName = intakeSource ? intakeSource.name : "";
@@ -77,6 +77,7 @@ class IncidentDetails extends React.Component {
       ? howDidYouHearAboutUsSource.name
       : "";
     const districtName = district ? district.name : "";
+    const facilityName = facilities.find(f => f.id === facilityId)?.name;
     const pbCaseNumberText = `${configs[CONFIGS.BUREAU_ACRONYM]} Case Number`;
     const priorityReasonName = priorityReason ? priorityReason.name : "";
     const priorityLevelName = priorityLevel ? priorityLevel.name : "";
@@ -122,11 +123,12 @@ class IncidentDetails extends React.Component {
         />
       </StyledInfoDisplay>
     );
+    
     const Facility = (
       <StyledInfoDisplay>
         <CivilianInfoDisplay
           displayLabel="Facility"
-          value={facilityId}
+          value={facilityName}
           testLabel="facilityId"
         />
       </StyledInfoDisplay>
@@ -301,7 +303,8 @@ const mapStateToProps = state => ({
   priorityReason: state.currentCase.details.priorityReason,
   priorityLevel: state.currentCase.details.priorityLevel,
   policeIncidentDetails: state.featureToggles.policeIncidentDetails,
-  facilityId: state.currentCase.details.facilityId
+  facilityId: state.currentCase.details.facilityId,
+  facilities: state.facilities
 });
 
 export default connect(mapStateToProps)(IncidentDetails);

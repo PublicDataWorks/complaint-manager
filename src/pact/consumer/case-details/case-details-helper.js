@@ -246,6 +246,7 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               employeeType: "Commissioned",
               caseEmployeeType: "Officer",
               district: "6th District",
+              facilityId: 1,
               bureau: "FOB - Field Operations Bureau",
               rank: "POLICE OFFICER 4",
               hireDate: "2007-06-24",
@@ -491,6 +492,22 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
         "Content-Type": "application/json; charset=utf-8"
       },
       body: eachLike(["1st District", 1])
+    }
+  });
+
+  await provider.addInteraction({
+    state: "facilities exist",
+    uponReceiving: "get facilities",
+    withRequest: {
+      method: "GET",
+      path: "/api/facilities"
+    },
+    willRespondWith: {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      body: eachLike(["Waiawa Correctional Facility", 1])
     }
   });
 

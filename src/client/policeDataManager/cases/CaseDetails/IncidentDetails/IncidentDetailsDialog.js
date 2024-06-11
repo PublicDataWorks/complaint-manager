@@ -65,9 +65,10 @@ const submitIncidentDetails = (values, dispatch, props) => {
       values.howDidYouHearAboutUsSourceId
     ),
     districtId: nullifyFieldUnlessValid(values.districtId),
+    facilityId: nullifyFieldUnlessValid(values.facilityId),
     id: props.caseId
   };
-
+   
   let timezone;
   if (
     (normalizedValuesWithId.incidentDate ||
@@ -137,6 +138,7 @@ class IncidentDetailsDialog extends Component {
     this.props.getDistrictDropdownValues();
     this.props.dispatch(getPriorityLevelDropdownValues());
     this.props.dispatch(getPriorityReasonsDropdownValues());
+    this.props.getFacilities();
   }
 
   render() {
@@ -233,7 +235,7 @@ class IncidentDetailsDialog extends Component {
               </Field>
             </div>
             <div style={{ marginBottom: "16px" }}>
-              {this.props.mapVisualizationFeature && (
+              {this.props.policeIncidentDetails && (
                 <AddressInput
                   name={"autoSuggestValue"}
                   data-testid="editAddressInput"
@@ -245,7 +247,7 @@ class IncidentDetailsDialog extends Component {
               )}
             </div>
             <div style={{ display: "flex", marginBottom: "16px" }}>
-              {this.props.mapVisualizationFeature && (
+              {this.props.policeIncidentDetails && (
                 <AddressSecondLine
                   data-testid="editAddressSecondLineInput"
                   label={"Address Line 2"}
@@ -256,28 +258,28 @@ class IncidentDetailsDialog extends Component {
                   }}
                 />
               )}
+              {!this.props.policeIncidentDetails && (
+                <Field
+                  label="Facility"
+                  name="facilityId"
+                  component={Dropdown}
+                  data-testid="facilityDropdown"
+                  style={{ flex: "2", marginRight: "24px", padding: "5px" }}
+                  inputProps={{
+                    "data-testid": "facilityInput",
+                    autoComplete: "off"
+                  }}
+                >
+                  {generateMenuOptions(
+                    props.facilities.map(facility => [
+                      facility.name,
+                      facility.id
+                    ]),
+                    "Other"
+                  )}
+                </Field>
+              )}
 
-              {/* {this.props.policeIncidentDetails && ( */}
-              <Field
-                label="Facility"
-                name="facility"
-                component={Dropdown}
-                data-testid="facility-field"
-                style={{ flex: "2", marginRight: "24px", padding: "5px" }}
-                inputProps={{
-                  "data-testid": "facility-input",
-                  "aria-label": "Facility Field"
-                }}
-              >
-                {/* {generateMenuOptions(
-                  this.props.facilities.map(facility => [
-                    facility.name,
-                    facility.id
-                  ]),
-                  "Search for Facility"
-                )} */}
-              </Field>
-              {/* )} */}
               <Field
                 label="District"
                 name="districtId"
@@ -463,7 +465,8 @@ const mapStateToProps = state => {
     policeIncidentDetails: state.featureToggles.policeIncidentDetails,
     priorityLevels: state.ui.priorityLevels,
     priorityReasons: state.ui.priorityReasons,
-    facilityId: state.currentCase.details.facilityId
+    facilityId: state.currentCase.details.facilityId,
+    facilities: state.facilities
   };
 };
 
@@ -472,12 +475,10 @@ const mapDispatchToProps = {
   getHowDidYouHearAboutUsSourceDropdownValues,
   getDistrictDropdownValues,
   getPriorityLevelDropdownValues,
-  getPriorityReasonsDropdownValues
+  getPriorityReasonsDropdownValues,
+  getFacilities
 };
 
 export default withStyles(styles)(
   connect(mapStateToProps, mapDispatchToProps)(connectedForm)
-);
-connect(state => ({ facilities: state.facilities }), { getFacilities })(
-  IncidentDetailsDialog
 );
