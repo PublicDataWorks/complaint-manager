@@ -1,5 +1,6 @@
 const models = require("../policeDataManager/models");
 const DataAnonymizer = require("data-anonymizer");
+const fs = require("fs");
 
 const ANONYMIZED_FIELDS = {
   action_audit: ["user"],
@@ -166,13 +167,23 @@ async function pullAnonymizedData() {
   for (const modelName in models) {
     const model = models[modelName];
     if (model.findAll) {
-      const results = await model.findAll();
+      const attributes = Object.entries(model.rawAttributes)
+        .filter(
+          ([_, attribute]) =>
+            attribute.type && attribute.type.constructor.key !== "VIRTUAL"
+        )
+        .map(([key, _]) => key);
+
+      const results = await model.findAll({
+        attributes // This will only include non-virtual fields
+      });
+
       data[modelName] = await anonymizeTable(modelName, results);
     }
   }
 
   const jsonData = JSON.stringify(data);
-  console.log(jsonData); // You can save or use the JSON data as per your requirement
+  fs.writeFileSync("anonymizedData.json", jsonData);
 }
 
 pullAnonymizedData();
