@@ -107,7 +107,8 @@ class Dropzone extends Component {
     dictUploadCanceled: UPLOAD_CANCELED,
     dictDefaultMessage: "Drag and drop or click",
     maxFilesize: 5000,
-    timeout: Infinity
+    timeout: Infinity,
+    useFsAccessApi: false
   };
 
   uploadAttachment = () => {

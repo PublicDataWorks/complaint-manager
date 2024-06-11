@@ -97,7 +97,8 @@ const FileUpload = props => {
                     (acc, type) => (acc ? `${acc}, ${type}` : type),
                     ""
                   )
-                : null
+                : null,
+              useFsAccessApi: false
             }}
             eventHandlers={{
               init: props.onInit,
