@@ -99,7 +99,7 @@ pactWith(
           await screen.findByTestId("caseNotesContainer")
         ).toBeInTheDocument();
 
-        const addButton = await screen.findByTestId("addCaseNoteButton");
+        const addButton = screen.getByTestId("addCaseNoteButton");
 
         userEvent.click(addButton);
         userEvent.click(await screen.findByTestId("actionTakenInput"));
