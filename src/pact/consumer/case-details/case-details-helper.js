@@ -507,7 +507,11 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
       headers: {
         "Content-Type": "application/json; charset=utf-8"
       },
-      body: eachLike(["Waiawa Correctional Facility", 1])
+      body: eachLike({
+        name: "Waiawa Correctional Facility",
+        id: 1,
+        abbreviation: "WCF"
+      })
     }
   });
 
