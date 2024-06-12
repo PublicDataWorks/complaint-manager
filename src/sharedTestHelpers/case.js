@@ -50,6 +50,8 @@ class Case {
     this.isCase = build.isCase;
     this.pibCaseNumber = build.pibCaseNumber;
     this.facilityId = build.facilityId;
+    this.housingUnitId = build.housingUnitId;
+
     if (build.defaultPersonType) {
       this.defaultPersonType = build.defaultPersonType;
     }
@@ -151,6 +153,8 @@ class Case {
         this.deletedAt = null;
         this.isCase = true;
         this.facilityId = null;
+        this.housingUnitId = null;
+
         return this;
       }
 
@@ -335,6 +339,11 @@ class Case {
       }
       withFacilityId(facilityId) {
         this.facilityId = facilityId;
+        return this;
+      }
+
+      withHousingUnitId(housingUnitId) {
+        this.housingUnitId = housingUnitId;
         return this;
       }
 

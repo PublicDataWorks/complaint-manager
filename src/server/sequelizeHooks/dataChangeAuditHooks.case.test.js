@@ -148,7 +148,8 @@ describe("dataChangeAuditHooks", () => {
         caseNumber: { new: 1 },
         primaryComplainant: {},
         year: { new: 2017 },
-        facilityId: { new: null }
+        facilityId: { new: null },
+        housingUnitId: { new: null }
       };
       expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });
@@ -193,7 +194,8 @@ describe("dataChangeAuditHooks", () => {
         caseNumber: { new: 1 },
         primaryComplainant: {},
         year: { new: 2017 },
-        facilityId: { new: null }
+        facilityId: { new: null },
+        housingUnitId: { new: null }
       };
       expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });
@@ -242,7 +244,8 @@ describe("dataChangeAuditHooks", () => {
         caseNumber: { new: 1 },
         primaryComplainant: {},
         year: { new: 2017 },
-        facilityId: { new: null }
+        facilityId: { new: null },
+        housingUnitId: { new: null }
       };
       expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });
@@ -279,6 +282,7 @@ describe("dataChangeAuditHooks", () => {
         district: null,
         districtId: null,
         facilityId: null,
+        housingUnitId: null,
         complaintTypeId: complaintType.id,
         assignedTo: "originalAssignedToPerson",
         statusId: 1,
@@ -869,7 +873,8 @@ describe("dataChangeAuditHooks", () => {
         intakeSource: { new: intakeSource.name },
         pibCaseNumber: {
           new: null
-        }
+        },
+        housingUnitId: { new: null }
       };
 
       expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
@@ -915,7 +920,8 @@ describe("dataChangeAuditHooks", () => {
         intakeSource: { previous: intakeSource.name },
         pibCaseNumber: {
           previous: null
-        }
+        },
+        housingUnitId: { previous: null }
       };
       expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });

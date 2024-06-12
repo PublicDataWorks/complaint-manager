@@ -51,6 +51,7 @@ module.exports = (sequelize, DataTypes) => {
    * @property createdBy {string} - The username of the user who created the case
    * @property assignedTo {string} - The username of the user to whom the case is assigned
    * @property facilityId {number} - a foreign key to the facilities table indicating the facility where the incident took place
+   * @property housingUnitId {number} - the housing unit id is a foreign key to the housing_units table
    *
    * Associations:
    * @property audit (One to Many) - changes/data accesses on the case
@@ -78,6 +79,7 @@ module.exports = (sequelize, DataTypes) => {
    * @property status (Many to One) - The status of the case (statuses have their own table so that different orgs can have different statuses)
    * @property complaintType (Many to One) - The type of complaint
    * @property facilityId (One to One) - The facility where the incident occurred
+   * @property housingUnitId (One to One) - one case will have only one housing unit which is dependent on the faciltiyId
    */
   const Case = sequelize.define(
     "cases",
@@ -256,6 +258,14 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
         references: {
           model: models.facility,
+          key: "id"
+        }
+      },
+      housingUnitId: {
+        field: "housing_unit_id",
+        type: DataTypes.INTEGER,
+        references: {
+          model: models.housing_unit,
           key: "id"
         }
       }
@@ -505,6 +515,14 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: {
         name: "facilityId",
         field: "facility_id",
+        allowNull: true
+      }
+    });
+    Case.belongsTo(models.housing_unit, {
+      as: "housingUnit",
+      foreignKey: {
+        name: "housingUnitId",
+        field: "housing_unit_id",
         allowNull: true
       }
     });
