@@ -33,13 +33,15 @@ describe("When a request is made to get all housing units by facilityId", () => 
   test("it should return 200", async () => {
     const token = buildTokenWithPermissions("", "user");
 
-    const firstFacility = await models.facility.create(
-      { name: "facility 1", abbreviation: "F1"},
-    );
-    
-    const secondFacility = await models.facility.create(
-      { name: "facility 2", abbreviation: "F2" },
-    );
+    const firstFacility = await models.facility.create({
+      name: "facility 1",
+      abbreviation: "F1"
+    });
+
+    const secondFacility = await models.facility.create({
+      name: "facility 2",
+      abbreviation: "F2"
+    });
 
     await models.housing_unit.create(
       { name: "housing unit 1", facility_id: firstFacility.id },
