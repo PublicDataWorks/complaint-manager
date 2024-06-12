@@ -496,7 +496,7 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
   });
 
   await provider.addInteraction({
-    state: "facilities exist",
+    state: "Facilities exist",
     uponReceiving: "get facilities",
     withRequest: {
       method: "GET",
