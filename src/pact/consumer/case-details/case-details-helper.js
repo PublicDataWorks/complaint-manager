@@ -246,7 +246,6 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               employeeType: "Commissioned",
               caseEmployeeType: "Officer",
               district: "6th District",
-              facilityId: 1,
               bureau: "FOB - Field Operations Bureau",
               rank: "POLICE OFFICER 4",
               hireDate: "2007-06-24",
