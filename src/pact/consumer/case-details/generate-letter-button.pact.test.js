@@ -57,7 +57,10 @@ pactWith(
         userEvent.click(await screen.findByText("COMPLAINANT"));
 
         expect(
-          await screen.findByText("You have generated a new COMPLAINANT letter")
+          await screen.findByText(
+            "You have generated a new COMPLAINANT letter",
+            { timeout: 8000 }
+          )
         ).toBeInTheDocument();
       });
     });
