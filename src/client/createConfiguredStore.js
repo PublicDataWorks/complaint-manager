@@ -72,6 +72,7 @@ import inmateDetailsReducer from "./policeDataManager/reducers/ui/inmateDetailsR
 import searchIndexReducer from "./policeDataManager/reducers/searchIndexReducer";
 import ruleChaptersReducer from "./policeDataManager/reducers/ruleChaptersReducer";
 import directivesReducer from "./policeDataManager/reducers/directivesReducer";
+import housingUnitReducer from "./policeDataManager/reducers/housingUnitReducer";
 
 const rootReducer = combineReducers({
   cases: combineReducers({
@@ -95,6 +96,7 @@ const rootReducer = combineReducers({
   }),
   featureToggles: featureTogglesReducer,
   facilities: facilitiesReducer,
+  housingUnits: housingUnitReducer,
   form: formReducer,
   notifications: getNotificationsReducer,
   officers: combineReducers({
