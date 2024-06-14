@@ -45,6 +45,7 @@ import Dropdown from "../../../../common/components/Dropdown";
 import scrollToFirstError from "../../../../common/helpers/scrollToFirstError";
 import { userTimezone } from "../../../../common/helpers/userTimezone";
 import getFacilities from "../../thunks/getFacilities";
+import getHousingUnits from "../../thunks/getHousingUnits";
 
 const submitIncidentDetails = (values, dispatch, props) => {
   const errors = addressMustBeValid(props.addressValid);
@@ -66,9 +67,10 @@ const submitIncidentDetails = (values, dispatch, props) => {
     ),
     districtId: nullifyFieldUnlessValid(values.districtId),
     facilityId: nullifyFieldUnlessValid(values.facilityId),
+    housingUnitId: nullifyFieldUnlessValid(values.housingUnitId),
     id: props.caseId
   };
-   
+
   let timezone;
   if (
     (normalizedValuesWithId.incidentDate ||
@@ -120,6 +122,7 @@ class IncidentDetailsDialog extends Component {
       }
     };
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
+    // this.handleDropdownChangeHousing = this.handleDropdownChangeHousing.bind(this);
   }
 
   handleDropdownChange(newValue) {
@@ -131,6 +134,11 @@ class IncidentDetailsDialog extends Component {
     }
   }
 
+  // handleDropdownChangeHousing(event) {
+  //   const facilityId = event.target.value;
+  //   this.setState({ facilityId: facilityId });
+  // }
+
   componentDidMount() {
     this.setState({ dropdownValue: this.props.intakeSourceName });
     this.props.getIntakeSourceDropdownValues();
@@ -139,6 +147,7 @@ class IncidentDetailsDialog extends Component {
     this.props.dispatch(getPriorityLevelDropdownValues());
     this.props.dispatch(getPriorityReasonsDropdownValues());
     this.props.getFacilities();
+    this.props.getHousingUnits(this.props.facilityId);
   }
 
   render() {
@@ -259,6 +268,7 @@ class IncidentDetailsDialog extends Component {
                 />
               )}
               {!this.props.policeIncidentDetails && (
+                <>
                 <Field
                   label="Facility"
                   name="facilityId"
@@ -269,6 +279,8 @@ class IncidentDetailsDialog extends Component {
                     "data-testid": "facilityInput",
                     autoComplete: "off"
                   }}
+                  // handleDropdownChangeHousing={this.handleDropdownChangeHousing}
+                  // onChange={event => this.handleDropdownChangeHousing(event)}
                 >
                   {generateMenuOptions(
                     props.facilities.map(facility => [
@@ -278,23 +290,48 @@ class IncidentDetailsDialog extends Component {
                     "Other"
                   )}
                 </Field>
+
+                {this.props.facilityId && (
+                  <Field
+                  label="Housing Unit"
+                  name="housingUnitId"
+                  component={Dropdown}
+                  data-testid="housingUnitDropdown"
+                  style={{ flex: "2", marginRight: "24px", padding: "5px" }}
+                  inputProps={{
+                    "data-testid": "housingUnitInput",
+                    autoComplete: "off"
+                  }}
+                >
+                   {generateMenuOptions(props.housingUnits ? props.housingUnits.map(housingUnit => 
+                   ([
+                      housingUnit.name,
+                      housingUnit.id
+                   ])):[], "Unknown")}
+                </Field>
+                )}
+                
+                </>
               )}
 
-              <Field
-                label="District"
-                name="districtId"
-                component={Dropdown}
-                style={{
-                  flex: "1"
-                }}
-                data-testid="districtDropdown"
-                inputProps={{
-                  "data-testid": "districtInput",
-                  autoComplete: "off"
-                }}
-              >
-                {generateMenuOptions(this.props.districts, "Unknown")}
-              </Field>
+
+              {this.props.policeIncidentDetails && (
+                <Field
+                  label="District"
+                  name="districtId"
+                  component={Dropdown}
+                  style={{
+                    flex: "1"
+                  }}
+                  data-testid="districtDropdown"
+                  inputProps={{
+                    "data-testid": "districtInput",
+                    autoComplete: "off"
+                  }}
+                >
+                  {generateMenuOptions(this.props.districts, "Unknown")}
+                </Field>
+              )}
             </div>
             <div style={{ display: "flex" }}>
               <AdditionalLocationInfo
@@ -466,7 +503,10 @@ const mapStateToProps = state => {
     priorityLevels: state.ui.priorityLevels,
     priorityReasons: state.ui.priorityReasons,
     facilityId: state.currentCase.details.facilityId,
-    facilities: state.facilities
+    facilities: state.facilities,
+    housingUnitId: state.currentCase.details.housingUnitId,
+    housingUnits: state.housingUnits
+    
   };
 };
 
@@ -476,7 +516,8 @@ const mapDispatchToProps = {
   getDistrictDropdownValues,
   getPriorityLevelDropdownValues,
   getPriorityReasonsDropdownValues,
-  getFacilities
+  getFacilities,
+  getHousingUnits
 };
 
 export default withStyles(styles)(

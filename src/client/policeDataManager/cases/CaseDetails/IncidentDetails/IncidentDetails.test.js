@@ -17,10 +17,15 @@ import getIntakeSourceDropdownValues from "../../../intakeSources/thunks/getInta
 import getHowDidYouHearAboutUsSourceDropdownValues from "../../../howDidYouHearAboutUsSources/thunks/getHowDidYouHearAboutUsSourceDropdownValues";
 import { getDistrictsSuccess } from "../../../actionCreators/districtsActionCreators";
 import getDistrictDropdownValues from "../../../districts/thunks/getDistrictDropdownValues";
-import { GET_FACILITIES, USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
+import {
+  GET_FACILITIES,
+  GET_HOUSING_UNITS_SUCCEEDED,
+  USER_PERMISSIONS
+} from "../../../../../sharedUtilities/constants";
 import { getIntakeSourcesSuccess } from "../../../actionCreators/intakeSourceActionCreators";
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
-import  getFacilities  from "../../thunks/getFacilities";
+import getFacilities from "../../thunks/getFacilities";
+import { getHousingUnitsSuccess } from "../../../actionCreators/housingUnitActionCreator.js";
 
 jest.mock("../../thunks/editIncidentDetails", () =>
   jest.fn(values => ({
@@ -58,6 +63,13 @@ jest.mock(
 
 jest.mock("../PersonOnCaseDialog/MapServices/MapService");
 
+jest.mock("../../thunks/getHousingUnits", () =>
+  jest.fn(values => ({
+    type: "GET_HOUSING_UNITS_MOCK",
+    values
+  }))
+);
+
 describe("incident details", () => {
   let incidentDetails,
     currentCase,
@@ -69,7 +81,8 @@ describe("incident details", () => {
     dispatchSpy,
     intakeSourceId,
     formattedIncidentTime,
-    facilityId;
+    facilityId,
+    housingUnitId;
 
   describe("without permissions", () => {
     beforeEach(() => {
@@ -381,6 +394,7 @@ describe("incident details", () => {
       formattedIncidentTime = "02:00 PM CDT";
       intakeSourceId = 2;
       facilityId = 1;
+      housingUnitId = 1;
 
       currentCase = new Case.Builder()
         .defaultCase()
@@ -389,24 +403,19 @@ describe("incident details", () => {
         .withIncidentTime(incidentTime)
         .withIncidentTimezone(incidentTimezone)
         .withIncidentLocation(undefined)
-        .withDistrictId(2)
         .withFacilityId(facilityId)
         .withIntakeSourceId(2)
+        .withHousingUnitId(housingUnitId)
         .build();
 
       store.dispatch(getFeaturesSuccess({ policeIncidentDetails: false }));
       dispatchSpy = jest.spyOn(store, "dispatch");
       store.dispatch(getCaseDetailsSuccess(currentCase));
-      store.dispatch(
-        getDistrictsSuccess([
-          ["1st District", 1],
-          ["2nd District", 2],
-        ])
-      );
+
       store.dispatch({
-        type: GET_FACILITIES, payload:[ {id: 1, name: "Waiawa Correctional Facility"} ]
-      }
-      );
+        type: GET_FACILITIES,
+        payload: [{ id: 1, name: "Waiawa Correctional Facility" }]
+      });
       store.dispatch(
         getIntakeSourcesSuccess([
           ["Priority Incident", 1],
@@ -417,6 +426,13 @@ describe("incident details", () => {
         type: "AUTH_SUCCESS",
         userInfo: { permissions: [USER_PERMISSIONS.EDIT_CASE] }
       });
+
+      store.dispatch({
+        type: GET_HOUSING_UNITS_SUCCEEDED,
+        housingUnits:[{ id: 1, name: "Housing Unit 1" }]
+      }
+        
+      );
       wrapper = mount(
         <Provider store={store}>
           <IncidentDetails classes={{}} />
@@ -487,16 +503,16 @@ describe("incident details", () => {
         'input[data-testid="editIncidentTimeInput"]'
       );
 
-      const editDistrict = wrapper
-        .find("[data-testid='districtDropdown']")
-        .find("ForwardRef(Autocomplete)");
-
       const editFacility = wrapper
         .find("[data-testid='facilityDropdown']")
         .find("ForwardRef(Autocomplete)");
 
       const editIntakeSourceDropdown = wrapper
         .find("[data-testid='editIntakeSourceDropdown']")
+        .find("ForwardRef(Autocomplete)");
+
+      const editHousingUnit = wrapper
+        .find("[data-testid='housingUnitDropdown']")
         .find("ForwardRef(Autocomplete)");
 
       expect(editIntakeSourceDropdown.prop("value").value).toEqual(
@@ -506,8 +522,8 @@ describe("incident details", () => {
       expect(editFirstContactDateInput.prop("value")).toEqual(firstContactDate);
       expect(editIncidentDateInput.prop("value")).toEqual(incidentDate);
       expect(editIncidentTimeInput.prop("value")).toEqual(incidentTime);
-      expect(editDistrict.prop("value").value).toEqual(2);
       expect(editFacility.prop("value").value).toEqual(facilityId);
+      // expect(editHousingUnit.prop("value").value).toEqual(housingUnitId);
     });
 
     test("should render priority level and priority reason only when intake source is Priority Incident", () => {

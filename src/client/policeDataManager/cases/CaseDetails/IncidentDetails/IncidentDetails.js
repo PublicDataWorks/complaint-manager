@@ -70,6 +70,8 @@ class IncidentDetails extends React.Component {
       priorityLevel,
       facilityId,
       facilities,
+      housingUnitId,
+      housingUnits,
       configs
     } = this.props;
     const intakeSourceName = intakeSource ? intakeSource.name : "";
@@ -81,6 +83,7 @@ class IncidentDetails extends React.Component {
     const pbCaseNumberText = `${configs[CONFIGS.BUREAU_ACRONYM]} Case Number`;
     const priorityReasonName = priorityReason ? priorityReason.name : "";
     const priorityLevelName = priorityLevel ? priorityLevel.name : "";
+    const housingUnitName = housingUnits.find(h => h.id === housingUnitId)?.name;
 
     const FirstContacted = (
       <StyledInfoDisplay>
@@ -130,6 +133,16 @@ class IncidentDetails extends React.Component {
           displayLabel="Facility"
           value={facilityName}
           testLabel="facilityId"
+        />
+      </StyledInfoDisplay>
+    );
+
+    const HousingUnit = (
+      <StyledInfoDisplay>
+        <CivilianInfoDisplay
+          displayLabel="Housing Unit"
+          value={housingUnitName}
+          testLabel="housingUnitId"
         />
       </StyledInfoDisplay>
     );
@@ -222,7 +235,7 @@ class IncidentDetails extends React.Component {
         ]
       : [
           [FirstContacted, IncidentDate, IncidentTime],
-          [Facility, District, PriorityReason],
+          [Facility, HousingUnit, PriorityReason],
           [
             IntakeSource,
             PriorityLevel,
@@ -304,7 +317,9 @@ const mapStateToProps = state => ({
   priorityLevel: state.currentCase.details.priorityLevel,
   policeIncidentDetails: state.featureToggles.policeIncidentDetails,
   facilityId: state.currentCase.details.facilityId,
-  facilities: state.facilities
+  facilities: state.facilities,
+  housingUnitId: state.currentCase.details.housingUnitId,
+  housingUnits: state.housingUnits
 });
 
 export default connect(mapStateToProps)(IncidentDetails);
