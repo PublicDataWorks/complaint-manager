@@ -65,4 +65,4 @@ scripts/deploy-*.config
 src/swagger/
 cypress/downloads/
 cypress/screenshots/
-anonymizedData.json
+anonymizedData/

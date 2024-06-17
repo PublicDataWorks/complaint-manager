@@ -108,8 +108,6 @@ const ANONYMIZED_FIELDS = {
     "firstName",
     "middleName",
     "lastName",
-    "employeeId",
-    "supervisorEmployeeId",
     "dob",
     "endDate",
     "hireDate"
@@ -140,7 +138,18 @@ const anonymizeField = value => {
       return acc;
     }, {});
   } else if (typeof value === "string") {
-    return anonymizer.anonymize(value);
+    if (value.match(/^\d{4}-\d{2}-\d{2}$/)) {
+      const [year, month, day] = value.split("-");
+      const anonymizedYear = parseInt(year) - Math.ceil(Math.random() * 50);
+      const anonymizedMonth = Math.ceil(Math.random() * 12);
+      const anonymizedDay = Math.ceil(Math.random() * 28);
+      return `${anonymizedYear}-${String(anonymizedMonth).padStart(
+        2,
+        "0"
+      )}-${String(anonymizedDay).padStart(2, "0")}`;
+    } else {
+      return anonymizer.anonymize(value);
+    }
   } else {
     return value;
   }
@@ -166,7 +175,7 @@ async function pullAnonymizedData() {
 
   for (const modelName in models) {
     const model = models[modelName];
-    if (model.findAll) {
+    if (model.findAll && !modelName.includes("view")) {
       const attributes = Object.entries(model.rawAttributes)
         .filter(
           ([_, attribute]) =>
@@ -174,16 +183,20 @@ async function pullAnonymizedData() {
         )
         .map(([key, _]) => key);
 
-      const results = await model.findAll({
-        attributes // This will only include non-virtual fields
-      });
-
-      data[modelName] = await anonymizeTable(modelName, results);
+      data[modelName] = model
+        .findAll({
+          attributes // This will only include non-virtual fields
+        })
+        .then(results => anonymizeTable(modelName, results));
     }
   }
 
-  const jsonData = JSON.stringify(data);
-  fs.writeFileSync("anonymizedData.json", jsonData);
+  await Promise.all(
+    Object.keys(data).map(async (key, idx) => {
+      const table = await data[key];
+      fs.writeFileSync(`anonymizedData/${key}.json`, JSON.stringify(table));
+    })
+  );
 }
 
 pullAnonymizedData();
