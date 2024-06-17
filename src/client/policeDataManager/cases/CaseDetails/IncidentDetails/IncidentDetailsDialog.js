@@ -147,7 +147,9 @@ class IncidentDetailsDialog extends Component {
     this.props.dispatch(getPriorityLevelDropdownValues());
     this.props.dispatch(getPriorityReasonsDropdownValues());
     this.props.getFacilities();
-    this.props.getHousingUnits(this.props.facilityId);
+    if (this.props.facilityId) {
+      this.props.getHousingUnits(this.props.facilityId);
+    }
   }
 
   render() {
@@ -269,51 +271,53 @@ class IncidentDetailsDialog extends Component {
               )}
               {!this.props.policeIncidentDetails && (
                 <>
-                <Field
-                  label="Facility"
-                  name="facilityId"
-                  component={Dropdown}
-                  data-testid="facilityDropdown"
-                  style={{ flex: "2", marginRight: "24px", padding: "5px" }}
-                  inputProps={{
-                    "data-testid": "facilityInput",
-                    autoComplete: "off"
-                  }}
-                  // handleDropdownChangeHousing={this.handleDropdownChangeHousing}
-                  // onChange={event => this.handleDropdownChangeHousing(event)}
-                >
-                  {generateMenuOptions(
-                    props.facilities.map(facility => [
-                      facility.name,
-                      facility.id
-                    ]),
-                    "Other"
-                  )}
-                </Field>
-
-                {this.props.facilityId && (
                   <Field
-                  label="Housing Unit"
-                  name="housingUnitId"
-                  component={Dropdown}
-                  data-testid="housingUnitDropdown"
-                  style={{ flex: "2", marginRight: "24px", padding: "5px" }}
-                  inputProps={{
-                    "data-testid": "housingUnitInput",
-                    autoComplete: "off"
-                  }}
-                >
-                   {generateMenuOptions(props.housingUnits ? props.housingUnits.map(housingUnit => 
-                   ([
-                      housingUnit.name,
-                      housingUnit.id
-                   ])):[], "Unknown")}
-                </Field>
-                )}
-                
+                    label="Facility"
+                    name="facilityId"
+                    component={Dropdown}
+                    data-testid="facilityDropdown"
+                    style={{ flex: "2", marginRight: "24px", padding: "5px" }}
+                    inputProps={{
+                      "data-testid": "facilityInput",
+                      autoComplete: "off"
+                    }}
+                    // handleDropdownChangeHousing={this.handleDropdownChangeHousing}
+                    // onChange={event => this.handleDropdownChangeHousing(event)}
+                  >
+                    {generateMenuOptions(
+                      props.facilities.map(facility => [
+                        facility.name,
+                        facility.id
+                      ]),
+                      "Other"
+                    )}
+                  </Field>
+
+                  {this.props.facilityId && (
+                    <Field
+                      label="Housing Unit"
+                      name="housingUnitId"
+                      component={Dropdown}
+                      data-testid="housingUnitDropdown"
+                      style={{ flex: "2", marginRight: "24px", padding: "5px" }}
+                      inputProps={{
+                        "data-testid": "housingUnitInput",
+                        autoComplete: "off"
+                      }}
+                    >
+                      {generateMenuOptions(
+                        props.housingUnits
+                          ? props.housingUnits.map(housingUnit => [
+                              housingUnit.name,
+                              housingUnit.id
+                            ])
+                          : [],
+                        "Unknown"
+                      )}
+                    </Field>
+                  )}
                 </>
               )}
-
 
               {this.props.policeIncidentDetails && (
                 <Field
@@ -506,7 +510,6 @@ const mapStateToProps = state => {
     facilities: state.facilities,
     housingUnitId: state.currentCase.details.housingUnitId,
     housingUnits: state.housingUnits
-    
   };
 };
 
