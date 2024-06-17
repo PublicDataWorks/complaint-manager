@@ -515,6 +515,22 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
   });
 
   await provider.addInteraction({
+    state: "Housing units exist",
+    uponReceiving: "get housing units",
+    withRequest: {
+      method: "GET",
+      path: "/api/housing-units"
+    },
+    willRespondWith: {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      body: eachLike(["Housing Unit 1", 1])
+    }
+  });
+
+  await provider.addInteraction({
     state: "civilian-titles exist",
     uponReceiving: "get civilian-titles",
     withRequest: {
