@@ -1,10 +1,15 @@
-import { screen } from "@testing-library/react";
+import { screen, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import axios from "axios";
 import { pactWith } from "jest-pact";
 import { like, eachLike } from "@pact-foundation/pact/src/dsl/matchers";
-import { setUpCaseDetailsPage } from "./case-details-helper";
 import "@testing-library/jest-dom";
+import CaseNotes from "../../../client/policeDataManager/cases/CaseDetails/CaseNotes/CaseNotes";
+import { Provider } from "react-redux";
+import createConfiguredStore from "../../../client/createConfiguredStore";
+import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
+import { getCaseDetailsSuccess } from "../../../client/policeDataManager/actionCreators/casesActionCreators";
+import SharedSnackbarContainer from "../../../client/policeDataManager/shared/components/SharedSnackbarContainer";
 
 pactWith(
   {
@@ -21,7 +26,6 @@ pactWith(
     describe("case notes", () => {
       test("should add a case note", async () => {
         await Promise.all([
-          setUpCaseDetailsPage(provider),
           provider.addInteraction({
             state: "Case exists; case note actions exist",
             uponReceiving: "add case note",
@@ -97,8 +101,94 @@ pactWith(
                 }
               })
             }
+          }),
+          provider.addInteraction({
+            state: "case note actions exist",
+            uponReceiving: "get case note actions",
+            withRequest: {
+              method: "GET",
+              path: "/api/case-note-actions"
+            },
+            willRespondWith: {
+              status: 200,
+              headers: {
+                "Content-Type": "application/json; charset=utf-8"
+              },
+              body: eachLike(["Case briefing from NOPD", 1])
+            }
+          }),
+          provider.addInteraction({
+            state: "users exist in the store",
+            uponReceiving: "get users",
+            withRequest: {
+              method: "GET",
+              path: "/api/users"
+            },
+            willRespondWith: {
+              status: 200,
+              headers: {
+                "Content-Type": "application/json; charset=utf-8"
+              },
+              body: eachLike({
+                email: "anna.banana@gmail.com",
+                name: "Anna Banana"
+              })
+            }
+          }),
+          provider.addInteraction({
+            state: "case has a case note",
+            uponReceiving: "get case notes",
+            withRequest: {
+              method: "GET",
+              path: "/api/cases/1/case-notes"
+            },
+            willRespondWith: {
+              status: 200,
+              headers: {
+                "Content-Type": "application/json; charset=utf-8"
+              },
+              body: eachLike({
+                id: 1,
+                actionTakenAt: "2022-08-22T15:56:00.000Z",
+                notes: "test",
+                createdAt: "2022-08-22T15:58:21.394Z",
+                updatedAt: "2022-08-22T15:58:21.394Z",
+                actionId: 8,
+                caseId: 1,
+                caseNoteActionId: 8,
+                caseNoteAction: {
+                  id: 8,
+                  name: "Memo to file",
+                  createdAt: "2022-08-19T16:45:03.710Z",
+                  updatedAt: "2022-08-19T16:45:03.710Z"
+                },
+                author: {
+                  name: "NOIPM Infra",
+                  email: "noipm.infrastructure@gmail.com"
+                }
+              })
+            }
           })
         ]);
+
+        let store = createConfiguredStore();
+        store.dispatch(getCaseDetailsSuccess({ id: 1 }));
+        store.dispatch({
+          type: "AUTH_SUCCESS",
+          userInfo: {
+            permissions: [
+              USER_PERMISSIONS.CREATE_CASE_NOTE,
+              USER_PERMISSIONS.EDIT_CASE,
+              USER_PERMISSIONS.ADD_TAG_TO_CASE
+            ]
+          }
+        });
+        render(
+          <Provider store={store}>
+            <CaseNotes caseId={1} />
+            <SharedSnackbarContainer />
+          </Provider>
+        );
 
         expect(
           await screen.findByTestId("caseNotesContainer")
