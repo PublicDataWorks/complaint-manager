@@ -61,7 +61,7 @@ export const executeQuery = async (
     limit: 10,
     order: [["count", DESCENDING]]
   };
-
+  
   const countByTop10Allegations = await models.sequelize.transaction(
     async transaction => {
       return await models.officer_allegation.findAll(queryOptions);

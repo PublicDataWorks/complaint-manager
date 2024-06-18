@@ -6,6 +6,7 @@ import {
   COLORS
 } from "../dataVizStyling";
 import { QUERY_TYPES } from "../../../../../sharedUtilities/constants";
+import { text } from "body-parser";
 
 export default class CountTop10Allegations extends BarGraphVisualization {
   get queryType() {
@@ -22,8 +23,7 @@ export default class CountTop10Allegations extends BarGraphVisualization {
       dragmode: false,
       showlegend: false,
       xaxis: {
-        title: "Number of Allegations",
-        showgrid: true,
+        showgrid: false,
         zeroline: true,
         automargin: true,
         showticklabels: true,
@@ -31,7 +31,6 @@ export default class CountTop10Allegations extends BarGraphVisualization {
       },
       yaxis: {
         title: {
-          text: "Allegations",
           standoff: 30
         },
         tickfont: {
@@ -107,11 +106,12 @@ export default class CountTop10Allegations extends BarGraphVisualization {
         x: xValue ? [xValue] : [],
         y: yValue ? [yValue] : [],
         type: "bar",
-        width: 0.75,
+        width: .5,
         orientation: "h",
         marker: {
           color: COLORS[0]
         },
+        text: xValue ? [xValue] : [],
         textposition: "auto",
         textangle: 0,
         hoverinfo: hoverText ? "text" : "none",
