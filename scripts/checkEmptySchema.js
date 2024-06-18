@@ -8,7 +8,7 @@ const { exec } = require("child-process-promise");
     "/../src/server/config/sequelize_config.js")[env];
 
   const schemaQuery =
-    "select exists(select * from information_schema.tables where table_schema = 'public')::int;";
+    "select exists(select * from information_schema.tables where table_schema = 'public' AND table_type LIKE '%TABLE%')::int;";
 
   const databaseName = config.database;
   const databaseHost = config.host;
