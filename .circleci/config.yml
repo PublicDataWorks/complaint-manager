@@ -661,7 +661,7 @@ jobs:
           at: src/
       - run:
           name: Install Dependencies
-          command: npm install
+          command: npm install --force
       - cypress/install
       - cypress/run-tests:
           cypress-command: yarn cypress:noipm
@@ -676,7 +676,7 @@ jobs:
           at: src/
       - run:
           name: Install Dependencies
-          command: npm install
+          command: npm install --force
       - cypress/install
       - cypress/run-tests:
           cypress-command: yarn cypress:hawaii
