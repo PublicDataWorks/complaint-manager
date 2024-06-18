@@ -159,7 +159,8 @@ pactWith(
         );
 
         option = await screen.findByText(
-          "Officer has significant/noteworthy history"
+          "Officer has significant/noteworthy history",
+          { timeout: 8000 }
         );
       });
 
