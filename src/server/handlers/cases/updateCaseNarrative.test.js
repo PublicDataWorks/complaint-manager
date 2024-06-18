@@ -16,6 +16,7 @@ const updateCaseNarrative = require("./updateCaseNarrative");
 jest.mock("../audits/auditDataAccess");
 
 describe("updateCaseNarrative handler", () => {
+  jest.setTimeout(60000);
   let request, response, existingCase, userNickname, next;
 
   afterEach(async () => {

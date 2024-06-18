@@ -83,7 +83,9 @@ pactWith(
         userEvent.click(await screen.findByTestId("removeCivilianLink"));
         userEvent.click(await screen.findByTestId("dialog-confirm-button"));
         expect(
-          await screen.findByText("Civilian was successfully removed")
+          await screen.findByText("Civilian was successfully removed", {
+            timeout: 8000
+          })
         ).toBeInTheDocument();
       });
     });

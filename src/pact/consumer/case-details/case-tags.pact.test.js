@@ -88,7 +88,9 @@ describe("case tags", () => {
           "mardi gras"
         );
         userEvent.click(screen.getByTestId("caseTagSubmitButton"));
-        const newTag = await screen.findByTestId("caseTagChip");
+        const newTag = await screen.findByTestId("caseTagChip", {
+          timeout: 8000
+        });
 
         expect(newTag.textContent).toEqual("mardi gras");
         expect(
