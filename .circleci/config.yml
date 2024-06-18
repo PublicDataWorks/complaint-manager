@@ -659,10 +659,8 @@ jobs:
       - checkout
       - attach_workspace:
           at: src/
-      - run:
-          name: Install Dependencies
-          command: npm install --legacy-peer-deps
-      - cypress/install
+      - cypress/install:
+          install-command: yarn install
       - cypress/run-tests:
           cypress-command: yarn cypress:noipm
 
@@ -674,10 +672,8 @@ jobs:
       - checkout
       - attach_workspace:
           at: src/
-      - run:
-          name: Install Dependencies
-          command: npm install --legacy-peer-deps
-      - cypress/install
+      - cypress/install:
+          install-command: yarn install
       - cypress/run-tests:
           cypress-command: yarn cypress:hawaii
 
