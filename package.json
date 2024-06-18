@@ -199,6 +199,7 @@
     "yarn-run-all": "~3.1.1"
   },
   "resolutions": {
+    "**/ws": "^8.17.1",
     "**/@sideway/formula": "^3.0.1",
     "**/@xmldom/xmldom": "0.8.5",
     "**/acorn": "^6.4.1",
