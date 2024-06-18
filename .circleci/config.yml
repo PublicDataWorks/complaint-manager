@@ -1102,6 +1102,13 @@ jobs:
 
 workflows:
   version: 2
+  test_cypress:
+    jobs:
+      - cypress-test-hawaii:
+          filters:
+            branches:
+              only:
+                - cypress
   build_and_deploy_master:
     jobs:
       - security-check:
