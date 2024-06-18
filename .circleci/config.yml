@@ -587,7 +587,7 @@ jobs:
           environment: "ci"
           org: "HAWAII"
           org-lowercase: "hcsoc"
-          env-uppercase: "CI"
+          env-uppercase: "HAWAII_CI"
           image: "police-data-manager-hawaii-ci"
           worker-image: "police-data-manager-hawaii-ci-worker"
 
