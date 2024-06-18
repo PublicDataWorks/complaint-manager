@@ -657,6 +657,8 @@ jobs:
     executor: cypress/default
     steps:
       - checkout
+      - attach_workspace:
+          at: src/
       - run:
           name: Install Dependencies
           command: yarn install
@@ -670,6 +672,8 @@ jobs:
     executor: cypress/default
     steps:
       - checkout
+      - attach_workspace:
+          at: src/
       - run:
           name: Install Dependencies
           command: yarn install
