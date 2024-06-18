@@ -135,6 +135,9 @@ commands:
       org:
         default: "NOIPM"
         type: string
+      org-lowercase:
+        default: "noipm"
+        type: string
       env-uppercase:
         default: "CI"
         type: string
@@ -170,9 +173,9 @@ commands:
       - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
       - run: docker tag publicdataworks/<<parameters.image>>:<<parameters.version>> registry.heroku.com/noipm-<<parameters.environment>>/web
       - run: docker tag publicdataworks/<<parameters.worker-image>>:<<parameters.version>> registry.heroku.com/noipm-<<parameters.environment>>/worker
-      - run: docker push registry.heroku.com/noipm-<<parameters.environment>>/web
-      - run: docker push registry.heroku.com/noipm-<<parameters.environment>>/worker
-      - run: heroku container:release web worker --app noipm-<<parameters.environment>>
+      - run: docker push registry.heroku.com/<<parameters.org-lowercase>>-<<parameters.environment>>/web
+      - run: docker push registry.heroku.com/<<parameters.org-lowercase>>-<<parameters.environment>>/worker
+      - run: heroku container:release web worker --app <<parameters.org-lowercase>>-<<parameters.environment>>
   yarn-test:
     parameters:
       test-command:
@@ -583,6 +586,7 @@ jobs:
       - deploy-to-lower-env:
           environment: "ci"
           org: "HAWAII"
+          org-lowercase: "hcsoc"
           env-uppercase: "CI"
           image: "police-data-manager-hawaii-ci"
           worker-image: "police-data-manager-hawaii-ci-worker"
