@@ -591,7 +591,15 @@ jobs:
           image: "police-data-manager-hawaii-ci"
           worker-image: "police-data-manager-hawaii-ci-worker"
 
-  ensure-ci-deploy-succeeded:
+  ensure-hawaii-ci-deploy-succeeded:
+    docker:
+      - image: alpine:latest
+    steps:
+      - checkout
+      - run: sleep 60;
+      - run: scripts/ensure-deploy-succeeded.sh https://hcsoc-ci-b16ff838b089.herokuapp.com//health-check
+
+  ensure-noipm-ci-deploy-succeeded:
     docker:
       - image: alpine:latest
     steps:
@@ -1139,28 +1147,22 @@ workflows:
       - build-and-publish-master-hawaii:
           requires:
             - test-pact-hawaii
-      - deploy-no-to-ci:
-          type: approval
+      - deploy-ci-noipm:
           requires:
             - build-and-publish-master-noipm
             - test-server-and-worker-ci-noipm
             - test-pact-noipm
             - test-client-noipm
-      - deploy-ci-noipm:
-          requires:
-            - deploy-no-to-ci
       - deploy-ci-hawaii:
           requires:
             - build-and-publish-master-hawaii
             - test-server-and-worker-ci-hawaii
             - test-pact-hawaii
             - test-client-hawaii
-      - ensure-ci-deploy-succeeded:
-          name: ensure-ci-noipm-deploy-succeeded
+      - ensure-noipm-ci-deploy-succeeded:
           requires:
             - deploy-ci-noipm
-      - ensure-ci-deploy-succeeded:
-          name: ensure-ci-hawaii-deploy-succeeded
+      - ensure-hawaii-ci-deploy-succeeded:
           requires:
             - deploy-ci-hawaii
       # - letter-generation-testing-ci:
