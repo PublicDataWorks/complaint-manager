@@ -586,8 +586,8 @@ jobs:
       - deploy-to-lower-env:
           environment: "ci"
           org: "HAWAII"
-          org-lowercase: "noipm"
-          env-uppercase: "CI"
+          org-lowercase: "hcsoc"
+          env-uppercase: "HAWAII_CI"
           image: "police-data-manager-hawaii-ci"
           worker-image: "police-data-manager-hawaii-ci-worker"
 
