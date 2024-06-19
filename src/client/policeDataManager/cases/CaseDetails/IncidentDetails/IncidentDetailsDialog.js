@@ -270,72 +270,46 @@ class IncidentDetailsDialog extends Component {
                 />
               )}
               {!this.props.policeIncidentDetails && (
-                <>
-                  <Field
-                    label="Facility"
-                    name="facilityId"
-                    component={Dropdown}
-                    data-testid="facilityDropdown"
-                    style={{ flex: "2", marginRight: "24px", padding: "5px" }}
-                    inputProps={{
-                      "data-testid": "facilityInput",
-                      autoComplete: "off"
-                    }}
-                    // handleDropdownChangeHousing={this.handleDropdownChangeHousing}
-                    // onChange={event => this.handleDropdownChangeHousing(event)}
-                  >
-                    {generateMenuOptions(
-                      props.facilities.map(facility => [
-                        facility.name,
-                        facility.id
-                      ]),
-                      "Other"
-                    )}
-                  </Field>
-
-                  {this.props.facilityId && (
-                    <Field
-                      label="Housing Unit"
-                      name="housingUnitId"
-                      component={Dropdown}
-                      data-testid="housingUnitDropdown"
-                      style={{ flex: "2", marginRight: "24px", padding: "5px" }}
-                      inputProps={{
-                        "data-testid": "housingUnitInput",
-                        autoComplete: "off"
-                      }}
-                    >
-                      {generateMenuOptions(
-                        props.housingUnits
-                          ? props.housingUnits.map(housingUnit => [
-                              housingUnit.name,
-                              housingUnit.id
-                            ])
-                          : [],
-                        "Unknown"
-                      )}
-                    </Field>
-                  )}
-                </>
-              )}
-
-              {this.props.policeIncidentDetails && (
                 <Field
-                  label="District"
-                  name="districtId"
+                  label="Facility"
+                  name="facilityId"
                   component={Dropdown}
+                  data-testid="facilityDropdown"
                   style={{
-                    flex: "1"
+                    marginRight: "24px",
+                    width: "50%"
                   }}
-                  data-testid="districtDropdown"
                   inputProps={{
-                    "data-testid": "districtInput",
+                    "data-testid": "facilityInput",
                     autoComplete: "off"
                   }}
                 >
-                  {generateMenuOptions(this.props.districts, "Unknown")}
+                  {generateMenuOptions(
+                    props.facilities.map(facility => [
+                      facility.name,
+                      facility.id
+                    ]),
+                    "      "
+                  )}
                 </Field>
               )}
+
+              <Field
+                label="District"
+                name="districtId"
+                component={Dropdown}
+                style={{
+                  flex: "1",
+                  witdth: "50%"
+                }}
+                data-testid="districtDropdown"
+                inputProps={{
+                  "data-testid": "districtInput",
+                  autoComplete: "off"
+                }}
+              >
+                {generateMenuOptions(this.props.districts, "Unknown")}
+              </Field>
             </div>
             <div style={{ display: "flex" }}>
               <AdditionalLocationInfo
