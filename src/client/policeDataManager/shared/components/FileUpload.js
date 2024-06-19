@@ -78,6 +78,7 @@ const FileUpload = props => {
       <div style={{ display: "flex", width: "100%" }}>
         <div style={{ flex: 1, marginRight: "10px", marginBottom: "0px" }}>
           <DropzoneComponent
+            data-testid="dropzone-upload"
             config={{
               postUrl: props.postUrl
             }}
