@@ -12,8 +12,7 @@ import {
   Field,
   formValueSelector,
   reduxForm,
-  SubmissionError,
-  change
+  SubmissionError
 } from "redux-form";
 import {
   PrimaryButton,
@@ -67,7 +66,7 @@ const submitIncidentDetails = (values, dispatch, props) => {
     ),
     districtId: nullifyFieldUnlessValid(values.districtId),
     facilityId: nullifyFieldUnlessValid(values.facilityId),
-    housingUnitId: nullifyFieldUnlessValid(values.housingUnitId),
+    housingUnitId: nullifyFieldUnlessValid(values.housingUnitId || ""),
     id: props.caseId
   };
 
@@ -119,10 +118,15 @@ class IncidentDetailsDialog extends Component {
       dropdownValue: {
         label: "",
         value: null
-      }
+      },
+      displayHousingUnitsDropdown: this.props.facilityId,
+      currentHousingUnitId: this.props.housingUnitId
     };
+
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
-    // this.handleDropdownChangeHousing = this.handleDropdownChangeHousing.bind(this);
+    this.handleDropdownChangeHousing =
+      this.handleDropdownChangeHousing.bind(this);
+    this.handleCloseDialog = this.handleCloseDialog.bind(this);
   }
 
   handleDropdownChange(newValue) {
@@ -134,10 +138,23 @@ class IncidentDetailsDialog extends Component {
     }
   }
 
-  // handleDropdownChangeHousing(event) {
-  //   const facilityId = event.target.value;
-  //   this.setState({ facilityId: facilityId });
-  // }
+  handleDropdownChangeHousing(facilityId) {
+    this.props.getHousingUnits(facilityId);
+    this.setState({
+      displayHousingUnitsDropdown: facilityId
+    });
+
+    this.props.change("housingUnitId", null);
+  }
+
+  handleCloseDialog() {
+    if (!this.props.policeIncidentDetails) {
+      this.props.change("housingUnitId", this.state.currentHousingUnitId);
+      this.props.getHousingUnits(this.props.facilityId);
+    }
+
+    this.props.handleDialogClose();
+  }
 
   componentDidMount() {
     this.setState({ dropdownValue: this.props.intakeSourceName });
@@ -147,9 +164,7 @@ class IncidentDetailsDialog extends Component {
     this.props.dispatch(getPriorityLevelDropdownValues());
     this.props.dispatch(getPriorityReasonsDropdownValues());
     this.props.getFacilities();
-    if (this.props.facilityId) {
-      this.props.getHousingUnits(this.props.facilityId);
-    }
+    this.props.getHousingUnits(this.props.facilityId);
   }
 
   render() {
@@ -281,8 +296,7 @@ class IncidentDetailsDialog extends Component {
                       "data-testid": "facilityInput",
                       autoComplete: "off"
                     }}
-                    // handleDropdownChangeHousing={this.handleDropdownChangeHousing}
-                    // onChange={event => this.handleDropdownChangeHousing(event)}
+                    onChange={this.handleDropdownChangeHousing}
                   >
                     {generateMenuOptions(
                       props.facilities.map(facility => [
@@ -293,7 +307,7 @@ class IncidentDetailsDialog extends Component {
                     )}
                   </Field>
 
-                  {this.props.facilityId && (
+                  {this.state.displayHousingUnitsDropdown && (
                     <Field
                       label="Housing Unit"
                       name="housingUnitId"
@@ -437,7 +451,8 @@ class IncidentDetailsDialog extends Component {
         >
           <SecondaryButton
             data-testid="cancelEditIncidentDetailsButton"
-            onClick={props.handleDialogClose}
+            // onClick={props.handleDialogClose}
+            onClick={this.handleCloseDialog}
           >
             Cancel
           </SecondaryButton>

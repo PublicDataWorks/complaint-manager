@@ -25,7 +25,6 @@ import {
 import { getIntakeSourcesSuccess } from "../../../actionCreators/intakeSourceActionCreators";
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 import getFacilities from "../../thunks/getFacilities";
-import { getHousingUnitsSuccess } from "../../../actionCreators/housingUnitActionCreator.js";
 
 jest.mock("../../thunks/editIncidentDetails", () =>
   jest.fn(values => ({
@@ -429,10 +428,8 @@ describe("incident details", () => {
 
       store.dispatch({
         type: GET_HOUSING_UNITS_SUCCEEDED,
-        housingUnits:[{ id: 1, name: "Housing Unit 1" }]
-      }
-        
-      );
+        housingUnits: [{ id: 1, name: "Housing Unit 1" }]
+      });
       wrapper = mount(
         <Provider store={store}>
           <IncidentDetails classes={{}} />
@@ -523,7 +520,7 @@ describe("incident details", () => {
       expect(editIncidentDateInput.prop("value")).toEqual(incidentDate);
       expect(editIncidentTimeInput.prop("value")).toEqual(incidentTime);
       expect(editFacility.prop("value").value).toEqual(facilityId);
-      // expect(editHousingUnit.prop("value").value).toEqual(housingUnitId);
+      expect(editHousingUnit.prop("value").value).toEqual(housingUnitId);
     });
 
     test("should render priority level and priority reason only when intake source is Priority Incident", () => {
