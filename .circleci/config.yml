@@ -1176,7 +1176,7 @@ workflows:
       #       - letter-generation-testing-ci
       - e2e-testing-ci-pdm-hawaii:
           requires:
-            - ensure-ci-hawaii-deploy-succeeded
+            - ensure-hawaii-ci-deploy-succeeded
       - create-release:
           type: approval
           requires:
