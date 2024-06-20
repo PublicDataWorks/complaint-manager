@@ -17,20 +17,20 @@ it("NOIPM", () => {
     Cypress.require("../../support/commands.js");
     cy.visit("https://noipm-ci.herokuapp.com");
     cy.get(
-      '.MuiIconButton-label > :nth-child(1) > [data-testid="tooltip-VW"]'
+      '.MuiIconButton-label > :nth-child(1) > [data-testid="tooltip-V"]'
     ).click();
     cy.get('[data-testid="admin"]').first().click();
     cy.get('[data-testid="pageTitle"]').contains("Admin Portal");
     cy.url().should("eq", "https://noipm-ci.herokuapp.com/admin-portal");
 
     cy.get(
-      '.MuiIconButton-label > :nth-child(1) > [data-testid="tooltip-VW"]'
+      '.MuiIconButton-label > :nth-child(1) > [data-testid="tooltip-V"]'
     ).click();
     cy.get('[data-testid="admin"]').first().click();
     cy.get('[data-testid="addSignature"]').click();
 
     // Add user info
-    cy.get('[data-testid="user"]').type("noipm{downarrow}{enter}");
+    cy.get('[data-testid="user"]').type("{downarrow}{enter}");
     cy.get('[data-testid="signerName"]').type("Test");
     cy.get('[data-testid="role"]').type("QA");
     cy.get('[data-testid="phoneNumber"]').type("1231231234");
