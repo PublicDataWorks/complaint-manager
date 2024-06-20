@@ -451,7 +451,6 @@ class IncidentDetailsDialog extends Component {
         >
           <SecondaryButton
             data-testid="cancelEditIncidentDetailsButton"
-            // onClick={props.handleDialogClose}
             onClick={this.handleCloseDialog}
           >
             Cancel

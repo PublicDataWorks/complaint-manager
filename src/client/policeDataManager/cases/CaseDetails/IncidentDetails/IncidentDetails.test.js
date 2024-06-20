@@ -362,7 +362,15 @@ describe("incident details", () => {
           incidentTime: "13:00",
           incidentTimezone: "CDT",
           districtId: 1,
-          intakeSourceId: 2
+          intakeSourceId: 2,
+          housingUnitId: null,
+          housingUnits: undefined,
+          priorityLevel: undefined,
+          howDidYouHearAboutUsSourceId: undefined,
+          pibCaseNumber: undefined,
+          priorityLevels: undefined,
+          priorityReason: undefined,
+
         })
       );
     });
