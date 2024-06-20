@@ -169,7 +169,7 @@ commands:
             -e AWS_SECRET_ACCESS_KEY=$<<parameters.env-uppercase>>_AWS_SECRET_ACCESS_KEY \
             -e REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files \
             -e ORG=<<parameters.org>> \
-            publicdataworks/<<parameters.image>>:<<parameters.version>> yarn reseed:db
+            publicdataworks/<<parameters.image>>:<<parameters.version>> yarn setup:db
       - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
       - run: docker tag publicdataworks/<<parameters.image>>:<<parameters.version>> registry.heroku.com/<<parameters.org-lowercase>>-<<parameters.environment>>/web
       - run: docker tag publicdataworks/<<parameters.worker-image>>:<<parameters.version>> registry.heroku.com/<<parameters.org-lowercase>>-<<parameters.environment>>/worker
@@ -655,6 +655,7 @@ jobs:
           environment: "staging"
           org: "HAWAII"
           env-uppercase: "STAGING"
+          org-lowercase: "hcsoc"
           image: "police-data-manager-hawaii-staging"
           worker-image: "police-data-manager-hawaii-worker"
           version: "$(cat release.version)"
@@ -709,13 +710,21 @@ jobs:
       - store_artifacts:
           path: e2e/tests/policeDataManager
 
-  ensure-staging-deploy-succeeded:
+  ensure-noipm-staging-deploy-succeeded:
     docker:
       - image: alpine:latest
     steps:
       - checkout
       - run: sleep 60;
       - run: scripts/ensure-deploy-succeeded.sh https://noipm-staging.herokuapp.com/health-check
+
+  ensure-hawaii-staging-deploy-succeeded:
+    docker:
+      - image: alpine:latest
+    steps:
+      - checkout
+      - run: sleep 60;
+      - run: scripts/ensure-deploy-succeeded.sh https://hcsoc-staging-0171a859e889.herokuapp.com/health-check
 
   e2e-testing-staging:
     docker:
@@ -1256,22 +1265,18 @@ workflows:
             branches:
               only:
                 - /release_v.*/
-      - deploy-noipm-to-staging:
-          type: approval
-          requires:
-            - get-instance-files-release-noipm
       - deploy-staging-noipm:
           requires:
-            - deploy-noipm-to-staging
-      - ensure-staging-deploy-succeeded:
+            - get-instance-files-release-noipm
+      - ensure-noipm-staging-deploy-succeeded:
           requires:
             - deploy-staging-noipm
       - cypress-test-noipm:
           requires:
-            - ensure-staging-deploy-succeeded
+            - ensure-noipm-staging-deploy-succeeded
       - e2e-testing-staging:
           requires:
-            - ensure-staging-deploy-succeeded
+            - ensure-noipm-staging-deploy-succeeded
       - hold-for-production:
           type: approval
           requires:
@@ -1293,15 +1298,15 @@ workflows:
       - deploy-staging-hawaii:
           requires:
             - get-instance-files-release-hawaii
-      - ensure-staging-deploy-succeeded:
+      - ensure-hawaii-staging-deploy-succeeded:
           requires:
             - deploy-staging-hawaii
       - cypress-test-hawaii:
           requires:
-            - ensure-staging-deploy-succeeded
+            - ensure-hawaii-staging-deploy-succeeded
       - e2e-testing-staging:
           requires:
-            - ensure-staging-deploy-succeeded
+            - ensure-hawaii-staging-deploy-succeeded
       - hold-for-production:
           type: approval
           requires:
