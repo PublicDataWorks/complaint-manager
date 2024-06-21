@@ -60,6 +60,10 @@ module.exports = {
         "UPDATE inmates SET facility_id = NULL WHERE facility_id IS NOT NULL",
         { transaction }
       );
+      await queryInterface.sequelize.query(
+        "UPDATE cases SET facility_id = NULL WHERE facility_id IS NOT NULL",
+        { transaction }
+      );
       await queryInterface.sequelize.query(`DELETE FROM ${TABLE} WHERE TRUE`, {
         transaction
       });

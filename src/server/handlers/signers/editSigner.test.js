@@ -35,6 +35,7 @@ describe("editSigner", () => {
 
   let token, signer;
   beforeEach(async () => {
+    await cleanupDatabase();
     token = buildTokenWithPermissions(
       USER_PERMISSIONS.ADMIN_ACCESS,
       "nickname"
