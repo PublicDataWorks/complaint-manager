@@ -45,7 +45,8 @@ pactWith(
               priorityLevel: { id: null },
               priorityReasons: null,
               priorityLevels: null,
-              pibCaseNumber: "76960"
+              pibCaseNumber: "76960",
+              housingUnitId: null,
             })
           },
           willRespondWith: {
