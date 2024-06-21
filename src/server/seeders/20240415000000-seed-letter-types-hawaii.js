@@ -333,5 +333,20 @@ module.exports = {
     }
   },
 
-  down: async (queryInterface, Sequelize) => {}
+  down: async (queryInterface, Sequelize) => {
+    try {
+      await queryInterface.sequelize.query(
+        `DELETE FROM public.letter_types WHERE type IN ('PREA Response','Misconduct Facility Adjudication Response',
+            'Visitation Response','Probation Response','Staff Misconduct Excessive Force Response',
+            'Living Conditions Overcrowding Response','Programs Education Reentry Case Management Religious Needs Response',
+            'Form Response No Topic', 'Access to Court Missed Evals Response', 'ADA Response', 'Property Response',
+            'Mail Response', 'Food Response', 'Library Response', 'Medical Response', 'Security Classification Response',
+            'Parole Response'
+          )`
+      );
+    } catch (error) {
+      console.error("Error while deleting letter types", error);
+      throw new Error(`Error while deleting letter types ${error}`);
+    }
+  }
 };
