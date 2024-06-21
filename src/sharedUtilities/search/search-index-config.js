@@ -1,12 +1,13 @@
 const INDEX_NAME = "cases";
 
+const serverConfig = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
+const org = serverConfig.s3Bucket.split("-")[0];
+
 const DEVELOPMENT = "development";
 const TEST = "test";
-const CI = "ci";
-const STAGING = "staging";
+const CI = org === "hcsoc" ? "hawaii-ci" : "ci";
+const STAGING = org === "hcsoc" ? "hawaii-staging" : "staging";
 const PRODUCTION = "production";
-
-const serverConfig = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
 
 const config = {
   [DEVELOPMENT]: {
