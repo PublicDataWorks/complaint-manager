@@ -33,6 +33,7 @@ class NavBar extends Component {
     anchorEl: null,
     exportDialogOpen: false,
     notificationDrawer: false,
+    notificationDrawerOpened: undefined,
     notifications: []
   };
 
@@ -55,9 +56,17 @@ class NavBar extends Component {
     if (!open && !this.props.realtimeNotificationsFeature) {
       this.props.getNotificationsForUser(this.props.nickname);
     }
-    this.setState({
-      notificationDrawer: !open
-    });
+
+    if (
+      !open ||
+      this.state.notificationDrawerOpened === undefined ||
+      new Date().getTime() - this.state.notificationDrawerOpened > 500
+    ) {
+      this.setState({
+        notificationDrawer: !open,
+        notificationDrawerOpened: open ? undefined : new Date().getTime()
+      });
+    }
   };
 
   countUnreadNotifications = () => {
