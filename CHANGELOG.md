@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.69.5](https://github.com/PublicDataWorks/complaint-manager/compare/v3.69.1...v3.69.5) (2024-06-21)
+
+
+### Bug Fixes
+
+* Andrew [[#000](https://github.com/PublicDataWorks/complaint-manager/issues/000)] adds time delay before closing notifications panel ([b86db6b](https://github.com/PublicDataWorks/complaint-manager/commit/b86db6bfe024e31a5150436973cff64a407c7be1))
+
 ### [3.69.4](https://github.com/PublicDataWorks/complaint-manager/compare/v3.69.1...v3.69.4) (2024-06-21)
 
 ### [3.69.3](https://github.com/PublicDataWorks/complaint-manager/compare/v3.69.1...v3.69.3) (2024-06-20)
