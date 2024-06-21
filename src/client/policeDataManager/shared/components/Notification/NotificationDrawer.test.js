@@ -39,6 +39,8 @@ describe("notifications drawer", () => {
       expect(queryByText(DEFAULT_NOTIFICATION_TEXT)).toBeInTheDocument();
     });
 
+    await new Promise(resolve => setTimeout(resolve, 7500));
+
     // ACT -- close drawer by clicking on header
     fireEvent.click(header);
 
@@ -61,6 +63,8 @@ describe("notifications drawer", () => {
       expect(queryByText(DEFAULT_NOTIFICATION_TEXT)).toBeInTheDocument();
     });
 
+    await new Promise(resolve => setTimeout(resolve, 7500));
+
     // ACT -- close drawer by clicking on backdrop
     fireEvent.click(document.body);
 
@@ -82,6 +86,8 @@ describe("notifications drawer", () => {
     await waitFor(() => {
       expect(queryByText(DEFAULT_NOTIFICATION_TEXT)).toBeInTheDocument();
     });
+
+    await new Promise(resolve => setTimeout(resolve, 7500));
 
     // ACT -- close drawer by clicking on bell
     fireEvent.click(notificationBell);
@@ -107,6 +113,8 @@ describe("notifications drawer", () => {
 
     // ARRANGE
     const notificationDrawer = getByTestId("notificationDrawer");
+
+    await new Promise(resolve => setTimeout(resolve, 7500));
 
     // ACT -- close drawer by clicking on bell
     fireEvent.click(notificationDrawer);
@@ -141,6 +149,8 @@ describe("notifications drawer", () => {
     await waitFor(() => {
       expect(queryByText("mentioned you in CC2019-0018")).toBeInTheDocument();
     });
+
+    await new Promise(resolve => setTimeout(resolve, 7500));
 
     await waitFor(() => {
       expect(queryByText(DEFAULT_NOTIFICATION_TEXT)).not.toBeInTheDocument();
