@@ -4,6 +4,11 @@ import { getHousingUnitsSuccess } from "../../actionCreators/housingUnitActionCr
 
 const getHousingUnits = facilityId => async dispatch => {
   try {
+    if (!facilityId) {
+      dispatch(getHousingUnitsSuccess([]));
+      return;
+    }
+
     let url = `/api/housing-units`;
     url = encodeUriWithQueryParams(url, { facilityId });
     const response = await axios.get(url);

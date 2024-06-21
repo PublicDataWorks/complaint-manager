@@ -39,8 +39,18 @@ class IncidentDetails extends React.Component {
       pibCaseNumber: this.props.pibCaseNumber,
       priorityReason: this.props.priorityReason,
       priorityLevel: this.props.priorityLevel,
-      facilityId: this.props.policeIncidentDetails ? undefined : this.props.facilityId,
-      facilities: this.props.policeIncidentDetails ? undefined : this.props.facilities
+      facilityId: this.props.policeIncidentDetails
+        ? undefined
+        : this.props.facilityId,
+      facilities: this.props.policeIncidentDetails
+        ? undefined
+        : this.props.facilities,
+      housingUnitId: this.props.policeIncidentDetails
+        ? undefined
+        : this.props.housingUnitId,
+      housingUnits: this.props.policeIncidentDetails
+        ? undefined
+        : this.props.housingUnits
     };
 
     this.props.dispatch(initialize("IncidentDetails", formValues));
@@ -83,7 +93,9 @@ class IncidentDetails extends React.Component {
     const pbCaseNumberText = `${configs[CONFIGS.BUREAU_ACRONYM]} Case Number`;
     const priorityReasonName = priorityReason ? priorityReason.name : "";
     const priorityLevelName = priorityLevel ? priorityLevel.name : "";
-    const housingUnitName = housingUnits.find(h => h.id === housingUnitId)?.name;
+    const housingUnitName = housingUnits.find(
+      h => h.id === housingUnitId
+    )?.name;
 
     const FirstContacted = (
       <StyledInfoDisplay>
@@ -126,7 +138,7 @@ class IncidentDetails extends React.Component {
         />
       </StyledInfoDisplay>
     );
-    
+
     const Facility = (
       <StyledInfoDisplay>
         <CivilianInfoDisplay
