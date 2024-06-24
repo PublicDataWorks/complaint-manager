@@ -33,7 +33,7 @@ class NavBar extends Component {
     anchorEl: null,
     exportDialogOpen: false,
     notificationDrawer: false,
-    notificationDrawerOpened: undefined,
+    notificationDrawerChanged: undefined,
     notifications: []
   };
 
@@ -58,13 +58,12 @@ class NavBar extends Component {
     }
 
     if (
-      !open ||
-      this.state.notificationDrawerOpened === undefined ||
-      new Date().getTime() - this.state.notificationDrawerOpened > 500
+      this.state.notificationDrawerChanged === undefined ||
+      new Date().getTime() - this.state.notificationDrawerChanged > 500
     ) {
       this.setState({
         notificationDrawer: !open,
-        notificationDrawerOpened: open ? undefined : new Date().getTime()
+        notificationDrawerChanged: new Date().getTime()
       });
     }
   };

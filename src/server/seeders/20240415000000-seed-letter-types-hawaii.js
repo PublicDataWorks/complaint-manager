@@ -308,6 +308,13 @@ INSERT INTO public.letter_types ("type",default_sender,created_at,updated_at,"te
 ','<p class="ql-align-justify">Unfortunately, due to limited staff and capacity, we cannot investigate individual complaints at this time. The Commission is mandated to oversee the state''s correctional system. As part of our work, we collect information from different sources, including from people in custody, and identify patterns and system-wide issues. We outline our findings and recommendations through comprehensive public reports and policy recommendations to the Department of Corrections and Rehabilitation, Legislature, Governor, and community.&nbsp;Please know the information you provided is valuable and will be included in our oversight of Hawaii''s correctional system.</p><p><br></p><p class="ql-align-justify">We recommend you review the Department of Corrections and Rehabilitation Policy and Procedures Manual on this topic. You can review Department of Corrections and Rehabilitation policies by requesting a time slot in the facility''s law library, and the policies are available on the law library kiosk. Additionally, we recommend submitting a grievance (DPS Policy and Procedure Manual, Chapter 12, COR.12.03, <em>Grievance Program</em>) on this issue if you have not done so already. The intention of the grievance process is to provide people in custody an administrative means for prompt and fair resolution of problems and concerns as required by the Prison Litigation Reform Act (PRLA).</p><p><br></p><p><br></p><p><br></p><p class="ql-align-justify">We deeply appreciate you writing to our office as we continue to grow and build corrections oversight in the State of Hawai''i.&nbsp;&nbsp;&nbsp;</p><p><br></p><p>Mahalo,&nbsp;</p>',NULL,false,true,'{primaryComplainant}','{primaryComplainantAddress}');
 `;
 
+const NEW_TYPES = `'PREA Response','Misconduct Facility Adjudication Response',
+            'Visitation Response','Probation Response','Staff Misconduct Excessive Force Response',
+            'Living Conditions Overcrowding Response','Programs Education Reentry Case Management Religious Needs Response',
+            'Form Response No Topic', 'Access to Court Missed Evals Response', 'ADA Response', 'Property Response',
+            'Mail Response', 'Food Response', 'Library Response', 'Medical Response', 'Security Classification Response',
+            'Parole Response'`;
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     try {
@@ -335,15 +342,20 @@ module.exports = {
 
   down: async (queryInterface, Sequelize) => {
     try {
-      await queryInterface.sequelize.query(
-        `DELETE FROM public.letter_types WHERE type IN ('PREA Response','Misconduct Facility Adjudication Response',
-            'Visitation Response','Probation Response','Staff Misconduct Excessive Force Response',
-            'Living Conditions Overcrowding Response','Programs Education Reentry Case Management Religious Needs Response',
-            'Form Response No Topic', 'Access to Court Missed Evals Response', 'ADA Response', 'Property Response',
-            'Mail Response', 'Food Response', 'Library Response', 'Medical Response', 'Security Classification Response',
-            'Parole Response'
-          )`
-      );
+      await queryInterface.sequelize.transaction(async transaction => {
+        await queryInterface.sequelize.query(
+          `UPDATE public.letters
+            SET type_id = NULL
+            WHERE type_id IN
+              (SELECT id FROM letter_types WHERE type IN (${NEW_TYPES}))`,
+          { transaction }
+        );
+
+        await queryInterface.sequelize.query(
+          `DELETE FROM public.letter_types WHERE type IN (${NEW_TYPES})`,
+          { transaction }
+        );
+      });
     } catch (error) {
       console.error("Error while deleting letter types", error);
       throw new Error(`Error while deleting letter types ${error}`);
