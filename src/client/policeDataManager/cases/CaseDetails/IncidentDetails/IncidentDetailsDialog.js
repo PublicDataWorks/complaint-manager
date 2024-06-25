@@ -287,29 +287,28 @@ class IncidentDetailsDialog extends Component {
               {!this.props.policeIncidentDetails && (
                 <>
                   <Field
-                  label="Facility"
-                  name="facilityId"
-                  component={Dropdown}
-                  data-testid="facilityDropdown"
-                  style={{
-                    marginRight: "24px",
-                    width: "50%"
-                  }}
-                  inputProps={{
-                    "data-testid": "facilityInput",
-                    autoComplete: "off"
-                  }}
-                  onChange={this.handleDropdownChangeHousing}
-                >
-                  {generateMenuOptions(
-                    props.facilities.map(facility => [
-                      facility.name,
-                      facility.id
-                    ]),
-                    "      "
-                  )}
-                </Field>
-              
+                    label="Facility"
+                    name="facilityId"
+                    component={Dropdown}
+                    data-testid="facilityDropdown"
+                    style={{
+                      marginRight: "24px",
+                      width: "50%"
+                    }}
+                    inputProps={{
+                      "data-testid": "facilityInput",
+                      autoComplete: "off"
+                    }}
+                    onChange={this.handleDropdownChangeHousing}
+                  >
+                    {generateMenuOptions(
+                      props.facilities.map(facility => [
+                        facility.name,
+                        facility.id
+                      ]),
+                      "      "
+                    )}
+                  </Field>
 
                   {this.state.displayHousingUnitsDropdown && (
                     <Field
@@ -317,7 +316,7 @@ class IncidentDetailsDialog extends Component {
                       name="housingUnitId"
                       component={Dropdown}
                       data-testid="housingUnitDropdown"
-                      style={{ flex: "2", marginRight: "24px", padding: "5px" }}
+                      style={{ marginRight: "24px", width: "50%" }}
                       inputProps={{
                         "data-testid": "housingUnitInput",
                         autoComplete: "off"

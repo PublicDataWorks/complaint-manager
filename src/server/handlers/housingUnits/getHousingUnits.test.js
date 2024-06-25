@@ -59,13 +59,8 @@ describe("When a request is made to get all housing units by facilityId", () => 
       .set("Authorization", `Bearer ${token}`)
       .query({ facilityId: firstFacility.id });
 
-    await expectResponse(
-      responsePromise,
-      200,
-      expect.arrayContaining([
-        expect.objectContaining({ name: "housing unit 1" }),
-        expect.not.objectContaining({ name: "housing unit 2" })
-      ])
-    );
+    await expectResponse(responsePromise, 200, [
+      expect.objectContaining({ name: "housing unit 1" })
+    ]);
   });
 });

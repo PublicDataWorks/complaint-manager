@@ -22,16 +22,13 @@ const loadCsv = async (fileName, model) => {
 
     await new Promise(resolve => {
       stream.on("end", async () => {
-        try{
+        try {
           const insertedEntries = await model.bulkCreate(entries);
           resolve(insertedEntries);
-          
-        }
-        catch(err){
+        } catch (err) {
           console.error(err);
           throw err;
         }
-        
       });
     });
   } catch (error) {
