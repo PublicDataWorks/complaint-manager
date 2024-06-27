@@ -58,10 +58,10 @@ export const executeQuery = async (
     ],
     raw: true,
     group: ["allegation.directive", "allegation.rule", "allegation.paragraph"],
-    limit: 10,
+    limit: 8,
     order: [["count", DESCENDING]]
   };
-  
+
   const countByTop10Allegations = await models.sequelize.transaction(
     async transaction => {
       return await models.officer_allegation.findAll(queryOptions);
