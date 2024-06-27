@@ -88,7 +88,7 @@ const DashboardDataSection = props => {
             xs={12}
             style={{
               padding: 0,
-              height: "550px",
+
               maxWidth: "810px",
               overflowX: "scroll",
               overflowY: "hidden"

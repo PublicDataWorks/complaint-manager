@@ -38,8 +38,8 @@ export default class CountTop10Allegations extends BarGraphVisualization {
         }
       },
       margin: {
-        l: 300,
-        r: 0,
+        l: 275,
+        r: 15,
         b: 70,
         t: 130,
         pad: 10
@@ -59,7 +59,7 @@ export default class CountTop10Allegations extends BarGraphVisualization {
       margin: {
         b: 24,
         t: 24,
-        l: 145,
+        l: 275,
         r: 15,
         pad: 10
       },
@@ -106,7 +106,7 @@ export default class CountTop10Allegations extends BarGraphVisualization {
         x: xValue ? [xValue] : [],
         y: yValue ? [yValue] : [],
         type: "bar",
-        width: .5,
+        width: 0.5,
         orientation: "h",
         marker: {
           color: COLORS[0]
