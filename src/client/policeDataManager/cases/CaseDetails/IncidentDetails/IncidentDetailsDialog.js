@@ -85,6 +85,22 @@ const submitIncidentDetails = (values, dispatch, props) => {
     normalizedValuesWithId.incidentTimezone = timezone;
   }
 
+  if (
+    props.priorityIncidentsFlag &&
+    !normalizedValuesWithId.priorityLevels &&
+    !normalizedValuesWithId.priorityLevel
+  ) {
+    normalizedValuesWithId.priorityLevels = null;
+  }
+
+  if (
+    props.priorityIncidentsFlag &&
+    !normalizedValuesWithId.priorityReasons &&
+    !normalizedValuesWithId.priorityReason
+  ) {
+    normalizedValuesWithId.priorityReasons = null;
+  }
+
   return dispatch(
     editIncidentDetails(normalizedValuesWithId, props.handleDialogClose)
   );
