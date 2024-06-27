@@ -415,7 +415,7 @@ describe("Case dashboard", () => {
 
           store.dispatch({
             type: GET_FEATURES_SUCCEEDED,
-            features: { chooseComplaintType: true }
+            features: { chooseComplaintType: true, priorityIncidents: true }
           });
 
           store.dispatch({

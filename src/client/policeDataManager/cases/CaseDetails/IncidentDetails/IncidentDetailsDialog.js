@@ -27,8 +27,6 @@ import { addressMustBeValid } from "../../../../formValidations";
 import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
 import AddressSecondLine from "../../sharedFormComponents/AddressSecondLine";
 import getIntakeSourceDropdownValues from "../../../intakeSources/thunks/getIntakeSourceDropdownValues";
-import getPriorityLevelDropdownValues from "../../../intakeSources/thunks/priorityLevelsThunks/getPriorityLevelDropdownValues";
-import getPriorityReasonsDropdownValues from "../../../intakeSources/thunks/priorityReasonsThunks/getPriorityReasonsDropdownValues";
 import AdditionalLocationInfo from "../../sharedFormComponents/AdditionalLocationInfo";
 import normalizeAddress from "../../../utilities/normalizeAddress";
 import { intakeSourceIsRequired } from "../../../../formFieldLevelValidations";
@@ -45,6 +43,7 @@ import scrollToFirstError from "../../../../common/helpers/scrollToFirstError";
 import { userTimezone } from "../../../../common/helpers/userTimezone";
 import getFacilities from "../../thunks/getFacilities";
 import getHousingUnits from "../../thunks/getHousingUnits";
+import PriorityIncident from "../../sharedFormComponents/PriorityIncident";
 
 const submitIncidentDetails = (values, dispatch, props) => {
   const errors = addressMustBeValid(props.addressValid);
@@ -161,8 +160,6 @@ class IncidentDetailsDialog extends Component {
     this.props.getIntakeSourceDropdownValues();
     this.props.getHowDidYouHearAboutUsSourceDropdownValues();
     this.props.getDistrictDropdownValues();
-    this.props.dispatch(getPriorityLevelDropdownValues());
-    this.props.dispatch(getPriorityReasonsDropdownValues());
     this.props.getFacilities();
     this.props.getHousingUnits(this.props.facilityId);
   }
@@ -367,47 +364,19 @@ class IncidentDetailsDialog extends Component {
               />
               <div style={{ flex: 1 }} />
             </div>
-            <div style={{ marginTop: "16px" }}>
+            <div style={{ marginTop: "16px", marginBottom: "16px" }}>
               <IntakeSource
                 handleDropdownChange={this.handleDropdownChange}
                 intakeSources={props.intakeSources}
               />
             </div>
-            {this.state.dropdownValue === "Priority Incident" && (
-              <div>
-                <Field
-                  component={Dropdown}
-                  label="Priority Level"
-                  data-testid="priorityLevelDropdown"
-                  placeholder="Select a Priority Level"
-                  name="priorityLevel.id"
-                  style={{ width: "90%", marginBottom: "15px" }}
-                  inputProps={{
-                    "data-testid": "priorityLevelInput",
-                    "aria-label": "Priority Level Input"
-                  }}
-                >
-                  {generateMenuOptions(props.priorityLevels)}
-                </Field>
-                <br />
-                <Field
-                  data-testid="priorityReasonDropdown"
-                  component={Dropdown}
-                  label="Priority Reason"
-                  placeholder="Select a Priority Reason"
-                  name="priorityReason.id"
-                  style={{ width: "90%", marginBottom: "15px" }}
-                  inputProps={{
-                    "data-testid": "priorityReasonInput",
-                    "aria-label": "Priority Reason Input"
-                  }}
-                >
-                  {generateMenuOptions(props.priorityReasons)}
-                </Field>
-                <br />
-              </div>
+            {props.priorityIncidentsFlag && (
+              <PriorityIncident
+                formName={INCIDENT_DETAILS_FORM_NAME}
+                isPriorityIncident={props.isPriorityIncident}
+                fieldNames={["priorityLevel.id", "priorityReason.id"]}
+              />
             )}
-
             {props.policeIncidentDetails && (
               <>
                 <div style={{ marginTop: "16px" }}>
@@ -511,23 +480,26 @@ const mapStateToProps = state => {
     "incidentLocation.country",
     "incidentLocation.lat",
     "incidentLocation.lng",
-    "incidentLocation.placeId"
+    "incidentLocation.placeId",
+    "priorityReason.id"
   );
 
   return {
     addressValid: state.ui.addressInput.addressValid,
     configs: state.configs,
     districts: state.ui.districts,
+    facilities: state.facilities,
+    facilityId: state.currentCase.details.facilityId,
     formattedAddress: formatAddressAsString(values.incidentLocation),
+    housingUnitId: state.currentCase.details.housingUnitId,
+    housingUnits: state.housingUnits,
     howDidYouHearAboutUsSources: state.ui.howDidYouHearAboutUsSources,
     intakeSources: state.ui.intakeSources,
+    isPriorityIncident: !!values?.priorityReason?.id,
     policeIncidentDetails: state.featureToggles.policeIncidentDetails,
+    priorityIncidentsFlag: state.featureToggles.priorityIncidents,
     priorityLevels: state.ui.priorityLevels,
-    priorityReasons: state.ui.priorityReasons,
-    facilityId: state.currentCase.details.facilityId,
-    facilities: state.facilities,
-    housingUnitId: state.currentCase.details.housingUnitId,
-    housingUnits: state.housingUnits
+    priorityReasons: state.ui.priorityReasons
   };
 };
 
@@ -535,8 +507,6 @@ const mapDispatchToProps = {
   getIntakeSourceDropdownValues,
   getHowDidYouHearAboutUsSourceDropdownValues,
   getDistrictDropdownValues,
-  getPriorityLevelDropdownValues,
-  getPriorityReasonsDropdownValues,
   getFacilities,
   getHousingUnits
 };

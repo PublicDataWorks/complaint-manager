@@ -76,6 +76,7 @@ class IncidentDetails extends React.Component {
       classes,
       pibCaseNumber,
       policeIncidentDetails,
+      priorityIncidentsFlag,
       priorityReason,
       priorityLevel,
       facilityId,
@@ -91,8 +92,6 @@ class IncidentDetails extends React.Component {
     const districtName = district ? district.name : "";
     const facilityName = facilities.find(f => f.id === facilityId)?.name;
     const pbCaseNumberText = `${configs[CONFIGS.BUREAU_ACRONYM]} Case Number`;
-    const priorityReasonName = priorityReason ? priorityReason.name : "";
-    const priorityLevelName = priorityLevel ? priorityLevel.name : "";
     const housingUnitName = housingUnits.find(
       h => h.id === housingUnitId
     )?.name;
@@ -180,11 +179,11 @@ class IncidentDetails extends React.Component {
       </StyledInfoDisplay>
     );
 
-    const PriorityReason = intakeSourceName === "Priority Incident" && (
+    const PriorityReason = priorityIncidentsFlag && priorityReason && (
       <StyledInfoDisplay gridColumn={3}>
         <CivilianInfoDisplay
           displayLabel="Priority Reason"
-          value={priorityReasonName}
+          value={priorityReason.name}
           testLabel="incidentPriorityReasons"
         />
       </StyledInfoDisplay>
@@ -220,11 +219,11 @@ class IncidentDetails extends React.Component {
       </StyledInfoDisplay>
     );
 
-    const PriorityLevel = intakeSourceName === "Priority Incident" && (
+    const PriorityLevel = priorityIncidentsFlag && priorityLevel && (
       <StyledInfoDisplay>
         <CivilianInfoDisplay
           displayLabel="Priority Level"
-          value={priorityLevelName}
+          value={priorityLevel.name}
           testLabel="incidentPriorityLevel"
         />
       </StyledInfoDisplay>
@@ -246,11 +245,11 @@ class IncidentDetails extends React.Component {
           ]
         ]
       : [
-          [FirstContacted, IncidentDate, IncidentTime],
-          [Facility, HousingUnit, PriorityReason],
+          [FirstContacted, IncidentDate, PriorityReason],
+          [IntakeSource, IncidentTime, PriorityLevel],
           [
-            IntakeSource,
-            PriorityLevel,
+            Facility,
+            HousingUnit,
             <div style={{ flex: 1, textAlign: "left", marginRight: "10px" }} />
           ]
         ];
@@ -310,7 +309,11 @@ const mapStateToProps = state => ({
   configs: state.configs,
   district: state.currentCase.details.caseDistrict,
   districtId: state.currentCase.details.districtId,
+  facilities: state.facilities,
+  facilityId: state.currentCase.details.facilityId,
   firstContactDate: state.currentCase.details.firstContactDate,
+  housingUnitId: state.currentCase.details.housingUnitId,
+  housingUnits: state.housingUnits,
   howDidYouHearAboutUsSource:
     state.currentCase.details.howDidYouHearAboutUsSource,
   howDidYouHearAboutUsSourceId:
@@ -325,13 +328,10 @@ const mapStateToProps = state => ({
   open: state.ui.editIncidentDetailsDialog.open,
   permissions: state?.users?.current?.userInfo?.permissions,
   pibCaseNumber: state.currentCase.details.pibCaseNumber,
-  priorityReason: state.currentCase.details.priorityReason,
-  priorityLevel: state.currentCase.details.priorityLevel,
   policeIncidentDetails: state.featureToggles.policeIncidentDetails,
-  facilityId: state.currentCase.details.facilityId,
-  facilities: state.facilities,
-  housingUnitId: state.currentCase.details.housingUnitId,
-  housingUnits: state.housingUnits
+  priorityIncidentsFlag: state.featureToggles.priorityIncidents,
+  priorityLevel: state.currentCase.details.priorityLevel,
+  priorityReason: state.currentCase.details.priorityReason
 });
 
 export default connect(mapStateToProps)(IncidentDetails);

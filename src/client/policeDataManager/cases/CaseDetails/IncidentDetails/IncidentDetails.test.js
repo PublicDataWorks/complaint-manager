@@ -282,41 +282,6 @@ describe("incident details", () => {
       expect(editDistrict.prop("value").value).toEqual(2);
     });
 
-    test("should render priority level and priority reason only when intake source is Priority Incident", () => {
-      const editButton = wrapper.find(
-        'button[data-testid="editIncidentDetailsButton"]'
-      );
-      editButton.simulate("click");
-
-      const priorityReasonDropdown = wrapper.find(
-        "[data-testid='priorityReasonDropdown']"
-      );
-      const priorityLevelDropdown = wrapper.find(
-        "[data-testid='priorityLevelDropdown']"
-      );
-
-      expect(priorityReasonDropdown.exists()).toBe(false);
-      expect(priorityLevelDropdown.exists()).toBe(false);
-
-      selectDropdownOption(
-        wrapper,
-        '[data-testid="editIntakeSourceDropdown"]',
-        "Priority Incident"
-      );
-
-      wrapper.update();
-
-      const priorityReasonDropdownUpdate = wrapper.find(
-        "[data-testid='priorityReasonDropdown']"
-      );
-      const priorityLevelDropdownUpdate = wrapper.find(
-        "[data-testid='priorityLevelDropdown']"
-      );
-
-      expect(priorityReasonDropdownUpdate.exists()).toBe(true);
-      expect(priorityLevelDropdownUpdate.exists()).toBe(true);
-    });
-
     test("should submit form when Save is clicked", () => {
       const editButton = wrapper.find(
         'button[data-testid="editIncidentDetailsButton"]'
@@ -369,8 +334,7 @@ describe("incident details", () => {
           howDidYouHearAboutUsSourceId: undefined,
           pibCaseNumber: undefined,
           priorityLevels: undefined,
-          priorityReason: undefined,
-
+          priorityReason: undefined
         })
       );
     });
@@ -415,7 +379,12 @@ describe("incident details", () => {
         .withHousingUnitId(housingUnitId)
         .build();
 
-      store.dispatch(getFeaturesSuccess({ policeIncidentDetails: false }));
+      store.dispatch(
+        getFeaturesSuccess({
+          policeIncidentDetails: false,
+          priorityIncidents: true
+        })
+      );
       dispatchSpy = jest.spyOn(store, "dispatch");
       store.dispatch(getCaseDetailsSuccess(currentCase));
 
@@ -531,7 +500,7 @@ describe("incident details", () => {
       expect(editHousingUnit.prop("value").value).toEqual(housingUnitId);
     });
 
-    test("should render priority level and priority reason only when intake source is Priority Incident", () => {
+    test("should render priority level and priority reason only when priority incident is yes", async () => {
       const editButton = wrapper.find(
         'button[data-testid="editIncidentDetailsButton"]'
       );
@@ -547,10 +516,10 @@ describe("incident details", () => {
       expect(priorityReasonDropdown.exists()).toBe(false);
       expect(priorityLevelDropdown.exists()).toBe(false);
 
-      selectDropdownOption(
+      changeInput(
         wrapper,
-        '[data-testid="editIntakeSourceDropdown"]',
-        "Priority Incident"
+        'input[data-testid="yes-priority-incident-radio"]',
+        "Yes"
       );
 
       wrapper.update();

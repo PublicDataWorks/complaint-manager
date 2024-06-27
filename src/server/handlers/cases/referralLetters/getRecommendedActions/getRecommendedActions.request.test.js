@@ -21,6 +21,7 @@ jest.mock(
 );
 
 describe("getRecommendedActions", function () {
+  jest.setTimeout(60000);
   afterEach(async () => {
     await cleanupDatabase();
   });

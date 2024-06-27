@@ -7,7 +7,8 @@ const httpMocks = require("node-mocks-http");
 describe("retrieveCaseNoteActions", () => {
   let request, response, next;
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    await cleanupDatabase();
     request = httpMocks.createRequest({
       method: "GET",
       headers: {

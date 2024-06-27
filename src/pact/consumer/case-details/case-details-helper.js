@@ -17,7 +17,6 @@ import {
   USER_PERMISSIONS,
   SHOW_FORM
 } from "../../../sharedUtilities/constants";
-import { getFeaturesSuccess } from "../../../client/policeDataManager/actionCreators/featureTogglesActionCreators";
 
 const { PD } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
@@ -36,6 +35,8 @@ export const COMPLAINT_TYPES = "hasComplaintTypes";
 export const PERSON_IN_CUSTODY = "personInCustody";
 export const CHOOSE_PERSON_TYPE = "choosePersonType";
 export const CHANGES_SEARCHABLE_DATA = "changesSearchableData";
+export const PRIORITY_INCIDENTS = "priorityIncidents";
+
 const personTypes = [
   {
     key: "OFFICER",
@@ -631,42 +632,6 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
 
   interactions.push(
     provider.addInteraction({
-      state: "priority reasons exist",
-      uponReceiving: "get priority reasons",
-      withRequest: {
-        method: "GET",
-        path: "/api/priority-reasons"
-      },
-      willRespondWith: {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: eachLike(["Disaster", 1])
-      }
-    })
-  );
-
-  interactions.push(
-    provider.addInteraction({
-      state: "priority levels exist",
-      uponReceiving: "get priority levels",
-      withRequest: {
-        method: "GET",
-        path: "/api/priority-levels"
-      },
-      willRespondWith: {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: eachLike(["One", 1])
-      }
-    })
-  );
-
-  interactions.push(
-    provider.addInteraction({
       state: "case statuses exist",
       uponReceiving: "get case statuses",
       withRequest: {
@@ -781,6 +746,43 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
     })
   );
 
+  if (options.includes(PRIORITY_INCIDENTS)) {
+    interactions.push(
+      provider.addInteraction({
+        state: "priority reasons exist",
+        uponReceiving: "get priority reasons",
+        withRequest: {
+          method: "GET",
+          path: "/api/priority-reasons"
+        },
+        willRespondWith: {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          body: eachLike(["Disaster", 1])
+        }
+      })
+    );
+    interactions.push(
+      provider.addInteraction({
+        state: "priority levels exist",
+        uponReceiving: "get priority levels",
+        withRequest: {
+          method: "GET",
+          path: "/api/priority-levels"
+        },
+        willRespondWith: {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          body: eachLike(["One", 1])
+        }
+      })
+    );
+  }
+
   interactions.push(
     provider.addInteraction({
       state: "gender identities exist",
@@ -812,7 +814,8 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
       chooseComplaintType: options.includes(COMPLAINT_TYPES),
       allowAllTypesToBeAccused: options.includes(CIVILIAN_ACCUSED),
       choosePersonTypeInAddDialog: options.includes(CHOOSE_PERSON_TYPE),
-      policeIncidentDetails: true
+      policeIncidentDetails: true,
+      priorityIncidents: options.includes(PRIORITY_INCIDENTS)
     }
   });
 

@@ -20,14 +20,13 @@ import {
 } from "../../../../sharedUtilities/constants";
 import { generateMenuOptions } from "../../utilities/generateMenuOptions";
 import Dropdown from "../../../common/components/Dropdown";
-import { intakeSourceIsRequired,
-  complaintTypeIsRequired,
-  priorityLevelIsRequired,
-  priorityReasonIsRequired  } from "../../../formFieldLevelValidations";
+import {
+  intakeSourceIsRequired,
+  complaintTypeIsRequired
+} from "../../../formFieldLevelValidations";
 import CreateCaseActions from "./CreateCaseActions";
+import PriorityIncident from "../sharedFormComponents/PriorityIncident";
 import getIntakeSourceDropdownValues from "../../intakeSources/thunks/getIntakeSourceDropdownValues";
-import getPriorityLevelDropdownValues from "../../intakeSources/thunks/priorityLevelsThunks/getPriorityLevelDropdownValues";
-import getPriorityReasonsDropdownValues from "../../intakeSources/thunks/priorityReasonsThunks/getPriorityReasonsDropdownValues";
 import { formatAddressAsString } from "../../utilities/formatAddress";
 import { scrollToFirstErrorWithValue } from "../../../common/helpers/scrollToFirstError";
 import AnonymousFields from "./AnonymousFields";
@@ -50,42 +49,20 @@ class CreateCaseDialog extends React.Component {
     super(props);
     this.state = {
       complaintTypes: [],
-      priorityReasons: [],
       dropdownValue: {
         label: "",
         value: null
       }
     };
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
-    this.retrievePriorityReasons = this.retrievePriorityReasons.bind(this);
   }
 
   handleDropdownChange(newValue) {
     this.setState({ dropdownValue: newValue });
   }
 
-  retrievePriorityReasons() {
-    axios
-      .get("/api/priority-reasons")
-      .then(response => {
-        this.setState({
-          priorityReasons:
-            !response.data || response.data.length === 0
-              ? [{ name: "N/A", id: -1 }]
-              : response.data
-        });
-      })
-      .catch(error =>
-        this.props.dispatch(
-          snackbarError("There was a problem retrieving priority reasons")
-        )
-      );
-  }
-
   componentDidMount() {
     this.props.dispatch(getIntakeSourceDropdownValues());
-    this.props.dispatch(getPriorityLevelDropdownValues());
-    this.props.dispatch(getPriorityReasonsDropdownValues());
   }
 
   componentDidUpdate() {
@@ -101,10 +78,6 @@ class CreateCaseDialog extends React.Component {
             snackbarError("There was a problem retrieving complaint types")
           )
         );
-    }
-
-    if (this.state.priorityReasons.length === 0) {
-      this.retrievePriorityReasons();
     }
 
     if (!this.props.selectedPersonType && this.props.defaultPersonType) {
@@ -138,6 +111,7 @@ class CreateCaseDialog extends React.Component {
       isUnknown,
       open,
       organization,
+      priorityIncidentsFlag,
       submitting
     } = this.props;
 
@@ -173,13 +147,11 @@ class CreateCaseDialog extends React.Component {
             />
             <br />
 
-            {this.state.dropdownValue === "Priority Incident" && (
-              <div>
-                <PriorityLevel priorityLevels={this.props.priorityLevels} />
-                <br />
-                <PriorityReason priorityReasons={this.props.priorityReasons} />
-                <br />
-              </div>
+            {priorityIncidentsFlag && (
+              <PriorityIncident
+                formName={CREATE_CASE_FORM_NAME}
+                fieldNames={["case.priorityLevels", "case.priorityReasons"]}
+              />
             )}
 
             {this.props.chooseComplaintTypeFeatureFlag && (
@@ -285,48 +257,6 @@ const IntakeSource = props => {
   );
 };
 
-const PriorityLevel = props => {
-  return (
-    <Field
-    required
-      component={Dropdown}
-      label="Priority Level"
-      data-testid="priorityLevelDropdown"
-      placeholder="Select a Priority Level"
-      name="case.priorityLevels"
-      style={{ width: "90%", marginBottom: "15px" }}
-      inputProps={{
-        "data-testid": "priorityLevelInput",
-        "aria-label": "Priority Level Input"
-      }}
-      validate={[priorityLevelIsRequired]}
-    >
-      {generateMenuOptions(props.priorityLevels)}
-    </Field>
-  );
-};
-
-const PriorityReason = props => {
-  return (
-    <Field
-      required
-      name="case.priorityReasons"
-      component={Dropdown}
-      label="Priority Reason"
-      placeholder="Select a Priority Reason"
-      style={{ width: "90%", marginBottom: "15px" }}
-      inputProps={{
-        "data-testid": "priorityReasonDropdown",
-        "aria-label": "Priority Reason Dropdown"
-      }}
-      validate={[priorityReasonIsRequired]}
-    >
-  
-      {generateMenuOptions(props.priorityReasons)}
-    </Field>
-  );
-};
-
 const mapStateToProps = state => {
   const selector = formValueSelector(CREATE_CASE_FORM_NAME);
   const addressValues = selector(
@@ -353,12 +283,11 @@ const mapStateToProps = state => {
     defaultPersonType: getDefaultPersonType(state),
     formattedAddress: formatAddressAsString(addressValues.address),
     intakeSources: state.ui.intakeSources,
-    priorityLevels: state.ui.priorityLevels,
-    priorityReasons: state.ui.priorityReasons,
     isUnknown,
     open: state.ui.createDialog.case.open,
     organization: state.configs[CONFIGS.ORGANIZATION],
     personTypes: state.personTypes,
+    priorityIncidentsFlag: state.featureToggles.priorityIncidents,
     selectedPersonType: getSelectedPersonType(state, complainantType)
   };
 };
