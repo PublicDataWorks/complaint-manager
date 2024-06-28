@@ -24,7 +24,7 @@ const config = {
   },
   [CI]: {
     id: serverConfig[CI].elasticIndexId,
-    indexName: org === `${org === "hcsoc" ? `hawaii-${CI}` : CI}_${INDEX_NAME}`
+    indexName: `${org === "hcsoc" ? `hawaii-${CI}` : CI}_${INDEX_NAME}`
   },
   [STAGING]: {
     id: serverConfig[STAGING].elasticIndexId,
