@@ -14,7 +14,6 @@ export const getResultsFromES = async queryString => {
     handleError(err);
   }
 
-  console.log("searching in ", index);
   const { body: searchResults } = await elasticClient
     .search({
       index,

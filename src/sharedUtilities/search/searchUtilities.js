@@ -125,7 +125,7 @@ export const removeTags = query =>
     ? query.replace(/<\/?(p|br)[^>]*>/gi, " ").replace(/<[^>]*>/gi, "")
     : "";
 
-export const updateSearchIndex = async (verbose = true) => {
+export const updateSearchIndex = async (verbose = false) => {
   const environment = process.env.NODE_ENV || "development";
   const { indexName: index } = require("./search-index-config")[environment];
 
