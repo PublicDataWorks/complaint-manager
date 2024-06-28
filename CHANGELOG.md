@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.70.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.69.6...v3.70.0) (2024-06-28)
+
+
+### Features
+
+* Andrew [[#568](https://github.com/PublicDataWorks/complaint-manager/issues/568)] removes priority incident from intake sources and gives it its own field ([c5fe597](https://github.com/PublicDataWorks/complaint-manager/commit/c5fe5974bf7564b0407fb7a3a677195cc556542a))
+
 ### [3.69.7](https://github.com/PublicDataWorks/complaint-manager/compare/v3.69.6...v3.69.7) (2024-06-27)
 
 ### [3.69.6](https://github.com/PublicDataWorks/complaint-manager/compare/v3.69.1...v3.69.6) (2024-06-25)
