@@ -1,7 +1,7 @@
 const INDEX_NAME = "cases";
 
 const serverConfig = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
-const org = serverConfig?.s3Bucket?.split("-")[0];
+const org = serverConfig?.[CI]?.s3Bucket?.split("-")[0];
 
 const DEVELOPMENT = "development";
 const TEST = "test";
