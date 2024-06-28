@@ -245,11 +245,11 @@ class IncidentDetails extends React.Component {
           ]
         ]
       : [
-          [FirstContacted, IncidentDate, PriorityReason],
-          [IntakeSource, IncidentTime, PriorityLevel],
+          [FirstContacted, IncidentDate, IncidentTime],
+          [IntakeSource, Facility, HousingUnit],
           [
-            Facility,
-            HousingUnit,
+            PriorityLevel,
+            PriorityReason,
             <div style={{ flex: 1, textAlign: "left", marginRight: "10px" }} />
           ]
         ];
