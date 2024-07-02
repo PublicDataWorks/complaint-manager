@@ -654,7 +654,7 @@ jobs:
       - deploy-to-lower-env:
           environment: "staging"
           org: "HAWAII"
-          env-uppercase: "STAGING"
+          env-uppercase: "HAWAII_STAGING"
           org-lowercase: "hcsoc"
           image: "police-data-manager-hawaii-staging"
           worker-image: "police-data-manager-hawaii-worker"
