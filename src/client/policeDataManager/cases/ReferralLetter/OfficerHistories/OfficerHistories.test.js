@@ -14,7 +14,7 @@ import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getReferralLetterData from "../thunks/getReferralLetterData";
 import getCaseDetails from "../../thunks/getCaseDetails";
 import { getOfficerHistoryOptionsRadioButtonValuesSuccess } from "../../../actionCreators/officerHistoryOptionsActionCreator";
-import { createMemoryHistory } from "history";
+import { createMemoryHistory } from "history/cjs/history.min";
 import { reduxForm } from "redux-form";
 
 jest.mock("../thunks/getReferralLetterData", () => caseId => ({
