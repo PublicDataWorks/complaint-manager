@@ -122,7 +122,7 @@ module.exports = (sequelize, DataTypes) => {
     const caseOfficer = await sequelize
       .model("case_officer")
       .findByPk(this.caseOfficerId, { transaction: transaction });
-    return caseOfficer.caseId;
+    return caseOfficer?.caseId;
   };
 
   LetterOfficer.prototype.getManagerType = async function (transaction) {
@@ -133,7 +133,7 @@ module.exports = (sequelize, DataTypes) => {
     const caseOfficer = await sequelize
       .model("case_officer")
       .findByPk(this.caseOfficerId, { transaction: transaction });
-    return [{ "Officer Name": caseOfficer.fullName }];
+    return [{ "Officer Name": caseOfficer?.fullName }];
   };
 
   LetterOfficer.auditDataChange();

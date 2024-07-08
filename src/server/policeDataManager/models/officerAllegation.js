@@ -64,7 +64,7 @@ module.exports = (sequelize, DataTypes) => {
         transaction: transaction
       });
 
-    return caseOfficer.caseId;
+    return caseOfficer?.caseId;
   };
 
   OfficerAllegation.prototype.getManagerType = async function (transaction) {
@@ -84,7 +84,7 @@ module.exports = (sequelize, DataTypes) => {
         transaction: transaction
       });
 
-    const fullName = caseOfficer.fullName;
+    const fullName = caseOfficer?.fullName;
     const rule = allegation.rule;
     const paragraph = allegation.paragraph;
     const directive = allegation.directive;

@@ -12,8 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     },
 
     directive: {
-      type: DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.STRING
     },
 
     createdAt: {

@@ -20,10 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       queryType: {
         type: DataTypes.STRING,
-        field: "query_type",
-        validate: {
-          isIn: Object.keys(QUERY_TYPES)
-        }
+        field: "query_type"
       },
       collapsedText: {
         type: DataTypes.STRING,

@@ -185,7 +185,8 @@ async function pullAnonymizedData() {
 
       data[modelName] = model
         .findAll({
-          attributes // This will only include non-virtual fields
+          attributes, // This will only include non-virtual fields
+          paranoid: false // This will include soft-deleted records
         })
         .then(results => anonymizeTable(modelName, results));
     }

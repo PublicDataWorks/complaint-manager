@@ -3,13 +3,14 @@ const { cleanupDatabase } = require("../testHelpers/requestTestHelpers");
 const fs = require("fs");
 
 const BASIC_TABLES = [
+  "caseStatus",
   "intake_source",
   "priority_reasons",
   "priority_levels",
   "how_did_you_hear_about_us_source",
   "district",
   "status",
-  "complaintType",
+  "complaintTypes",
   "personType",
   "facility",
   "housing_unit",
@@ -20,7 +21,6 @@ const BASIC_TABLES = [
   "signers"
 ];
 const TABLES_THAT_REQUIRE_CASE = [
-  "caseStatus",
   "case_tag",
   "case_note",
   "referral_letter",
@@ -43,41 +43,40 @@ const TABLES_THAT_REQUIRE_TABLES_THAT_REQUIRE_CASE = [
   "file_audit",
   "legacy_data_access_audit",
   "letter_officer",
-  "notification"
+  "notification",
+  "officer_allegation"
+];
+const TABLES_THAT_REQUIRE_TABLES_THAT_REQUIRE_TABLES_THAT_REQUIRE_CASE = [
+  "referral_letter_officer_history_note",
+  "referral_letter_officer_recommended_action"
 ];
 
+const calculateValue = modelName => {
+  if (BASIC_TABLES.includes(modelName)) {
+    return -1;
+  } else if (TABLES_THAT_REQUIRE_CASE.includes(modelName)) {
+    return 1;
+  } else if (TABLES_THAT_REQUIRE_TABLES_THAT_REQUIRE_CASE.includes(modelName)) {
+    return 2;
+  } else if (
+    TABLES_THAT_REQUIRE_TABLES_THAT_REQUIRE_TABLES_THAT_REQUIRE_CASE.includes(
+      modelName
+    )
+  ) {
+    return 3;
+  } else {
+    return 0;
+  }
+};
+
 const sortModelNames = (m1, m2) => {
-  if (BASIC_TABLES.includes(m1) && !BASIC_TABLES.includes(m2)) {
-    return -1;
+  const v1 = calculateValue(m1);
+  const v2 = calculateValue(m2);
+  if (v1 === v2) {
+    return m1.localeCompare(m2);
+  } else {
+    return v1 - v2;
   }
-  if (BASIC_TABLES.includes(m2) && !BASIC_TABLES.includes(m1)) {
-    return 1;
-  }
-  if (
-    TABLES_THAT_REQUIRE_TABLES_THAT_REQUIRE_CASE.includes(m1) &&
-    !TABLES_THAT_REQUIRE_TABLES_THAT_REQUIRE_CASE.includes(m2)
-  ) {
-    return 1;
-  }
-  if (
-    TABLES_THAT_REQUIRE_TABLES_THAT_REQUIRE_CASE.includes(m2) &&
-    !TABLES_THAT_REQUIRE_TABLES_THAT_REQUIRE_CASE.includes(m1)
-  ) {
-    return -1;
-  }
-  if (
-    TABLES_THAT_REQUIRE_CASE.includes(m1) &&
-    !TABLES_THAT_REQUIRE_CASE.includes(m2)
-  ) {
-    return 1;
-  }
-  if (
-    TABLES_THAT_REQUIRE_CASE.includes(m2) &&
-    !TABLES_THAT_REQUIRE_CASE.includes(m1)
-  ) {
-    return -1;
-  }
-  return m1.localeCompare(m2);
 };
 
 const uploadAnonymizedData = async () => {
@@ -89,7 +88,8 @@ const uploadAnonymizedData = async () => {
       const data = fs.readFileSync(path, "utf8");
       const jsonData = JSON.parse(data);
       for (const row of jsonData) {
-        await models[modelName].create(row, {
+        let inputRow = row;
+        await models[modelName].create(inputRow, {
           auditUser: "anonymize script"
         });
       }

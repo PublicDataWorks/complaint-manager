@@ -116,7 +116,7 @@ module.exports = (sequelize, DataTypes) => {
 
     return [
       { "Address Type": "Civilian" },
-      { "Civilian Name": civilian.fullName }
+      { "Civilian Name": civilian?.fullName }
     ];
   };
 
@@ -130,7 +130,7 @@ module.exports = (sequelize, DataTypes) => {
         transaction: transaction
       });
 
-    return civilian.caseId;
+    return civilian?.caseId || this.addressableId;
   };
 
   Address.prototype.getManagerType = async function (transcation) {
