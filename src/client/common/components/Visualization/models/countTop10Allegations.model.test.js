@@ -35,7 +35,7 @@ describe("CountTop10Allegations model", () => {
         data: [
           {
             x: ["3"],
-            y: ["Rule 4<br>description for Arrest"],
+            y: ["RULE 4<br>DESCRIPTION FOR ARREST"],
             type: "bar",
             width: 0.5,
             orientation: "h",
@@ -48,7 +48,7 @@ describe("CountTop10Allegations model", () => {
           },
           {
             x: ["2"],
-            y: ["Rule 3<br>PAR.(3): description for Workplace"],
+            y: ["RULE 3<br>PAR.(3): DESCRIPTION FOR WORKPLACE"],
             type: "bar",
             width: 0.5,
             orientation: "h",
@@ -61,12 +61,12 @@ describe("CountTop10Allegations model", () => {
           },
           {
             x: ["1"],
-            y: ["Rule 2<br>PAR.: description for Unauthorized Force"],
+            y: ["RULE 2<br>PAR.: DESCRIPTION FOR UNAUTHORIZED FORCE"],
             type: "bar",
             width: 0.5,
             orientation: "h",
             marker: { color: "#002171" },
-            text:["1"],
+            text: ["1"],
             textposition: "auto",
             textangle: 0,
             hoverinfo: "text",
@@ -76,12 +76,12 @@ describe("CountTop10Allegations model", () => {
           },
           {
             x: ["1"],
-            y: ["Rule 1<br>description for Professionalism. This is..."],
+            y: ["RULE 1<br>DESCRIPTION FOR PROFESSIONALISM"],
             type: "bar",
             width: 0.5,
             orientation: "h",
             marker: { color: "#002171" },
-            text:["1"],
+            text: ["1"],
             textposition: "auto",
             textangle: 0,
             hoverinfo: "text",
@@ -126,7 +126,7 @@ describe("CountTop10Allegations model", () => {
         data: [
           {
             x: ["3"],
-            y: ["Rule 4<br>description for Arrest"],
+            y: ["RULE 4<br>DESCRIPTION FOR ARREST"],
             type: "bar",
             width: 0.5,
             orientation: "h",
@@ -141,7 +141,7 @@ describe("CountTop10Allegations model", () => {
           },
           {
             x: ["2"],
-            y: ["Rule 3<br>description for Workplace"],
+            y: ["RULE 3<br>DESCRIPTION FOR WORKPLACE"],
             type: "bar",
             width: 0.5,
             orientation: "h",
@@ -156,7 +156,7 @@ describe("CountTop10Allegations model", () => {
           },
           {
             x: ["1"],
-            y: ["Rule 2<br>description for Unauthorized Force"],
+            y: ["RULE 2<br>DESCRIPTION FOR UNAUTHORIZED FORCE"],
             type: "bar",
             width: 0.5,
             orientation: "h",
@@ -171,7 +171,7 @@ describe("CountTop10Allegations model", () => {
           },
           {
             x: ["1"],
-            y: ["Rule 1<br>description for Professionalism"],
+            y: ["RULE 1<br>DESCRIPTION FOR PROFESSIONALISM"],
             type: "bar",
             width: 0.5,
             orientation: "h",
