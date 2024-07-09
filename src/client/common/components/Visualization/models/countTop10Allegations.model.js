@@ -27,7 +27,7 @@ export default class CountTop10Allegations extends BarGraphVisualization {
         zeroline: true,
         automargin: true,
         showticklabels: true,
-        dtick: 1
+        dtick: 5
       },
       yaxis: {
         title: {
@@ -126,14 +126,19 @@ export default class CountTop10Allegations extends BarGraphVisualization {
     }
 
     const buildYValue = (rule, originalParagraph) => {
-      const CHARACTER_LIMIT = 40;
-      const paragraph = originalParagraph.replace(/paragraph/gi, "PAR.");
-      const paragraphToBeDisplayed =
-        paragraph.length > CHARACTER_LIMIT
-          ? paragraph.substring(0, CHARACTER_LIMIT) + "..."
-          : paragraph;
+      // const CHARACTER_LIMIT = 41;
+      // const paragraph = originalParagraph.replace(/paragraph/gi, "PAR.");
+      const paragraphToBeDisplayed = originalParagraph.split('.');
 
-      return rule + "<br>" + paragraphToBeDisplayed;
+      //   paragraph.length > 0
+      //     ? paragraph.substring(0, 40) + "..."
+      //     : paragraph;
+      let formattedParagraph = paragraphToBeDisplayed[0].substring(0,50).replace(/paragraph/gi, "PAR.").toUpperCase();
+      // if (paragraphToBeDisplayed[0].length > 50) {
+      //   formattedParagraph += '...';
+      // }
+      const formattedRule = rule.toUpperCase();
+      return "<br>"  + formattedRule + "<br>" + formattedParagraph;
     };
 
     const buildHoverText = (rule, paragraph) => {
