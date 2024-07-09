@@ -48,7 +48,7 @@ commands:
         type: string
     steps:
       - setup_remote_docker:
-          version: 19.03.13
+          version: default
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - run: |
           docker build -f Dockerfile.base --build-arg REACT_APP_ENV=<<parameters.env>> \
@@ -152,7 +152,7 @@ commands:
         type: string
     steps:
       - setup_remote_docker:
-          version: 19.03.13
+          version: default
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - run: docker pull publicdataworks/<<parameters.image>>:<<parameters.version>>
       - run: docker pull publicdataworks/<<parameters.worker-image>>:<<parameters.version>>
@@ -232,7 +232,7 @@ commands:
         type: string
     steps:
       - setup_remote_docker:
-          version: 19.03.13
+          version: default
       - attach_workspace:
           at: src/
       - run: pwd
@@ -492,7 +492,7 @@ jobs:
       - image: publicdataworks/docker-heroku:<< pipeline.parameters.docker-heroku-version >>
     steps:
       - setup_remote_docker:
-          version: 19.03.13
+          version: default
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - run: docker pull publicdataworks/police-data-manager-playground:$CIRCLE_SHA1
       - run: docker pull publicdataworks/police-data-manager-playground-worker:$CIRCLE_SHA1
@@ -743,7 +743,7 @@ jobs:
       - image: publicdataworks/docker-heroku:<< pipeline.parameters.docker-heroku-version >>
     steps:
       - setup_remote_docker:
-          version: 19.03.13
+          version: default
       - attach_workspace:
           at: .
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
@@ -778,7 +778,7 @@ jobs:
       - image: publicdataworks/docker-heroku:<< pipeline.parameters.docker-heroku-version >>
     steps:
       - setup_remote_docker:
-          version: 19.03.13
+          version: default
       - attach_workspace:
           at: .
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
