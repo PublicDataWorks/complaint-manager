@@ -7,17 +7,16 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 // <reference types="cypress"/>
 it('NOIPM', () => {
 
-    cy.origin('https://noipm-staging.auth0.com', () => {
-    cy.visit('https://noipm-staging.herokuapp.com')    
-    //cy.get('body').tab()
-    cy.get('.auth0-lock-input-email > .auth0-lock-input-wrap > .auth0-lock-input').type('vwong@thoughtworks.com')
-    cy.get('.auth0-lock-input-show-password > .auth0-lock-input-block > .auth0-lock-input-wrap > .auth0-lock-input').type('Vwong123')
+    cy.origin(Cypress.env('url_auth0_noipm'), () => {
+    cy.visit(Cypress.env('url_noipm'))    
+    cy.get('.auth0-lock-input-email > .auth0-lock-input-wrap > .auth0-lock-input').type(Cypress.env('username_noipm'), {log: false})
+    cy.get('.auth0-lock-input-show-password > .auth0-lock-input-block > .auth0-lock-input-wrap > .auth0-lock-input').type(Cypress.env('password_noipm'), {log: false})
     cy.get('.auth0-lock-submit').click()
     })
 
     cy.wait(4000)
 
-    cy.origin('https://noipm-staging.herokuapp.com', () => {
+    cy.origin(Cypress.env('url_noipm'), () => {
 
     cy.get('[data-testid="createCaseButton"]').click() //Click create case
     cy.get('[data-testid="createCaseDialogTitle"] > .MuiTypography-root').contains('Create New Case') //Check dialogue title appears
@@ -39,12 +38,12 @@ it('NOIPM', () => {
     cy.get('[data-testid="caseTagSubmitButton"] > .MuiButton-label').click()
     cy.get('[data-testid="caseTagsContainer"]').contains('new tag')
 
-    cy.get('[data-testid="addCaseNoteButton"] > .MuiButton-label').click()
-    cy.get('.MuiAutocomplete-popupIndicator').click()
-    cy.get('.MuiAutocomplete-option').contains('Contacted NOPD').click()
-    cy.get('[data-testid="notesInput"]').type('Test Note');
-    cy.get('[data-testid="submitButton"] > .MuiButton-label').click()
-    cy.get('[data-testid="caseNotesContainer"]').contains('Test Note')
+    cy.get('[data-testid="addCaseNoteButton"] > .MuiButton-label').click() // CLick add case note button
+    cy.get('.MuiAutocomplete-popupIndicator').click() // Click on action dropdown
+    cy.get('.MuiAutocomplete-option').contains('Contacted NOPD').click() // Click on Contacted NOPD
+    cy.get('[data-testid="notesInput"]').type('Test Note'); // Enter note
+    cy.get('[data-testid="submitButton"] > .MuiButton-label').click() // Click submit
+    cy.get('[data-testid="caseNotesContainer"]').contains('Test Note') // Verify note appears after saving
 
     cy.get('[style="margin: 0px 24px;"] > [style="display: flex;"] > .MuiButtonBase-root > .MuiButton-label').click()
     cy.get('.MuiTableBody-root > :nth-child(2) > :nth-child(3)').contains('Tag Name: new tag')

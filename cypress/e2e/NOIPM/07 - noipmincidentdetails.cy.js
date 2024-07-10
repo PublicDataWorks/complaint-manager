@@ -7,17 +7,17 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 /// <reference types="cypress"/>
 it('NOIPM', () => {
 
-    cy.origin('https://noipm-staging.auth0.com', () => {
-    cy.visit('https://noipm-staging.herokuapp.com')    
+    cy.origin(Cypress.env('url_auth0_noipm'), () => {
+    cy.visit(Cypress.env('url_noipm'))    
     //cy.get('body').tab()
-    cy.get('.auth0-lock-input-email > .auth0-lock-input-wrap > .auth0-lock-input').type('vwong@thoughtworks.com')
-    cy.get('.auth0-lock-input-show-password > .auth0-lock-input-block > .auth0-lock-input-wrap > .auth0-lock-input').type('Vwong123')
+    cy.get('.auth0-lock-input-email > .auth0-lock-input-wrap > .auth0-lock-input').type(Cypress.env('username_noipm'), {log: false})
+    cy.get('.auth0-lock-input-show-password > .auth0-lock-input-block > .auth0-lock-input-wrap > .auth0-lock-input').type(Cypress.env('password_noipm'), {log: false})
     cy.get('.auth0-lock-submit').click()
     })
 
     cy.wait(6000)
 
-    cy.origin('https://noipm-staging.herokuapp.com', () => {
+    cy.origin(Cypress.env('url_noipm'), () => {
 
     cy.get('[data-testid="createCaseButton"]').click() //Click create case
     cy.get('[data-testid="createCaseDialogTitle"] > .MuiTypography-root').contains('Create New Case') //Check dialogue title appears

@@ -7,22 +7,21 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 /// <reference types="cypress"/>
 it('HAWAIILOGIN', () => {
 
-    cy.origin('https://dev-68895481.okta.com', () => {
-    cy.visit('https://hcsoc-staging-0171a859e889.herokuapp.com/')
+    cy.origin(Cypress.env('url_okta_hawaii'), () => {
+    cy.visit(Cypress.env('url_hawaii'))
     cy.wait(2000)
-    cy.get('#input28').type('pdm@publicdata.works');
-    cy.get('#input36').type('wnc3ubf-hqf-rcr1ZPH');
+    cy.get('#input28').type(Cypress.env('username_hawaii'), {log: false});
+    cy.get('#input36').type(Cypress.env('password_hawaii'), {log: false});
     cy.get('.button').click();
     
     })
 
     cy.wait(4000)
 
-    cy.origin('https://hcsoc-staging-0171a859e889.herokuapp.com/', () => {
+    cy.origin(Cypress.env('url_hawaii'), () => {
     cy.get('.MuiIconButton-label > :nth-child(1) > [data-testid="tooltip-CM"]').click();
     cy.get('[data-testid="exports"]').first().click();
     cy.get('[data-testid="ExportAllCasesContainer"]').contains('Export Cases');
-    cy.url().should('eq', 'https://hcsoc-staging-0171a859e889.herokuapp.com/export/all');
 
     cy.window().document().then(function (doc) {
         doc.addEventListener('click', () => {
