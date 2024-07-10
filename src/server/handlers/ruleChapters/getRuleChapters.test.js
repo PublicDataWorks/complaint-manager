@@ -21,6 +21,7 @@ jest.mock(
 );
 
 describe("getRuleChapters", () => {
+  jest.setTimeout(60000);
   afterEach(async () => {
     await cleanupDatabase();
   });

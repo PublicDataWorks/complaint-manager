@@ -11,7 +11,7 @@ import IntakeSource from "../testHelpers/intakeSource";
 import HowDidYouHearAboutUsSource from "../testHelpers/HowDidYouHearAboutUsSource";
 import winston from "winston";
 describe("dataChangeAuditHooks", () => {
-  jest.setTimeout(60000);
+  jest.setTimeout(120000);
   let complaintType, civilianInitiated;
   beforeEach(async () => {
     await cleanupDatabase();

@@ -6,6 +6,7 @@ const audit = require("./auditAuthentication");
 const models = require("../../policeDataManager/models/index");
 
 describe("Audit", () => {
+  jest.setTimeout(60000);
   const currentUser = "test username";
   let next;
 

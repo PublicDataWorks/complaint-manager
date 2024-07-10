@@ -209,7 +209,7 @@ describe("executeQuery", () => {
         .defaultAddress()
         .withLat(fifthCaseGeo.lat)
         .withLng(fifthCaseGeo.lon)
-        .withAddressableId(334)
+        .withAddressableId(50000334)
         .withAddressableType(ADDRESSABLE_TYPE.CASES)
         .withId(11233),
       {
@@ -221,7 +221,7 @@ describe("executeQuery", () => {
       new Case.Builder()
         .defaultCase()
         .withFirstContactDate(moment().subtract(12, "months"))
-        .withId(334)
+        .withId(50000334)
         .withIncidentLocation(fifthCaseAddress),
       {
         auditUser: "someone"

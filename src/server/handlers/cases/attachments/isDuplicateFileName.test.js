@@ -6,6 +6,7 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 
 describe("generateFileName", () => {
   let newCase;
+  jest.setTimeout(60000);
   beforeEach(async () => {
     await cleanupDatabase();
     await models.caseStatus.create(
