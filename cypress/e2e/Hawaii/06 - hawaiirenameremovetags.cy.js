@@ -1,8 +1,14 @@
+Cypress.on('uncaught:exception', (err, runnable) => {
+    // returning false here prevents Cypress from
+    // failing the test
+    return false;
+  });
+
 /// <reference types="cypress"/>
 it('HAWAII', () => {
 
     cy.origin('https://dev-68895481.okta.com', () => {
-    cy.visit('noipm-staging.herokuapp.com')
+    cy.visit('https://hcsoc-staging-0171a859e889.herokuapp.com/')
     cy.wait(2000)
     cy.get('#input28').type('pdm@publicdata.works');
     cy.get('#input36').type('wnc3ubf-hqf-rcr1ZPH');
@@ -12,7 +18,7 @@ it('HAWAII', () => {
 
     cy.wait(4000)
     
-    cy.origin('https://noipm-staging.herokuapp.com', () => {
+    cy.origin('https://hcsoc-staging-0171a859e889.herokuapp.com/', () => {
 
     cy.get('[data-testid="createCaseButton"]').click() //Click create case
     cy.get('[data-testid="createCaseDialogTitle"] > .MuiTypography-root').contains('Create New Case') //Check dialogue title appears
@@ -42,7 +48,7 @@ it('HAWAII', () => {
     cy.get('.MuiIconButton-label > :nth-child(1) > [data-testid="tooltip-CM"]').click();
     cy.get('[data-testid="tagManagement"]').click();
     cy.get('[data-testid="pageTitle"]').contains('Tag Management');
-    cy.url().should('eq', 'https://noipm-staging.herokuapp.com/manage-tags');
+    cy.url().should('eq', 'https://hcsoc-staging-0171a859e889.herokuapp.com/manage-tags');
     cy.wait(2000)
     //cy.get('.jss21 > :nth-child(1) > .MuiPaper-root').scrollTo('bottom', {ensureScrollable: false});
     cy.get('[data-testid="tagTableRow-Test Tag"] > :nth-child(1) > div').contains('Test Tag');

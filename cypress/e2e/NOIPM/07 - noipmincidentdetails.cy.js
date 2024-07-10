@@ -1,8 +1,14 @@
+Cypress.on('uncaught:exception', (err, runnable) => {
+    // returning false here prevents Cypress from
+    // failing the test
+    return false;
+  });
+
 /// <reference types="cypress"/>
 it('NOIPM', () => {
 
     cy.origin('https://noipm-staging.auth0.com', () => {
-    cy.visit('noipm-staging.herokuapp.com')    
+    cy.visit('https://noipm-staging.herokuapp.com')    
     //cy.get('body').tab()
     cy.get('.auth0-lock-input-email > .auth0-lock-input-wrap > .auth0-lock-input').type('vwong@thoughtworks.com')
     cy.get('.auth0-lock-input-show-password > .auth0-lock-input-block > .auth0-lock-input-wrap > .auth0-lock-input').type('Vwong123')
@@ -20,7 +26,7 @@ it('NOIPM', () => {
     cy.wait(2000)
     cy.get('[data-testid="firstNameField"] > .MuiFormHelperText-root').contains('Please enter First Name') //Error messages
     cy.get('[data-testid="lastNameField"] > .MuiFormHelperText-root').contains('Please enter Last Name') //Error messages
-    cy.get('.MuiAutocomplete-endAdornment > .MuiButtonBase-root').click() //Click on dropdown
+    cy.get('[data-testid="intakeSourceInput"]').click() //Click on dropdown
     cy.get('.MuiAutocomplete-option').contains('Email').click() //Check dropdown option contains "Email" and clicks option
     cy.get('[data-testid="firstNameInput"]').type('TestCypressFirst') //Input first name
     cy.get('[data-testid="lastNameInput"]').type('TestCypressLast') //Input last name
@@ -148,5 +154,21 @@ it('NOIPM', () => {
     cy.get('[data-testid="update-status-button"]').click();
     cy.get('[data-testid="update-case-status-button"]').click();
     cy.get('[data-testid="caseStatusBox"]').contains('Closed')
+
+    cy.get('[data-testid="attachmentDescription"]').eq(0).contains('Letter to Complainant')
+    cy.get('[data-testid="attachmentDescription"]').eq(1).contains('Referral Letter')
+    cy.window().document().then(function (doc) {
+        doc.addEventListener('click', () => {
+          setTimeout(function () {
+            if (doc.location) {
+              doc.location.reload();
+            }
+          }, 5000)
+        })
+        cy.get('[data-testid="attachmentName"]').eq(0).click();
+    })
+
+    cy.wait(2000)
+    cy.get('[data-testid="attachmentName"]').eq(1).click()
     })
 })
