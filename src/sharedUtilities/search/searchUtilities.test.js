@@ -161,6 +161,7 @@ describe("updateSearchIndex", () => {
     let c4se;
     beforeEach(async () => {
       mockBulk.mockClear();
+      await cleanupDatabase();
       const statuses = await seedStandardCaseStatuses();
       c4se = await models.cases.create(
         new Case.Builder()
