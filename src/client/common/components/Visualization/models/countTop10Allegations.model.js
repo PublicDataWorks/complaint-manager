@@ -126,19 +126,15 @@ export default class CountTop10Allegations extends BarGraphVisualization {
     }
 
     const buildYValue = (rule, originalParagraph) => {
-      // const CHARACTER_LIMIT = 41;
-      // const paragraph = originalParagraph.replace(/paragraph/gi, "PAR.");
+      const CHARACTER_LIMIT = 50;
       const paragraphToBeDisplayed = originalParagraph.split(".");
-      //   paragraph.length > 0
-      //     ? paragraph.substring(0, 40) + "..."
-      //     : paragraph;
       let formattedParagraph = paragraphToBeDisplayed[0]
-        .substring(0, 50)
+        .substring(0, 49)
         .replace(/paragraph/gi, "PAR.")
         .toUpperCase();
-      // if (paragraphToBeDisplayed[0].length > 50) {
-      //   formattedParagraph += '...';
-      // }
+      if (paragraphToBeDisplayed[0].length > CHARACTER_LIMIT) {
+        formattedParagraph += "...";
+      }
       const formattedRule = rule.toUpperCase();
       return formattedRule + "<br>" + formattedParagraph;
     };
