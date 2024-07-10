@@ -6,10 +6,15 @@ import {
   MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
 import asyncMiddleware from "../asyncMiddleware";
+import Boom from "boom";
 
 const retrieveFacilities = asyncMiddleware(async (request, response, next) => {
+  const expand = request.query.expand;
+  if (expand && expand !== "housingUnits") {
+    throw Boom.badRequest("Invalid expand parameter");
+  }
   const facilities = await models.sequelize.transaction(async transaction => {
-    const facilities = await models.facility.findAll({ transaction });
+    const facilities = await models.facility.findAll({ transaction, include: expand ? [expand]: undefined});
 
     const auditDetails = getQueryAuditAccessDetails(
       { transaction },
@@ -27,6 +32,7 @@ const retrieveFacilities = asyncMiddleware(async (request, response, next) => {
 
     return facilities;
   });
+
 
   response.send(facilities);
 });

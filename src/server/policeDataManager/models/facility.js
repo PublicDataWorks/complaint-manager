@@ -31,6 +31,14 @@ module.exports = (sequelize, DataTypes) => {
     },
     { table_name: "facilities" }
   );
-
+  Facility.associate = models => {
+    Facility.hasMany(models.housing_unit, {
+      as: "housingUnits",
+      foreignKey: {
+        name: "facilityId",
+        field: "facility_id"
+      },
+    });
+  }
   return Facility;
 };
