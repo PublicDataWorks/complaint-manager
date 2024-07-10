@@ -9,7 +9,7 @@ describe("CountTop10Allegations model", () => {
         {
           rule: "Rule 1",
           paragraph:
-            "description for Professionalism. This is a really long description that we are using here to exemplify the point of a test we are validating.",
+            "description for Professionalism over 50 chars for testing purposes",
           count: "1"
         },
         {
@@ -76,7 +76,9 @@ describe("CountTop10Allegations model", () => {
           },
           {
             x: ["1"],
-            y: ["RULE 1<br>DESCRIPTION FOR PROFESSIONALISM"],
+            y: [
+              "RULE 1<br>DESCRIPTION FOR PROFESSIONALISM OVER 50 CHARS FOR..."
+            ],
             type: "bar",
             width: 0.5,
             orientation: "h",
@@ -86,7 +88,7 @@ describe("CountTop10Allegations model", () => {
             textangle: 0,
             hoverinfo: "text",
             hovertext: [
-              "Rule 1<br>description for Professionalism. This is<br> a really long description that we are u<br>sing here to exemplify the point of a te<br>st we are validating."
+              "Rule 1<br>description for Professionalism over 50 <br>chars for testing purposes"
             ]
           }
         ]
@@ -98,7 +100,8 @@ describe("CountTop10Allegations model", () => {
       const rawData = [
         {
           rule: "Rule 1",
-          paragraph: "description for Professionalism",
+          paragraph:
+            "description for Professionalism over 50 chars for testing purposes",
           count: "1"
         },
         {
@@ -171,7 +174,9 @@ describe("CountTop10Allegations model", () => {
           },
           {
             x: ["1"],
-            y: ["RULE 1<br>DESCRIPTION FOR PROFESSIONALISM"],
+            y: [
+              "RULE 1<br>DESCRIPTION FOR PROFESSIONALISM OVER 50 CHARS FOR..."
+            ],
             type: "bar",
             width: 0.5,
             orientation: "h",
