@@ -21,7 +21,7 @@ jest.mock(
     ])
 );
 
-describe("When a request is made to get all housing units by facilityId", () => {
+describe("getHousingUnits", () => {
   afterEach(async () => {
     await cleanupDatabase();
   });
@@ -44,12 +44,12 @@ describe("When a request is made to get all housing units by facilityId", () => 
     });
 
     await models.housing_unit.create(
-      { name: "housing unit 1", facility_id: firstFacility.id },
+      { name: "housing unit 1", facilityId: firstFacility.id },
       { auditUser: "user" }
     );
 
     await models.housing_unit.create(
-      { name: "housing unit 2", facility_id: secondFacility.id },
+      { name: "housing unit 2", facilityId: secondFacility.id },
       { auditUser: "user" }
     );
 
