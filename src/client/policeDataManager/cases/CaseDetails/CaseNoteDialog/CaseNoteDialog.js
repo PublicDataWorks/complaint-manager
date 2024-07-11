@@ -28,6 +28,7 @@ import getUsers from "../../../../common/thunks/getUsers";
 import { filterAfterTrigger, keyDownEvent } from "./userMentionHelperFunctions";
 import scrollToFirstError from "../../../../common/helpers/scrollToFirstError";
 import { userTimezone } from "../../../../common/helpers/userTimezone";
+import sendEmail from "../../thunks/sendEmail";
 
 class CaseNoteDialog extends Component {
   constructor(props) {
@@ -62,6 +63,8 @@ class CaseNoteDialog extends Component {
       editCaseNote,
       initialCaseNote
     } = this.props;
+    const currentUserEmailSource = currentUserEmail;
+    const location = window.location.href;
 
     let valuesToSubmit = moment(values.actionTakenAt).isSame(
       initialCaseNote?.actionTakenAt
@@ -90,7 +93,16 @@ class CaseNoteDialog extends Component {
       default:
         break;
     }
-
+    console.log("state", this.state.mentionedUsers);
+    console.log("nickname    ", currentUserEmailSource);
+    console.log(
+      sendEmail(
+        this.state.mentionedUsers,
+        caseId,
+        currentUserEmailSource,
+        location
+      )
+    );
     closeDialog();
   };
 
