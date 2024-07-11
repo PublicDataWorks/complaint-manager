@@ -62,13 +62,6 @@ jest.mock(
 
 jest.mock("../PersonOnCaseDialog/MapServices/MapService");
 
-jest.mock("../../thunks/getHousingUnits", () =>
-  jest.fn(values => ({
-    type: "GET_HOUSING_UNITS_MOCK",
-    values
-  }))
-);
-
 describe("incident details", () => {
   let incidentDetails,
     currentCase,
@@ -390,7 +383,13 @@ describe("incident details", () => {
 
       store.dispatch({
         type: GET_FACILITIES,
-        payload: [{ id: 1, name: "Waiawa Correctional Facility" }]
+        payload: [
+          {
+            id: 1,
+            name: "Waiawa Correctional Facility",
+            housingUnits: [{ id: 1, name: "Housing Unit 1" }]
+          }
+        ]
       });
       store.dispatch(
         getIntakeSourcesSuccess([
@@ -403,10 +402,6 @@ describe("incident details", () => {
         userInfo: { permissions: [USER_PERMISSIONS.EDIT_CASE] }
       });
 
-      store.dispatch({
-        type: GET_HOUSING_UNITS_SUCCEEDED,
-        housingUnits: [{ id: 1, name: "Housing Unit 1" }]
-      });
       wrapper = mount(
         <Provider store={store}>
           <IncidentDetails classes={{}} />
@@ -458,7 +453,7 @@ describe("incident details", () => {
     });
 
     test("should fetch facility on mount", () => {
-      expect(getFacilities).toHaveBeenCalled();
+      expect(getFacilities).toHaveBeenCalledWith("housingUnits");
     });
 
     test("should open dialog and prepopulate fields", () => {

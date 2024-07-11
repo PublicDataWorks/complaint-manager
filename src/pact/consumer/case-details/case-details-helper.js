@@ -36,6 +36,7 @@ export const PERSON_IN_CUSTODY = "personInCustody";
 export const CHOOSE_PERSON_TYPE = "choosePersonType";
 export const CHANGES_SEARCHABLE_DATA = "changesSearchableData";
 export const PRIORITY_INCIDENTS = "priorityIncidents";
+export const POLICE_INCIDENT_DETAILS = "policeIncidentDetails";
 
 const personTypes = [
   {
@@ -478,40 +479,6 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
       }
     }),
     provider.addInteraction({
-      state: "districts exist",
-      uponReceiving: "get districts",
-      withRequest: {
-        method: "GET",
-        path: "/api/districts"
-      },
-      willRespondWith: {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: eachLike(["1st District", 1])
-      }
-    }),
-    provider.addInteraction({
-      state: "Facilities exist",
-      uponReceiving: "get facilities",
-      withRequest: {
-        method: "GET",
-        path: "/api/facilities"
-      },
-      willRespondWith: {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: eachLike({
-          name: "Waiawa Correctional Facility",
-          id: 1,
-          abbreviation: "WCF"
-        })
-      }
-    }),
-    provider.addInteraction({
       state: "civilian-titles exist",
       uponReceiving: "get civilian-titles",
       withRequest: {
@@ -607,6 +574,48 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
         },
         willRespondWith: {
           status: 202
+        }
+      })
+    );
+  }
+
+  if (options.includes(POLICE_INCIDENT_DETAILS)) {
+    interactions.push(
+      provider.addInteraction({
+        state: "districts exist",
+        uponReceiving: "get districts",
+        withRequest: {
+          method: "GET",
+          path: "/api/districts"
+        },
+        willRespondWith: {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          body: eachLike(["1st District", 1])
+        }
+      })
+    );
+  } else {
+    interactions.push(
+      provider.addInteraction({
+        state: "Facilities exist",
+        uponReceiving: "get facilities",
+        withRequest: {
+          method: "GET",
+          path: "/api/facilities"
+        },
+        willRespondWith: {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json; charset=utf-8"
+          },
+          body: eachLike({
+            name: "Waiawa Correctional Facility",
+            id: 1,
+            abbreviation: "WCF"
+          })
         }
       })
     );
@@ -814,7 +823,7 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
       chooseComplaintType: options.includes(COMPLAINT_TYPES),
       allowAllTypesToBeAccused: options.includes(CIVILIAN_ACCUSED),
       choosePersonTypeInAddDialog: options.includes(CHOOSE_PERSON_TYPE),
-      policeIncidentDetails: true,
+      policeIncidentDetails: options.includes(POLICE_INCIDENT_DETAILS),
       priorityIncidents: options.includes(PRIORITY_INCIDENTS)
     }
   });

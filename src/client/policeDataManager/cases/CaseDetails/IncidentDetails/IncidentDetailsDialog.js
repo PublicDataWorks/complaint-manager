@@ -42,7 +42,6 @@ import Dropdown from "../../../../common/components/Dropdown";
 import scrollToFirstError from "../../../../common/helpers/scrollToFirstError";
 import { userTimezone } from "../../../../common/helpers/userTimezone";
 import getFacilities from "../../thunks/getFacilities";
-import getHousingUnits from "../../thunks/getHousingUnits";
 import PriorityIncident from "../../sharedFormComponents/PriorityIncident";
 
 const submitIncidentDetails = (values, dispatch, props) => {
@@ -134,13 +133,10 @@ class IncidentDetailsDialog extends Component {
         label: "",
         value: null
       },
-      displayHousingUnitsDropdown: this.props.facilityId,
       currentHousingUnitId: this.props.housingUnitId
     };
 
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
-    this.handleDropdownChangeHousing =
-      this.handleDropdownChangeHousing.bind(this);
     this.handleCloseDialog = this.handleCloseDialog.bind(this);
   }
 
@@ -153,19 +149,9 @@ class IncidentDetailsDialog extends Component {
     }
   }
 
-  handleDropdownChangeHousing(facilityId) {
-    this.props.getHousingUnits(facilityId);
-    this.setState({
-      displayHousingUnitsDropdown: facilityId
-    });
-
-    this.props.change("housingUnitId", null);
-  }
-
   handleCloseDialog() {
     if (!this.props.policeIncidentDetails) {
       this.props.change("housingUnitId", this.state.currentHousingUnitId);
-      this.props.getHousingUnits(this.props.facilityId);
     }
 
     this.props.handleDialogClose();
@@ -175,9 +161,12 @@ class IncidentDetailsDialog extends Component {
     this.setState({ dropdownValue: this.props.intakeSourceName });
     this.props.getIntakeSourceDropdownValues();
     this.props.getHowDidYouHearAboutUsSourceDropdownValues();
-    this.props.getDistrictDropdownValues();
-    this.props.getFacilities();
-    this.props.getHousingUnits(this.props.facilityId);
+
+    if (this.props.policeIncidentDetails) {
+      this.props.getDistrictDropdownValues();
+    } else {
+      this.props.getFacilities("housingUnits");
+    }
   }
 
   render() {
@@ -312,7 +301,6 @@ class IncidentDetailsDialog extends Component {
                       "data-testid": "facilityInput",
                       autoComplete: "off"
                     }}
-                    onChange={this.handleDropdownChangeHousing}
                   >
                     {generateMenuOptions(
                       props.facilities.map(facility => [
@@ -323,7 +311,7 @@ class IncidentDetailsDialog extends Component {
                     )}
                   </Field>
 
-                  {this.state.displayHousingUnitsDropdown && (
+                  {props.selectedFacility && (
                     <Field
                       label="Housing Unit"
                       name="housingUnitId"
@@ -336,11 +324,10 @@ class IncidentDetailsDialog extends Component {
                       }}
                     >
                       {generateMenuOptions(
-                        props.housingUnits
-                          ? props.housingUnits.map(housingUnit => [
-                              housingUnit.name,
-                              housingUnit.id
-                            ])
+                        props.facilities && props.selectedFacility
+                          ? props.selectedFacility.housingUnits.map(
+                              housingUnit => [housingUnit.name, housingUnit.id]
+                            )
                           : [],
                         "Unknown"
                       )}
@@ -497,7 +484,12 @@ const mapStateToProps = state => {
     "incidentLocation.lat",
     "incidentLocation.lng",
     "incidentLocation.placeId",
-    "priorityReason.id"
+    "priorityReason.id",
+    "facilityId"
+  );
+
+  const selectedFacility = state.facilities.find(
+    facility => facility.id === values.facilityId
   );
 
   return {
@@ -508,14 +500,14 @@ const mapStateToProps = state => {
     facilityId: state.currentCase.details.facilityId,
     formattedAddress: formatAddressAsString(values.incidentLocation),
     housingUnitId: state.currentCase.details.housingUnitId,
-    housingUnits: state.housingUnits,
     howDidYouHearAboutUsSources: state.ui.howDidYouHearAboutUsSources,
     intakeSources: state.ui.intakeSources,
     isPriorityIncident: !!values?.priorityReason?.id,
     policeIncidentDetails: state.featureToggles.policeIncidentDetails,
     priorityIncidentsFlag: state.featureToggles.priorityIncidents,
     priorityLevels: state.ui.priorityLevels,
-    priorityReasons: state.ui.priorityReasons
+    priorityReasons: state.ui.priorityReasons,
+    selectedFacility
   };
 };
 
@@ -523,8 +515,7 @@ const mapDispatchToProps = {
   getIntakeSourceDropdownValues,
   getHowDidYouHearAboutUsSourceDropdownValues,
   getDistrictDropdownValues,
-  getFacilities,
-  getHousingUnits
+  getFacilities
 };
 
 export default withStyles(styles)(

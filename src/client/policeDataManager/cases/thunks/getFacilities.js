@@ -1,9 +1,11 @@
 import axios from "axios";
 import { GET_FACILITIES } from "../../../../sharedUtilities/constants";
 
-const getFacilities = () => async dispatch => {
+const getFacilities = expand => async dispatch => {
   try {
-    const response = await axios.get(`api/facilities`);
+    const response = await axios.get(
+      expand ? `api/facilities?expand=${expand}` : "api/facilities"
+    );
     dispatch({
       type: GET_FACILITIES,
       payload: response.data

@@ -2,9 +2,9 @@ import { fireEvent, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import axios from "axios";
 import { pactWith } from "jest-pact";
-import { like, eachLike } from "@pact-foundation/pact/src/dsl/matchers";
+import { like } from "@pact-foundation/pact/src/dsl/matchers";
 import {
-  PRIORITY_INCIDENTS,
+  POLICE_INCIDENT_DETAILS,
   setUpCaseDetailsPage
 } from "./case-details-helper";
 import "@testing-library/jest-dom";
@@ -28,7 +28,7 @@ pactWith(
     describe("incident details", () => {
       test("should change incident details", async () => {
         await Promise.all([
-          setUpCaseDetailsPage(provider),
+          setUpCaseDetailsPage(provider, POLICE_INCIDENT_DETAILS),
           provider.addInteraction({
             state:
               "Case exists; districts exist; intake sources exist; how did you hear about us sources exist",

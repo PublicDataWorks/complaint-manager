@@ -82,7 +82,6 @@ class IncidentDetails extends React.Component {
       facilityId,
       facilities,
       housingUnitId,
-      housingUnits,
       configs
     } = this.props;
     const intakeSourceName = intakeSource ? intakeSource.name : "";
@@ -92,9 +91,9 @@ class IncidentDetails extends React.Component {
     const districtName = district ? district.name : "";
     const facilityName = facilities.find(f => f.id === facilityId)?.name;
     const pbCaseNumberText = `${configs[CONFIGS.BUREAU_ACRONYM]} Case Number`;
-    const housingUnitName = housingUnits.find(
-      h => h.id === housingUnitId
-    )?.name;
+    const housingUnitName = facilities
+      ?.find(facility => facility.id === facilityId)
+      ?.housingUnits?.find(h => h.id === housingUnitId)?.name;
 
     const FirstContacted = (
       <StyledInfoDisplay>
@@ -313,7 +312,6 @@ const mapStateToProps = state => ({
   facilityId: state.currentCase.details.facilityId,
   firstContactDate: state.currentCase.details.firstContactDate,
   housingUnitId: state.currentCase.details.housingUnitId,
-  housingUnits: state.housingUnits,
   howDidYouHearAboutUsSource:
     state.currentCase.details.howDidYouHearAboutUsSource,
   howDidYouHearAboutUsSourceId:
