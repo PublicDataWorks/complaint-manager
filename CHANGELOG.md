@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.70.2](https://github.com/PublicDataWorks/complaint-manager/compare/v3.70.0...v3.70.2) (2024-07-11)
+
 ### [3.70.1](https://github.com/PublicDataWorks/complaint-manager/compare/v3.70.0...v3.70.1) (2024-07-08)
 
 ## [3.70.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.69.6...v3.70.0) (2024-06-28)
