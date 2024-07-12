@@ -702,6 +702,12 @@ export const API_ROUTES = {
         "Something went wrong while getting facilities.  Please try again."
     }
   },
+  "/facilities/:facilityId/housing-units": {
+    get: {
+      handler: getHousingUnits,
+      errorMessage: "Something went wrong while getting housing units"
+    }
+  },
   "/letter-types": {
     get: {
       handler: getLetterTypes,
@@ -817,12 +823,6 @@ export const API_ROUTES = {
     get: {
       handler: getPriorityReasons,
       errorMessage: "Something went wrong while getting priority reasons"
-    }
-  },
-  "/housing-units": {
-    get: {
-      handler: getHousingUnits,
-      errorMessage: "Something went wrong while getting housing units"
     }
   }
 };

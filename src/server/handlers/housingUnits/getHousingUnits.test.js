@@ -54,10 +54,10 @@ describe("getHousingUnits", () => {
     );
 
     const responsePromise = request(app)
-      .get("/api/housing-units")
+      .get(`/api/facilities/${firstFacility.id}/housing-units`)
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
-      .query({ facilityId: firstFacility.id });
+      .send();
 
     await expectResponse(responsePromise, 200, [
       expect.objectContaining({ name: "housing unit 1" })
