@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.70.3](https://github.com/PublicDataWorks/complaint-manager/compare/v3.70.0...v3.70.3) (2024-07-12)
+
+
+### Bug Fixes
+
+* MOB [[#641](https://github.com/PublicDataWorks/complaint-manager/issues/641)] pre-loads housing units using expand param ([ffcc1f6](https://github.com/PublicDataWorks/complaint-manager/commit/ffcc1f6628b5c710da9d8bfc0fab19e1512b8fd1))
+
 ### [3.70.2](https://github.com/PublicDataWorks/complaint-manager/compare/v3.70.0...v3.70.2) (2024-07-11)
 
 ### [3.70.1](https://github.com/PublicDataWorks/complaint-manager/compare/v3.70.0...v3.70.1) (2024-07-08)

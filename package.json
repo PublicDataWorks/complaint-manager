@@ -1,7 +1,7 @@
 {
   "name": "complaint-manager",
   "license": "Apache-2.0",
-  "version": "3.70.2",
+  "version": "3.70.3",
   "proxy": "https://localhost:1234",
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
