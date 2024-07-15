@@ -5,10 +5,11 @@ const QUERY_REFERRAL_LETTER_TYPE =
 const UPDATE_REFERRAL_LETTER_TEMPLATE =
   "UPDATE letter_types SET editable_template = <<template>> WHERE type = 'REFERRAL'";
 
-const OLD_TEXT1 = "supervisorWindowsUsername";
-const NEW_TEXT1 = "supervisorEmployeeId";
-const OLD_TEXT2 = "windowsUsername";
-const NEW_TEXT2 = "employeeId";
+const SUPERVISOR_WINDOWS_USERNAME = "supervisorWindowsUsername";
+const SUPERVISOR_EMPLOYEE_ID = "supervisorEmployeeId";
+
+const WINDOWS_USERNAME = "windowsUsername";
+const EMPLOYEE_ID = "employeeId";
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -22,8 +23,8 @@ module.exports = {
           const updateQuery = UPDATE_REFERRAL_LETTER_TEMPLATE.replace(
             "<<template>>",
             `'${type[0][0].editable_template
-              .replaceAll(OLD_TEXT1, NEW_TEXT1)
-              .replaceAll(OLD_TEXT2, NEW_TEXT2)
+              .replaceAll(SUPERVISOR_WINDOWS_USERNAME, SUPERVISOR_EMPLOYEE_ID)
+              .replaceAll(WINDOWS_USERNAME, EMPLOYEE_ID)
               .replace(/'/g, "''")}'`
           );
           await queryInterface.sequelize.query(updateQuery, {
@@ -49,8 +50,8 @@ module.exports = {
           UPDATE_REFERRAL_LETTER_TEMPLATE.replace(
             "<<template>>",
             `'${type[0][0].editable_template
-              .replaceAll(NEW_TEXT2, OLD_TEXT2)
-              .replaceAll(NEW_TEXT1, OLD_TEXT1)
+              .replaceAll(EMPLOYEE_ID, WINDOWS_USERNAME)
+              .replaceAll(SUPERVISOR_EMPLOYEE_ID, SUPERVISOR_WINDOWS_USERNAME)
               .replace(/'/g, "''")}'`
           ),
           {
