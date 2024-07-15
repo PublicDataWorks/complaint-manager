@@ -86,6 +86,7 @@ const DashboardGlossary = () => {
             variant="contained"
             to="/data"
             component={Link}
+            data-testid="dashboard-link"
             style={{
               textTransform: "none",
               padding: "16px 24px",

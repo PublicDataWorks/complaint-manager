@@ -1,4 +1,4 @@
-import { mount } from "enzyme";
+import { render, screen } from "@testing-library/react";
 import DashboardGlossary from "./DashboardGlossary";
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -8,7 +8,7 @@ import { Provider } from "react-redux";
 describe("Dashboard Glossary page", () => {
   test("should render the Glossary page for the public data dashboard with correct styling", () => {
     const store = createConfiguredStore();
-    const wrapper = mount(
+    render(
       <Provider store={store}>
         <Router>
           <DashboardGlossary />
@@ -16,6 +16,7 @@ describe("Dashboard Glossary page", () => {
       </Provider>
     );
 
-    expect(wrapper).toMatchSnapshot();
+    expect(screen.getByTestId("dashboard-link")).toBeTruthy();
+    expect(screen.getByText("Tag Glossary")).toBeTruthy();
   });
 });
