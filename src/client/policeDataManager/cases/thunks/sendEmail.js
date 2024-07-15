@@ -10,8 +10,10 @@ const sendEmail = async (users, caseId, currentUserEmail, location) => {
     console.log("data details ", response.data.details);
     console.log("Status:", response.status);
     console.log("Headers:", response.headers);
+    return response;
   } catch (error) {
     console.error("Error:", error);
   }
 };
 export default sendEmail;
+``;

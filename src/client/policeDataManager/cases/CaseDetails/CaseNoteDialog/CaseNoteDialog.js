@@ -54,7 +54,7 @@ class CaseNoteDialog extends Component {
     });
   };
 
-  submit = values => {
+  submit = async values => {
     const {
       addCaseNote,
       caseId,
@@ -96,7 +96,7 @@ class CaseNoteDialog extends Component {
     console.log("state", this.state.mentionedUsers);
     console.log("nickname    ", currentUserEmailSource);
     console.log(
-      sendEmail(
+      await sendEmail(
         this.state.mentionedUsers,
         caseId,
         currentUserEmailSource,
