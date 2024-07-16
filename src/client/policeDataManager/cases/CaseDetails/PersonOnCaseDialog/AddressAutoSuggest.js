@@ -62,14 +62,8 @@ class AddressAutoSuggest extends Component {
   }
 
   renderInput = inputProps => {
-    const {
-      label,
-      classes,
-      ref,
-      dataTest,
-      reduxFormMeta,
-      ...other
-    } = inputProps;
+    const { label, classes, ref, dataTest, reduxFormMeta, ...other } =
+      inputProps;
     const shouldRenderError = Boolean(reduxFormMeta.error);
 
     if (
@@ -140,9 +134,8 @@ class AddressAutoSuggest extends Component {
   };
 
   renderSuggestion = (suggestion, { query, isHighlighted }) => {
-    const suggestionValue = this.props.mapService.getSuggestionValue(
-      suggestion
-    );
+    const suggestionValue =
+      this.props.mapService.getSuggestionValue(suggestion);
     const matches = match(suggestionValue + "", query);
     const parts = parse(suggestionValue, matches);
 

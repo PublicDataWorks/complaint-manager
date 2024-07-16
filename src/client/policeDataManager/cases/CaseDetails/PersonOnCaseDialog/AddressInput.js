@@ -1,20 +1,20 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import AddressAutoSuggest from "./AddressAutoSuggest";
-import {change, clearSubmitErrors, Field} from "redux-form";
-import {connect} from "react-redux";
+import { change, clearSubmitErrors, Field } from "redux-form";
+import { connect } from "react-redux";
 import colors from "../../../../common/globalStyling/colors";
 import MapService from "./MapServices/MapService";
-import {formatAddressAsString} from "../../../utilities/formatAddress";
+import { formatAddressAsString } from "../../../utilities/formatAddress";
 import _ from "lodash";
 import StyledLink from "../../../shared/components/StyledLink";
 import {
-    updateAddressDisplayValue,
-    updateAddressErrorMessage,
-    updateAddressInputValidity,
-    updateAddressToConfirm
+  updateAddressDisplayValue,
+  updateAddressErrorMessage,
+  updateAddressInputValidity,
+  updateAddressToConfirm
 } from "../../../actionCreators/casesActionCreators";
 import parseAddressFromGooglePlaceResult from "../../../utilities/parseAddressFromGooglePlaceResult";
-import {renderTextField} from "../../sharedFormComponents/renderFunctions";
+import { renderTextField } from "../../sharedFormComponents/renderFunctions";
 
 class AddressInput extends Component {
   //TODO  IS there a good way to do dependency injection in react/redux?
@@ -63,7 +63,7 @@ class AddressInput extends Component {
             onClick={this.fillConfirmedAddress}
             style={{ fontSize: "0.75rem", cursor: "pointer" }}
             data-testid="fillAddressToConfirm"
-            aria-label= "fill Address To Confirm"
+            aria-label="fill Address To Confirm"
           >
             Fill Address
           </StyledLink>
@@ -150,22 +150,47 @@ class AddressInput extends Component {
   render() {
     return (
       <div>
-        <Field
-          name={"autoSuggestValue"}
-          component={AddressAutoSuggest}
-          props={{
-            label: this.props.addressLabel,
-            mapService: this.mapService,
-            defaultText: this.props.formattedAddress,
-            "data-testid": "addressSuggestionField",
-            setFormValues: this.setFormValues,
-            "aria-label": "address field"
-          }}
-          inputProps={{
+        {this.props.googleAddressAPI ? (
+          <Field
+            name={"autoSuggestValue"}
+            component={AddressAutoSuggest}
+            props={{
+              label: this.props.addressLabel,
+              mapService: this.mapService,
+              defaultText: this.props.formattedAddress,
+              "data-testid": "addressSuggestionField",
+              setFormValues: this.setFormValues,
+              "aria-label": "address field"
+            }}
+            inputProps={{
               name: this.props.name,
               "aria-label": "address Suggestion Field"
-          }}
-        />
+            }}
+          />
+        ) : (
+          <Field
+            name={`${this.props.fieldName}.streetAddress`}
+            component={renderTextField}
+            label={this.props.addressLabel}
+            inputProps={{
+              "data-testid": "address",
+              autoComplete: "off",
+              maxLength: 255,
+              "aria-label": "address field"
+            }}
+            style={{
+              flexGrow: 1,
+              position: "relative",
+              width: "90%",
+              marginBottom: "8px"
+            }}
+            InputLabelProps={{
+              shrink: true
+            }}
+            data-testid="addressSuggestionField"
+            placeholder={"Enter an Address"}
+          />
+        )}
         {this.renderValidMessage()}
         <Field
           type={"hidden"}
@@ -289,7 +314,8 @@ const mapStateToProps = state => ({
   addressMessageVisible: state.ui.addressInput.addressMessageVisible,
   addressToConfirm: state.ui.addressInput.addressToConfirm,
   addressDisplayValue: state.ui.addressInput.addressDisplayValue,
-  addressErrorMessage: state.ui.addressInput.addressErrorMessage
+  addressErrorMessage: state.ui.addressInput.addressErrorMessage,
+  googleAddressAPI: state.featureToggles.googleAddressAPI
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddressInput);

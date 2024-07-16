@@ -24,6 +24,7 @@ import {
   updateSort
 } from "../../actionCreators/casesActionCreators";
 import normalizeAddress from "../../utilities/normalizeAddress";
+import { getFeaturesSuccess } from "../../actionCreators/featureTogglesActionCreators";
 
 jest.mock("../CaseDetails/PersonOnCaseDialog/MapServices/MapService");
 
@@ -84,6 +85,7 @@ describe("CreateCaseActions", () => {
   beforeEach(() => {
     store = createConfiguredStore();
     store.dispatch(updateSort(SORT_CASES_BY.CASE_REFERENCE, DESCENDING));
+    store.dispatch(getFeaturesSuccess({ googleAddressAPI: true }));
 
     store.dispatch({
       type: GET_PERSON_TYPES,

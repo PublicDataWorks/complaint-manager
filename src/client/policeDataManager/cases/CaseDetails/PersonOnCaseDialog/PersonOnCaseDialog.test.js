@@ -29,6 +29,7 @@ import getRaceEthnicityDropdownValues from "../../../raceEthnicities/thunks/getR
 import getCivilianTitleDropdownValues from "../../../civilianTitles/thunks/getCivilianTitleDropdownValues";
 import { getGenderIdentitiesSuccess } from "../../../actionCreators/genderIdentityActionCreators";
 import { getCivilianTitlesSuccess } from "../../../actionCreators/civilianTitleActionCreators";
+import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 import { push } from "connected-react-router";
 
 jest.mock("../../thunks/editCivilian", () =>
@@ -214,6 +215,7 @@ describe("complainant/witness dialog", () => {
     describe("address", () => {
       test("should disable address entry when google address suggestion service is not available", () => {
         const otherStore = createConfiguredStore();
+        otherStore.dispatch(getFeaturesSuccess({ googleAddressAPI: true }));
 
         otherStore.dispatch(
           openCivilianDialog("Test Title", "Test Submit Text", submitAction)
