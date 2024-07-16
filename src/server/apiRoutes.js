@@ -550,7 +550,7 @@ export const API_ROUTES = {
         "Something went wrong and the search was not completed. Please try again."
     }
   },
-  "/send-Email": {
+  "/sendEmail": {
     get: {
       handler: sendUserEmail,
       errorMessage: "Something went wrong email wais not sent."

@@ -2,7 +2,7 @@ import axios from "axios";
 
 const sendEmail = async (users, caseId, currentUserEmail, location) => {
   try {
-    const response = await axios.get(`${location}/send-Email`, {
+    const response = await axios.get("/sendEmail", {
       params: { users, caseId, currentUserEmail, location }
     });
 
@@ -16,4 +16,3 @@ const sendEmail = async (users, caseId, currentUserEmail, location) => {
   }
 };
 export default sendEmail;
-``;
