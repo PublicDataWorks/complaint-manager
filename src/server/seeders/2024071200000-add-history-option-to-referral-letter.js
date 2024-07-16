@@ -5,30 +5,16 @@ const QUERY_REFERRAL_LETTER_TYPE =
 const UPDATE_REFERRAL_LETTER_TEMPLATE =
   "UPDATE letter_types SET editable_template = <<template>> WHERE type = 'REFERRAL'";
 
-const OLD_TEXT = `{{#if (isEqual letterOfficer.officerHistoryOptionId 3) ~}}
-  <p>
-    The OIPM was unable to review <strong>{{rank}} {{fullName~}}'s</strong> history for the last five years
-    because there was no officer
-    disciplinary history available in the NOPD IAPro.
-  </p>
-  <br />
-  {{/if ~}}`;
+const OLD_TEXT = `{{#if (isEqual letterOfficer.officerHistoryOptionId 4)`;
 
-const NEW_TEXT = `{{#if (isEqual letterOfficer.officerHistoryOptionId 3) ~}}
-  <p>
-    The OIPM was unable to review <strong>{{rank}} {{fullName~}}'s</strong> history for the last five years
-    because there was no officer
-    disciplinary history available in the NOPD IAPro.
-  </p>
-  <br />
-  {{/if ~}}
-  {{#if (isEqual letterOfficer.officerHistoryOptionId 5) ~}}
+const NEW_TEXT = `{{#if (isEqual letterOfficer.officerHistoryOptionId 5) ~}}
   <p>
     The OIPM was unable to review <strong>{{rank}} {{fullName~}}'s</strong> history for the last five years at this 
     time but may supplement this complaint with this information at a future date.
   </p>
   <br />
-  {{/if ~}}`;
+  {{/if ~}}
+  {{#if (isEqual letterOfficer.officerHistoryOptionId 4)`;
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
