@@ -69,7 +69,7 @@ class OfficerSearchForm extends Component {
             />
 
             <Field
-              label="District"
+              label="District/Assignment"
               name="districtId"
               component={Dropdown}
               data-testid="districtField"
