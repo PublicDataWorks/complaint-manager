@@ -1,5 +1,5 @@
 const models = require("../../../policeDataManager/models");
-
+import { handleEmailNotification } from "./handleEmailNotifications";
 export const handleNotifications = async (
   transaction,
   request,
@@ -37,8 +37,10 @@ export const handleNotifications = async (
 
   for (const user in workingListMentionedUsers) {
     const mentionedUser = workingListMentionedUsers[user].value;
+    const mentionedUserEmail = workingListMentionedUsers[user].label;
     await createNotification(transaction, request, mentionedUser, caseNoteId);
     usersWithNewNotifs.push(mentionedUser);
+    handleEmailNotification(mentionedUser, caseNoteId, mentionedUserEmail);
   }
 
   return usersWithNewNotifs;
