@@ -26,11 +26,13 @@ module.exports = (sequelize, DataTypes) => {
       },
       streetAddress: {
         type: DataTypes.STRING,
-        field: "street_address"
+        field: "street_address",
+        defaultValue: ""
       },
 
       intersection: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: ""
       },
 
       streetAddress2: {
@@ -40,21 +42,25 @@ module.exports = (sequelize, DataTypes) => {
 
       city: {
         type: DataTypes.STRING,
-        field: "city"
+        field: "city",
+        defaultValue: ""
       },
 
       state: {
         type: DataTypes.STRING,
-        field: "state"
+        field: "state",
+        defaultValue: ""
       },
 
       zipCode: {
         type: DataTypes.STRING,
-        field: "zip_code"
+        field: "zip_code",
+        defaultValue: ""
       },
       country: {
         type: DataTypes.STRING,
-        field: "country"
+        field: "country",
+        defaultValue: ""
       },
       lat: {
         type: DataTypes.FLOAT
@@ -99,7 +105,8 @@ module.exports = (sequelize, DataTypes) => {
             address.streetAddress2 = address.streetAddress2.trim();
 
           if (address.additionalLocationInfo)
-            address.additionalLocationInfo = address.additionalLocationInfo.trim();
+            address.additionalLocationInfo =
+              address.additionalLocationInfo.trim();
         }
       }
     }
