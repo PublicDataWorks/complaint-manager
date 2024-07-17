@@ -695,8 +695,14 @@ export const FAKE_USERS = [
   { email: "sameen.shaw@gmail.com", name: "Sameen Shaw" },
   { email: "seanathon@gmail.com", name: "Seanathon" },
   { email: "jsimms@oipm.gov", name: "John A Simms" },
+<<<<<<< Updated upstream
   { email: "devon.ivory1@thoughtworks.com", name: "Devon Ivory" },
   { email: "helio.r@thoughtworks.com", name: "Helio R" }
+=======
+  { email: "devon.ivory1@thoughtworks.com", name: "Devon I" },
+  { email: "elleni.tessema1@thougthworks.com", name: "Elleni T" },
+  { email: "julio.espinola1@thoughtworks.com", name: "Julio E" }
+>>>>>>> Stashed changes
 ];
 
 export const SCREEN_SIZES = {
