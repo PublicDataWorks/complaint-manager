@@ -338,7 +338,7 @@ class IncidentDetailsDialog extends Component {
 
               {this.props.policeIncidentDetails && (
                 <Field
-                  label="District"
+                  label="District/Assignment"
                   name="districtId"
                   component={Dropdown}
                   style={{

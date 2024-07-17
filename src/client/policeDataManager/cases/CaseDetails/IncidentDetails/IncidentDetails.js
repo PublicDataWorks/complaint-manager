@@ -171,7 +171,7 @@ class IncidentDetails extends React.Component {
     const District = (
       <StyledInfoDisplay gridColumn={2}>
         <CivilianInfoDisplay
-          displayLabel="District"
+          displayLabel="District/Assignment"
           value={districtName}
           testLabel="incidentDistrict"
         />
