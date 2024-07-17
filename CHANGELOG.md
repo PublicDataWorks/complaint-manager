@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.70.6](https://github.com/PublicDataWorks/complaint-manager/compare/v3.70.4...v3.70.6) (2024-07-17)
+
+
+### Bug Fixes
+
+* Andrew [[#646](https://github.com/PublicDataWorks/complaint-manager/issues/646)] adds seeder to replace windowsUsername with employeeId ([a185359](https://github.com/PublicDataWorks/complaint-manager/commit/a185359d19eb4b655f44eac79f718b9847ddd09e))
+
 ### [3.70.5](https://github.com/PublicDataWorks/complaint-manager/compare/v3.70.4...v3.70.5) (2024-07-17)
 
 
