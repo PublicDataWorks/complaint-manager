@@ -45,7 +45,7 @@ describe("caseDetailDataHelpers", function () {
               formattedFirstContactDate,
             "Incident Time": "10:00 AM CST",
             "Incident Location": "100 Small Lake Road, Skokie, IL, 10000",
-            District: "some district",
+            "District/Assignment": "some district",
             pbCaseNumberText: "2018-0002-CC"
           })
         ])
@@ -87,7 +87,7 @@ describe("caseDetailDataHelpers", function () {
             "First Contacted The Justice League": formattedFirstContactDate,
             "Incident Time": "10:00 AM CST",
             "Incident Location": null,
-            District: "some district",
+            "District/Assignment": "some district",
             pbCaseNumberText: "2013-0004-CC"
           })
         ])
@@ -123,7 +123,7 @@ describe("caseDetailDataHelpers", function () {
             "First Contacted SGC": formattedFirstContactDate,
             "Incident Time": "10:00 AM CST",
             "Incident Location": "100 Small Lake Road, Skokie, IL, 10000",
-            District: null,
+            "District/Assignment": null,
             pbCaseNumberText: "2013-0004-CC"
           })
         ])
@@ -368,7 +368,7 @@ describe("caseDetailDataHelpers", function () {
           expect.objectContaining({
             "Officer Name": "officer joe",
             ID: "#12345",
-            District: "some district"
+            "District/Assignment": "some district"
           })
         ])
       );
@@ -395,7 +395,7 @@ describe("caseDetailDataHelpers", function () {
           expect.objectContaining({
             "Officer Name": "(ANON) officer joe",
             ID: "#12345",
-            District: "some district"
+            "District/Assignment": "some district"
           })
         ])
       );
@@ -444,7 +444,7 @@ describe("caseDetailDataHelpers", function () {
           expect.objectContaining({
             "Civilian (GCPD) Name": "complainant joe",
             ID: "#12345",
-            District: "some district"
+            "District/Assignment": "some district"
           })
         ])
       );
@@ -472,7 +472,7 @@ describe("caseDetailDataHelpers", function () {
           expect.objectContaining({
             "Civilian (GCPD) Name": "(ANON) complainant joe",
             ID: "#12345",
-            District: "some district"
+            "District/Assignment": "some district"
           })
         ])
       );
@@ -581,7 +581,7 @@ describe("caseDetailDataHelpers", function () {
           expect.objectContaining({
             "Officer Name": "(ANON) officer joe",
             ID: "#12345",
-            District: "some district"
+            "District/Assignment": "some district"
           }),
           expect.objectContaining({ "Officer Name": "Unknown" })
         ])
@@ -718,7 +718,7 @@ describe("caseDetailDataHelpers", function () {
             expect.objectContaining({
               "Officer Name": "witness officer joe",
               ID: "#12345",
-              District: "some district"
+              "District/Assignment": "some district"
             })
           ])
         );
@@ -746,7 +746,7 @@ describe("caseDetailDataHelpers", function () {
             expect.objectContaining({
               "Officer Name": "(ANON) witness officer joe",
               ID: "#12345",
-              District: "some district"
+              "District/Assignment": "some district"
             })
           ])
         );
@@ -773,7 +773,7 @@ describe("caseDetailDataHelpers", function () {
             expect.objectContaining({
               [`Civilian (GCPD) Name`]: "witness joe",
               ID: "#12345",
-              District: "some district"
+              "District/Assignment": "some district"
             })
           ])
         );
@@ -801,7 +801,7 @@ describe("caseDetailDataHelpers", function () {
             expect.objectContaining({
               [`Civilian (GCPD) Name`]: "(ANON) witness joe",
               ID: "#12345",
-              District: "some district"
+              "District/Assignment": "some district"
             })
           ])
         );
@@ -886,7 +886,7 @@ describe("caseDetailDataHelpers", function () {
             expect.objectContaining({
               "Officer Name": "(ANON) witness officer joe",
               ID: "#12345",
-              District: "some district"
+              "District/Assignment": "some district"
             }),
             expect.objectContaining({ "Officer Name": "Unknown" })
           ])
@@ -910,7 +910,7 @@ describe("caseDetailDataHelpers", function () {
           expect.objectContaining({
             "Officer Name": "some name",
             ID: "#some id",
-            District: "some district"
+            "District/Assignment": "some district"
           })
         );
       });
@@ -945,7 +945,7 @@ describe("caseDetailDataHelpers", function () {
           expect.objectContaining({
             [`Civilian (GCPD) Name`]: "some name",
             ID: "#some id",
-            District: "some district"
+            "District/Assignment": "some district"
           })
         );
       });

@@ -103,7 +103,7 @@ const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children, pd }) => {
             </StyledInfoDisplay>
             <StyledInfoDisplay>
               <OfficerInfoDisplay
-                displayLabel="District"
+                displayLabel="District/Assignment"
                 value={caseOfficer.district}
                 testLabel="district"
               />

@@ -32,7 +32,9 @@ export const getIncidentInfoData = (caseDetail, organization) => {
       "Incident Date": incidentDate,
       "Incident Time": incidentTime,
       "Incident Location": incidentLocation ? incidentLocation : null,
-      District: caseDetail.caseDistrict ? caseDetail.caseDistrict.name : null,
+      "District/Assignment": caseDetail.caseDistrict
+        ? caseDetail.caseDistrict.name
+        : null,
       pbCaseNumberText: caseDetail.pibCaseNumber
     }
   ];
@@ -54,7 +56,7 @@ export const mapOfficer = (officer, pd) => {
     const officerData = {
       [nameTitle]: fullNameIsAnonymous(officer),
       ID: `#${officer.employeeId}`,
-      District: officer.district
+      "District/Assignment": officer.district
     };
     return officerData;
   }
