@@ -51,6 +51,7 @@ for BUCKET in "${BUCKETS[@]}"; do
                 for FILE in "${LETTER_HEAD_FILES[@]}"; do
                     aws --endpoint-url=http://host.docker.internal:4566 s3 cp "$IMAGE_FILE_SRC_DIR/$FILE" "s3://$BASE_BUCKET_NAME/letter-images/$FILE"
                 done
+                aws --endpoint-url=http://host.docker.internal:4566 s3 cp "$SEED_FILE_SRC_DIR/rosterTemplate.csv" "s3://$BASE_BUCKET_NAME"
                 ;;
 
             $OFFICER_DATA_BUCKET)
