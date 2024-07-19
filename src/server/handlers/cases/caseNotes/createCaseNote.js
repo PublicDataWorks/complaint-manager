@@ -68,7 +68,8 @@ const createCaseNote = asyncMiddleware(async (request, response, next) => {
       request,
       mentionedUsers,
       caseNoteId
-    ).catch(() => {
+    ).catch(err => {
+      console.error("Error while handling notifications. Error: ", err);
       throw Boom.badData(BAD_REQUEST_ERRORS.NOTIFICATION_CREATION_ERROR);
     });
 

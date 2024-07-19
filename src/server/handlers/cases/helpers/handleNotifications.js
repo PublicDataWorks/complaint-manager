@@ -1,11 +1,13 @@
 const models = require("../../../policeDataManager/models");
-import { handleEmailNotification } from "./handleEmailNotifications";
+import handleEmailNotifications from "./handleEmailNotifications";
+
 export const handleNotifications = async (
   transaction,
   request,
   mentionedUsers,
   caseNoteId
 ) => {
+  console.log("handleNotifications function called");
   const workingListMentionedUsers = [...mentionedUsers];
   const workingListUsersEmails = workingListMentionedUsers.map(user => {
     return user.value;
@@ -23,6 +25,7 @@ export const handleNotifications = async (
     const mentionedUsersEmails = mentionedUsers.map(user => {
       return user.value;
     });
+    console.log("mentioned users emails: ", mentionedUsersEmails);
     if (mentionedUsersEmails.includes(currentUser)) {
       await updateNotification(transaction, request, currentUser, caseNoteId);
       usersWithNewNotifs.push(currentUser);
@@ -36,11 +39,29 @@ export const handleNotifications = async (
   }
 
   for (const user in workingListMentionedUsers) {
-    const mentionedUser = workingListMentionedUsers[user].value;
-    const mentionedUserEmail = workingListMentionedUsers[user].label;
-    await createNotification(transaction, request, mentionedUser, caseNoteId);
+    console.log("user:  ", user);
+    const mentionedUserEmail = workingListMentionedUsers[user].value;
+    const mentionedUser = workingListMentionedUsers[user].label;
+    const caseNoteLink = request.caseLink;
+    await createNotification(
+      transaction,
+      request,
+      mentionedUserEmail,
+      caseNoteId
+    );
+    console.log("Sending email notification to:", mentionedUser);
     usersWithNewNotifs.push(mentionedUser);
-    handleEmailNotification(mentionedUser, caseNoteId, mentionedUserEmail);
+
+    try {
+      await handleEmailNotifications(
+        mentionedUser,
+        caseNoteId,
+        mentionedUserEmail,
+        caseNoteLink
+      );
+    } catch (error) {
+      console.log("Failed to send email notification:", error);
+    }
   }
 
   return usersWithNewNotifs;

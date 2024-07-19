@@ -18,13 +18,14 @@ services:
       - NEW_RELIC_ENABLED=false
       - NEW_RELIC_NO_CONFIG_FILE=true
       - AWS_ACCESS_KEY_ID
+      - MAILGUN_API_KEY
       - AWS_SECRET_ACCESS_KEY
       - REACT_APP_GOOGLE_API_KEY
       - REACT_APP_USE_CLOUD_SERVICES=false
       - REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files
       - NODE_EXTRA_CA_CERTS=/caroot/rootCA.pem
       - REACT_APP_GITHUB_TOKEN
-      - ORG=HAWAII
+      - ORG=NOIPM
     depends_on:
       - db
       - worker

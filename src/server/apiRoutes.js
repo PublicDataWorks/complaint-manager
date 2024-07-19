@@ -103,7 +103,6 @@ import getDirectives from "./handlers/directives/getDirectives";
 import getPriorityLevels from "./handlers/priority_levels/getPriorityLevels";
 import getPriorityReasons from "./handlers/priority_reasons/getPriorityReasons";
 import getHousingUnits from "./handlers/housingUnits/getHousingUnits";
-import sendUserEmail from "./handlers/email/SendUserEmailHelper";
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
   "/cases/:caseId/case-notes/:caseNoteId",
@@ -550,12 +549,7 @@ export const API_ROUTES = {
         "Something went wrong and the search was not completed. Please try again."
     }
   },
-  "/sendEmail": {
-    get: {
-      handler: sendUserEmail,
-      errorMessage: "Something went wrong email wais not sent."
-    }
-  },
+
   "/allegations": {
     get: {
       handler: retrieveAllegations,
