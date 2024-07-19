@@ -57,25 +57,21 @@ describe("executeQuery", () => {
   const expectedData = [
     {
       rule: "Test Rule A",
-      directive: "AA",
       paragraph: "Test Paragraph A",
       count: "1"
     },
     {
       rule: "Test Rule B",
-      directive: "BB",
       paragraph: "Test Paragraph B",
       count: "1"
     },
     {
       rule: "Test Rule C",
-      directive: "CC",
       paragraph: "Test Paragraph C",
       count: "2"
     },
     {
       rule: "Test Rule D",
-      directive: "DD",
       paragraph: "Test Paragraph D",
       count: "3"
     }

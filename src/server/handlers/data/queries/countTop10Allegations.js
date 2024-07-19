@@ -16,7 +16,6 @@ export const executeQuery = async (
   const queryOptions = {
     attributes: [
       "allegation.rule",
-      "allegation.directive",
       "allegation.paragraph",
       [
         sequelize.fn(
@@ -57,7 +56,8 @@ export const executeQuery = async (
       }
     ],
     raw: true,
-    group: ["allegation.directive", "allegation.rule", "allegation.paragraph"],
+
+    group: ["allegation.rule", "allegation.paragraph"],
     limit: 8,
     order: [["count", DESCENDING]]
   };
