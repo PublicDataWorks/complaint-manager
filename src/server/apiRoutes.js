@@ -103,6 +103,7 @@ import getDirectives from "./handlers/directives/getDirectives";
 import getPriorityLevels from "./handlers/priority_levels/getPriorityLevels";
 import getPriorityReasons from "./handlers/priority_reasons/getPriorityReasons";
 import getHousingUnits from "./handlers/housingUnits/getHousingUnits";
+import processPersonMassUpload from "./handlers/processPersonMassUpload";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -138,6 +139,12 @@ export const PUBLIC_ROUTES = {
       handler: getVisualizationConfigs,
       errorMessage:
         "Something went wrong getting the visualization configurations"
+    }
+  },
+  "/person-mass-upload": {
+    get: {
+      handler: processPersonMassUpload,
+      errorMessage: "Something went wrong while getting mass upload"
     }
   }
 };
