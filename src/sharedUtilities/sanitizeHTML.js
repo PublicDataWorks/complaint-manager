@@ -1,13 +1,20 @@
-import sanitizeHtml from 'sanitize-html';
+import sanitizeHtml from "sanitize-html";
 
-export const sanitize = input => sanitizeHtml(input, {
+export const sanitize = input => {
+  let sanitizedInput = sanitizeHtml(input, {
     allowedTags: [],
     allowedAttributes: {},
-    disallowedTagsMode: 'escape'
-});
+    disallowedTagsMode: "escape"
+  });
 
-export const discardTags = input => sanitizeHtml(input, {
+  sanitizedInput = sanitizedInput.replace(/&amp;/g, "&");
+
+  return sanitizedInput;
+};
+
+export const discardTags = input =>
+  sanitizeHtml(input, {
     allowedTags: [],
     allowedAttributes: {},
-    disallowedTagsMode: 'discard'
-});
+    disallowedTagsMode: "discard"
+  });
