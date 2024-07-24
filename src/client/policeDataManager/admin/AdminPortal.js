@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
 import NavBar from "../shared/components/NavBar/NavBar";
 import { policeDataManagerMenuOptions } from "../shared/components/NavBar/policeDataManagerMenuOptions";
+import MassUpload from "./massUpload/MassUpload";
 import Signatures from "./signatures/Signatures";
 import LetterTypes from "./letterTypes/LetterTypes";
 import getSigners from "./thunks/getSigners";
@@ -33,6 +34,7 @@ const AdminPortal = ({
   return (
     <main className="admin-portal">
       <NavBar menuType={policeDataManagerMenuOptions}>Admin Portal</NavBar>
+      {/*checkPermissions(<MassUpload key="massUpload" />)*/}
       {checkPermissions(
         <Signatures key="signatures" thisIsATest={thisIsATest} />
       )}
