@@ -140,12 +140,6 @@ export const PUBLIC_ROUTES = {
       errorMessage:
         "Something went wrong getting the visualization configurations"
     }
-  },
-  "/person-mass-upload": {
-    get: {
-      handler: processPersonMassUpload,
-      errorMessage: "Something went wrong while getting mass upload"
-    }
   }
 };
 
@@ -830,6 +824,12 @@ export const API_ROUTES = {
     get: {
       handler: getPriorityReasons,
       errorMessage: "Something went wrong while getting priority reasons"
+    }
+  },
+  "/person-mass-upload": {
+    get: {
+      handler: processPersonMassUpload,
+      errorMessage: "Something went wrong while getting mass upload"
     }
   }
 };
