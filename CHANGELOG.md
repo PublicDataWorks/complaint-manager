@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.70.8](https://github.com/PublicDataWorks/complaint-manager/compare/v3.70.7...v3.70.8) (2024-07-24)
+
+
+### Bug Fixes
+
+* [Justin] [#647](https://github.com/PublicDataWorks/complaint-manager/issues/647): Allow ampersand character in sanitization of html ([5241ea2](https://github.com/PublicDataWorks/complaint-manager/commit/5241ea2df93cff6595104161e95956f6202da023))
+
 ### [3.70.7](https://github.com/PublicDataWorks/complaint-manager/compare/v3.70.6...v3.70.7) (2024-07-19)
 
 ### [3.70.6](https://github.com/PublicDataWorks/complaint-manager/compare/v3.70.4...v3.70.6) (2024-07-17)
