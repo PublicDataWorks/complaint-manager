@@ -827,9 +827,9 @@ export const API_ROUTES = {
     }
   },
   "/person-mass-upload": {
-    get: {
+    post: {
       handler: processPersonMassUpload,
-      errorMessage: "Something went wrong while getting mass upload"
+      errorMessage: "Something went wrong while processing mass upload"
     }
   }
 };
