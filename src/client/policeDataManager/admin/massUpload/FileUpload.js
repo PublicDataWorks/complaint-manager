@@ -1,11 +1,8 @@
 import React, { useMemo, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { FormHelperText, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { DropzoneComponent } from "react-dropzone-component";
-import {
-    PrimaryButton,
-  } from "../../shared/components/StyledButtons";
 import {
   DUPLICATE_FILE_NAME,
   UPLOAD_CANCELED
@@ -16,7 +13,6 @@ import {
   snackbarError,
   snackbarSuccess
 } from "../../actionCreators/snackBarActionCreators";
-import { CloudUpload } from "@material-ui/icons";
 
 const parseDropzoneError = (errorMessage, responseStatus) => {
   if (responseStatus === 503) {
@@ -33,33 +29,6 @@ const parseDropzoneError = (errorMessage, responseStatus) => {
 
 const FileUpload = props => {
   const [errorMessage, setErrorMessage] = useState("");
-  const dropzoneRef = useRef(null);
-
-  const handleUpload = () => {
-    const expectedHeaders = [];
-    const file = dropzoneRef.current.dropzone.files[0];
-    if (file) {
-        const reader = new FileReader();
-
-        reader.onload = (event) => {
-            const fileContent = event.target.result;
-            const lines = fileContent.split("\n");
-            const headers = lines[0].split(",");
-            console.log(headers);
-        }
-
-        reader.onerror = (event) => {
-            console.error(reader.error);
-        }
-
-        reader.readAsText(file);
-    } else {
-        console.log("No file selected");
-    }
-
-    
-
-  };
 
   let finalErrorMessage = props.externalErrorMessage;
   if (errorMessage !== "") {
@@ -99,10 +68,14 @@ const FileUpload = props => {
             }}
             eventHandlers={{
               init: props.onInit,
-              addedfile: () => props.setAttachmentValid(true),
+              addedfile: () => {
+                props.setAttachmentValid(true);
+                props.setUploadInProgress(true);
+              },
               success: (file, response) => {
                 if (props.onSuccess) {
                   props.onSuccess(file, response);
+                  console.log(file);
                 } else {
                   props.snackbarSuccess("File was successfully uploaded");
                 }
@@ -137,15 +110,9 @@ const FileUpload = props => {
                 setErrorMessage("");
                 props.setAttachmentValid(false);
               },
-              sending: props.onSending
+              sending: file => props.onSending(file)
             }}
-            ref={dropzoneRef}
           />
-          <PrimaryButton 
-            style={{flex: 1}}
-            onClick={handleUpload}
-          ><CloudUpload style={{paddingRight: "7px"}}/>Upload </PrimaryButton>
-          <FormHelperText error={true}>{finalErrorMessage}</FormHelperText>
         </div>
       </div>
     </div>

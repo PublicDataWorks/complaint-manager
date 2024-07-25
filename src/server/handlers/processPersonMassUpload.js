@@ -29,24 +29,89 @@ const processPersonMassUpload = asyncMiddleware(
       }
     });
 
+    function validateFileHeaders(chunk) {
+      const headers = chunk.toString();
+      const expectedHeaders = [
+        "inmateID",
+        "firstName",
+        "lastName",
+        "region",
+        "facility",
+        "locationSub1",
+        "locationSub2",
+        "locationSub3",
+        "locationSub4",
+        "housing",
+        "currentLocation",
+        "status",
+        "custodyStatus",
+        "custodyStatusReason",
+        "securityClassification",
+        "gender",
+        "primaryEthnicity",
+        "race",
+        "muster",
+        "indigent",
+        "releaseType",
+        "classificationDate",
+        "bookingStartDate",
+        "tentativeReleaseDate",
+        "bookingEndDate",
+        "actualReleaseDate",
+        "weekender",
+        "DOB",
+        "age",
+        "countryOfBirth",
+        "citizenship",
+        "religion",
+        "language",
+        "dateDeathRecorded",
+        "sentenceLength",
+        "onCount",
+        "transferDate",
+        "address"
+      ];
+      const isValid = expectedHeaders.every(header => headers.includes(header));
+      return isValid;
+    }
     let fileReadPromise = new Promise((resolve, reject) =>
       busboy.on("file", async function (fieldname, file) {
-        resolve(file);
+        let validated = false;
+        file.on("data", (data) => {
+          if (!validated) {
+            let headers = data.toString().split("\n")[0].split(",");
+            validateFileHeaders(headers);
+            validated = validateFileHeaders(headers);;
+            console.log("validated", validated);
+          }
+        });
+
+        file.on("end", () => {
+          if (validated) {
+            resolve(file);
+          } else {
+            file.destroy();
+            reject("Invalid file format");
+          }
+        });
       })
     );
 
     request.pipe(busboy);
-    const file = await fileReadPromise;
-
-    const s3 = createConfiguredS3Instance();
-    managedUpload = await s3.upload({
-      Bucket: config[process.env.NODE_ENV].officerBucket,
-      Key: `${filename}`,
-      Body: file,
-      ServerSideEncryption: "AES256",
-      ContentType: fileType
-    });
-
+    try {
+      const file = await fileReadPromise;
+      const s3 = createConfiguredS3Instance();
+      managedUpload = await s3.upload({
+        Bucket: config[process.env.NODE_ENV].officerBucket,
+        Key: `${filename}`,
+        Body: file,
+        ServerSideEncryption: "AES256",
+        ContentType: fileType
+      });
+    } catch (error) {
+      console.log(error);      
+      return next(Boom.badRequest("Invalid headers"));
+    }
     await managedUpload.promise.then(
       data => {
         response.status(200).send({ name: filename });
