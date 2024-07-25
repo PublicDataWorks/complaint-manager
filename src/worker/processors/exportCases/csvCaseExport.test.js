@@ -443,7 +443,7 @@ describe("csvCaseExport request", () => {
         caseToExport.narrativeSummary
       );
       expect(records[0]["Narrative Details"]).toEqual(
-        " Some details about the narrative. "
+        "Some details about the narrative."
       );
     });
 
