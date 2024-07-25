@@ -49,7 +49,7 @@ const exportCasesQuery = (dateRange = null) => {
     `to_char(cases.incident_time, \'${TIME_ONLY_FORMAT}\') AS incident_time, ` +
     "cases.complaint_type, " +
     "cases.narrative_summary, " +
-    "cases.narrative_details, " +
+    "REGEXP_REPLACE(cases.narrative_details, '<[^>]*>', ' ', 'g'), " +
     "classifications.name as classifications, " +
     "intake_sources.name AS intake_source, " +
     "how_did_you_hear_about_us_sources.name AS how_did_you_hear_about_us_source, " +
