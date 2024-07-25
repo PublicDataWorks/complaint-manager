@@ -15,7 +15,10 @@ const bulkUploadOfficerDataFromS3 = async (
   officerFileName = "massOfficerUploadExample.csv",
   shouldCloseConnections = false
 ) => {
-  console.log("officerFileName: ", officerFileName);
+  console.log(
+    "WE R IN BULK UPLOADDDDDDD - massUploadTemplate.csv",
+    officerFileName
+  );
   const promises = [];
   let counter = 0;
   const officersToUpdate = [];
@@ -144,8 +147,8 @@ const bulkUploadOfficerDataFromS3 = async (
   winston.info("File name: " + officerFileName);
   try {
     const s3 = createConfiguredS3Instance();
-    const officerBucketName = config[process.env.NODE_ENV].officerBucket;
-    console.log("officerBucketName: ", officerBucketName);
+    //const officerBucketName = config[process.env.NODE_ENV].officerBucket;
+    //console.log("officerBucketName: ", officerBucketName);
 
     const parser = csvParse({
       cast: parseNullValues,
@@ -153,9 +156,16 @@ const bulkUploadOfficerDataFromS3 = async (
       trim: true
     });
 
+    await new Promise(resolve =>
+      setTimeout(() => {
+        console.log("Delayed for 9 second.");
+        resolve();
+      }, 9000)
+    );
+
     const object = await s3.getObject({
-      Bucket: officerBucketName,
-      Key: officerFileName
+      Bucket: config[process.env.NODE_ENV].s3Bucket,
+      Key: `massUploadTemplate.csv`
     });
     console.log("s3.getObject object: ", object);
 

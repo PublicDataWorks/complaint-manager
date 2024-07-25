@@ -14,6 +14,7 @@ const processPersonMassUpload = asyncMiddleware(
       response.setHeader("Access-Control-Allow-Origin", "https://localhost");
     }
 
+    console.log("we are in the process person mass upload");
     let managedUpload;
     const busboy = Busboy({
       headers: request.headers
@@ -77,11 +78,11 @@ const processPersonMassUpload = asyncMiddleware(
     let fileReadPromise = new Promise((resolve, reject) =>
       busboy.on("file", async function (fieldname, file) {
         let validated = false;
-        file.on("data", (data) => {
+        file.on("data", data => {
           if (!validated) {
             let headers = data.toString().split("\n")[0].split(",");
             validateFileHeaders(headers);
-            validated = validateFileHeaders(headers);;
+            validated = validateFileHeaders(headers);
             console.log("validated", validated);
           }
         });
@@ -102,27 +103,30 @@ const processPersonMassUpload = asyncMiddleware(
       const file = await fileReadPromise;
       const s3 = createConfiguredS3Instance();
       managedUpload = await s3.upload({
-        Bucket: config[process.env.NODE_ENV].officerBucket,
-        Key: `${filename}`,
+        //Bucket: config[process.env.NODE_ENV].officerBucket,
+        Bucket: config[process.env.NODE_ENV].s3Bucket,
+        Key: `massUploadTemplate.csv`,
         Body: file,
         ServerSideEncryption: "AES256",
         ContentType: fileType
       });
     } catch (error) {
-      console.log(error);      
-      return next(Boom.badRequest("Invalid headers"));
+      console.log(error);
+      return next(Boom.badRequest("Error uploading to s3"));
     }
+    //const result = await managedUpload.promise();
+    //console.log("Upload success", result);
     await managedUpload.promise.then(
       data => {
         response.status(200).send({ name: filename });
-
-        auditFileAction(
-          request.nickname,
-          undefined,
-          AUDIT_ACTION.UPLOADED,
-          filename,
-          AUDIT_FILE_TYPE.SIGNATURE
-        );
+        console.log("upload success");
+        // auditFileAction(
+        //   request.nickname,
+        //   undefined,
+        //   AUDIT_ACTION.UPLOADED,
+        //   filename,
+        //   AUDIT_FILE_TYPE.SIGNATURE
+        // );
       },
       error => {
         winston.error(error);
@@ -131,11 +135,11 @@ const processPersonMassUpload = asyncMiddleware(
     );
 
     request.on("close", () => {
-      if (managedUpload) managedUpload.abort();
+      //if (managedUpload) managedUpload.abort();
     });
 
     // check for org
-    // bulkUploadOfficerDataFromS3(filename);
+    bulkUploadOfficerDataFromS3(filename);
   }
 );
 
