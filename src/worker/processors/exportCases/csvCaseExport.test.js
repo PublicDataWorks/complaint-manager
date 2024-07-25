@@ -268,7 +268,7 @@ describe("csvCaseExport request", () => {
         .defaultCase()
         .withId(undefined)
         .withNarrativeSummary("A summary of the narrative.")
-        .withNarrativeDetails("Some details about the narrative.")
+        .withNarrativeDetails("<p>Some details about the narrative.</p>")
         .withFirstContactDate("2018-01-02")
         .withDistrictId(1);
 
@@ -443,7 +443,7 @@ describe("csvCaseExport request", () => {
         caseToExport.narrativeSummary
       );
       expect(records[0]["Narrative Details"]).toEqual(
-        caseToExport.narrativeDetails
+        " Some details about the narrative. "
       );
     });
 
