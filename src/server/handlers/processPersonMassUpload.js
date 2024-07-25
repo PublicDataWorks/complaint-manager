@@ -30,8 +30,9 @@ const processPersonMassUpload = asyncMiddleware(
     });
 
     function validateFileHeaders(chunk) {
+      const org = process.env.ORG;
       const headers = chunk.toString();
-      const expectedHeaders = [
+      const expectedHawaiiHeaders = [
         "inmateID",
         "firstName",
         "lastName",
@@ -71,6 +72,33 @@ const processPersonMassUpload = asyncMiddleware(
         "transferDate",
         "address"
       ];
+      const expectedNOIPMHeaders = [
+        "firstName",
+        "middleName",
+        "lastName",
+        "rank",
+        "race",
+        "sex",
+        "DOB",
+        "bureau",
+        "district",
+        "workStatus",
+        "supervisorEmployeeID",
+        "hireDate",
+        "endDate",
+        "employeeType",
+        "employeeID"
+      ];
+      function checkCurrentOrg(org, hawaiiHeaders, noipmHeaders) {
+        if (org === "HAWAII") {
+          return hawaiiHeaders;
+        } else if (org === "NOIPM") {
+          return noipmHeaders;
+        } else {
+          return [];
+        }
+      }
+      const expectedHeaders = checkCurrentOrg(org, expectedHawaiiHeaders, expectedNOIPMHeaders);
       const isValid = expectedHeaders.every(header => headers.includes(header));
       return isValid;
     }
@@ -102,40 +130,27 @@ const processPersonMassUpload = asyncMiddleware(
       const file = await fileReadPromise;
       const s3 = createConfiguredS3Instance();
       managedUpload = await s3.upload({
-        Bucket: config[process.env.NODE_ENV].officerBucket,
+        Bucket: config[process.env.NODE_ENV].s3Bucket,
         Key: `${filename}`,
         Body: file,
         ServerSideEncryption: "AES256",
         ContentType: fileType
-      });
+      }).promise();
+      if (managedUpload) {
+        return response.status(200).send("File uploaded successfully");
+      }
+
     } catch (error) {
       console.log(error);      
       return next(Boom.badRequest("Invalid headers"));
     }
-    await managedUpload.promise.then(
-      data => {
-        response.status(200).send({ name: filename });
-
-        auditFileAction(
-          request.nickname,
-          undefined,
-          AUDIT_ACTION.UPLOADED,
-          filename,
-          AUDIT_FILE_TYPE.SIGNATURE
-        );
-      },
-      error => {
-        winston.error(error);
-        next(Boom.badImplementation(error));
-      }
-    );
 
     request.on("close", () => {
       if (managedUpload) managedUpload.abort();
     });
 
     // check for org
-    // bulkUploadOfficerDataFromS3(filename);
+    //bulkUploadOfficerDataFromS3(filename);
   }
 );
 

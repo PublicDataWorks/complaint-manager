@@ -70,7 +70,6 @@ const FileUpload = props => {
               init: props.onInit,
               addedfile: () => {
                 props.setAttachmentValid(true);
-                props.setUploadInProgress(true);
               },
               success: (file, response) => {
                 if (props.onSuccess) {
@@ -110,7 +109,7 @@ const FileUpload = props => {
                 setErrorMessage("");
                 props.setAttachmentValid(false);
               },
-              sending: file => props.onSending(file)
+              sending: props.onSending
             }}
           />
         </div>

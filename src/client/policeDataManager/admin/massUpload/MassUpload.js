@@ -33,42 +33,22 @@ class MassUpload extends Component {
     }
 
     onUploadSuccess = (file, response) => {
-        this.props.snackbarSuccess("File was successfully uploaded");
+        snackbarSuccess("File was successfully uploaded");
         this.dropzone.removeFile(file);
     }
-    onUploadSending = async (file) => {
+    onUploadSending = async (file, xhr, formData) => {
         let fileName = file.name;
-        let formData = new FormData();
         formData.append("name", fileName);
-        formData.append("file", file);
         formData.append("type", `text/csv`);
-        const postUrl = `${config[process.env.REACT_APP_ENV].backendUrl}/api/person-mass-upload`;
-        try {
-            const response = await axios.post(postUrl, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-            if (response.status === 200) {
-                snackbarSuccess("Successfully uploaded file");
-            }
-        }
-        catch (error) {
-            snackbarError(error.message);
-        }
     }
     
    
 
     onUploadComplete = () => {
-        this.setState({ uploadInProgress: true });
         console.log(this.state.attachmentValid);
-        if (this.state.attachmentValid) {
-            this.dropzone.processQueue();
+        this.dropzone.processQueue();
 
-        } else {
-
-        }
+        
     }
 
     render() {
