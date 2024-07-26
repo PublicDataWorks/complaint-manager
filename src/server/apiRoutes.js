@@ -104,6 +104,7 @@ import getPriorityLevels from "./handlers/priority_levels/getPriorityLevels";
 import getPriorityReasons from "./handlers/priority_reasons/getPriorityReasons";
 import getHousingUnits from "./handlers/housingUnits/getHousingUnits";
 import processPersonMassUpload from "./handlers/processPersonMassUpload";
+import getCsvFileFromS3 from "./handlers/getCsvFileFromS3";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -830,6 +831,12 @@ export const API_ROUTES = {
     post: {
       handler: processPersonMassUpload,
       errorMessage: "Something went wrong while processing mass upload"
+    }
+  },
+  "/csv-template": {
+    get: {
+      handler: getCsvFileFromS3,
+      errorMessage: "Something went wrong while getting CSV template"
     }
   }
 };

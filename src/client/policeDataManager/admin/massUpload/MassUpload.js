@@ -10,14 +10,25 @@ import FileUpload from "./FileUpload";
 import { Component } from "react";
 import { CloudUpload } from "@material-ui/icons";
 const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`);
-
+import axios from "axios";
 class MassUpload extends Component {
     constructor(props) {
         super(props);
         this.state = {
             attachmentValid: false,
-            uploadInProgress: false
+            uploadInProgress: false,
+            rosterTemplateUrl: ""
         };
+    }
+
+    componentDidMount() {
+        axios.get(`${config[process.env.REACT_APP_ENV].backendUrl}/api/csv-template`)
+            .then(response => {
+                this.setState({ rosterTemplateUrl: response.data });
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
 
     onUploadInit = dropzone => {
@@ -39,8 +50,6 @@ class MassUpload extends Component {
     onUploadComplete = () => {
         console.log(this.state.attachmentValid);
         this.dropzone.processQueue();
-
-        
     }
 
     render() {
@@ -54,7 +63,7 @@ class MassUpload extends Component {
                         </p>
                         <ul style={{marginTop: "0px"}}> 
                             <li>
-                                The headers must match those on this reference spreadsheet. ()
+                                The headers must match those on this reference spreadsheet. (Download the template <a href={this.state.rosterTemplateUrl} target="_blank" rel="noopener noreferrer">here</a>)
                             </li>
                             <li>
                                 Any empty required fields will result in an error.
