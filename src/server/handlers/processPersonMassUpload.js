@@ -114,12 +114,12 @@ const processPersonMassUpload = asyncMiddleware(
           }
         });
 
-        file.on("end", () => {
+        file.on("end", (error) => {
           if (validated) {
             resolve(file);
           } else {
             file.destroy();
-            reject("Invalid file format");
+            reject("Invalid file headers");
           }
         });
       })
@@ -135,14 +135,14 @@ const processPersonMassUpload = asyncMiddleware(
         Body: file,
         ServerSideEncryption: "AES256",
         ContentType: fileType
-      }).promise();
+      })
       if (managedUpload) {
         return response.status(200).send("File uploaded successfully");
       }
 
     } catch (error) {
       console.log(error);      
-      return next(Boom.badRequest("Invalid headers"));
+      return next(Boom.badRequest(error));
     }
 
     request.on("close", () => {

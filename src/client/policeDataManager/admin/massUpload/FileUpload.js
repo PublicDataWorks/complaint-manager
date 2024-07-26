@@ -75,8 +75,9 @@ const FileUpload = props => {
                 if (props.onSuccess) {
                   props.onSuccess(file, response);
                   console.log(file);
-                } else {
-                  props.snackbarSuccess("File was successfully uploaded");
+                  if (file.status === "success") {
+                    props.snackbarSuccess("File uploaded successfully");
+                  }
                 }
               },
               error: (file, error, xhr) => {

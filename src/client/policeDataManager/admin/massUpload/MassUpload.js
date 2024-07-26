@@ -1,22 +1,14 @@
 import {
     CardContent,
-    Divider,
-    Typography,
-    withStyles
+    Divider
   } from "@material-ui/core";
-import moment from "moment";
 import DetailsCard from "../../shared/components/DetailsCard";
 import {
     PrimaryButton,
   } from "../../shared/components/StyledButtons";
-  import {
-    snackbarError,
-    snackbarSuccess
-  } from "../../actionCreators/snackBarActionCreators";
 import FileUpload from "./FileUpload";
 import { Component } from "react";
 import { CloudUpload } from "@material-ui/icons";
-import axios from "axios";
 const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`);
 
 class MassUpload extends Component {
@@ -33,8 +25,8 @@ class MassUpload extends Component {
     }
 
     onUploadSuccess = (file, response) => {
-        snackbarSuccess("File was successfully uploaded");
         this.dropzone.removeFile(file);
+        this.setState({ attachmentValid: false });
     }
     onUploadSending = async (file, xhr, formData) => {
         let fileName = file.name;
