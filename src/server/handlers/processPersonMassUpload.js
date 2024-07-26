@@ -27,7 +27,7 @@ const processPersonMassUpload = asyncMiddleware(
     function validateFileHeaders(chunk) {
       const headers = chunk.toString();
       function getOrgHeadersToValidate(org) {
-        if (org === "hawaii") {
+        if (org === "hcsoc") {
           return [
             "inmateId",
             "firstName",
@@ -129,7 +129,6 @@ const processPersonMassUpload = asyncMiddleware(
 
               try {
                 if (org === "noipm") {
-                  console.log("noipm");
                   if (person.employeeId) {
                     const EMPLOYEE_TYPES = [
                       "Commissioned",
@@ -151,10 +150,7 @@ const processPersonMassUpload = asyncMiddleware(
                         where: { employeeId: person.employeeId }
                       });
 
-                      console.log(`select response => ${officer}`);
-
                       if (officer) {
-                        console.log(`editting officer ${person.employeeId}`);
                         await models.officer.update(person, {
                           where: { employeeId: person.employeeId }
                         });
@@ -165,49 +161,52 @@ const processPersonMassUpload = asyncMiddleware(
                       countSuccessfulEntries += 1;
                     } else {
                       console.error(
-                        `employeeType must be one of the following ${EMPLOYEE_TYPES}. skipping line`
+                        `employeeType must be one of the following ${EMPLOYEE_TYPES}.`
                       );
                       errors.push(
-                        `employeeType must be one of the following ${EMPLOYEE_TYPES}. skipping line`
+                        `employeeType must be one of the following ${EMPLOYEE_TYPES}.`
                       );
                     }
                   } else {
-                    console.error("employee id is required, skipping line");
+                    console.error("employeeId is required.");
                     errors.push("employeeId is required");
                   }
-                } else if (org === "hawaii") {
-                  console.log("hawaii");
+                } else if (org === "hcsoc") {
                   if (person.inmateId && person.firstName && person.lastName) {
-                    const facility = await models.facility.findOne({
-                      where: { abbreviation: person.facility }
-                    });
+                    try {
+                      const facility = await models.facility.findOne({
+                        where: { abbreviation: person.facility }
+                      });
 
-                    if (facility) {
-                      person.facilityId = facility.id;
-                    }
+                      if (facility) {
+                        person.facilityId = facility.id;
+                      }
 
-                    if (person.indigent) {
-                      person.indigent = person.indigent ? 1 : 0;
-                    }
+                      if (person.indigent) {
+                        person.indigent = person.indigent ? 1 : 0;
+                      }
 
-                    if (person.onCount) {
-                      person.onCount = person.onCount ? 1 : 0;
-                    }
+                      if (person.onCount) {
+                        person.onCount = person.onCount ? 1 : 0;
+                      }
 
-                    const inmate = await models.inmate.findOne({
-                      where: { inmateId: person.inmateId }
-                    });
-
-                    if (inmate) {
-                      console.log("editing inmate");
-                      await models.inmate.update(person, {
+                      const inmate = await models.inmate.findOne({
                         where: { inmateId: person.inmateId }
                       });
-                    } else {
-                      console.log("creating a new inmate");
-                      await models.inmate.create(person);
+
+                      if (inmate) {
+                        await models.inmate.update(person, {
+                          where: { inmateId: person.inmateId }
+                        });
+                      } else {
+                        await models.inmate.create(person);
+                      }
+                      countSuccessfulEntries += 1;
+                    } catch (err) {
+                      console.error(
+                        `error while creating/editing inmate ${err}`
+                      );
                     }
-                    countSuccessfulEntries += 1;
                   } else {
                     errors.push(
                       "inmateId, firstName, and lastName are required."
@@ -215,7 +214,7 @@ const processPersonMassUpload = asyncMiddleware(
                   }
                 }
               } catch (error) {
-                console.log(`error creating officer ${error}`);
+                console.error(`error creating officer ${error}`);
               }
             }
           } else {
@@ -223,10 +222,11 @@ const processPersonMassUpload = asyncMiddleware(
             errors.push("Error validating the header");
           }
 
-          console.log(`should resolved the file ${validated}`);
           console.log(
             `${countSuccessfulEntries} out of ${totalNumberOfEntries} rows were processed successfully`
           );
+
+          console.error(`Errors: ${errors}`);
 
           response.status(200).send({
             message: `${countSuccessfulEntries} out of ${totalNumberOfEntries} rows were processed successfully`,
