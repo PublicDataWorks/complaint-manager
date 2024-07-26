@@ -36,7 +36,7 @@ const FileUpload = props => {
   }
 
   return (
-    <div style={{flex: 1, paddingLeft: "16px"}}>
+    <div style={{ flex: 1, paddingLeft: "16px" }}>
       <div style={{ marginTop: "30px" }} data-testid="file-upload-container">
         <div style={{ marginBottom: "8px" }}>
           <Typography style={styles.section}>{props.uploadText}</Typography>
@@ -74,9 +74,10 @@ const FileUpload = props => {
               success: (file, response) => {
                 if (props.onSuccess) {
                   props.onSuccess(file, response);
-                  console.log(file);
                   if (file.status === "success") {
-                    props.snackbarSuccess("File uploaded successfully");
+                    props.snackbarSuccess(
+                      `Result: ${response.message}\n. Errors: ${response.errors}`
+                    );
                   }
                 }
               },
