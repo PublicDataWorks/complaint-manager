@@ -102,6 +102,7 @@ const processPersonMassUpload = asyncMiddleware(
         file.on("data", async data => {
           let countSuccessfulEntries = 0;
           const FIRST_DATA_ROW = 1;
+          let lineNumber = 0;
           const allData = data.toString().split("\n");
           const totalNumberOfEntries = allData.length - 1;
           let headers = allData[0].split(",");
@@ -111,6 +112,7 @@ const processPersonMassUpload = asyncMiddleware(
             for (let i = FIRST_DATA_ROW; i < allData.length; i++) {
               const values = allData[i].split(",");
               const person = {};
+              lineNumber = i;
 
               for (let j = 0; j < values.length; j++) {
                 if (
@@ -164,12 +166,14 @@ const processPersonMassUpload = asyncMiddleware(
                         `employeeType must be one of the following ${EMPLOYEE_TYPES}.`
                       );
                       errors.push(
-                        `employeeType must be one of the following ${EMPLOYEE_TYPES}.`
+                        `Error on line ${lineNumber}: employeeType must be one of the following ${EMPLOYEE_TYPES}.`
                       );
                     }
                   } else {
                     console.error("employeeId is required.");
-                    errors.push("employeeId is required");
+                    errors.push(
+                      `Error on line ${lineNumber}: employeeId is required`
+                    );
                   }
                 } else if (org === "hcsoc") {
                   if (person.inmateId && person.firstName && person.lastName) {
@@ -209,7 +213,7 @@ const processPersonMassUpload = asyncMiddleware(
                     }
                   } else {
                     errors.push(
-                      "inmateId, firstName, and lastName are required."
+                      `Error on line ${lineNumber}: inmateId, firstName, and lastName are required.`
                     );
                   }
                 }
@@ -219,14 +223,18 @@ const processPersonMassUpload = asyncMiddleware(
             }
           } else {
             console.error(`error validating the header`);
-            errors.push("Error validating the header");
+            errors.push(
+              "Headers Invalid - Please check the headers and upload again."
+            );
           }
 
           console.log(
             `${countSuccessfulEntries} out of ${totalNumberOfEntries} rows were processed successfully`
           );
 
-          console.error(`Errors: ${errors}`);
+          if (errors.length > 0) {
+            console.error(`Errors: ${errors}`);
+          }
 
           response.status(200).send({
             message: `${countSuccessfulEntries} out of ${totalNumberOfEntries} rows were processed successfully`,

@@ -76,7 +76,7 @@ const FileUpload = props => {
                   props.onSuccess(file, response);
                   if (file.status === "success") {
                     props.snackbarSuccess(
-                      `Result: ${response.message}\n. Errors: ${response.errors}`
+                      `Result: ${response.message}.\n\n ${response.errors}`
                     );
                   }
                 }

@@ -34,7 +34,7 @@ const AdminPortal = ({
   return (
     <main className="admin-portal">
       <NavBar menuType={policeDataManagerMenuOptions}>Admin Portal</NavBar>
-      {checkPermissions(<MassUpload key="massUpload" />)}
+      {/*checkPermissions(<MassUpload key="massUpload" />)*/}
       {checkPermissions(
         <Signatures key="signatures" thisIsATest={thisIsATest} />
       )}
