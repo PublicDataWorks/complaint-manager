@@ -74,7 +74,8 @@ describe("incident details", () => {
     intakeSourceId,
     formattedIncidentTime,
     facilityId,
-    housingUnitId;
+    housingUnitId,
+    nopdCaseNumber;
 
   describe("without permissions", () => {
     beforeEach(() => {
@@ -134,6 +135,7 @@ describe("incident details", () => {
       incidentTimezone = "CDT";
       formattedIncidentTime = "02:00 PM CDT";
       intakeSourceId = 2;
+      nopdCaseNumber = "A-1234";
 
       currentCase = new Case.Builder()
         .defaultCase()
@@ -144,6 +146,7 @@ describe("incident details", () => {
         .withIncidentLocation(undefined)
         .withDistrictId(2)
         .withIntakeSourceId(2)
+        .withNopdCaseNumber(nopdCaseNumber)
         .build();
 
       store.dispatch(getFeaturesSuccess({ policeIncidentDetails: true }));
@@ -216,6 +219,12 @@ describe("incident details", () => {
           .first()
           .text()
       ).toEqual("N/A");
+    });
+
+    test("should display NOPD case number", () => {
+      expect(
+        wrapper.find('[data-testid="nopdCaseNumber"]').first().text()
+      ).toEqual(nopdCaseNumber);
     });
 
     test("should not display priority reasons and priority level when intake source is Priority Incident", () => {
@@ -327,7 +336,8 @@ describe("incident details", () => {
           howDidYouHearAboutUsSourceId: undefined,
           pibCaseNumber: undefined,
           priorityLevels: undefined,
-          priorityReason: undefined
+          priorityReason: undefined,
+          nopdCaseNumber: "A-1234"
         })
       );
     });

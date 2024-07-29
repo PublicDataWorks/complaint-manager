@@ -50,7 +50,8 @@ class IncidentDetails extends React.Component {
         : this.props.housingUnitId,
       housingUnits: this.props.policeIncidentDetails
         ? undefined
-        : this.props.housingUnits
+        : this.props.housingUnits,
+      nopdCaseNumber: this.props.nopdCaseNumber
     };
 
     this.props.dispatch(initialize("IncidentDetails", formValues));
@@ -82,6 +83,7 @@ class IncidentDetails extends React.Component {
       facilityId,
       facilities,
       housingUnitId,
+      nopdCaseNumber,
       configs
     } = this.props;
     const intakeSourceName = intakeSource ? intakeSource.name : "";
@@ -228,18 +230,24 @@ class IncidentDetails extends React.Component {
       </StyledInfoDisplay>
     );
 
+    const NopdCaseNumber = (
+      <StyledInfoDisplay>
+        <CivilianInfoDisplay
+          displayLabel="NOPD Case Number"
+          value={nopdCaseNumber}
+          testLabel="nopdCaseNumber"
+        />
+      </StyledInfoDisplay>
+    );
+
     const detailsRows = policeIncidentDetails
       ? [
           [FirstContacted, IncidentDate, IncidentTime],
           [IncidentLocation, District, PriorityReason],
-          [
-            HowDidYouHearAboutUs,
-            PbCaseNumber,
-            <div style={{ flex: 1, textAlign: "left", marginRight: "10px" }} />
-          ],
+          [HowDidYouHearAboutUs, PbCaseNumber, PriorityLevel],
           [
             IntakeSource,
-            PriorityLevel,
+            NopdCaseNumber,
             <div style={{ flex: 1, textAlign: "left", marginRight: "10px" }} />
           ]
         ]
@@ -323,6 +331,7 @@ const mapStateToProps = state => ({
   intakeSource: state.currentCase.details.intakeSource,
   intakeSourceId: state.currentCase.details.intakeSourceId,
   isArchived: state.currentCase.details.isArchived,
+  nopdCaseNumber: state.currentCase.details.nopdCaseNumber,
   open: state.ui.editIncidentDetailsDialog.open,
   permissions: state?.users?.current?.userInfo?.permissions,
   pibCaseNumber: state.currentCase.details.pibCaseNumber,

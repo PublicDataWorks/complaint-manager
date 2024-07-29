@@ -35,7 +35,8 @@ export const getIncidentInfoData = (caseDetail, organization) => {
       "District/Assignment": caseDetail.caseDistrict
         ? caseDetail.caseDistrict.name
         : null,
-      pbCaseNumberText: caseDetail.pibCaseNumber
+      pbCaseNumberText: caseDetail.pibCaseNumber,
+      "NOPD Case Number": caseDetail.nopdCaseNumber
     }
   ];
 };

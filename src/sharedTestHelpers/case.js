@@ -51,6 +51,7 @@ class Case {
     this.pibCaseNumber = build.pibCaseNumber;
     this.facilityId = build.facilityId;
     this.housingUnitId = build.housingUnitId;
+    this.nopdCaseNumber = build.nopdCaseNumber;
 
     if (build.defaultPersonType) {
       this.defaultPersonType = build.defaultPersonType;
@@ -154,6 +155,7 @@ class Case {
         this.isCase = true;
         this.facilityId = null;
         this.housingUnitId = null;
+        this.nopdCaseNumber = null;
 
         return this;
       }
@@ -344,6 +346,11 @@ class Case {
 
       withHousingUnitId(housingUnitId) {
         this.housingUnitId = housingUnitId;
+        return this;
+      }
+
+      withNopdCaseNumber(nopdCaseNumber) {
+        this.nopdCaseNumber = nopdCaseNumber;
         return this;
       }
 

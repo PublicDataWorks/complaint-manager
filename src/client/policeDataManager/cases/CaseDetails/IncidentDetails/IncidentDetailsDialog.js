@@ -65,7 +65,8 @@ const submitIncidentDetails = (values, dispatch, props) => {
     districtId: nullifyFieldUnlessValid(values.districtId),
     facilityId: nullifyFieldUnlessValid(values.facilityId),
     housingUnitId: nullifyFieldUnlessValid(values.housingUnitId || ""),
-    id: props.caseId
+    id: props.caseId,
+    nopdCaseNumber: nullifyFieldUnlessValid(values.nopdCaseNumber)
   };
 
   let timezone;
@@ -418,6 +419,27 @@ class IncidentDetailsDialog extends Component {
                   />
                   <div style={{ flex: 1 }} />
                 </div>
+                <div style={{ display: "flex", marginTop: "16px" }}>
+                  <Field
+                    name="nopdCaseNumber"
+                    component={renderTextField}
+                    label="NOPD Case Number"
+                    data-testid="editNopdCaseNumber"
+                    placeholder="Enter NOPD Case Number"
+                    inputProps={{
+                      "data-testid": "nopdCaseNumberInput",
+                      maxLength: 50,
+                      autoComplete: "off"
+                    }}
+                    InputLabelProps={{ shrink: true }}
+                    style={{
+                      marginRight: "5%",
+                      flex: "2"
+                    }}
+                    autoComplete="off"
+                  />
+                  <div style={{ flex: 1 }} />
+                </div>
               </>
             )}
           </form>
@@ -485,7 +507,8 @@ const mapStateToProps = state => {
     "incidentLocation.lng",
     "incidentLocation.placeId",
     "priorityReason.id",
-    "facilityId"
+    "facilityId",
+    "nopdCaseNumber"
   );
 
   const selectedFacility = state.facilities.find(
@@ -503,6 +526,7 @@ const mapStateToProps = state => {
     howDidYouHearAboutUsSources: state.ui.howDidYouHearAboutUsSources,
     intakeSources: state.ui.intakeSources,
     isPriorityIncident: !!values?.priorityReason?.id,
+    nopdCaseNumber: state.currentCase.details.nopdCaseNumber,
     policeIncidentDetails: state.featureToggles.policeIncidentDetails,
     priorityIncidentsFlag: state.featureToggles.priorityIncidents,
     priorityLevels: state.ui.priorityLevels,

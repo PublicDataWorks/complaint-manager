@@ -52,6 +52,7 @@ module.exports = (sequelize, DataTypes) => {
    * @property assignedTo {string} - The username of the user to whom the case is assigned
    * @property facilityId {number} - a foreign key to the facilities table indicating the facility where the incident took place
    * @property housingUnitId {number} - the housing unit id is a foreign key to the housing_units table
+   * @property nopdCaseNumber {string} - The NOPD case number related to the case
    *
    * Associations:
    * @property audit (One to Many) - changes/data accesses on the case
@@ -268,6 +269,10 @@ module.exports = (sequelize, DataTypes) => {
           model: models.housing_unit,
           key: "id"
         }
+      },
+      nopdCaseNumber: {
+        field: "nopd_case_number",
+        type: DataTypes.STRING(50)
       }
     },
     {

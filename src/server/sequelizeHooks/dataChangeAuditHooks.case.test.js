@@ -149,7 +149,8 @@ describe("dataChangeAuditHooks", () => {
         primaryComplainant: {},
         year: { new: 2017 },
         facilityId: { new: null },
-        housingUnitId: { new: null }
+        housingUnitId: { new: null },
+        nopdCaseNumber: { new: null }
       };
       expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });
@@ -195,7 +196,8 @@ describe("dataChangeAuditHooks", () => {
         primaryComplainant: {},
         year: { new: 2017 },
         facilityId: { new: null },
-        housingUnitId: { new: null }
+        housingUnitId: { new: null },
+        nopdCaseNumber: { new: null }
       };
       expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });
@@ -245,7 +247,8 @@ describe("dataChangeAuditHooks", () => {
         primaryComplainant: {},
         year: { new: 2017 },
         facilityId: { new: null },
-        housingUnitId: { new: null }
+        housingUnitId: { new: null },
+        nopdCaseNumber: { new: null }
       };
       expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });
@@ -298,7 +301,8 @@ describe("dataChangeAuditHooks", () => {
         caseReferencePrefix: createdCase.caseReferencePrefix,
         caseReference: createdCase.caseReference,
         year: 2017,
-        pibCaseNumber: null
+        pibCaseNumber: null,
+        nopdCaseNumber: null
       };
       expect(audit.dataChangeAudit.snapshot).toEqual(expectedSnapshot);
     });
@@ -874,7 +878,8 @@ describe("dataChangeAuditHooks", () => {
         pibCaseNumber: {
           new: null
         },
-        housingUnitId: { new: null }
+        housingUnitId: { new: null },
+        nopdCaseNumber: { new: null }
       };
 
       expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
@@ -921,7 +926,8 @@ describe("dataChangeAuditHooks", () => {
         pibCaseNumber: {
           previous: null
         },
-        housingUnitId: { previous: null }
+        housingUnitId: { previous: null },
+        nopdCaseNumber: { previous: null }
       };
       expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });
