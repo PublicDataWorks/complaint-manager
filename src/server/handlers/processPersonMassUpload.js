@@ -108,7 +108,6 @@ const processPersonMassUpload = asyncMiddleware(
           let headers = allData[0].split(",");
           const validated = validateFileHeaders(headers);
           if (validated) {
-            resolve(file);
             for (let i = FIRST_DATA_ROW; i < allData.length; i++) {
               const values = allData[i].split(",");
               const person = {};
@@ -235,17 +234,20 @@ const processPersonMassUpload = asyncMiddleware(
           if (errors.length > 0) {
             console.error(`Errors: ${errors}`);
           }
-
-          response.status(200).send({
-            message: `${countSuccessfulEntries} out of ${totalNumberOfEntries} rows were processed successfully`,
-            errors: errors
-          });
         });
+
+        file.on("end", () => {
+          console.log(`the end!`);
+        });
+        resolve(file);
       })
     );
 
     request.pipe(busboy);
-
+    response.status(200).send({
+      message: "items updated",
+      errors: []
+    });
     request.on("close", () => {});
   }
 );
